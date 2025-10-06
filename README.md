@@ -17,34 +17,34 @@ safety net in real-world Continuous Integration/Continuous Deployment pipelines.
 
 ## Project Structure (Guide)
 
-verifier_harness/
-├── verifier/
-│ ├── patch_loader.py # Applies LLM-generated patches to the base code
-│ ├── static_verifier.py # Runs flake8, mypy, and other static checks
-│ ├── dynamic_verifier.py # Executes tests and fuzzing in sandboxed envs
-│ ├── test_evaluator.py # Measures coverage and mutation score
-│ ├── report_generator.py # Aggregates results into a final report
-│ └── utils/
-│ └── sandbox.py # Sandbox helpers and subprocess control
-│
-├── swebench_integration/
-│ ├── dataset_loader.py # Loads SWE-bench Lite dataset and repositories
-│ ├── patch_runner.py # Automates running the harness on each sample
-│ └── results_aggregator.py # Collects and summarizes evaluation results
-│
-├── tests/ # Unit tests for harness modules
-│ ├── test_patch_loader.py
-│ ├── test_static_verifier.py
-│ └── test_dynamic_verifier.py
-│
-├── requirements.txt # Pip dependencies
-├── environment.yml # Conda environment file
-├── .flake8 # Linting configuration
-├── mypy.ini # Static typing configuration
-├── .coveragerc # Coverage settings
-├── pytest.ini # Pytest behavior configuration
-├── .gitignore # Ignore cache, envs, IDE files
-└── README.md # Project description and setup guide
+  verifier_harness/
+  ├── verifier/
+  │ ├── patch_loader.py # Applies LLM-generated patches to the base code
+  │ ├── static_verifier.py # Runs flake8, mypy, and other static checks
+  │ ├── dynamic_verifier.py # Executes tests and fuzzing in sandboxed envs
+  │ ├── test_evaluator.py # Measures coverage and mutation score
+  │ ├── report_generator.py # Aggregates results into a final report
+  │ └── utils/
+  │ └── sandbox.py # Sandbox helpers and subprocess control
+  │
+  ├── swebench_integration/
+  │ ├── dataset_loader.py # Loads SWE-bench Lite dataset and repositories
+  │ ├── patch_runner.py # Automates running the harness on each sample
+  │ └── results_aggregator.py # Collects and summarizes evaluation results
+  │
+  ├── tests/ # Unit tests for harness modules
+  │ ├── test_patch_loader.py
+  │ ├── test_static_verifier.py
+  │ └── test_dynamic_verifier.py
+  │
+  ├── requirements.txt # Pip dependencies
+  ├── environment.yml # Conda environment file
+  ├── .flake8 # Linting configuration
+  ├── mypy.ini # Static typing configuration
+  ├── .coveragerc # Coverage settings
+  ├── pytest.ini # Pytest behavior configuration
+  ├── .gitignore # Ignore cache, envs, IDE files
+  └── README.md # Project description and setup guide
 
 ## Cloning and set up
 
@@ -53,6 +53,7 @@ verifier_harness/
   cd verifier_harness
   
   conda env create -f environment.yml (you must have conda installed) -> [miniconda installation](https://www.anaconda.com/docs/getting-started/miniconda/main)
+
 
 
 
