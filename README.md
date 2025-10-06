@@ -35,7 +35,9 @@ verifier_harness/
 ├── swebench_integration/
 │   ├── dataset_loader.py        # Loads SWE-bench Lite dataset and repositories
 │   ├── patch_runner.py          # Automates running the harness on each sample
+|   ├── data                     # Stores JSONs samples for experimentation purposes (data loader function testing rn)
 │   └── results_aggregator.py    # Collects and summarizes evaluation results
+│   
 │
 ├── tests/                       # Unit tests for harness modules
 │   ├── test_patch_loader.py
