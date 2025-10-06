@@ -5,13 +5,13 @@
 To design and implement a unified verification harness that evaluates the correctness of AI-generated
 code (and in particular, patches) at multiple levels:
 
-    • Syntactic and structural correctness using constructs such as Abstract Syntax Trees (ASTs)
-    and Control Flow Graphs (CFGs).
-    
-    • Functional correctness and robustness using targeted dynamic analysis (like pytest or
-    fuzzing).
-    
-    • Test suite effectiveness using carefully chosen coverage metrics and mutation scores.
+• Syntactic and structural correctness using constructs such as Abstract Syntax Trees (ASTs)
+and Control Flow Graphs (CFGs).
+
+• Functional correctness and robustness using targeted dynamic analysis (like pytest or
+fuzzing).
+
+• Test suite effectiveness using carefully chosen coverage metrics and mutation scores.
   
 The final system will take as input an agent-generated patch, run it through a pipeline of static and
 dynamic verifiers, and output a composite verification report with pass/fail outcomes and coverage
@@ -61,6 +61,7 @@ verifier_harness/
   cd verifier_harness
   
   conda env create -f environment.yml (you must have conda installed) -> [miniconda installation](https://www.anaconda.com/docs/getting-started/miniconda/main)
+
 
 
 
