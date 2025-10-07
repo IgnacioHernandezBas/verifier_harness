@@ -107,6 +107,12 @@ if __name__ == "__main__":
     #     print(s["repo"], s["patch"][:80])
 """
 if __name__ == "__main__":
+    """
+    Easy-access command-line interface for quick testing.
+    Example command:
+    HuggingFace mode -> python swebench_integration/dataset_loader.py --source princeton-nlp/SWE-bench_Lite --huggingface --limit 2 --repo django/django
+    Local JSON mode -> python swebench_integration/dataset_loader.py --source swebench_integration/data/swebench_sample.json
+    """
     import argparse
 
     parser = argparse.ArgumentParser(description="Interactive DatasetLoader test")
@@ -157,6 +163,6 @@ if __name__ == "__main__":
         print(f"\n🔹 Sample {i+1}")
         print(f"Repo: {s['repo']}")
         print(f"Base commit: {s['base_commit']}")
-        print(f"Problem: {s['problem_statement'][:120]}...\n")
+        print(f"Problem: {s['problem_statement'][:200]}...\n")
         print("Patch snippet:\n", s["patch"][:250], "...\n")
         print("Metadata keys:", list(s["metadata"].keys())[:8])
