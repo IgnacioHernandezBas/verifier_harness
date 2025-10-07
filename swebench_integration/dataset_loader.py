@@ -116,6 +116,8 @@ if __name__ == "__main__":
     Local JSON mode -> python swebench_integration/dataset_loader.py --source swebench_integration/data/swebench_sample.json
     """
     import argparse
+    from datasets import load_dataset
+    
 
     parser = argparse.ArgumentParser(description="Interactive DatasetLoader test")
 

@@ -54,6 +54,8 @@ verifier_harness/
 └── README.md                    # Project description and setup guide
 
 ```
+## Module Flow
+![Purpose of each module](image.png)
 
 
 ## Cloning and set up
