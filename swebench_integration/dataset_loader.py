@@ -8,7 +8,9 @@ from datasets import load_dataset
 class DatasetLoader:
     """
     Generic dataset loader for code-repair or verification tasks.
-    Can load SWE-bench-style JSONs, arbitrary patch datasets, or HuggingFace datasets.
+    Can load SWE-bench-style JSONs, arbitrary patch datasets, or HuggingFace.
+    If it's from HuggingFace (e.g,princeton-nlp/SWE-bench_Lite), it reads the data in memory (streamed from your local Hugging Face cache).
+    If it's a local JSON file, it will read it from disk (swbench_integration/data).
     """
 
     DEFAULT_FIELD_MAP = {
