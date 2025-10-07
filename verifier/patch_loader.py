@@ -109,24 +109,4 @@ class PatchLoader:
         """
         self.clone_repository()
         return self.apply_patch()
-
-
 # -----------------------------------------------------
-if __name__ == "__main__":
-    # Example: quick test with a SWE-bench-like record
-    sample = {
-        "repo": "psf/requests",
-        "base_commit": None,
-        "patch": """diff --git a/README.md b/README.md
-index 1111111..2222222 100644
---- a/README.md
-+++ b/README.md
-@@ -1,3 +1,4 @@
- # Requests
-+Patched line example
- """,
-    }
-
-    loader = PatchLoader(sample)
-    result = loader.load_and_apply()
-    print(result)
