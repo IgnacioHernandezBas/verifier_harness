@@ -29,7 +29,10 @@ Syntax & Structure Analyzer
 import sys, os
 from pathlib import Path
 
-sys.path.append(os.path.abspath("C:/Users/Usuario/OneDrive/Escritorio/verifier_harness"))
+# Dynamically resolve project root (2 levels up from this file)
+CURRENT_DIR = Path(__file__).resolve()
+PROJECT_ROOT = CURRENT_DIR.parents[2]  # verifier/static_analyzers → verifier → project root
+sys.path.append(str(PROJECT_ROOT))
 
 from swebench_integration.dataset_loader import DatasetLoader
 from verifier.patch_loader import PatchLoader
