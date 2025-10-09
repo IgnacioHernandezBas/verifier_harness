@@ -217,7 +217,7 @@ if __name__ == "__main__":
 
         patcher = PatchLoader(
             sample,
-            repos_root="C:/Users/Usuario/OneDrive/Escritorio/verifier_harness/repos_temp"
+            repos_root="./repos_temp"
         )
 
         patcher.cleanup_old_repos()
