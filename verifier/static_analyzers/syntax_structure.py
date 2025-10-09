@@ -113,14 +113,14 @@ def syntax_ast_validation(file_path: Path) -> dict:
         }
 
     except SyntaxError as e:
+        lines = Path(file_path).read_text(encoding="utf-8").splitlines()
+        error_line = getattr(e, "lineno", None)
+
         return {
             "path": str(file_path),
             "is_code_valid": False,
-            "n_functions": 0,
-            "n_classes": 0,
-            "ast_depth": 0,
-            "avg_func_length": 0,
-            "error": str(e)
+            "error": f"{type(e).__name__} at line {error_line}: {e.msg}",
+            "context": lines[error_line - 2:error_line + 1] if error_line and len(lines) > error_line else []
         }
     
 # -----------------------------
@@ -169,6 +169,7 @@ def analyze_file(repo_path: Path, rel_path: str, diff_ranges: list[tuple[int, in
     abs_path = Path(repo_path) / rel_path
     metrics = syntax_ast_validation(abs_path)
 
+    #Add changed functions and AST diff ratio if code is valid
     if metrics["is_code_valid"]:
         changed_funcs = extract_changed_functions(abs_path, diff_ranges)
         metrics["changed_functions"] = changed_funcs
@@ -177,9 +178,6 @@ def analyze_file(repo_path: Path, rel_path: str, diff_ranges: list[tuple[int, in
             metrics["n_classes"],
             changed_funcs
         )
-    else:
-        metrics["changed_functions"] = []
-        metrics["ast_diff_ratio"] = 0.0
 
     return metrics
 
@@ -210,7 +208,7 @@ def run_syntax_structure_analysis(repo_path: str, diff_text: str) -> list[dict]:
 # (**) Standalone Test Mode
 # -----------------------------
 if __name__ == "__main__":
-    TEST_SYNTAX_ERROR = False  # Toggle to test invalid syntax
+    TEST_SYNTAX_ERROR = True  # Toggle to test invalid syntax
 
     loader = DatasetLoader("princeton-nlp/SWE-bench_Verified", hf_mode=True)
     for sample in loader.iter_samples(limit=1):
