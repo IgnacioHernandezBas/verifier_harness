@@ -12,13 +12,15 @@ Syntax & Structure Analyzer
 │
 ├─ (3) Structural metrics
 │     → Counts number of functions, classes, and AST depth
+│     → Average function length in lines
 │
-├─ (4) Diff-based structural comparison
-│     → Uses diff line ranges to estimate how much the file changed
-│     → Produces "ast_diff_ratio"
-│
-├─ (5) Changed function extraction
+├─ (4) Changed function extraction
 │     → Finds function names whose line numbers overlap with diff ranges
+│
+├─ (5) Diff-based structural comparison
+│     → Uses diff line ranges to estimate how much the file changed
+│     → How much of a file’s structure (functions/classes) was affected by the implemented patch
+│     → Produces "ast_diff_ratio"
 │
 └─ (6) Aggregation
       → Summarizes everything in a single dictionary for reporting
@@ -117,14 +119,95 @@ def syntax_ast_validation(file_path: Path) -> dict:
             "avg_func_length": 0,
             "error": str(e)
         }
+    
+# -----------------------------
+# (4) Changed Function Extraction
+# -----------------------------
+def extract_changed_functions(file_path: Path, diff_ranges: list[tuple[int, int]]) -> list[str]:
+    import ast
+
+    changed_funcs = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            start = getattr(node, "lineno", None)
+            end = getattr(node, "end_lineno", start)
+            for (diff_start, diff_end) in diff_ranges:
+                # Check for line range overlap
+                if start and end and not (end < diff_start or start > diff_end):
+                    changed_funcs.append(node.name)
+                    break
+    return changed_funcs
+
+# -----------------------------
+# (5) Diff-based Structural Comparison  
+# -----------------------------
+def compute_ast_diff_ratio(n_functions: int, n_classes: int, changed_functions: list[str]) -> float:
+    """
+    Step 5: Estimate how much of the file's structure was modified.
+
+    ast_diff_ratio = (# changed functions/classes) / (total functions + classes)
+    """
+    total_entities = n_functions + n_classes
+    if total_entities == 0:
+        return 0.0
+    ratio = len(changed_functions) / total_entities
+    return round(min(ratio, 1.0), 3) # 3 decimal places
+
+# -----------------------------
+# (6) Aggregation
+# -----------------------------
+def analyze_file(repo_path: Path, rel_path: str, diff_ranges: list[tuple[int, int]]) -> dict:
+    """
+    Step 6: Combine all analysis results into one dictionary per file.
+    """
+    abs_path = Path(repo_path) / rel_path
+    metrics = syntax_ast_validation(abs_path)
+
+    if metrics["is_code_valid"]:
+        changed_funcs = extract_changed_functions(abs_path, diff_ranges)
+        metrics["changed_functions"] = changed_funcs
+        metrics["ast_diff_ratio"] = compute_ast_diff_ratio(
+            metrics["n_functions"],
+            metrics["n_classes"],
+            changed_funcs
+        )
+    else:
+        metrics["changed_functions"] = []
+        metrics["ast_diff_ratio"] = 0.0
+
+    return metrics
+
+
+def run_syntax_structure_analysis(repo_path: str, diff_text: str) -> list[dict]:
+    """
+    Run the full syntax & structure analyzer pipeline on all changed Python files.
+    """
+    repo_path, parsed_diff = parse_input(repo_path, diff_text)
+    report = []
+
+    for rel_path, diff_ranges in parsed_diff.items():
+        abs_path = Path(repo_path) / rel_path
+        if abs_path.exists():
+            file_report = analyze_file(Path(repo_path), rel_path, diff_ranges)
+            report.append(file_report)
+        else:
+            report.append({
+                "path": str(abs_path),
+                "error": "File not found",
+                "is_code_valid": False
+            })
+
+    return report
 
 
 # -----------------------------
 # (**) Standalone Test Mode
 # -----------------------------
 if __name__ == "__main__":
-    # Set to True to inject a fake syntax error patch for testing
-    TEST_SYNTAX_ERROR = True
+    TEST_SYNTAX_ERROR = False  # Toggle to test invalid syntax
 
     loader = DatasetLoader("princeton-nlp/SWE-bench_Verified", hf_mode=True)
     for sample in loader.iter_samples(limit=1):
@@ -134,26 +217,27 @@ if __name__ == "__main__":
             repos_root="C:/Users/Usuario/OneDrive/Escritorio/verifier_harness/repos_temp"
         )
 
-        # Clean old repos before cloning
         patcher.cleanup_old_repos()
 
-        # Clone and apply the SWE-bench patch
+        # Clone and apply patch
         try:
             result = patcher.load_and_apply()
         except Exception as e:
-            print(f"Patch application failed: {e}")
+            print(f"❌ Patch application failed: {e}")
             continue
 
         repo_path = result.get("repo_path")
         if not repo_path:
-            print("Failed to load repository.")
+            print("❌ Failed to load repository.")
             break
 
-        print(f"Repository cloned and patched at: {repo_path}")
+        print(f"\n📂 Repository cloned and patched at: {repo_path}\n")
 
-        # Inject fake patch if testing syntax error
+        # -------------------------------------------------------
+        # Prepare diff text (must be defined BEFORE file editing)
+        # -------------------------------------------------------
         if TEST_SYNTAX_ERROR:
-            fake_patch = """diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
+            diff_text = """diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py
 index 111111..222222 100644
 --- a/astropy/modeling/separable.py
 +++ b/astropy/modeling/separable.py
@@ -161,33 +245,41 @@ index 111111..222222 100644
 -    return np.all(x == 0)
 +    return np.all(x == 0  # Missing parenthesis here
 """
-            diff_text = fake_patch
-            print("Injecting fake syntax error patch for testing")
+            print("🧪 Injecting fake syntax error patch for testing")
         else:
             diff_text = sample["patch"]
 
-        # Parse diff and run analyzer
-        repo_path, parsed_diff = parse_input(repo_path, diff_text)
-        print("Parsed diff:", parsed_diff)
+        # -------------------------------------------------------
+        # Physically inject syntax error into the cloned repo
+        # -------------------------------------------------------
+        if TEST_SYNTAX_ERROR:
+            print("💥 Overwriting target file to inject syntax error physically")
+            target_rel = "astropy/modeling/separable.py"
+            abs_path = Path(repo_path) / target_rel
+            if abs_path.exists():
+                lines = abs_path.read_text(encoding="utf-8").splitlines(True)
+                if len(lines) > 243:
+                    lines[243] = "    return np.all(x == 0  # Missing parenthesis here\n"
+                    abs_path.write_text("".join(lines), encoding="utf-8")
 
-        for rel_path in parsed_diff.keys():
-          abs_path = Path(repo_path) / rel_path
-          if abs_path.exists():
-              print(f"Analyzing {abs_path}")
+        # -------------------------------------------------------
+        # Run the full static analyzer
+        # -------------------------------------------------------
+        try:
+            report = run_syntax_structure_analysis(repo_path, diff_text)
+        except Exception as e:
+            print(f"❌ Static analysis failed: {e}")
+            continue
 
-              if TEST_SYNTAX_ERROR:
-                  # Inject a syntax error directly into the file
-                  with open(abs_path, "r+", encoding="utf-8") as f:
-                      lines = f.readlines()
-                      # Example: break line 243 intentionally
-                      if len(lines) > 243:
-                          lines[243] = "    return np.all(x == 0  # Missing parenthesis here\n"
-                      f.seek(0)
-                      f.writelines(lines)
-                      f.truncate()
-
-              metrics = syntax_ast_validation(abs_path)
-              print(metrics)
-          else:
-              print(f"File not found: {abs_path}")
+        # -------------------------------------------------------
+        # Pretty-print the report
+        # -------------------------------------------------------
+        print("\n🧩 Syntax & Structure Analysis Report")
+        print("=" * 60)
+        for file_report in report:
+            print(f"\n📄 File: {file_report['path']}")
+            for k, v in file_report.items():
+                if k != "path":
+                    print(f"   {k:<20}: {v}")
+        print("=" * 60 + "\n")
 
