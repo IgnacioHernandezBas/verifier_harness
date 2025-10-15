@@ -127,6 +127,8 @@ def syntax_ast_validation(file_path: Path) -> dict:
 # (4) Changed Function Extraction
 # -----------------------------
 def extract_changed_functions(file_path: Path, diff_ranges: list[tuple[int, int]]) -> list[str]:
+    """
+    Step 4: Identify function names that overlap with the changed line ranges."""
     import ast
 
     changed_funcs = []
