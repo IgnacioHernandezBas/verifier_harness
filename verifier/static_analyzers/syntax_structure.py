@@ -210,7 +210,7 @@ def run_syntax_structure_analysis(repo_path: str, diff_text: str) -> list[dict]:
 # (**) Standalone Test Mode
 # -----------------------------
 if __name__ == "__main__":
-    TEST_SYNTAX_ERROR = True  # Toggle to test invalid syntax
+    TEST_SYNTAX_ERROR = False  # Toggle to test invalid syntax
 
     loader = DatasetLoader("princeton-nlp/SWE-bench_Verified", hf_mode=True)
     for sample in loader.iter_samples(limit=1):
@@ -226,15 +226,15 @@ if __name__ == "__main__":
         try:
             result = patcher.load_and_apply()
         except Exception as e:
-            print(f"❌ Patch application failed: {e}")
+            print(f" Patch application failed: {e}")
             continue
 
         repo_path = result.get("repo_path")
         if not repo_path:
-            print("❌ Failed to load repository.")
+            print(" Failed to load repository.")
             break
 
-        print(f"\n📂 Repository cloned and patched at: {repo_path}\n")
+        print(f"\n Repository cloned and patched at: {repo_path}\n")
 
         # -------------------------------------------------------
         # Prepare diff text (must be defined BEFORE file editing)
@@ -248,7 +248,7 @@ index 111111..222222 100644
 -    return np.all(x == 0)
 +    return np.all(x == 0  # Missing parenthesis here
 """
-            print("🧪 Injecting fake syntax error patch for testing")
+            print("Injecting fake syntax error patch for testing")
         else:
             diff_text = sample["patch"]
 
@@ -256,7 +256,7 @@ index 111111..222222 100644
         # Physically inject syntax error into the cloned repo
         # -------------------------------------------------------
         if TEST_SYNTAX_ERROR:
-            print("💥 Overwriting target file to inject syntax error physically")
+            print("Overwriting target file to inject syntax error physically")
             target_rel = "astropy/modeling/separable.py"
             abs_path = Path(repo_path) / target_rel
             if abs_path.exists():
@@ -271,16 +271,16 @@ index 111111..222222 100644
         try:
             report = run_syntax_structure_analysis(repo_path, diff_text)
         except Exception as e:
-            print(f"❌ Static analysis failed: {e}")
+            print(f" Static analysis failed: {e}")
             continue
 
         # -------------------------------------------------------
         # Pretty-print the report
         # -------------------------------------------------------
-        print("\n🧩 Syntax & Structure Analysis Report")
+        print("\n Syntax & Structure Analysis Report")
         print("=" * 60)
         for file_report in report:
-            print(f"\n📄 File: {file_report['path']}")
+            print(f"\nFile: {file_report['path']}")
             for k, v in file_report.items():
                 if k != "path":
                     print(f"   {k:<20}: {v}")

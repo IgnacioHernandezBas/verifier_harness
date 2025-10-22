@@ -44,6 +44,10 @@ verifier_harness/
 │   ├── test_static_verifier.py
 │   └── test_dynamic_verifier.py
 │
+│
+├── streamlit/                   # Demo app using streamlit
+│   └──app.py                    
+│
 ├── requirements.txt             # Pip dependencies
 ├── environment.yml              # Conda environment file
 ├── .flake8                      # Linting configuration
