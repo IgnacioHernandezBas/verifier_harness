@@ -26,9 +26,28 @@ Code quality verifier for Python projects.
 """
 import os, sys, re, json, subprocess, numpy as np
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List, Optional
 from radon.complexity import cc_visit
 from radon.metrics import mi_visit
+
+# -------------------------------
+# Default configuration constants
+# -------------------------------
+DEFAULT_CHECKS = {
+    "pylint": True,
+    "flake8": True,
+    "radon": True,
+    "mypy": True,
+    "bandit": True,
+}
+
+DEFAULT_WEIGHTS = {
+    "pylint": 0.5,
+    "radon": 0.25,
+    "flake8": 0.15,
+    "mypy": 0.05,
+    "bandit": 0.05,
+}
 
 # -------------------------------
 # Dynamic import setup
@@ -37,9 +56,9 @@ CURRENT_DIR = Path(__file__).resolve()
 PROJECT_ROOT = CURRENT_DIR.parents[2]
 sys.path.append(str(PROJECT_ROOT))
 
-from swebench_integration.dataset_loader import DatasetLoader
-from swebench_integration.patch_loader import PatchLoader
-from verifier.utils.diff_utils import parse_unified_diff, filter_paths_to_py
+#from modules.loading.dataset_loader import DatasetLoader
+#from modules.loading.patch_loader import PatchLoader
+from modules.utils.diff_utils import parse_unified_diff, filter_paths_to_py
 
 
 # -----------------------
@@ -164,132 +183,233 @@ def run_radon_mi(file_path: str) -> float:
 # (5) Mypy - type checking
 # -----------------------   
     
-def run_mypy(file_path: str,error_output:bool=False) -> Dict:
+def run_mypy(file_path: str) -> List[Dict]:
     """
-    Run Mypy on a single file and return structured error information.
+    Run Mypy on a Python file or directory and parse structured results.
+
+    Works on both Windows and Unix-like paths (handles 'C:\\' safely).
+
+    Args:
+        file_path (str): Path to a Python file or folder.
+
     Returns:
-        {   
-            "error_count": int,
-            "errors": List[Dict[str, str]],
-        }
+        List[Dict]: Parsed Mypy issues.
     """
+    if not os.path.exists(file_path):
+        return []
+
+    issues = []
+
     try:
         result = subprocess.run(
-            [
-                "mypy",
-                file_path,
-                "--ignore-missing-imports",
-                "--no-color-output",
-                "--no-error-summary",
-                "--show-error-codes",
-            ],
+            ["mypy", "--show-column-numbers", "--show-error-codes", file_path],
             capture_output=True,
             text=True,
-            check=False,
+            check=False
         )
 
-        errors = []
-        errors_without_output=0
-        for line in result.stdout.splitlines():
-            # Typical format: file.py:12: error: <message>  [code]
-            if "error:" in line:
-                parts = line.split(":", 3)
-                if error_output:
-                    if len(parts) >= 4:
-                        line_num = parts[1]
-                        msg = parts[3].strip()
-                        errors.append({"file_path":file_path,"line": line_num, "message": msg})
-                else:
-                    errors_without_output+=1
-        if error_output:
-            return {
-                "error_count": len(errors),
-                "errors": errors
-            }
-        else:
-            return {
-                "error_count": errors_without_output 
-            }   
+        output = result.stdout.strip()
+        if not output:
+            return []
+
+        for raw_line in output.splitlines():
+            if not raw_line.strip():
+                continue
+
+            # Handle Windows drive letters safely: e.g., "C:\"
+            if os.name == "nt" and len(raw_line) > 2 and raw_line[1:3] == ":\\":
+                drive = raw_line[:3]  # "C:\"
+                rest = raw_line[3:]
+                parts = rest.split(":", 4)
+                parts[0] = drive + parts[0]
+            else:
+                parts = raw_line.split(":", 4)
+
+            filename = parts[0].strip() if len(parts) > 0 else None
+
+            # Extract line and column numbers
+            try:
+                line_number = int(parts[1].strip()) if len(parts) > 1 else None
+            except ValueError:
+                line_number = None
+
+            try:
+                column = int(parts[2].strip()) if len(parts) > 2 else None
+            except ValueError:
+                column = None
+
+            # Extract severity and message
+            lower_line = raw_line.lower()
+            if "error:" in lower_line:
+                severity = "error"
+                message = raw_line.split("error:", 1)[1].strip()
+            elif "note:" in lower_line:
+                severity = "note"
+                message = raw_line.split("note:", 1)[1].strip()
+            else:
+                severity = "info"
+                message = raw_line.split(":", 3)[-1].strip()
+
+            # Extract error code in square brackets
+            error_code = None
+            if "[" in message and "]" in message:
+                start = message.rfind("[")
+                end = message.rfind("]")
+                if end > start:
+                    error_code = message[start + 1:end]
+                    message = message[:start].strip()
+
+            issues.append({
+                "filename": filename,
+                "line_number": line_number,
+                "column": column,
+                "severity": severity,
+                "message": message,
+                "error_code": error_code
+            })
 
     except Exception as e:
-        print(f"Mypy failed for {file_path}: {e}")
-        return {"error_count": 0, "errors": []}
+        issues.append({
+            "filename": file_path,
+            "line_number": None,
+            "column": None,
+            "severity": "internal_error",
+            "message": f"Failed to run mypy: {e}",
+            "error_code": None
+        })
+
+    return issues
         
 # -----------------------
 # (6) Bandit - security issues 
 # -----------------------
 
-def run_bandit(file_path: str) -> Dict[str, int]:
-    """Run Bandit security scanner and return issue counts by severity."""
+def run_bandit(file_path: str) -> List[Dict]:
+    """
+    Run Bandit security scanner and return detailed results.
+    
+    Args:
+        file_path (str): Path to the Python file to scan
+        
+    Returns:
+        list: List of security issues with detailed information
+    """
+    import subprocess
+    import json
+    import tempfile
+    
+    if not os.path.exists(file_path) or not file_path.endswith('.py'):
+        return []
+    
+    issues = []
+    
     try:
+        # Create temporary file for JSON output
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp:
+            tmp_path = tmp.name
+        
+        # Run bandit with JSON output format
+        # Note: bandit returns exit code 1 when issues are found, so we don't use check=True
         result = subprocess.run(
-            ["bandit", "-f", "json", "-q", "-r", file_path],
+            ['bandit', '-f', 'json', '-o', tmp_path, file_path],
             capture_output=True,
-            text=True,
-            check=False,
+            text=True
         )
-        data = json.loads(result.stdout or "{}")
-        counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
-        for issue in data.get("results", []):
-            sev = issue.get("issue_severity", "LOW").upper()
-            counts[sev] = counts.get(sev, 0) + 1
-        return counts
+        
+        # Read JSON output
+        if os.path.exists(tmp_path):
+            with open(tmp_path, 'r', encoding='utf-8') as f:
+                bandit_output = json.load(f)
+            
+            # Extract results
+            for issue in bandit_output.get('results', []):
+                issues.append({
+                    'filename': issue.get('filename', file_path),
+                    'line_number': issue.get('line_number'),
+                    'line_range': issue.get('line_range', []),
+                    'code': issue.get('code', '').strip(),
+                    'test_id': issue.get('test_id'),
+                    'test_name': issue.get('test_name'),
+                    'issue_severity': issue.get('issue_severity'),
+                    'issue_confidence': issue.get('issue_confidence'),
+                    'issue_text': issue.get('issue_text'),
+                    'issue_cwe': issue.get('issue_cwe'),
+                    'more_info': issue.get('more_info')
+                })
+            
+            # Clean up temp file
+            os.unlink(tmp_path)
+    
     except Exception as e:
-        print(f"Bandit failed for {file_path}: {e}")
-        return {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+        print(f"Error running bandit on {file_path}: {e}")
+    
+    return issues
 
 def compute_sqi(
     pylint_score: float,
     radon_mi: float,
-    flake8_issues: List[Dict],
+    flake8_issues: list,
     mypy_errors: int,
-    bandit_counts: Dict[str, int],
+    bandit_counts: dict,
     loc: int,
-    weights: Dict[str, float] = {},
-) -> Dict:
+    weights: Optional[Dict[str,Any]]= None,
+    checks: Optional[Dict[str,Any]] = None,
+) -> dict:
     """
-    Compute Static Quality Index (SQI) combining all static analyzers.
-    Each subscore is normalized to [0, 100].
+    Compute Static Quality Index (SQI) combining enabled static analyzers.
+    Automatically renormalizes weights based on which checks are active.
     """
-    weights = weights or {
-        "pylint": 0.5,
-        "radon": 0.25,
-        "flake8": 0.15,
-        "mypy": 0.05,
-        "bandit": 0.05,
-    }
+    from math import isclose
+
+    weights = weights or DEFAULT_WEIGHTS
+    checks = checks or DEFAULT_CHECKS
+
+    # Filter to active tools
+    active_weights = {k: v for k, v in weights.items() if checks.get(k, True)}
+
+    # Renormalize so they sum to 1
+    total = sum(active_weights.values())
+    if total == 0 or isclose(total, 0.0):
+        active_weights = {k: 1 / len(active_weights) for k in active_weights}
+    else:
+        active_weights = {k: v / total for k, v in active_weights.items()}
 
     # --- Normalize submetrics ---
-    pylint_norm = max(0.0, min(100.0, (pylint_score / 10) * 100))
-    radon_norm = max(0.0, min(100.0, radon_mi))
+    pylint_norm = max(0.0, min(100.0, (pylint_score / 10) * 100)) if checks.get("pylint", True) else 0
+    radon_norm = max(0.0, min(100.0, radon_mi)) if checks.get("radon", True) else 0
 
-    # Flake8 normalization (weighted per code letter)
     if loc == 0:
         flake8_norm = 100.0
-    else:
+    elif checks.get("flake8", True):
         weights_f8 = {"F": 3.0, "E": 1.0, "W": 0.5, "C": 0.8, "N": 0.8, "D": 0.8}
         weighted_sum = sum(weights_f8.get(i["code"][0], 1.0) for i in flake8_issues)
         penalty = min(1.0, weighted_sum / (loc * 0.5))
         flake8_norm = max(0.0, (1 - penalty) * 100)
+    else:
+        flake8_norm = 0
 
-    # Mypy normalization
-    gamma = 50  # type-tolerance constant
-    mypy_norm = max(0.0, (1 - (mypy_errors / (gamma + max(loc, 1)))) * 100)
+    if checks.get("mypy", True):
+        gamma = 50
+        mypy_norm = max(0.0, (1 - (mypy_errors / (gamma + max(loc, 1)))) * 100)
+    else:
+        mypy_norm = 0
 
-    # Bandit normalization
-    beta = 10  # security tolerance threshold
-    wB = {"HIGH": 5, "MEDIUM": 3, "LOW": 1}
-    weighted_bandit = sum(wB[k] * v for k, v in bandit_counts.items())
-    bandit_norm = max(0.0, (1 - (weighted_bandit / beta)) * 100)
+    if checks.get("bandit", True):
+        beta = 10
+        wB = {"HIGH": 5, "MEDIUM": 3, "LOW": 1}
+        weighted_bandit = sum(wB[k] * v for k, v in bandit_counts.items())
+        bandit_norm = max(0.0, (1 - (weighted_bandit / beta)) * 100)
+    else:
+        bandit_norm = 0
 
     # --- Weighted aggregation ---
-    sqi = (
-        weights["pylint"] * pylint_norm +
-        weights["radon"] * radon_norm +
-        weights["flake8"] * flake8_norm +
-        weights["mypy"] * mypy_norm +
-        weights["bandit"] * bandit_norm
-    )
+    sqi = 0.0
+    for key, w in active_weights.items():
+        if key == "pylint": sqi += w * pylint_norm
+        elif key == "radon": sqi += w * radon_norm
+        elif key == "flake8": sqi += w * flake8_norm
+        elif key == "mypy": sqi += w * mypy_norm
+        elif key == "bandit": sqi += w * bandit_norm
 
     # --- Classification ---
     if sqi >= 85:
@@ -311,133 +431,124 @@ def compute_sqi(
             "mypy": round(mypy_norm, 2),
             "bandit": round(bandit_norm, 2),
         },
+        "weights_used": active_weights,
     }
 
 
 
-# -----------------------
-# (6) Aggregation
-# -----------------------
-def analyze(repo_path: str, patch_str: str) -> Dict:
-    """Analyze only the patch-modified files using all static analyzers."""
+def analyze(repo_path: str, patch_str: str, config: Optional[Dict[str, Any]] = None) -> Dict:
+    """
+    Analyze only the patch-modified files using the selected static analyzers.
+
+    Args:
+        repo_path (str): Local path to the repository under analysis.
+        patch_str (str): Unified diff string representing the patch.
+        config optional dic: Configuration dictionary with:
+            - checks: Dict[str, bool] → which analyzers to enable
+            - weights: Dict[str, float] → weighting for SQI computation
+    Returns:
+        Dict: Structured report containing results for all enabled analyzers and SQI.
+    """
+    # Configuration set up
+    config = config or {}
+    checks = config.get("checks", DEFAULT_CHECKS)
+    weights = config.get("weights", DEFAULT_WEIGHTS)
+
     modified_files = get_modified_files(repo_path, patch_str)
     if not modified_files:
         return {"error": "No modified Python files detected."}
 
+    # Initialize result containers
     pylint_scores = []
     pylint_issues = {}
     flake8_all = []
     radon_complexities = {}
     radon_mis = []
-    mypy_total = 0
-    bandit_total = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+    mypy_issues = []  # Changed: Now collecting detailed issues
+    bandit_issues = []
     total_loc = 0
 
+    # Run analyzers on each modified file
     for file_path in modified_files:
-        # --- Pylint ---
-        pylint_result = run_pylint(file_path)
-        pylint_scores.append(pylint_result["score"])
-        pylint_issues[file_path] = pylint_result["issues"]
 
-        # --- Flake8 ---
-        issues = run_flake8(file_path)
-        flake8_all.extend(issues)
+        # ---- Pylint ----
+        if checks.get("pylint", True):
+            pylint_result = run_pylint(file_path)
+            pylint_scores.append(pylint_result["score"])
+            pylint_issues[file_path] = pylint_result["issues"]
 
-        # --- Radon (complexity + MI) ---
-        radon_complexities[file_path] = run_radon_complexity(file_path)
-        radon_mis.append(run_radon_mi(file_path))
+        # ---- Flake8 ----
+        if checks.get("flake8", True):
+            issues = run_flake8(file_path)
+            flake8_all.extend(issues)
 
-        # --- Mypy ---
-        mypy_dict= run_mypy(file_path)
-        mypy_total += mypy_dict.get("error_count", 0)
+        # ---- Radon ----
+        if checks.get("radon", True):
+            radon_complexities[file_path] = run_radon_complexity(file_path)
+            radon_mis.append(run_radon_mi(file_path))
 
-        # --- Bandit ---
-        bandit_res = run_bandit(file_path)
-        for k in bandit_total:
-            bandit_total[k] += bandit_res.get(k, 0)
+        # ---- Mypy ----
+        if checks.get("mypy", True):
+            mypy_res = run_mypy(file_path)  # Now returns list of detailed issues
+            mypy_issues.extend(mypy_res)
 
-        # --- Count LOC ---
+        # ---- Bandit ----
+        if checks.get("bandit", True):
+            bandit_res = run_bandit(file_path)
+            bandit_issues.extend(bandit_res)
+
+        # ---- LOC count ----
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 total_loc += len(f.readlines())
-        except:
+        except Exception:
             pass
-
+        
+    # Compute aggregated metrics    
     avg_pylint = sum(pylint_scores) / len(pylint_scores) if pylint_scores else 0.0
     avg_mi = sum(radon_mis) / len(radon_mis) if radon_mis else 0.0
 
-    # --- Compute SQI ---
+    # Convert bandit detailed issues to counts for SQI computation
+    bandit_counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+    for issue in bandit_issues:
+        severity = issue.get('issue_severity', 'MEDIUM').upper()
+        if severity in bandit_counts:
+            bandit_counts[severity] += 1
+    
+    # Count mypy errors for SQI computation
+    mypy_error_count = len([issue for issue in mypy_issues if issue.get('severity') == 'error'])
+    
+    # Compute SQI with active weights and checks
     sqi_result = compute_sqi(
         pylint_score=avg_pylint,
         radon_mi=avg_mi,
         flake8_issues=flake8_all,
-        mypy_errors=mypy_total,
-        bandit_counts=bandit_total,
+        mypy_errors=mypy_error_count,  # Use count for SQI
+        bandit_counts=bandit_counts,
         loc=total_loc,
+        weights=weights,
+        checks=checks,
     )
 
-    return {
+    # Aggregate results in unified dictionary
+    results = {
         "modified_files": modified_files,
         "sqi": sqi_result,
-        "pylint": pylint_issues,
-        "flake8": flake8_all,
+        "active_checks": {k: v for k, v in checks.items() if v},
+        "pylint": pylint_issues if checks.get("pylint", True) else None,
+        "flake8": flake8_all if checks.get("flake8", True) else None,
         "radon": {
-            "complexity": radon_complexities,
-            "mi_avg": avg_mi
+            "complexity": radon_complexities if checks.get("radon", True) else None,
+            "mi_avg": avg_mi if checks.get("radon", True) else None,
         },
-        "mypy": mypy_dict,
-        "bandit": bandit_total,
+        "mypy": mypy_issues if checks.get("mypy", True) else None,  # Return detailed issues
+        "bandit": bandit_issues if checks.get("bandit", True) else None,
+        "meta": {
+            "total_loc": total_loc,
+            "n_files": len(modified_files),
+        },
     }
 
+    return results
 
-# -----------------------
-# Standalone test runner
-# -----------------------
-if __name__ == "__main__":
-    loader = DatasetLoader("princeton-nlp/SWE-bench_Verified", hf_mode=True)
-    for sample in loader.iter_samples(limit=1):
-        patcher = PatchLoader(sample, repos_root="repos_temp")
-        patcher.cleanup_old_repos()
 
-        try:
-            result = patcher.load_and_apply()
-        except Exception as e:
-            print(f"❌ Patch application failed: {e}")
-            continue
-
-        repo_path = result.get("repo_path")
-        diff_text = sample["patch"]
-
-        if not repo_path:
-            print("❌ Failed to load repository.")
-            break
-
-        print(f"\n📂 Repository cloned and patched at: {repo_path}\n")
-        print("🔍 Running code quality analysis...")
-
-        # Inject a test Bandit issue into one of the modified files
-        # Bandit analyzer detection test.
-        try:
-            test_file = None
-            for f in os.listdir(os.path.join(repo_path, "astropy", "modeling")):
-                if f.endswith("separable.py"):
-                    test_file = os.path.join(repo_path, "astropy", "modeling", f)
-                    break
-
-            if test_file and os.path.exists(test_file):
-                with open(test_file, "a", encoding="utf-8") as f:
-                    f.write(
-                        "\n\n# === Test Bandit injection ===\n"
-                        "import subprocess\n"
-                        "subprocess.run('echo vulnerable', shell=True)\n"
-                    )
-                print(f"💉 Injected Bandit test issue into: {test_file}")
-            else:
-                print("⚠️ No target file found for Bandit injection.")
-
-        except Exception as e:
-            print(f"⚠️ Failed to inject Bandit issue: {e}")
-
-        analysis_results = analyze(repo_path, diff_text)
-        print("✅ Analysis complete. Results:")
-        print(json.dumps(analysis_results, indent=2))

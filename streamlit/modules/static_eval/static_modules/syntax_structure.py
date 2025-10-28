@@ -34,10 +34,9 @@ CURRENT_DIR = Path(__file__).resolve()
 PROJECT_ROOT = CURRENT_DIR.parents[2]  # verifier/static_analyzers → verifier → project root
 sys.path.append(str(PROJECT_ROOT))
 
-from swebench_integration.dataset_loader import DatasetLoader
-from swebench_integration.patch_loader import PatchLoader
-from verifier.utils.diff_utils import parse_unified_diff, filter_paths_to_py
-
+from modules.loading.dataset_loader import DatasetLoader
+from modules.loading.patch_loader import PatchLoader
+from modules.utils.diff_utils import parse_unified_diff, filter_paths_to_py
 
 # -----------------------------
 # (1) Input Parsing
