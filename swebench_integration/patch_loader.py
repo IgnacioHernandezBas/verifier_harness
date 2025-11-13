@@ -64,11 +64,20 @@ class PatchLoader:
 
         print(f"[+] Cloning {self.repo_name} into {temp_dir} ...")
 
-        subprocess.run(
-            ["git", "clone", "--depth", "1", "-b", self.branch,
-             self.base_repo_url, str(temp_dir)],
-            check=True, capture_output=True,
-        )
+        # If we have a base_commit, clone without branch specification
+        # to avoid issues with different default branches (main vs master)
+        if self.base_commit:
+            subprocess.run(
+                ["git", "clone", "--depth", "1",
+                 self.base_repo_url, str(temp_dir)],
+                check=True, capture_output=True,
+            )
+        else:
+            subprocess.run(
+                ["git", "clone", "--depth", "1", "-b", self.branch,
+                 self.base_repo_url, str(temp_dir)],
+                check=True, capture_output=True,
+            )
 
         if self.base_commit:
             subprocess.run(
@@ -101,6 +110,29 @@ class PatchLoader:
         except subprocess.CalledProcessError as e:
             applied, log = False, e.stderr.decode(errors="ignore") if e.stderr else str(e)
             raise PatchApplicationError(f"Patch failed: {log}")
+        finally:
+            patch_path.unlink(missing_ok=True)
+
+        return {"repo_path": str(self.repo_path), "applied": applied, "log": log}
+
+    # -----------------------------------------------------
+    def apply_additional_patch(self, patch_str: str) -> Dict[str, Any]:
+        """Apply an additional patch to the already-cloned repository."""
+        if not self.repo_path:
+            raise RuntimeError("Repository not cloned yet. Call clone_repository() first.")
+
+        patch_path = self.repo_path / "additional.patch"
+        patch_path.write_text(patch_str)
+
+        try:
+            subprocess.run(
+                ["git", "apply", "--whitespace=fix", str(patch_path)],
+                cwd=self.repo_path, check=True, capture_output=True,
+            )
+            applied, log = True, "Additional patch applied successfully."
+        except subprocess.CalledProcessError as e:
+            applied, log = False, e.stderr.decode(errors="ignore") if e.stderr else str(e)
+            raise PatchApplicationError(f"Additional patch failed: {log}")
         finally:
             patch_path.unlink(missing_ok=True)
 

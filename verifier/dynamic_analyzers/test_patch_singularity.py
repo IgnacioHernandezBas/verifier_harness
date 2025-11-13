@@ -1,10 +1,11 @@
-# verifier/dynamic_analyzers/test_patch.py
+# verifier/dynamic_analyzers/test_patch_singularity.py
 
 """
-Patch evaluation on SWE-bench-style tasks using Podman.
+Patch evaluation on SWE-bench-style tasks using Singularity/Apptainer.
 
-- Builds a minimal Python test image with Podman.
+- Builds a minimal Python test image with Singularity.
 - Clones & patches the target repo via PatchLoader.
+- Applies model patch first, then test patch (if exists).
 - Runs the SWE-bench FAIL_TO_PASS + PASS_TO_PASS tests inside the container.
 - Returns a simple pass/fail result per prediction.
 
@@ -34,79 +35,179 @@ from swebench_integration.patch_loader import PatchLoader, PatchApplicationError
 
 
 # -----------------------------
-# Podman helpers
+# Singularity helpers
 # -----------------------------
-def build_podman_image(
-    image_name: str = "verifier-swebench:latest",
+def build_singularity_image(
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
     python_version: str = "3.11",
-) -> None:
+    force_rebuild: bool = False,
+) -> Path:
     """
-    Build a minimal Podman image with Python + pytest tooling.
+    Build a minimal Singularity image with Python + pytest tooling.
 
-    The image does NOT bake in any particular repo; we mount the patched repo
+    The image does NOT bake in any particular repo; we bind mount the patched repo
     at runtime under /workspace.
 
     Parameters
     ----------
-    image_name : str
-        Tag to give the resulting Podman image.
+    image_path : Path or str
+        Path where the Singularity .sif image will be stored.
     python_version : str
-        Python version tag for the base image (e.g. '3.11-slim').
+        Python version tag for the base image (e.g. '3.11').
+    force_rebuild : bool
+        If True, rebuild even if image already exists.
+
+    Returns
+    -------
+    Path
+        Path to the built Singularity image.
     """
-    dockerfile = f"""
-    FROM python:{python_version}-slim
+    image_path = Path(image_path)
+    image_path.parent.mkdir(parents=True, exist_ok=True)
 
+    if image_path.exists() and not force_rebuild:
+        print(f"✅ Singularity image already exists: {image_path}")
+        return image_path
+
+    # Create a Singularity definition file
+    singularity_def = f"""
+Bootstrap: docker
+From: python:{python_version}-slim
+
+%post
     # Basic OS deps (git often useful for debugging, build tools for some deps)
-    RUN apt-get update \\
-        && apt-get install -y --no-install-recommends git build-essential \\
-        && rm -rf /var/lib/apt/lists/*
-
-    WORKDIR /workspace
+    apt-get update
+    apt-get install -y --no-install-recommends git build-essential
+    rm -rf /var/lib/apt/lists/*
 
     # Core testing tooling; extend as needed
-    RUN pip install --no-cache-dir \\
+    pip install --no-cache-dir \\
         pytest \\
         pytest-xdist \\
         hypothesis \\
         coverage
 
-    CMD ["bash"]
+%environment
+    export LC_ALL=C
+
+%runscript
+    exec "$@"
     """.strip() + "\n"
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir_path = Path(tmpdir)
-        dockerfile_path = tmpdir_path / "Dockerfile"
-        dockerfile_path.write_text(dockerfile, encoding="utf-8")
+        def_file = tmpdir_path / "verifier-swebench.def"
+        def_file.write_text(singularity_def, encoding="utf-8")
+
+        # Remove old image if force rebuild
+        if force_rebuild and image_path.exists():
+            print(f"🗑️  Removing old image: {image_path}")
+            image_path.unlink()
 
         cmd = [
-            "podman",
-            "--root", "/scratch0/ihbas/.containers/storage",
-            "--runroot", "/scratch0/ihbas/.containers/tmp",
-            "--storage-driver", "overlay",
+            "singularity",
             "build",
-            "-t", image_name,
-            str(tmpdir_path)
+            str(image_path),
+            str(def_file),
         ]
-        print(f"📦 Building Podman image: {' '.join(cmd)}")
+        print(f"📦 Building Singularity image: {' '.join(cmd)}")
+        print(f"   This may take several minutes on first build...")
         proc = subprocess.run(cmd, capture_output=True, text=True)
 
         if proc.returncode != 0:
             raise RuntimeError(
-                "Failed to build Podman image:\n"
+                "Failed to build Singularity image:\n"
                 f"EXIT: {proc.returncode}\n\nSTDOUT:\n{proc.stdout}\n\nSTDERR:\n{proc.stderr}"
             )
         else:
-            print("✅ Podman image built successfully.")
+            print(f"✅ Singularity image built successfully: {image_path}")
+
+    return image_path
 
 
-def run_tests_in_podman(
+def install_package_in_singularity(
+    repo_path: Path,
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+) -> Dict[str, Any]:
+    """
+    Install the package in editable mode inside the Singularity container.
+
+    Detects setup.py, pyproject.toml, or setup.cfg and runs the appropriate install command.
+
+    Parameters
+    ----------
+    repo_path : Path
+        Local path to the repository.
+    image_path : Path or str
+        Singularity image to use.
+
+    Returns
+    -------
+    dict with keys: 'returncode', 'stdout', 'stderr', 'installed'
+    """
+    repo_path = repo_path.resolve()
+    if not repo_path.exists():
+        raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+
+    image_path = Path(image_path)
+    if not image_path.exists():
+        raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
+
+    # Check which setup files exist
+    has_setup_py = (repo_path / "setup.py").exists()
+    has_pyproject_toml = (repo_path / "pyproject.toml").exists()
+    has_setup_cfg = (repo_path / "setup.cfg").exists()
+
+    if not (has_setup_py or has_pyproject_toml or has_setup_cfg):
+        # No setup files found, package might not need installation
+        return {
+            "returncode": 0,
+            "stdout": "No setup files found, skipping installation",
+            "stderr": "",
+            "installed": False,
+        }
+
+    # Try pip install -e . (editable install)
+    # Use --fakeroot to allow installation to system site-packages
+    # This gives us root-like permissions inside the container without needing actual root
+    cmd = [
+        "singularity",
+        "exec",
+        "--fakeroot",  # Fake root permissions for installation
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--pwd", "/workspace",
+        str(image_path),
+        "pip", "install", "--no-deps", "-e", ".",
+    ]
+
+    print(f"📦 Installing package in Singularity:\n  {' '.join(cmd)}\n")
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+
+    installed = proc.returncode == 0
+
+    if not installed:
+        # Show error details for debugging
+        print(f"   ⚠️  Installation failed with return code {proc.returncode}")
+        if proc.stderr:
+            print(f"   Error: {proc.stderr[:300]}")
+
+    return {
+        "returncode": proc.returncode,
+        "stdout": proc.stdout,
+        "stderr": proc.stderr,
+        "installed": installed,
+        "attempted": True,
+    }
+
+
+def run_tests_in_singularity(
     repo_path: Path,
     tests: List[str],
-    image_name: str = "verifier-swebench:latest",
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
     extra_env: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
     """
-    Run pytest inside a Podman container over the given repo.
+    Run pytest inside a Singularity container over the given repo.
 
     Parameters
     ----------
@@ -115,8 +216,8 @@ def run_tests_in_podman(
     tests : List[str]
         List of pytest node ids (e.g. 'tests/test_foo.py::test_bar').
         If empty, runs 'pytest -q' over the whole suite.
-    image_name : str
-        Podman image to use.
+    image_path : Path or str
+        Singularity image to use.
     extra_env : Dict[str,str], optional
         Extra env vars to pass into the container.
 
@@ -128,35 +229,37 @@ def run_tests_in_podman(
     if not repo_path.exists():
         raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
 
-    env_args: List[str] = []
-    merged_env = {"PYTHONPATH": "/workspace"}
-    if extra_env:
-        merged_env.update(extra_env)
+    image_path = Path(image_path)
+    if not image_path.exists():
+        raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
 
-    for k, v in merged_env.items():
-        env_args.extend(["-e", f"{k}={v}"])
+    # Build environment variables
+    # PYTHONPATH allows import from workspace even without installation
+    env_dict = {"PYTHONPATH": "/workspace"}
+    if extra_env:
+        env_dict.update(extra_env)
+
+    # Singularity uses --env for environment variables
+    env_args: List[str] = []
+    for k, v in env_dict.items():
+        env_args.extend(["--env", f"{k}={v}"])
 
     # If no specific tests are given, run full suite
     test_args = tests or []
     cmd = [
-        "podman",
-        "--root", "/scratch0/ihbas/.containers/storage",
-        "--runroot", "/scratch0/ihbas/.containers/tmp",
-        "--storage-driver", "overlay",
-        "run",
-        "--rm",
-        "-v",
-        f"{str(repo_path)}:/workspace:Z",  # :Z for SELinux-friendly relabel
-        "-w",
-        "/workspace",
+        "singularity",
+        "exec",
+        "--fakeroot",  # Use same fakeroot as installation so packages are found
+        "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
+        "--pwd", "/workspace",  # Set working directory
         *env_args,
-        image_name,
+        str(image_path),
         "pytest",
         "-q",
         *test_args,
     ]
 
-    print(f"🧪 Running tests in Podman:\n  {' '.join(cmd)}\n")
+    print(f"🧪 Running tests in Singularity:\n  {' '.join(cmd)}\n")
     proc = subprocess.run(cmd, capture_output=True, text=True)
 
     return {
@@ -195,14 +298,15 @@ def _index_dataset_by_instance_id(
 
 def run_evaluation(
     predictions: List[Dict[str, Any]],
-    image_name: str = "verifier-swebench:latest",
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
     dataset_source: str = "princeton-nlp/SWE-bench_Verified",
     hf_mode: bool = True,
     split: str = "test",
     repos_root: Path | str | None = None,
+    force_rebuild: bool = False,
 ) -> List[Dict[str, Any]]:
     """
-    Evaluate model patches on SWE-bench-style tasks inside a Podman container.
+    Evaluate model patches on SWE-bench-style tasks inside a Singularity container.
 
     This function is conceptually similar to SWE-bench's `run_evaluation`,
     but implemented entirely inside the verifier-harness repository.
@@ -214,8 +318,8 @@ def run_evaluation(
           - 'instance_id'
           - 'model_name_or_path'
           - 'model_patch' (unified diff string)
-    image_name : str
-        Podman image tag to run tests in.
+    image_path : Path or str
+        Singularity image path to run tests in.
     dataset_source : str
         Source passed to DatasetLoader; default is HF SWE-bench Verified.
     hf_mode : bool
@@ -224,6 +328,8 @@ def run_evaluation(
         Dataset split (e.g. 'test').
     repos_root : Path or str, optional
         Where to store cloned repos. Defaults to PROJECT_ROOT / "repos_temp".
+    force_rebuild : bool
+        If True, force rebuild of Singularity image.
 
     Returns
     -------
@@ -235,8 +341,8 @@ def run_evaluation(
     repos_root = Path(repos_root)
     repos_root.mkdir(parents=True, exist_ok=True)
 
-    # Ensure Podman image exists (idempotent; Podman will reuse cache)
-    build_podman_image(image_name=image_name)
+    # Ensure Singularity image exists
+    image_path = build_singularity_image(image_path=image_path, force_rebuild=force_rebuild)
 
     # Build index of SWE-bench samples by instance_id
     instance_index = _index_dataset_by_instance_id(
@@ -277,20 +383,20 @@ def run_evaluation(
 
         metadata = sample.get("metadata", {})
         test_patch_text: str = metadata.get("test_patch", "") or ""
-        fail_to_pass: List[str] = metadata.get("FAIL_TO_PASS", []) or []
-        pass_to_pass: List[str] = metadata.get("PASS_TO_PASS", []) or []
+        fail_to_pass = metadata.get("FAIL_TO_PASS", []) or []
+        pass_to_pass = metadata.get("PASS_TO_PASS", []) or []
 
-        # Combined patch = test patch (T) + model patch (δ̂)
-        # This approximates SWE-bench's sequence "apply T, then apply δ̂".
-        combined_patch_parts: List[str] = []
-        if test_patch_text.strip():
-            combined_patch_parts.append(test_patch_text.rstrip() + "\n")
-        combined_patch_parts.append(model_patch)
-        combined_patch = "\n".join(combined_patch_parts)
+        # Handle string representations if needed
+        if isinstance(fail_to_pass, str):
+            import ast
+            fail_to_pass = ast.literal_eval(fail_to_pass) if fail_to_pass else []
+        if isinstance(pass_to_pass, str):
+            import ast
+            pass_to_pass = ast.literal_eval(pass_to_pass) if pass_to_pass else []
 
-        # Prepare sample for PatchLoader (override 'patch' with combined patch)
+        # Prepare sample for PatchLoader (first apply model patch)
         patched_sample = dict(sample)
-        patched_sample["patch"] = combined_patch
+        patched_sample["patch"] = model_patch
 
         patcher = PatchLoader(
             patched_sample,
@@ -303,7 +409,7 @@ def run_evaluation(
         except Exception as e:
             print(f"⚠️  Warning: failed to cleanup old repos: {e}")
 
-        # Clone + apply combined patch
+        # Clone + apply model patch first
         try:
             patch_result = patcher.load_and_apply()
         except PatchApplicationError as e:
@@ -312,7 +418,7 @@ def run_evaluation(
                     "instance_id": instance_id,
                     "model_name_or_path": model_name,
                     "status": "patch_application_failed",
-                    "error": f"PatchApplicationError: {e}",
+                    "error": f"PatchApplicationError (model patch): {e}",
                 }
             )
             continue
@@ -322,10 +428,36 @@ def run_evaluation(
                     "instance_id": instance_id,
                     "model_name_or_path": model_name,
                     "status": "patch_application_failed",
-                    "error": f"Unexpected error applying patch: {e}",
+                    "error": f"Unexpected error applying model patch: {e}",
                 }
             )
             continue
+
+        # Apply test patch if it exists
+        if test_patch_text.strip():
+            try:
+                test_patch_result = patcher.apply_additional_patch(test_patch_text)
+                print(f"✅ Test patch applied: {test_patch_result.get('log', 'success')}")
+            except PatchApplicationError as e:
+                results.append(
+                    {
+                        "instance_id": instance_id,
+                        "model_name_or_path": model_name,
+                        "status": "test_patch_application_failed",
+                        "error": f"PatchApplicationError (test patch): {e}",
+                    }
+                )
+                continue
+            except Exception as e:  # noqa: BLE001
+                results.append(
+                    {
+                        "instance_id": instance_id,
+                        "model_name_or_path": model_name,
+                        "status": "test_patch_application_failed",
+                        "error": f"Unexpected error applying test patch: {e}",
+                    }
+                )
+                continue
 
         repo_path_str = patch_result.get("repo_path")
         if not repo_path_str:
@@ -341,14 +473,34 @@ def run_evaluation(
 
         repo_path = Path(repo_path_str)
 
+        # Install package if needed (after patches are applied)
+        print(f"📦 Checking if package installation is needed...")
+        try:
+            install_result = install_package_in_singularity(
+                repo_path=repo_path,
+                image_path=image_path,
+            )
+            if install_result.get("installed"):
+                print(f"✅ Package installed successfully")
+            else:
+                print(f"ℹ️  Package installation skipped or not needed")
+                # Debug: show why
+                if install_result.get("returncode") != 0:
+                    print(f"   Return code: {install_result.get('returncode')}")
+                    print(f"   Stdout: {install_result.get('stdout', '')[:200]}")
+                    print(f"   Stderr: {install_result.get('stderr', '')[:200]}")
+        except Exception as e:
+            print(f"⚠️  Warning: Package installation failed: {e}")
+            # Continue anyway - some repos don't need installation
+
         # Tests according to SWE-bench completion definition
         tests_to_run = list(dict.fromkeys(fail_to_pass + pass_to_pass))
 
-        # Run tests in Podman
-        test_result = run_tests_in_podman(
+        # Run tests in Singularity
+        test_result = run_tests_in_singularity(
             repo_path=repo_path,
             tests=tests_to_run,
-            image_name=image_name,
+            image_path=image_path,
         )
 
         passed = test_result["returncode"] == 0
@@ -376,7 +528,7 @@ if __name__ == "__main__":
     Example standalone usage:
 
     - Uses HuggingFace 'princeton-nlp/SWE-bench_Verified' by default.
-    - Evaluates a single sympy patch inside a Podman container.
+    - Evaluates a single sympy patch inside a Singularity container.
     - Prints a JSON report with pass/fail + logs.
 
     NOTE:
@@ -409,7 +561,7 @@ if __name__ == "__main__":
     try:
         eval_results = run_evaluation(
             predictions=predictions,
-            image_name="verifier-swebench:latest",
+            image_path="/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
             dataset_source="princeton-nlp/SWE-bench_Verified",
             hf_mode=True,
             split="test",
