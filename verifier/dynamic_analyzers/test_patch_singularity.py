@@ -84,6 +84,8 @@ From: python:{python_version}-slim
     pip install --no-cache-dir \\
         pytest \\
         pytest-xdist \\
+        pytest-cov \\
+        pytest-timeout \\
         hypothesis \\
         coverage
 
@@ -104,15 +106,29 @@ From: python:{python_version}-slim
             print(f"🗑️  Removing old image: {image_path}")
             image_path.unlink()
 
+        # Set up Singularity temporary directories to avoid permission issues
+        # Use scratch space instead of home directory
+        scratch_base = Path("/scratch0/ihbas/.singularity")
+        singularity_tmp = scratch_base / "tmp"
+        singularity_cache = scratch_base / "cache"
+        singularity_tmp.mkdir(parents=True, exist_ok=True)
+        singularity_cache.mkdir(parents=True, exist_ok=True)
+
+        # Build environment with proper temp directories
+        build_env = os.environ.copy()
+        build_env["SINGULARITY_TMPDIR"] = str(singularity_tmp)
+        build_env["SINGULARITY_CACHEDIR"] = str(singularity_cache)
+
         cmd = [
             "singularity",
             "build",
+            "--fakeroot",  # Build without root privileges
             str(image_path),
             str(def_file),
         ]
         print(f"📦 Building Singularity image: {' '.join(cmd)}")
         print(f"   This may take several minutes on first build...")
-        proc = subprocess.run(cmd, capture_output=True, text=True)
+        proc = subprocess.run(cmd, capture_output=True, text=True, env=build_env)
 
         if proc.returncode != 0:
             raise RuntimeError(
