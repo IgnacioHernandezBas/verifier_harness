@@ -89,6 +89,20 @@ From: python:{python_version}-slim
         hypothesis \\
         coverage
 
+    # Common scientific dependencies needed by most SWE-bench repos
+    # Install these in the base image to avoid repeated compilation
+    pip install --no-cache-dir \\
+        numpy \\
+        scipy \\
+        pandas \\
+        matplotlib \\
+        pillow \\
+        scikit-learn \\
+        requests \\
+        six \\
+        setuptools \\
+        wheel
+
 %environment
     export LC_ALL=C
 
@@ -144,6 +158,7 @@ From: python:{python_version}-slim
 def install_package_in_singularity(
     repo_path: Path,
     image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    instance_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Install the package and its dependencies inside the Singularity container.
@@ -159,10 +174,13 @@ def install_package_in_singularity(
         Local path to the repository.
     image_path : Path or str
         Singularity image to use.
+    instance_id : str, optional
+        Instance ID for per-instance isolation. If provided, creates a unique user base
+        to avoid package conflicts between different repositories.
 
     Returns
     -------
-    dict with keys: 'returncode', 'stdout', 'stderr', 'installed'
+    dict with keys: 'returncode', 'stdout', 'stderr', 'installed', 'user_base'
     """
     repo_path = repo_path.resolve()
     if not repo_path.exists():
@@ -176,6 +194,7 @@ def install_package_in_singularity(
     has_setup_py = (repo_path / "setup.py").exists()
     has_pyproject_toml = (repo_path / "pyproject.toml").exists()
     has_setup_cfg = (repo_path / "setup.cfg").exists()
+    has_requirements = (repo_path / "requirements.txt").exists()
 
     if not (has_setup_py or has_pyproject_toml or has_setup_cfg):
         # No setup files found, package might not need installation
@@ -184,18 +203,30 @@ def install_package_in_singularity(
             "stdout": "No setup files found, skipping installation",
             "stderr": "",
             "installed": False,
+            "user_base": None,
         }
 
     print(f"📦 Installing package and dependencies in: {repo_path}")
-    print(f"   Setup files found: setup.py={has_setup_py}, pyproject.toml={has_pyproject_toml}, setup.cfg={has_setup_cfg}")
+    print(f"   Setup files found: setup.py={has_setup_py}, pyproject.toml={has_pyproject_toml}, setup.cfg={has_setup_cfg}, requirements.txt={has_requirements}")
 
-    # Set up user base for installations
-    user_base = Path("/fs/nexus-scratch/ihbas/.local")
+    # Set up user base for installations with per-instance isolation
+    if instance_id:
+        # Use per-instance directory to avoid conflicts between different repos
+        user_base = Path(f"/fs/nexus-scratch/ihbas/.local_instances/{instance_id}")
+        print(f"   Using per-instance user base: {user_base}")
+    else:
+        # Fallback to shared user base
+        user_base = Path("/fs/nexus-scratch/ihbas/.local")
+
     user_base.mkdir(parents=True, exist_ok=True)
 
-    # Strategy: Try to install the package in editable mode
-    # If it fails (e.g., due to C extension compilation issues), fall back to PYTHONPATH-only mode
-    print(f"   Attempting editable install...")
+    # Strategy:
+    # 1. Install build dependencies
+    # 2. Install requirements.txt if it exists (repo-specific dependencies)
+    # 3. Install package in editable mode with --no-deps (package itself only)
+    # 4. If install fails, fall back to PYTHONPATH-only mode
+
+    print(f"   Installing build dependencies...")
 
     # First install common build dependencies (like setuptools-scm for pytest)
     build_deps_cmd = [
@@ -205,10 +236,9 @@ def install_package_in_singularity(
         "--bind", f"{str(user_base)}:/pip_install_base",
         "--env", "PYTHONUSERBASE=/pip_install_base",
         str(image_path),
-        "pip", "install", "--user", "setuptools-scm[toml]>=6.2", "setuptools>=45"
+        "pip", "install", "--user", "setuptools-scm[toml]>=6.2", "setuptools>=45", "wheel"
     ]
 
-    print(f"   Installing build dependencies...")
     build_deps_proc = subprocess.run(build_deps_cmd, capture_output=True, text=True, timeout=120)
 
     # For packages using setuptools-scm (like pytest), we need to ensure git can read the repo
@@ -241,6 +271,30 @@ def install_package_in_singularity(
     print(f"   Fetching git tags for version detection...")
     subprocess.run(unshallow_cmd, capture_output=True, text=True, timeout=60)
 
+    # Install repository-specific dependencies if requirements.txt exists
+    if has_requirements:
+        print(f"   Installing dependencies from requirements.txt...")
+        req_install_cmd = [
+            "singularity",
+            "exec",
+            "--fakeroot",
+            "--bind", f"{str(repo_path)}:/workspace",
+            "--bind", f"{str(user_base)}:/pip_install_base",
+            "--pwd", "/workspace",
+            "--env", "PYTHONUSERBASE=/pip_install_base",
+            str(image_path),
+            "pip", "install", "--user", "-r", "requirements.txt"
+        ]
+        req_proc = subprocess.run(req_install_cmd, capture_output=True, text=True, timeout=300)
+        if req_proc.returncode == 0:
+            print(f"✅ Dependencies from requirements.txt installed successfully")
+        else:
+            print(f"⚠️  Warning: Some dependencies from requirements.txt failed to install")
+            print(f"   This may be OK if they're optional or already in base image")
+
+    # Now try to install the package itself
+    # First attempt: Install with dependencies (in case requirements.txt doesn't exist or is incomplete)
+    print(f"   Installing package with dependencies...")
     install_cmd = [
         "singularity",
         "exec",
@@ -263,23 +317,52 @@ def install_package_in_singularity(
             "stderr": proc.stderr,
             "installed": True,
             "attempted": True,
+            "user_base": str(user_base),
         }
     else:
-        # Installation failed - this is OK for packages with C extensions
-        # Use PYTHONPATH-only mode (package source will be importable directly)
-        print(f"ℹ️  Editable install not possible (will use PYTHONPATH mode)")
-        print(f"   This is normal for packages with C extensions or complex build requirements")
+        # Installation failed - try without deps in case dependencies are causing issues
+        print(f"   First install attempt failed, trying with --no-deps...")
+        install_nodeps_cmd = [
+            "singularity",
+            "exec",
+            "--fakeroot",
+            "--bind", f"{str(repo_path)}:/workspace",
+            "--bind", f"{str(user_base)}:/pip_install_base",
+            "--pwd", "/workspace",
+            "--env", "PYTHONUSERBASE=/pip_install_base",
+            str(image_path),
+            "pip", "install", "--user", "-e", ".", "--no-deps"
+        ]
 
-        # The package source will be accessible via PYTHONPATH
-        # No additional installation needed
-        return {
-            "returncode": 0,
-            "stdout": proc.stdout,
-            "stderr": proc.stderr,
-            "installed": False,  # Not installed, but will work via PYTHONPATH
-            "attempted": True,
-            "pythonpath_mode": True,
-        }
+        proc_nodeps = subprocess.run(install_nodeps_cmd, capture_output=True, text=True, timeout=300)
+
+        if proc_nodeps.returncode == 0:
+            print(f"✅ Package installed successfully in editable mode (without deps)")
+            return {
+                "returncode": 0,
+                "stdout": proc_nodeps.stdout,
+                "stderr": proc_nodeps.stderr,
+                "installed": True,
+                "attempted": True,
+                "user_base": str(user_base),
+            }
+        else:
+            # Both installation attempts failed - use PYTHONPATH-only mode
+            # This is OK for packages with C extensions or complex build requirements
+            print(f"ℹ️  Editable install not possible (will use PYTHONPATH mode)")
+            print(f"   This is normal for packages with C extensions or complex build requirements")
+
+            # The package source will be accessible via PYTHONPATH
+            # No additional installation needed
+            return {
+                "returncode": 0,
+                "stdout": proc.stdout + "\n" + proc_nodeps.stdout,
+                "stderr": proc.stderr + "\n" + proc_nodeps.stderr,
+                "installed": False,  # Not installed, but will work via PYTHONPATH
+                "attempted": True,
+                "pythonpath_mode": True,
+                "user_base": str(user_base),
+            }
 
 
 def run_tests_in_singularity(
@@ -287,6 +370,7 @@ def run_tests_in_singularity(
     tests: List[str],
     image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
     extra_env: Optional[Dict[str, str]] = None,
+    user_base: Optional[Path | str] = None,
 ) -> Dict[str, Any]:
     """
     Run pytest inside a Singularity container over the given repo.
@@ -302,6 +386,8 @@ def run_tests_in_singularity(
         Singularity image to use.
     extra_env : Dict[str,str], optional
         Extra env vars to pass into the container.
+    user_base : Path or str, optional
+        User base directory for installed packages. If not provided, uses default.
 
     Returns
     -------
@@ -327,23 +413,21 @@ def run_tests_in_singularity(
     if extra_env:
         env_dict.update(extra_env)
 
-    # Singularity uses --env for environment variables
-    env_args: List[str] = []
-    for k, v in env_dict.items():
-        env_args.extend(["--env", f"{k}={v}"])
-
     # If no specific tests are given, run full suite
     test_args = tests or []
 
     # Bind the same user base location used during installation
     # so that installed packages are accessible
-    user_base = Path("/fs/nexus-scratch/ihbas/.local")
+    if user_base is None:
+        user_base = Path("/fs/nexus-scratch/ihbas/.local")
+    else:
+        user_base = Path(user_base)
 
     # Add PYTHONUSERBASE to environment so Python can find the installed packages
     env_dict["PYTHONUSERBASE"] = "/pip_install_base"
 
-    # Rebuild env_args with the updated environment
-    env_args = []
+    # Build env_args with the environment
+    env_args: List[str] = []
     for k, v in env_dict.items():
         env_args.extend(["--env", f"{k}={v}"])
 
@@ -576,12 +660,16 @@ def run_evaluation(
         repo_path = Path(repo_path_str)
 
         # Install package if needed (after patches are applied)
+        # Use instance_id for per-instance isolation
         print(f"📦 Checking if package installation is needed...")
+        install_user_base = None
         try:
             install_result = install_package_in_singularity(
                 repo_path=repo_path,
                 image_path=image_path,
+                instance_id=instance_id,  # Pass instance_id for isolation
             )
+            install_user_base = install_result.get("user_base")
             if install_result.get("installed"):
                 print(f"✅ Package installed successfully")
             else:
@@ -598,11 +686,12 @@ def run_evaluation(
         # Tests according to SWE-bench completion definition
         tests_to_run = list(dict.fromkeys(fail_to_pass + pass_to_pass))
 
-        # Run tests in Singularity
+        # Run tests in Singularity with the same user base used during installation
         test_result = run_tests_in_singularity(
             repo_path=repo_path,
             tests=tests_to_run,
             image_path=image_path,
+            user_base=install_user_base,  # Use same user base as installation
         )
 
         passed = test_result["returncode"] == 0
