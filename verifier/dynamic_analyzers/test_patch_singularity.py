@@ -146,14 +146,12 @@ def install_package_in_singularity(
     image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
 ) -> Dict[str, Any]:
     """
-    Install the package in editable mode inside the Singularity container.
+    Install the package and its dependencies inside the Singularity container.
 
     Detects setup.py, pyproject.toml, or setup.cfg and runs the appropriate install command.
 
-    NOTE: Since the container is read-only, we don't actually install packages.
-    Instead, we rely on PYTHONPATH=/workspace set during test execution to make
-    the package importable. This function mainly checks if the package has
-    installable content.
+    Since Singularity containers are read-only, we install to the user site-packages
+    directory (~/.local) which is writable and persists across container runs.
 
     Parameters
     ----------
@@ -188,19 +186,100 @@ def install_package_in_singularity(
             "installed": False,
         }
 
-    # Instead of trying to install in read-only container, just verify the package structure
-    # The package will be accessible via PYTHONPATH=/workspace during test execution
-    print(f"📦 Package structure detected in: {repo_path}")
+    print(f"📦 Installing package and dependencies in: {repo_path}")
     print(f"   Setup files found: setup.py={has_setup_py}, pyproject.toml={has_pyproject_toml}, setup.cfg={has_setup_cfg}")
-    print(f"   Package will be accessible via PYTHONPATH=/workspace during test execution")
 
-    return {
-        "returncode": 0,
-        "stdout": "Package structure verified, will use PYTHONPATH for imports",
-        "stderr": "",
-        "installed": True,  # Mark as "installed" since it will be accessible
-        "attempted": True,
-    }
+    # Set up user base for installations
+    user_base = Path("/fs/nexus-scratch/ihbas/.local")
+    user_base.mkdir(parents=True, exist_ok=True)
+
+    # Strategy: Try to install the package in editable mode
+    # If it fails (e.g., due to C extension compilation issues), fall back to PYTHONPATH-only mode
+    print(f"   Attempting editable install...")
+
+    # First install common build dependencies (like setuptools-scm for pytest)
+    build_deps_cmd = [
+        "singularity",
+        "exec",
+        "--fakeroot",
+        "--bind", f"{str(user_base)}:/pip_install_base",
+        "--env", "PYTHONUSERBASE=/pip_install_base",
+        str(image_path),
+        "pip", "install", "--user", "setuptools-scm[toml]>=6.2", "setuptools>=45"
+    ]
+
+    print(f"   Installing build dependencies...")
+    build_deps_proc = subprocess.run(build_deps_cmd, capture_output=True, text=True, timeout=120)
+
+    # For packages using setuptools-scm (like pytest), we need to ensure git can read the repo
+    # Set up git config to mark the workspace as safe (needed when running as fakeroot)
+    git_config_cmd = [
+        "singularity",
+        "exec",
+        "--fakeroot",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--pwd", "/workspace",
+        str(image_path),
+        "git", "config", "--global", "--add", "safe.directory", "/workspace"
+    ]
+
+    print(f"   Configuring git for build...")
+    subprocess.run(git_config_cmd, capture_output=True, text=True, timeout=30)
+
+    # Try to unshallow the git repo to get tags for setuptools-scm
+    # This is needed because repos are cloned with --depth 1
+    unshallow_cmd = [
+        "singularity",
+        "exec",
+        "--fakeroot",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--pwd", "/workspace",
+        str(image_path),
+        "bash", "-c", "git fetch --unshallow 2>/dev/null || git fetch --tags || true"
+    ]
+
+    print(f"   Fetching git tags for version detection...")
+    subprocess.run(unshallow_cmd, capture_output=True, text=True, timeout=60)
+
+    install_cmd = [
+        "singularity",
+        "exec",
+        "--fakeroot",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--bind", f"{str(user_base)}:/pip_install_base",
+        "--pwd", "/workspace",
+        "--env", "PYTHONUSERBASE=/pip_install_base",
+        str(image_path),
+        "pip", "install", "--user", "-e", "."
+    ]
+
+    proc = subprocess.run(install_cmd, capture_output=True, text=True, timeout=300)
+
+    if proc.returncode == 0:
+        print(f"✅ Package installed successfully in editable mode")
+        return {
+            "returncode": 0,
+            "stdout": proc.stdout,
+            "stderr": proc.stderr,
+            "installed": True,
+            "attempted": True,
+        }
+    else:
+        # Installation failed - this is OK for packages with C extensions
+        # Use PYTHONPATH-only mode (package source will be importable directly)
+        print(f"ℹ️  Editable install not possible (will use PYTHONPATH mode)")
+        print(f"   This is normal for packages with C extensions or complex build requirements")
+
+        # The package source will be accessible via PYTHONPATH
+        # No additional installation needed
+        return {
+            "returncode": 0,
+            "stdout": proc.stdout,
+            "stderr": proc.stderr,
+            "installed": False,  # Not installed, but will work via PYTHONPATH
+            "attempted": True,
+            "pythonpath_mode": True,
+        }
 
 
 def run_tests_in_singularity(
@@ -238,7 +317,13 @@ def run_tests_in_singularity(
 
     # Build environment variables
     # PYTHONPATH allows import from workspace even without installation
-    env_dict = {"PYTHONPATH": "/workspace"}
+    # Check if there's a lib subdirectory (common in many Python projects like matplotlib)
+    if (repo_path / "lib").exists() and (repo_path / "lib").is_dir():
+        python_path = "/workspace/lib:/workspace"
+    else:
+        python_path = "/workspace"
+
+    env_dict = {"PYTHONPATH": python_path}
     if extra_env:
         env_dict.update(extra_env)
 
@@ -249,11 +334,25 @@ def run_tests_in_singularity(
 
     # If no specific tests are given, run full suite
     test_args = tests or []
+
+    # Bind the same user base location used during installation
+    # so that installed packages are accessible
+    user_base = Path("/fs/nexus-scratch/ihbas/.local")
+
+    # Add PYTHONUSERBASE to environment so Python can find the installed packages
+    env_dict["PYTHONUSERBASE"] = "/pip_install_base"
+
+    # Rebuild env_args with the updated environment
+    env_args = []
+    for k, v in env_dict.items():
+        env_args.extend(["--env", f"{k}={v}"])
+
     cmd = [
         "singularity",
         "exec",
         "--fakeroot",  # Use same fakeroot as installation so packages are found
         "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
+        "--bind", f"{str(user_base)}:/pip_install_base",  # Bind user packages location
         "--pwd", "/workspace",  # Set working directory
         *env_args,
         str(image_path),

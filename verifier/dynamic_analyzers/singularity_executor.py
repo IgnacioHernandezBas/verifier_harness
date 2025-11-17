@@ -156,13 +156,24 @@ class SingularityTestExecutor:
             if module_name and module_name.startswith('_pytest'):
                 print(f"ℹ️  Coverage disabled for {module_name} (pytest internal module - would cause circular dependency)")
 
+        # Bind the user base location for access to installed packages
+        user_base = Path("/fs/nexus-scratch/ihbas/.local")
+
+        # Set PYTHONPATH - check if there's a lib subdirectory (like matplotlib)
+        if (work_path / "lib").exists() and (work_path / "lib").is_dir():
+            python_path = "/workspace/lib:/workspace"
+        else:
+            python_path = "/workspace"
+
         # Execute in Singularity
         cmd = [
             'singularity', 'exec',
             '--fakeroot',  # Use fakeroot for package access
             '--bind', f'{work_path}:/workspace',
+            '--bind', f'{user_base}:/pip_install_base',  # Bind user packages location
             '--pwd', '/workspace',
-            '--env', 'PYTHONPATH=/workspace',
+            '--env', f'PYTHONPATH={python_path}',
+            '--env', 'PYTHONUSERBASE=/pip_install_base',  # Point to user packages
             str(self.image_path),
             'bash', '-c',
             f'pytest -v --tb=short --timeout={self.timeout} {cov_flags} test_fuzzing_generated.py 2>&1'
