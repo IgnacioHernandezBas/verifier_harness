@@ -86,8 +86,17 @@ class HypothesisTestGenerator:
         # Extract function signatures for better test generation
         function_signatures = self._extract_function_signatures(patched_code)
 
+        # Track function occurrences to avoid duplicate test names
+        function_occurrences = {}
+
         # Generate tests for each changed function
         for func_name in patch_analysis.changed_functions:
+            # Track occurrences for unique naming
+            if func_name not in function_occurrences:
+                function_occurrences[func_name] = 0
+            else:
+                function_occurrences[func_name] += 1
+                continue  # Skip duplicates - already tested this function
             func_sig = function_signatures.get(func_name, {'params': [], 'has_args': False, 'has_kwargs': False})
             class_name = patch_analysis.class_context.get(func_name) if patch_analysis.class_context else None
 
