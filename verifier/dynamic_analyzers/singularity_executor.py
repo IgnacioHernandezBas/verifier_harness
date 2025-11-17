@@ -143,8 +143,8 @@ class SingularityTestExecutor:
         work_path = work_path.resolve()
 
         # Determine if we should use coverage
-        # Skip coverage for internal modules (starting with _) to avoid conflicts
-        use_coverage = module_name and not module_name.startswith('_')
+        # Enable coverage for all valid module names (including underscore-prefixed)
+        use_coverage = bool(module_name)
 
         # Build coverage flags if needed
         if use_coverage:
@@ -161,12 +161,7 @@ class SingularityTestExecutor:
             '--env', 'PYTHONPATH=/workspace',
             str(self.image_path),
             'bash', '-c',
-            (
-                f'pytest -v --tb=short --timeout={self.timeout} {cov_flags} '
-                f'test_generated.py 2>&1 || '
-                f'pytest -v --tb=short --timeout={self.timeout} {cov_flags} '
-                f'test_fuzzing_generated.py 2>&1'
-            )
+            f'pytest -v --tb=short --timeout={self.timeout} {cov_flags} test_fuzzing_generated.py 2>&1'
         ]
 
         try:
