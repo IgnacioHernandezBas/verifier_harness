@@ -143,14 +143,18 @@ class SingularityTestExecutor:
         work_path = work_path.resolve()
 
         # Determine if we should use coverage
-        # Enable coverage for all valid module names (including underscore-prefixed)
-        use_coverage = bool(module_name)
+        # Skip coverage for pytest internals (_pytest.*) to avoid circular dependency conflicts
+        # pytest-cov cannot measure coverage of pytest's own modules while pytest is running
+        use_coverage = module_name and not module_name.startswith('_pytest')
 
         # Build coverage flags if needed
         if use_coverage:
             cov_flags = f'--cov={module_name} --cov-report=json --cov-report=term'
         else:
             cov_flags = ''
+            # Log why coverage is disabled for pytest internals
+            if module_name and module_name.startswith('_pytest'):
+                print(f"ℹ️  Coverage disabled for {module_name} (pytest internal module - would cause circular dependency)")
 
         # Execute in Singularity
         cmd = [
@@ -180,6 +184,11 @@ class SingularityTestExecutor:
                     coverage_data = json.loads(coverage_file.read_text())
                 except json.JSONDecodeError as e:
                     print(f"Warning: Failed to parse coverage.json: {e}")
+
+            # Mark when coverage was intentionally skipped
+            if not use_coverage and module_name and module_name.startswith('_pytest'):
+                coverage_data['_coverage_skipped'] = True
+                coverage_data['_skip_reason'] = f'pytest internal module ({module_name})'
 
             # Check if tests passed (pytest exit code 0 or 1 for test failures, not coverage)
             # Exit codes: 0=all passed, 1=tests failed, 2=interrupted, etc.
