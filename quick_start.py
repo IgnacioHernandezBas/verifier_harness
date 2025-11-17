@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 try:
     from verifier.dynamic_analyzers.patch_analyzer import PatchAnalyzer
     from verifier.dynamic_analyzers.test_generator import HypothesisTestGenerator
-    from verifier.dynamic_analyzers.singularity_executor import SingularityExecutor
+    from verifier.dynamic_analyzers.singularity_executor import SingularityTestExecutor
     from verifier.dynamic_analyzers.coverage_analyzer import CoverageAnalyzer
     print("✓ All modules imported successfully")
 except ImportError as e:
@@ -89,7 +89,7 @@ def test_single_instance(instance_id: str):
     try:
         patch_analyzer = PatchAnalyzer()
         test_generator = HypothesisTestGenerator()
-        executor = SingularityExecutor(str(container_path))
+        executor = SingularityTestExecutor(str(container_path))
         coverage_analyzer = CoverageAnalyzer()
         print("✓ All components initialized\n")
     except Exception as e:
