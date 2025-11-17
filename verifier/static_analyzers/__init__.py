@@ -1,6 +1,5 @@
 """Static code analysis modules."""
 
-from .code_quality import CodeQualityAnalyzer
-from .syntax_structure import SyntaxStructureAnalyzer
-
-__all__ = ['CodeQualityAnalyzer', 'SyntaxStructureAnalyzer']
+# Modules contain functions, not classes
+# Import the modules directly when needed:
+# from verifier.static_analyzers import code_quality, syntax_structure

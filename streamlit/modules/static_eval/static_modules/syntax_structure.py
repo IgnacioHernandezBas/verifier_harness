@@ -29,10 +29,17 @@ Syntax & Structure Analyzer
 import sys, os
 from pathlib import Path
 
-# Dynamically resolve project root (2 levels up from this file)
+# Dynamically resolve project root
 CURRENT_DIR = Path(__file__).resolve()
-PROJECT_ROOT = CURRENT_DIR.parents[2]  # verifier/static_analyzers → verifier → project root
-sys.path.append(str(PROJECT_ROOT))
+# From streamlit/modules/static_eval/static_modules -> go up to streamlit
+STREAMLIT_DIR = CURRENT_DIR.parents[3]  # Go up to streamlit directory
+if str(STREAMLIT_DIR) not in sys.path:
+    sys.path.insert(0, str(STREAMLIT_DIR))
+
+# Also add project root
+PROJECT_ROOT = CURRENT_DIR.parents[4]  # Project root
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from modules.loading.dataset_loader import DatasetLoader
 from modules.loading.patch_loader import PatchLoader

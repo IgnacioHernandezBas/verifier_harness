@@ -31,17 +31,47 @@ class HypothesisTestGenerator:
             Complete Python test file as a string
         """
         test_lines = [
-            "# Auto-generated tests for patch validation",
+            "# Auto-generated change-aware fuzzing tests for patch validation",
             "import pytest",
             "from hypothesis import given, strategies as st, settings",
             "from hypothesis import assume",
             "import sys",
             "from pathlib import Path",
             "",
-            "# Import the module under test",
-            "# This assumes the module is available in PYTHONPATH",
-            "",
         ]
+
+        # Add imports for the module/classes under test
+        if patch_analysis.module_path:
+            test_lines.append(f"# Import from patched module: {patch_analysis.module_path}")
+
+            # Group functions by their class context
+            class_based_funcs = {}
+            standalone_funcs = []
+
+            for func_name in patch_analysis.changed_functions:
+                class_name = patch_analysis.class_context.get(func_name) if patch_analysis.class_context else None
+                if class_name:
+                    if class_name not in class_based_funcs:
+                        class_based_funcs[class_name] = []
+                    class_based_funcs[class_name].append(func_name)
+                else:
+                    standalone_funcs.append(func_name)
+
+            # Import classes
+            for class_name in class_based_funcs.keys():
+                test_lines.append(f"from {patch_analysis.module_path} import {class_name}")
+
+            # Import standalone functions
+            if standalone_funcs:
+                funcs_str = ", ".join(standalone_funcs)
+                test_lines.append(f"from {patch_analysis.module_path} import {funcs_str}")
+
+            test_lines.append("")
+        else:
+            test_lines.extend([
+                "# NOTE: Module path not detected, tests may need manual import adjustment",
+                "",
+            ])
 
         # If no changed functions, generate a basic sanity test
         if not patch_analysis.changed_functions:
@@ -59,19 +89,20 @@ class HypothesisTestGenerator:
         # Generate tests for each changed function
         for func_name in patch_analysis.changed_functions:
             func_sig = function_signatures.get(func_name, {'params': [], 'has_args': False, 'has_kwargs': False})
+            class_name = patch_analysis.class_context.get(func_name) if patch_analysis.class_context else None
 
             # Generate different test types based on change types
             if patch_analysis.change_types.get('conditionals'):
-                test_lines.extend(self._generate_boundary_tests(func_name, func_sig))
+                test_lines.extend(self._generate_boundary_tests(func_name, func_sig, class_name))
 
             if patch_analysis.change_types.get('loops'):
-                test_lines.extend(self._generate_loop_tests(func_name, func_sig))
+                test_lines.extend(self._generate_loop_tests(func_name, func_sig, class_name))
 
             if patch_analysis.change_types.get('exceptions'):
-                test_lines.extend(self._generate_exception_tests(func_name, func_sig))
+                test_lines.extend(self._generate_exception_tests(func_name, func_sig, class_name))
 
             # Always generate general property test
-            test_lines.extend(self._generate_property_test(func_name, func_sig))
+            test_lines.extend(self._generate_property_test(func_name, func_sig, class_name))
 
         return '\n'.join(test_lines)
 
@@ -106,7 +137,7 @@ class HypothesisTestGenerator:
 
         return signatures
 
-    def _generate_boundary_tests(self, func_name: str, func_sig: Dict) -> List[str]:
+    def _generate_boundary_tests(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate tests for boundary conditions"""
         param_count = func_sig.get('param_count', 2)
 
@@ -137,7 +168,7 @@ class HypothesisTestGenerator:
             f"",
         ]
 
-    def _generate_loop_tests(self, func_name: str, func_sig: Dict) -> List[str]:
+    def _generate_loop_tests(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate tests for loop edge cases"""
         param_count = func_sig.get('param_count', 1)
 
@@ -159,7 +190,7 @@ class HypothesisTestGenerator:
             f"",
         ]
 
-    def _generate_exception_tests(self, func_name: str, func_sig: Dict) -> List[str]:
+    def _generate_exception_tests(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate tests that should trigger exceptions"""
         param_count = func_sig.get('param_count', 1)
 
@@ -180,11 +211,24 @@ class HypothesisTestGenerator:
             f"",
         ]
 
-    def _generate_property_test(self, func_name: str, func_sig: Dict) -> List[str]:
-        """Generate general property-based test"""
-        param_count = func_sig.get('param_count', 2)
+    def _generate_property_test(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
+        """Generate general property-based test for standalone function or class method"""
+        param_count = func_sig.get('param_count', 0)
 
-        # Generate appropriate strategies
+        # For class methods, we need to instantiate the class first
+        # For now, we'll skip testing class methods with Hypothesis since we don't know constructor args
+        if class_name:
+            return [
+                f"def test_{func_name}_exists():",
+                f'    """Verify {class_name}.{func_name} exists and is callable"""',
+                f"    assert hasattr({class_name}, '{func_name}'), '{class_name} should have {func_name} method'",
+                f"    # Note: Full property-based testing of methods requires instance creation",
+                f"    # which is complex without knowing constructor requirements",
+                f"",
+                f"",
+            ]
+
+        # Generate appropriate strategies for standalone functions
         if param_count == 0:
             strategies = ""
             args = ""

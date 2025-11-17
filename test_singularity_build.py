@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     try:
         image_path = build_singularity_image(
-            image_path="/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+            image_path="/fs/nexus-scratch/ihbas/.containers/singularity/verifier-swebench.sif",
             python_version="3.11",
             force_rebuild=False,  # Set to True to force rebuild
         )

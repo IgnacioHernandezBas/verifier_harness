@@ -123,9 +123,9 @@ echo "Step 5: Verifying installation..."
 python -c "
 import sys
 try:
-    from verifier.static_analyzers import CodeQualityAnalyzer
-    from verifier.dynamic_analyzers import PatchAnalyzer
-    from swebench_integration import dataset_loader
+    from verifier.static_analyzers import code_quality, syntax_structure
+    from verifier.dynamic_analyzers import patch_analyzer, test_patch_singularity
+    from swebench_integration import DatasetLoader, PatchLoader
     print('✓ Core modules importable')
 except ImportError as e:
     print(f'✗ Import error: {e}')

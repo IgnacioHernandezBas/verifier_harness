@@ -32,12 +32,11 @@ def test_patch_analyzer():
     print("TEST 1: Patch Analyzer")
     print("="*80)
 
-    patch_diff = """
---- a/math_utils.py
+    patch_diff = """--- a/math_utils.py
 +++ b/math_utils.py
 @@ -5,10 +5,15 @@ def divide(a, b):
      Divide two numbers.
-     """
+     '''
 +    if b == 0:
 +        raise ValueError("Cannot divide by zero")
      return a / b
@@ -216,8 +215,7 @@ def test_full_pipeline():
 
     patch_data = {
         'id': 'test-math-utils-001',
-        'diff': """
---- a/math_utils.py
+        'diff': """--- a/math_utils.py
 +++ b/math_utils.py
 @@ -5,6 +5,8 @@ def divide(a, b):
 +    if b == 0:

@@ -22,8 +22,9 @@ from verifier.dynamic_analyzers.patch_analyzer import PatchAnalyzer
 from verifier.dynamic_analyzers.test_generator import HypothesisTestGenerator
 from verifier.dynamic_analyzers.singularity_executor import SingularityTestExecutor
 from verifier.dynamic_analyzers.coverage_analyzer import CoverageAnalyzer
-from verifier.static_analyzers.code_quality import CodeQualityAnalyzer
-from verifier.static_analyzers.syntax_structure import SyntaxAnalyzer
+# Import static analyzers from streamlit modules
+import streamlit.modules.static_eval.static_modules.code_quality as code_quality
+import streamlit.modules.static_eval.static_modules.syntax_structure as syntax_structure
 
 
 class EvaluationPipeline:
@@ -39,7 +40,7 @@ class EvaluationPipeline:
 
     def __init__(
         self,
-        singularity_image_path: str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+        singularity_image_path: str = "/fs/nexus-scratch/ihbas/.containers/singularity/verifier-swebench.sif",
         enable_static: bool = True,
         enable_fuzzing: bool = True,
         fuzzing_timeout: int = 120,
@@ -59,9 +60,9 @@ class EvaluationPipeline:
         """
         # Static analysis components
         self.enable_static = enable_static
-        if enable_static:
-            self.code_quality = CodeQualityAnalyzer()
-            self.syntax_analyzer = SyntaxAnalyzer()
+        # Static analyzers are now functional modules from streamlit section
+        self.code_quality_module = code_quality
+        self.syntax_structure_module = syntax_structure
 
         # Dynamic fuzzing components
         self.enable_fuzzing = enable_fuzzing
@@ -197,23 +198,63 @@ class EvaluationPipeline:
         return result
 
     def _run_static_verification(self, patch_data: Dict) -> Dict:
-        """Run static code quality analysis"""
-        patched_code = patch_data.get('patched_code', '')
+        """Run static code quality analysis using streamlit modules"""
+        diff = patch_data.get('diff', '')
+        repo_path = patch_data.get('repo_path')
 
-        # Code quality metrics
-        quality_result = self.code_quality.analyze(patched_code)
+        if not repo_path:
+            return {
+                'sqi_score': 0.0,
+                'error': 'No repository path provided for static analysis'
+            }
 
-        # Syntax structure analysis
-        syntax_result = self.syntax_analyzer.analyze(patched_code)
-
-        # Combine results into SQI (Static Quality Index)
-        sqi_score = self._calculate_sqi(quality_result, syntax_result)
-
-        return {
-            'sqi_score': sqi_score,
-            'quality_metrics': quality_result,
-            'syntax_metrics': syntax_result
+        # Default configuration for all tools
+        config = {
+            'checks': {
+                'pylint': True,
+                'flake8': True,
+                'radon': True,
+                'mypy': True,
+                'bandit': True,
+            },
+            'weights': {
+                'pylint': 0.5,
+                'flake8': 0.15,
+                'radon': 0.25,
+                'mypy': 0.05,
+                'bandit': 0.05,
+            }
         }
+
+        try:
+            # Run code quality analysis
+            cq_results = self.code_quality_module.analyze(
+                repo_path=str(repo_path),
+                patch_str=diff,
+                config=config
+            )
+
+            # Run syntax & structure analysis
+            ss_results = self.syntax_structure_module.run_syntax_structure_analysis(
+                repo_path=str(repo_path),
+                diff_text=diff
+            )
+
+            # Extract SQI score (normalized to 0-1 from 0-100)
+            sqi_score = cq_results.get('sqi', {}).get('SQI', 0.0) / 100.0
+
+            return {
+                'sqi_score': sqi_score,
+                'sqi_classification': cq_results.get('sqi', {}).get('classification', 'Unknown'),
+                'code_quality': cq_results,
+                'syntax_structure': ss_results,
+            }
+        except Exception as e:
+            print(f"  ✗ Static analysis error: {e}")
+            return {
+                'sqi_score': 0.0,
+                'error': str(e)
+            }
 
     def _calculate_sqi(self, quality_result: Dict, syntax_result: Dict) -> float:
         """
