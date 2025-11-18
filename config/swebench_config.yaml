@@ -1,0 +1,142 @@
+# SWE-bench Singularity Runner Configuration
+
+# Docker Registry Settings
+docker:
+  # Primary registry for SWE-bench images
+  # Official SWE-bench uses: aorwall/swe-bench-<repo>
+  registry: "docker.io"
+
+  # Image naming patterns (in priority order)
+  # {repo} = repository name (e.g., "pytest", "django")
+  # {instance_id} = full instance ID (e.g., "django__django-12345")
+  # {version} = version extracted from instance_id (e.g., "12345")
+  image_patterns:
+    - "aorwall/swe-bench-{repo}:{instance_id}"
+    - "swebench/{repo}:{instance_id}"
+    - "ghcr.io/swe-bench/{repo}:{instance_id}"
+    - "aorwall/swe-bench-{repo}:{version}"
+
+  # Timeout for pulling Docker images (seconds)
+  pull_timeout: 600
+
+  # Retry settings
+  max_retries: 3
+  retry_delay: 5  # seconds
+
+# Singularity Settings
+singularity:
+  # Cache directory for .sif files
+  cache_dir: "/fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache"
+
+  # Temporary directory for builds
+  tmp_dir: "/fs/nexus-scratch/ihbas/.singularity_tmp"
+
+  # Cache directory for Singularity's internal cache
+  cache_internal_dir: "/fs/nexus-scratch/ihbas/.singularity_cache"
+
+  # Build timeout (seconds) - Docker image conversion can take time
+  build_timeout: 1800  # 30 minutes
+
+  # Whether to use --fakeroot flag (for rootless builds)
+  use_fakeroot: true
+
+  # Cleanup old .sif files after N days
+  cleanup_after_days: 30
+
+  # Maximum cache size in GB (0 = unlimited)
+  max_cache_size_gb: 100
+
+  # Naming convention for .sif files
+  # {instance_id} = full instance ID
+  # {repo} = repository name
+  sif_naming: "{instance_id}.sif"
+
+# Execution Settings
+execution:
+  # Default timeout for test execution (seconds)
+  test_timeout: 300  # 5 minutes
+
+  # Number of pytest workers for parallel execution
+  pytest_workers: 4
+
+  # Bind paths for Singularity containers
+  bind_paths:
+    - "/fs/nexus-scratch/ihbas/.local:/home/user/.local"
+    - "/tmp:/tmp"
+
+  # Environment variables to set in container
+  environment:
+    PYTHONPATH: "/workspace"
+    COVERAGE_CORE: "sysmon"
+
+  # Use writable-tmpfs for package installation
+  use_writable_tmpfs: true
+
+# Repository Mapping
+# Maps repository names to their Docker Hub repositories
+repo_mapping:
+  "pytest-dev/pytest": "pytest"
+  "django/django": "django"
+  "scikit-learn/scikit-learn": "scikit-learn"
+  "matplotlib/matplotlib": "matplotlib"
+  "pallets/flask": "flask"
+  "psf/requests": "requests"
+  "pylint-dev/pylint": "pylint"
+  "sphinx-doc/sphinx": "sphinx"
+  "sympy/sympy": "sympy"
+  "mwaskom/seaborn": "seaborn"
+  "pydata/xarray": "xarray"
+  "astropy/astropy": "astropy"
+
+# Logging Settings
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+
+  # Log file location (null for console only)
+  file: "swebench_singularity.log"
+
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+  # Whether to also log to console
+  console: true
+
+# Cache Management
+cache:
+  # Enable caching of .sif files
+  enabled: true
+
+  # Check if cached .sif is outdated (compares with Docker image)
+  check_updates: false
+
+  # Organize cache by repository subdirectories
+  organize_by_repo: true
+
+  # Create symlinks for easier access
+  create_symlinks: false
+
+# Parallel Execution
+parallel:
+  # Maximum number of parallel instances
+  max_workers: 10
+
+  # Chunk size for batch processing
+  chunk_size: 5
+
+  # Whether to fail fast on first error
+  fail_fast: false
+
+# Integration with existing pipeline
+integration:
+  # Use existing change-aware fuzzing
+  enable_fuzzing: true
+
+  # Use existing static analyzers
+  enable_static_analysis: true
+
+  # Results directory
+  results_dir: "results/swebench_singularity"
+
+  # Whether to save detailed logs per instance
+  save_instance_logs: true
