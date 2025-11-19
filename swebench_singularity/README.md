@@ -253,11 +253,56 @@ except Exception as e:
     logger.error(f"Unexpected error: {e}")
 ```
 
+## Docker Authentication
+
+When building Singularity containers from Docker Hub, authentication may be required. The system handles this automatically:
+
+### Automatic Docker Authentication (Recommended)
+
+If Docker is installed and configured on your system:
+
+```bash
+# Login to Docker Hub once
+docker login
+
+# The system will automatically use your credentials
+python run_swebench_instance.py pytest-dev__pytest-7490
+```
+
+The builder will:
+1. Detect that Docker is available
+2. Use `docker pull` to download the image (with your credentials)
+3. Convert the local image to Singularity format
+
+### Without Docker
+
+If Docker is not available, Singularity will attempt to pull directly. You can provide credentials via environment variables:
+
+```bash
+export SINGULARITY_DOCKER_USERNAME="your-username"
+export SINGULARITY_DOCKER_PASSWORD="your-password"
+
+python run_swebench_instance.py pytest-dev__pytest-7490
+```
+
+### Troubleshooting Authentication
+
+If you see authentication errors:
+
+```
+UNAUTHORIZED: authentication required
+```
+
+Solutions:
+1. **Best option**: Install Docker and run `docker login`
+2. Set environment variables (see above)
+3. Use Docker credential helpers (see Docker documentation)
+
 ## Configuration Options
 
 See `config/swebench_config.yaml` for all options:
 
-- **docker**: Docker registry and image patterns
+- **docker**: Docker registry, image patterns, and pull timeout
 - **singularity**: Build settings and cache paths
 - **execution**: Test execution parameters
 - **parallel**: Parallel processing settings
