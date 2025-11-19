@@ -57,24 +57,26 @@ class SingularityBuilder:
         self._setup_environment()
 
     def _setup_environment(self):
-        """Setup environment variables for Singularity."""
-        # Set temporary directory
+        """Setup environment variables for Singularity/Apptainer."""
+        # Set temporary directory (both SINGULARITY and APPTAINER variants)
         tmp_dir = str(self.config.singularity_tmp_dir)
         os.environ["SINGULARITY_TMPDIR"] = tmp_dir
+        os.environ["APPTAINER_TMPDIR"] = tmp_dir
         os.environ["TMPDIR"] = tmp_dir
 
-        # Set cache directory
+        # Set cache directory (both SINGULARITY and APPTAINER variants)
         cache_dir = str(self.config.singularity_cache_internal_dir)
         os.environ["SINGULARITY_CACHEDIR"] = cache_dir
+        os.environ["APPTAINER_CACHEDIR"] = cache_dir
 
-        logger.debug(f"Singularity environment: TMPDIR={tmp_dir}, CACHEDIR={cache_dir}")
+        logger.debug(f"Singularity/Apptainer environment: TMPDIR={tmp_dir}, CACHEDIR={cache_dir}")
 
     def _get_docker_credentials(self, registry: str = "docker.io") -> Optional[Tuple[str, str]]:
         """
         Get Docker credentials from various sources.
 
         Tries in order:
-        1. Environment variables (SINGULARITY_DOCKER_USERNAME/PASSWORD or DOCKER_USERNAME/PASSWORD)
+        1. Environment variables (APPTAINER_DOCKER_USERNAME/PASSWORD, SINGULARITY_DOCKER_USERNAME/PASSWORD, or DOCKER_USERNAME/PASSWORD)
         2. Config file settings
         3. Docker config file (~/.docker/config.json)
 
@@ -84,7 +86,14 @@ class SingularityBuilder:
         Returns:
             Tuple of (username, password) if found, None otherwise
         """
-        # 1. Check environment variables (Singularity-specific)
+        # 1. Check environment variables (Apptainer-specific - preferred)
+        username = os.environ.get("APPTAINER_DOCKER_USERNAME")
+        password = os.environ.get("APPTAINER_DOCKER_PASSWORD")
+        if username and password:
+            logger.debug("Using Docker credentials from APPTAINER_DOCKER_* environment variables")
+            return (username, password)
+
+        # Check Singularity-specific variables (for backward compatibility)
         username = os.environ.get("SINGULARITY_DOCKER_USERNAME")
         password = os.environ.get("SINGULARITY_DOCKER_PASSWORD")
         if username and password:
@@ -158,26 +167,39 @@ class SingularityBuilder:
 
     def _setup_docker_auth_env(self):
         """
-        Setup environment variables for Docker authentication with Singularity.
+        Setup environment variables for Docker authentication with Singularity/Apptainer.
 
-        This ensures Singularity can authenticate to Docker Hub even without Docker installed.
+        This ensures Singularity/Apptainer can authenticate to Docker Hub even without Docker installed.
         """
-        # Check if credentials are already set
-        if "SINGULARITY_DOCKER_USERNAME" in os.environ and "SINGULARITY_DOCKER_PASSWORD" in os.environ:
-            logger.debug("Singularity Docker credentials already set in environment")
+        # Check if credentials are already set (check both SINGULARITY and APPTAINER variants)
+        singularity_creds_set = "SINGULARITY_DOCKER_USERNAME" in os.environ and "SINGULARITY_DOCKER_PASSWORD" in os.environ
+        apptainer_creds_set = "APPTAINER_DOCKER_USERNAME" in os.environ and "APPTAINER_DOCKER_PASSWORD" in os.environ
+
+        if singularity_creds_set or apptainer_creds_set:
+            logger.debug("Docker credentials already set in environment")
+            # Ensure both variants are set for compatibility
+            if singularity_creds_set and not apptainer_creds_set:
+                os.environ["APPTAINER_DOCKER_USERNAME"] = os.environ["SINGULARITY_DOCKER_USERNAME"]
+                os.environ["APPTAINER_DOCKER_PASSWORD"] = os.environ["SINGULARITY_DOCKER_PASSWORD"]
+            elif apptainer_creds_set and not singularity_creds_set:
+                os.environ["SINGULARITY_DOCKER_USERNAME"] = os.environ["APPTAINER_DOCKER_USERNAME"]
+                os.environ["SINGULARITY_DOCKER_PASSWORD"] = os.environ["APPTAINER_DOCKER_PASSWORD"]
             return
 
         # Try to get credentials
         creds = self._get_docker_credentials()
         if creds:
             username, password = creds
+            # Set both SINGULARITY and APPTAINER variants for compatibility
             os.environ["SINGULARITY_DOCKER_USERNAME"] = username
             os.environ["SINGULARITY_DOCKER_PASSWORD"] = password
-            logger.info("Docker credentials configured for Singularity authentication")
+            os.environ["APPTAINER_DOCKER_USERNAME"] = username
+            os.environ["APPTAINER_DOCKER_PASSWORD"] = password
+            logger.info("Docker credentials configured for Singularity/Apptainer authentication")
         else:
             logger.warning(
                 "No Docker credentials found. Pulls from Docker Hub may fail with authentication errors. "
-                "To fix this, set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables."
+                "To fix this, set APPTAINER_DOCKER_USERNAME and APPTAINER_DOCKER_PASSWORD (or SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD) environment variables."
             )
 
     def check_docker_available(self) -> bool:
@@ -355,7 +377,8 @@ class SingularityBuilder:
                     error_msg += (
                         "\n\nDocker Hub authentication required. Please either:\n"
                         "  1. Run 'docker login' to authenticate with Docker Hub, or\n"
-                        "  2. Set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables\n"
+                        "  2. Set APPTAINER_DOCKER_USERNAME and APPTAINER_DOCKER_PASSWORD environment variables\n"
+                        "     (or SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD for backward compatibility)\n"
                         "Note: Docker authentication is recommended as it provides better reliability."
                     )
 
@@ -515,7 +538,8 @@ class SingularityBuilder:
                     error_msg += (
                         "\n\nDocker Hub authentication required. Please either:\n"
                         "  1. Run 'docker login' to authenticate with Docker Hub, or\n"
-                        "  2. Set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables\n"
+                        "  2. Set APPTAINER_DOCKER_USERNAME and APPTAINER_DOCKER_PASSWORD environment variables\n"
+                        "     (or SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD for backward compatibility)\n"
                         "Note: Docker authentication is recommended as it provides better reliability."
                     )
 

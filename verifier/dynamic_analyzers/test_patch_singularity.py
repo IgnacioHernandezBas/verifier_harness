@@ -186,100 +186,68 @@ def install_package_in_singularity(
             "installed": False,
         }
 
-    print(f"📦 Installing package and dependencies in: {repo_path}")
+    print(f"📦 Preparing package for testing in: {repo_path}")
     print(f"   Setup files found: setup.py={has_setup_py}, pyproject.toml={has_pyproject_toml}, setup.cfg={has_setup_cfg}")
 
-    # Set up user base for installations
-    user_base = Path("/fs/nexus-scratch/ihbas/.local")
-    user_base.mkdir(parents=True, exist_ok=True)
+    # For SWE-bench containers, copy pre-built C extensions from /testbed instead of building
+    # This avoids Cython version compatibility issues
+    print(f"   Copying pre-built C extensions from container...")
 
-    # Strategy: Try to install the package in editable mode
-    # If it fails (e.g., due to C extension compilation issues), fall back to PYTHONPATH-only mode
-    print(f"   Attempting editable install...")
-
-    # First install common build dependencies (like setuptools-scm for pytest)
-    build_deps_cmd = [
+    copy_cmd = [
         "singularity",
         "exec",
-        "--fakeroot",
-        "--bind", f"{str(user_base)}:/pip_install_base",
-        "--env", "PYTHONUSERBASE=/pip_install_base",
-        str(image_path),
-        "pip", "install", "--user", "setuptools-scm[toml]>=6.2", "setuptools>=45"
-    ]
-
-    print(f"   Installing build dependencies...")
-    build_deps_proc = subprocess.run(build_deps_cmd, capture_output=True, text=True, timeout=120)
-
-    # For packages using setuptools-scm (like pytest), we need to ensure git can read the repo
-    # Set up git config to mark the workspace as safe (needed when running as fakeroot)
-    git_config_cmd = [
-        "singularity",
-        "exec",
-        "--fakeroot",
         "--bind", f"{str(repo_path)}:/workspace",
-        "--pwd", "/workspace",
         str(image_path),
-        "git", "config", "--global", "--add", "safe.directory", "/workspace"
+        "bash", "-c",
+        "find /testbed -name '*.so' 2>/dev/null | while read f; do "
+        "rel=$(echo $f | sed 's|/testbed/||'); "
+        "mkdir -p /workspace/$(dirname $rel) 2>/dev/null; "
+        "cp $f /workspace/$rel 2>/dev/null || true; "
+        "done"
     ]
 
-    print(f"   Configuring git for build...")
-    subprocess.run(git_config_cmd, capture_output=True, text=True, timeout=30)
+    copy_proc = subprocess.run(copy_cmd, capture_output=True, text=True, timeout=60)
 
-    # Try to unshallow the git repo to get tags for setuptools-scm
-    # This is needed because repos are cloned with --depth 1
-    unshallow_cmd = [
-        "singularity",
-        "exec",
-        "--fakeroot",
-        "--bind", f"{str(repo_path)}:/workspace",
-        "--pwd", "/workspace",
-        str(image_path),
-        "bash", "-c", "git fetch --unshallow 2>/dev/null || git fetch --tags || true"
-    ]
+    if copy_proc.returncode == 0:
+        # Count .so files to verify
+        count_result = subprocess.run(
+            ["find", str(repo_path), "-name", "*.so"],
+            capture_output=True,
+            text=True
+        )
+        so_count = len(count_result.stdout.strip().split('\n')) if count_result.stdout.strip() else 0
 
-    print(f"   Fetching git tags for version detection...")
-    subprocess.run(unshallow_cmd, capture_output=True, text=True, timeout=60)
+        if so_count > 0:
+            print(f"✅ Successfully copied {so_count} pre-built C extension files")
+            return {
+                "returncode": 0,
+                "stdout": f"Copied {so_count} .so files from /testbed",
+                "stderr": "",
+                "installed": True,
+                "attempted": True,
+                "build_method": "copy_from_testbed",
+            }
+        else:
+            print(f"ℹ️  No C extensions found (pure Python package)")
+            return {
+                "returncode": 0,
+                "stdout": "No C extensions to copy (pure Python package)",
+                "stderr": "",
+                "installed": False,
+                "attempted": True,
+                "pythonpath_mode": True,
+            }
 
-    install_cmd = [
-        "singularity",
-        "exec",
-        "--fakeroot",
-        "--bind", f"{str(repo_path)}:/workspace",
-        "--bind", f"{str(user_base)}:/pip_install_base",
-        "--pwd", "/workspace",
-        "--env", "PYTHONUSERBASE=/pip_install_base",
-        str(image_path),
-        "pip", "install", "--user", "-e", "."
-    ]
-
-    proc = subprocess.run(install_cmd, capture_output=True, text=True, timeout=300)
-
-    if proc.returncode == 0:
-        print(f"✅ Package installed successfully in editable mode")
-        return {
-            "returncode": 0,
-            "stdout": proc.stdout,
-            "stderr": proc.stderr,
-            "installed": True,
-            "attempted": True,
-        }
-    else:
-        # Installation failed - this is OK for packages with C extensions
-        # Use PYTHONPATH-only mode (package source will be importable directly)
-        print(f"ℹ️  Editable install not possible (will use PYTHONPATH mode)")
-        print(f"   This is normal for packages with C extensions or complex build requirements")
-
-        # The package source will be accessible via PYTHONPATH
-        # No additional installation needed
-        return {
-            "returncode": 0,
-            "stdout": proc.stdout,
-            "stderr": proc.stderr,
-            "installed": False,  # Not installed, but will work via PYTHONPATH
-            "attempted": True,
-            "pythonpath_mode": True,
-        }
+    # If copy failed, package might not need installation or /testbed doesn't exist
+    print(f"ℹ️  No pre-built extensions available (will use PYTHONPATH mode)")
+    return {
+        "returncode": 0,
+        "stdout": "No pre-built extensions available",
+        "stderr": "",
+        "installed": False,
+        "attempted": True,
+        "pythonpath_mode": True,
+    }
 
 
 def run_tests_in_singularity(
@@ -315,15 +283,43 @@ def run_tests_in_singularity(
     if not image_path.exists():
         raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
 
-    # Build environment variables
-    # PYTHONPATH allows import from workspace even without installation
-    # Check if there's a lib subdirectory (common in many Python projects like matplotlib)
+    # Check if C extensions already exist (from install_package_in_singularity)
+    # If not, copy pre-built .so files from container's /testbed
+    so_count = len(list(repo_path.glob("**/*.so")))
+
+    if so_count == 0:
+        print("📦 Copying pre-built C extensions from container...")
+        copy_cmd = [
+            "singularity",
+            "exec",
+            "--bind", f"{str(repo_path)}:/workspace",
+            str(image_path),
+            "bash", "-c",
+            "find /testbed -name '*.so' 2>/dev/null | while read f; do "
+            "rel=$(echo $f | sed 's|/testbed/||'); "
+            "mkdir -p /workspace/$(dirname $rel) 2>/dev/null; "
+            "cp $f /workspace/$rel 2>/dev/null || true; "
+            "done"
+        ]
+
+        copy_proc = subprocess.run(copy_cmd, capture_output=True, text=True, timeout=60)
+        if copy_proc.returncode == 0:
+            print("✓ C extensions copied")
+        else:
+            print("ℹ️  Could not copy C extensions (may not be needed)")
+    else:
+        print(f"ℹ️  Using existing C extensions ({so_count} files)")
+
+    # Build environment variables for testbed Python
+    # PYTHONPATH allows import from workspace
     if (repo_path / "lib").exists() and (repo_path / "lib").is_dir():
         python_path = "/workspace/lib:/workspace"
     else:
         python_path = "/workspace"
 
-    env_dict = {"PYTHONPATH": python_path}
+    env_dict = {
+        "PYTHONPATH": python_path,
+    }
     if extra_env:
         env_dict.update(extra_env)
 
@@ -335,27 +331,19 @@ def run_tests_in_singularity(
     # If no specific tests are given, run full suite
     test_args = tests or []
 
-    # Bind the same user base location used during installation
-    # so that installed packages are accessible
-    user_base = Path("/fs/nexus-scratch/ihbas/.local")
-
-    # Add PYTHONUSERBASE to environment so Python can find the installed packages
-    env_dict["PYTHONUSERBASE"] = "/pip_install_base"
-
-    # Rebuild env_args with the updated environment
-    env_args = []
-    for k, v in env_dict.items():
-        env_args.extend(["--env", f"{k}={v}"])
+    # Use the container's testbed Python environment which has pytest pre-installed
+    # This is the standard SWE-bench environment at /opt/miniconda3/envs/testbed
+    python_path_in_container = "/opt/miniconda3/envs/testbed/bin/python"
 
     cmd = [
         "singularity",
         "exec",
-        "--fakeroot",  # Use same fakeroot as installation so packages are found
         "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
-        "--bind", f"{str(user_base)}:/pip_install_base",  # Bind user packages location
         "--pwd", "/workspace",  # Set working directory
         *env_args,
         str(image_path),
+        python_path_in_container,
+        "-m",
         "pytest",
         "-q",
         *test_args,
