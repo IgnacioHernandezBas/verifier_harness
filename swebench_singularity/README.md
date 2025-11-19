@@ -255,9 +255,9 @@ except Exception as e:
 
 ## Docker Authentication
 
-When building Singularity containers from Docker Hub, authentication may be required. The system handles this automatically:
+When building Singularity containers from Docker Hub, authentication may be required to avoid rate limits and access private repositories.
 
-### Automatic Docker Authentication (Recommended)
+### Option 1: With Docker Available (Workstations)
 
 If Docker is installed and configured on your system:
 
@@ -274,29 +274,130 @@ The builder will:
 2. Use `docker pull` to download the image (with your credentials)
 3. Convert the local image to Singularity format
 
-### Without Docker
+### Option 2: Without Docker (HPC/Cluster Environments)
 
-If Docker is not available, Singularity will attempt to pull directly. You can provide credentials via environment variables:
+**This is the recommended approach for cluster environments where Docker is not available.**
+
+The system automatically looks for credentials in multiple locations:
+
+#### Method A: Environment Variables (Recommended for Clusters)
+
+Set these in your shell or job script:
 
 ```bash
 export SINGULARITY_DOCKER_USERNAME="your-username"
 export SINGULARITY_DOCKER_PASSWORD="your-password"
 
+# Now run your scripts
 python run_swebench_instance.py pytest-dev__pytest-7490
 ```
+
+Or add to your `~/.bashrc` or job script:
+
+```bash
+# In ~/.bashrc
+export SINGULARITY_DOCKER_USERNAME="your-dockerhub-username"
+export SINGULARITY_DOCKER_PASSWORD="your-dockerhub-password"
+
+# Then source it
+source ~/.bashrc
+```
+
+#### Method B: Docker Config File
+
+If you have a `~/.docker/config.json` file (even without Docker installed), the system will read credentials from it:
+
+```bash
+# Create the config directory
+mkdir -p ~/.docker
+
+# Create a config file with your credentials
+cat > ~/.docker/config.json << 'EOF'
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "auth": "<base64-encoded-username:password>"
+    }
+  }
+}
+EOF
+
+# To generate the auth string:
+echo -n "your-username:your-password" | base64
+```
+
+#### Method C: Configuration File
+
+Add credentials to your `config/swebench_config.yaml`:
+
+```yaml
+docker:
+  username: "your-username"
+  password: "your-password"  # Or use environment variable substitution
+  registry: "docker.io"
+```
+
+**Note**: For security, it's better to use environment variables rather than storing passwords in config files.
+
+### Credential Priority
+
+The system checks for credentials in this order:
+1. `SINGULARITY_DOCKER_USERNAME` / `SINGULARITY_DOCKER_PASSWORD` environment variables
+2. `DOCKER_USERNAME` / `DOCKER_PASSWORD` environment variables
+3. Config file (`docker.username` / `docker.password`)
+4. `~/.docker/config.json` file
+
+### Getting Docker Hub Credentials
+
+If you don't have a Docker Hub account:
+
+1. Go to https://hub.docker.com/signup
+2. Create a free account
+3. Use your username and password as credentials
+
+Free accounts provide:
+- 200 container pulls per 6 hours (authenticated)
+- vs. 100 pulls per 6 hours (anonymous)
 
 ### Troubleshooting Authentication
 
 If you see authentication errors:
 
 ```
-UNAUTHORIZED: authentication required
+FATAL: UNAUTHORIZED: authentication required
 ```
 
-Solutions:
-1. **Best option**: Install Docker and run `docker login`
-2. Set environment variables (see above)
-3. Use Docker credential helpers (see Docker documentation)
+**Solutions:**
+
+1. **For clusters/HPC**: Set environment variables
+   ```bash
+   export SINGULARITY_DOCKER_USERNAME="your-username"
+   export SINGULARITY_DOCKER_PASSWORD="your-password"
+   ```
+
+2. **For workstations**: Install Docker and run `docker login`
+
+3. **Verify credentials are loaded**:
+   ```bash
+   # Check if environment variables are set
+   echo $SINGULARITY_DOCKER_USERNAME
+
+   # Check if config file exists
+   ls -la ~/.docker/config.json
+   ```
+
+4. **Test authentication**:
+   ```bash
+   # Try to pull directly with Singularity
+   singularity pull docker://alpine:latest
+   ```
+
+### Security Best Practices
+
+- Use environment variables instead of storing passwords in files
+- On shared systems, use job-specific environment variables
+- Consider using access tokens instead of passwords (Docker Hub → Account Settings → Security → Access Tokens)
+- Never commit credentials to version control
 
 ## Configuration Options
 

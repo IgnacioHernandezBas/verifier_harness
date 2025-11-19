@@ -9,8 +9,10 @@ import os
 import subprocess
 import logging
 import time
+import json
+import base64
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Tuple
 from dataclasses import dataclass
 
 from .config import Config
@@ -66,6 +68,117 @@ class SingularityBuilder:
         os.environ["SINGULARITY_CACHEDIR"] = cache_dir
 
         logger.debug(f"Singularity environment: TMPDIR={tmp_dir}, CACHEDIR={cache_dir}")
+
+    def _get_docker_credentials(self, registry: str = "docker.io") -> Optional[Tuple[str, str]]:
+        """
+        Get Docker credentials from various sources.
+
+        Tries in order:
+        1. Environment variables (SINGULARITY_DOCKER_USERNAME/PASSWORD or DOCKER_USERNAME/PASSWORD)
+        2. Config file settings
+        3. Docker config file (~/.docker/config.json)
+
+        Args:
+            registry: Registry to get credentials for (default: docker.io)
+
+        Returns:
+            Tuple of (username, password) if found, None otherwise
+        """
+        # 1. Check environment variables (Singularity-specific)
+        username = os.environ.get("SINGULARITY_DOCKER_USERNAME")
+        password = os.environ.get("SINGULARITY_DOCKER_PASSWORD")
+        if username and password:
+            logger.debug("Using Docker credentials from SINGULARITY_DOCKER_* environment variables")
+            return (username, password)
+
+        # Also check generic Docker environment variables
+        username = os.environ.get("DOCKER_USERNAME")
+        password = os.environ.get("DOCKER_PASSWORD")
+        if username and password:
+            logger.debug("Using Docker credentials from DOCKER_* environment variables")
+            return (username, password)
+
+        # 2. Check config file
+        config_username = self.config.get("docker.username")
+        config_password = self.config.get("docker.password")
+        if config_username and config_password:
+            logger.debug("Using Docker credentials from config file")
+            return (config_username, config_password)
+
+        # 3. Try to read from Docker config file
+        docker_config_path = Path.home() / ".docker" / "config.json"
+        if docker_config_path.exists():
+            try:
+                with open(docker_config_path, 'r') as f:
+                    docker_config = json.load(f)
+
+                # Check for auths section with encoded credentials
+                auths = docker_config.get("auths", {})
+
+                # Normalize registry name (docker.io can appear in different forms)
+                registry_variants = [
+                    registry,
+                    f"https://{registry}",
+                    f"https://index.{registry}",
+                    "https://index.docker.io/v1/",
+                ]
+
+                for reg_variant in registry_variants:
+                    if reg_variant in auths:
+                        auth_entry = auths[reg_variant]
+
+                        # Check for auth field (base64 encoded username:password)
+                        if "auth" in auth_entry:
+                            try:
+                                decoded = base64.b64decode(auth_entry["auth"]).decode("utf-8")
+                                if ":" in decoded:
+                                    username, password = decoded.split(":", 1)
+                                    logger.debug(f"Using Docker credentials from {docker_config_path}")
+                                    return (username, password)
+                            except Exception as e:
+                                logger.debug(f"Failed to decode auth from docker config: {e}")
+
+                        # Check for username/password fields (less common)
+                        if "username" in auth_entry and "password" in auth_entry:
+                            logger.debug(f"Using Docker credentials from {docker_config_path}")
+                            return (auth_entry["username"], auth_entry["password"])
+
+                # Check for credHelpers or credsStore (we can't use these directly in cluster env)
+                if "credHelpers" in docker_config or "credsStore" in docker_config:
+                    logger.warning(
+                        "Docker config uses credential helpers which are not accessible. "
+                        "Please set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD "
+                        "environment variables or add credentials to the config file."
+                    )
+
+            except Exception as e:
+                logger.debug(f"Failed to read Docker config file: {e}")
+
+        return None
+
+    def _setup_docker_auth_env(self):
+        """
+        Setup environment variables for Docker authentication with Singularity.
+
+        This ensures Singularity can authenticate to Docker Hub even without Docker installed.
+        """
+        # Check if credentials are already set
+        if "SINGULARITY_DOCKER_USERNAME" in os.environ and "SINGULARITY_DOCKER_PASSWORD" in os.environ:
+            logger.debug("Singularity Docker credentials already set in environment")
+            return
+
+        # Try to get credentials
+        creds = self._get_docker_credentials()
+        if creds:
+            username, password = creds
+            os.environ["SINGULARITY_DOCKER_USERNAME"] = username
+            os.environ["SINGULARITY_DOCKER_PASSWORD"] = password
+            logger.info("Docker credentials configured for Singularity authentication")
+        else:
+            logger.warning(
+                "No Docker credentials found. Pulls from Docker Hub may fail with authentication errors. "
+                "To fix this, set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables."
+            )
 
     def check_docker_available(self) -> bool:
         """
@@ -336,6 +449,9 @@ class SingularityBuilder:
 
         # Prepare build directory
         output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Setup Docker authentication for Singularity
+        self._setup_docker_auth_env()
 
         # Build command
         docker_uri = f"docker://{docker_image.full_name}"
