@@ -90,6 +90,7 @@ CONTAINER_IMAGE_PATH = build_result.sif_path
 | Retry logic | ❌ | ✅ (3 retries) |
 | Build timeouts | ❌ | ✅ (30 min) |
 | Cache management | ❌ | ✅ |
+| Authentication verification | ❌ | ✅ |
 | HPC cluster optimized | ⚠️ Partial | ✅ |
 
 ## When to Use Each
@@ -113,17 +114,28 @@ CONTAINER_IMAGE_PATH = build_result.sif_path
 ### Step 1: Install Dependencies
 No additional dependencies required - uses existing codebase.
 
-### Step 2: Configure Environment
-Set environment variables for authentication:
+### Step 2: Configure Authentication
+The new notebook includes an **Authentication Setup cell** that automatically checks for credentials.
+
+**Option 1 - Set in Notebook (Recommended for Jupyter)**:
+```python
+import os
+os.environ["SINGULARITY_DOCKER_USERNAME"] = "your_username"
+os.environ["SINGULARITY_DOCKER_PASSWORD"] = "your_password"
+```
+
+**Option 2 - Set in Shell** (before starting Jupyter):
 ```bash
 export SINGULARITY_DOCKER_USERNAME="your_dockerhub_username"
 export SINGULARITY_DOCKER_PASSWORD="your_dockerhub_password"
 ```
 
-Or authenticate with Docker:
+**Option 3 - Use Docker Login**:
 ```bash
 docker login
 ```
+
+The notebook will automatically detect which method you used!
 
 ### Step 3: Update Configuration
 The new notebook uses configuration that can be customized:
@@ -171,7 +183,20 @@ Notebook → Config → SingularityBuilder
 ## Troubleshooting
 
 ### Issue: Authentication Errors
-**Solution**: Set SINGULARITY_DOCKER_USERNAME/PASSWORD or run `docker login`
+**Symptoms**: "UNAUTHORIZED" or "authentication required" errors during container build
+
+**Solution**: The notebook now includes an authentication check cell. Run it to diagnose:
+1. **If running in Jupyter**: Set credentials directly in the notebook:
+   ```python
+   import os
+   os.environ["SINGULARITY_DOCKER_USERNAME"] = "your_username"
+   os.environ["SINGULARITY_DOCKER_PASSWORD"] = "your_password"
+   ```
+   Then re-run the authentication check cell to verify.
+
+2. **If shell variables don't work**: This is common in Jupyter. Shell environment variables set outside Jupyter may not be visible to the Python kernel. Always use Option 1 above for Jupyter notebooks.
+
+3. **If Docker login doesn't work**: The notebook will detect `~/.docker/config.json` automatically
 
 ### Issue: Build Timeout
 **Solution**: Increase timeout: `config.set("singularity.build_timeout", 3600)`
