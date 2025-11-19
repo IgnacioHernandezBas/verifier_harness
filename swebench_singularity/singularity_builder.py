@@ -9,8 +9,10 @@ import os
 import subprocess
 import logging
 import time
+import json
+import base64
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict, Tuple
 from dataclasses import dataclass
 
 from .config import Config
@@ -66,6 +68,329 @@ class SingularityBuilder:
         os.environ["SINGULARITY_CACHEDIR"] = cache_dir
 
         logger.debug(f"Singularity environment: TMPDIR={tmp_dir}, CACHEDIR={cache_dir}")
+
+    def _get_docker_credentials(self, registry: str = "docker.io") -> Optional[Tuple[str, str]]:
+        """
+        Get Docker credentials from various sources.
+
+        Tries in order:
+        1. Environment variables (SINGULARITY_DOCKER_USERNAME/PASSWORD or DOCKER_USERNAME/PASSWORD)
+        2. Config file settings
+        3. Docker config file (~/.docker/config.json)
+
+        Args:
+            registry: Registry to get credentials for (default: docker.io)
+
+        Returns:
+            Tuple of (username, password) if found, None otherwise
+        """
+        # 1. Check environment variables (Singularity-specific)
+        username = os.environ.get("SINGULARITY_DOCKER_USERNAME")
+        password = os.environ.get("SINGULARITY_DOCKER_PASSWORD")
+        if username and password:
+            logger.debug("Using Docker credentials from SINGULARITY_DOCKER_* environment variables")
+            return (username, password)
+
+        # Also check generic Docker environment variables
+        username = os.environ.get("DOCKER_USERNAME")
+        password = os.environ.get("DOCKER_PASSWORD")
+        if username and password:
+            logger.debug("Using Docker credentials from DOCKER_* environment variables")
+            return (username, password)
+
+        # 2. Check config file
+        config_username = self.config.get("docker.username")
+        config_password = self.config.get("docker.password")
+        if config_username and config_password:
+            logger.debug("Using Docker credentials from config file")
+            return (config_username, config_password)
+
+        # 3. Try to read from Docker config file
+        docker_config_path = Path.home() / ".docker" / "config.json"
+        if docker_config_path.exists():
+            try:
+                with open(docker_config_path, 'r') as f:
+                    docker_config = json.load(f)
+
+                # Check for auths section with encoded credentials
+                auths = docker_config.get("auths", {})
+
+                # Normalize registry name (docker.io can appear in different forms)
+                registry_variants = [
+                    registry,
+                    f"https://{registry}",
+                    f"https://index.{registry}",
+                    "https://index.docker.io/v1/",
+                ]
+
+                for reg_variant in registry_variants:
+                    if reg_variant in auths:
+                        auth_entry = auths[reg_variant]
+
+                        # Check for auth field (base64 encoded username:password)
+                        if "auth" in auth_entry:
+                            try:
+                                decoded = base64.b64decode(auth_entry["auth"]).decode("utf-8")
+                                if ":" in decoded:
+                                    username, password = decoded.split(":", 1)
+                                    logger.debug(f"Using Docker credentials from {docker_config_path}")
+                                    return (username, password)
+                            except Exception as e:
+                                logger.debug(f"Failed to decode auth from docker config: {e}")
+
+                        # Check for username/password fields (less common)
+                        if "username" in auth_entry and "password" in auth_entry:
+                            logger.debug(f"Using Docker credentials from {docker_config_path}")
+                            return (auth_entry["username"], auth_entry["password"])
+
+                # Check for credHelpers or credsStore (we can't use these directly in cluster env)
+                if "credHelpers" in docker_config or "credsStore" in docker_config:
+                    logger.warning(
+                        "Docker config uses credential helpers which are not accessible. "
+                        "Please set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD "
+                        "environment variables or add credentials to the config file."
+                    )
+
+            except Exception as e:
+                logger.debug(f"Failed to read Docker config file: {e}")
+
+        return None
+
+    def _setup_docker_auth_env(self):
+        """
+        Setup environment variables for Docker authentication with Singularity.
+
+        This ensures Singularity can authenticate to Docker Hub even without Docker installed.
+        """
+        # Check if credentials are already set
+        if "SINGULARITY_DOCKER_USERNAME" in os.environ and "SINGULARITY_DOCKER_PASSWORD" in os.environ:
+            logger.debug("Singularity Docker credentials already set in environment")
+            return
+
+        # Try to get credentials
+        creds = self._get_docker_credentials()
+        if creds:
+            username, password = creds
+            os.environ["SINGULARITY_DOCKER_USERNAME"] = username
+            os.environ["SINGULARITY_DOCKER_PASSWORD"] = password
+            logger.info("Docker credentials configured for Singularity authentication")
+        else:
+            logger.warning(
+                "No Docker credentials found. Pulls from Docker Hub may fail with authentication errors. "
+                "To fix this, set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables."
+            )
+
+    def check_docker_available(self) -> bool:
+        """
+        Check if Docker is available and responding.
+
+        Returns:
+            True if docker command is available and working
+        """
+        try:
+            result = subprocess.run(
+                ["docker", "info"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            if result.returncode == 0:
+                logger.debug("Docker is available")
+                return True
+            logger.debug(f"Docker not responding: {result.stderr}")
+            return False
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            logger.debug("Docker command not found or not responding")
+            return False
+
+    def docker_pull(self, docker_image: DockerImage, timeout: int = 600) -> bool:
+        """
+        Pull Docker image using docker pull command.
+
+        This leverages Docker's authentication which is typically already
+        configured (via docker login or credential helpers).
+
+        Args:
+            docker_image: Docker image to pull
+            timeout: Pull timeout in seconds
+
+        Returns:
+            True if pull succeeded
+        """
+        full_name = docker_image.full_name
+        logger.info(f"Pulling Docker image: {full_name}")
+
+        try:
+            result = subprocess.run(
+                ["docker", "pull", full_name],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
+
+            if result.returncode == 0:
+                logger.info(f"Successfully pulled: {full_name}")
+                return True
+            else:
+                logger.error(f"Docker pull failed: {result.stderr}")
+                return False
+
+        except subprocess.TimeoutExpired:
+            logger.error(f"Docker pull timeout after {timeout}s")
+            return False
+        except Exception as e:
+            logger.error(f"Docker pull error: {e}")
+            return False
+
+    def build_from_docker_daemon(
+        self,
+        docker_image: DockerImage,
+        output_path: Path,
+        force: bool = False,
+        use_fakeroot: Optional[bool] = None,
+    ) -> BuildResult:
+        """
+        Build Singularity image from local Docker daemon.
+
+        This method pulls the Docker image first (using Docker's auth),
+        then converts it to Singularity from the local daemon.
+
+        Args:
+            docker_image: Docker image to convert
+            output_path: Output path for .sif file
+            force: Force rebuild even if output exists
+            use_fakeroot: Use --fakeroot flag (None = use config default)
+
+        Returns:
+            BuildResult with operation details
+        """
+        start_time = time.time()
+
+        # Check if output already exists
+        if output_path.exists() and not force:
+            logger.info(f"Output file already exists: {output_path}")
+            return BuildResult(
+                success=True,
+                sif_path=output_path,
+                error_message=None,
+                build_time_seconds=time.time() - start_time,
+                from_cache=True,
+            )
+
+        # Step 1: Pull Docker image
+        pull_timeout = self.config.get("docker.pull_timeout", 600)
+        if not self.docker_pull(docker_image, timeout=pull_timeout):
+            error_msg = f"Failed to pull Docker image: {docker_image.full_name}"
+            return BuildResult(
+                success=False,
+                sif_path=None,
+                error_message=error_msg,
+                build_time_seconds=time.time() - start_time,
+                from_cache=False,
+            )
+
+        # Step 2: Convert from Docker daemon
+        # Prepare build directory
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Build command using docker-daemon:// URI
+        docker_uri = f"docker-daemon://{docker_image.full_name}"
+        cmd = ["singularity", "build"]
+
+        # Add fakeroot flag if configured
+        if use_fakeroot is None:
+            use_fakeroot = self.config.get("singularity.use_fakeroot", True)
+
+        if use_fakeroot:
+            cmd.append("--fakeroot")
+
+        cmd.extend([str(output_path), docker_uri])
+
+        logger.info(f"Building Singularity image from daemon: {' '.join(cmd)}")
+
+        try:
+            # Run build with timeout
+            timeout = self.config.get("singularity.build_timeout", 1800)
+
+            result = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                env=os.environ.copy(),
+            )
+
+            build_time = time.time() - start_time
+
+            if result.returncode == 0:
+                # Verify output file exists and has content
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    size_mb = output_path.stat().st_size / (1024 * 1024)
+                    logger.info(
+                        f"Successfully built {output_path.name} ({size_mb:.1f} MB) in {build_time:.1f}s"
+                    )
+
+                    return BuildResult(
+                        success=True,
+                        sif_path=output_path,
+                        error_message=None,
+                        build_time_seconds=build_time,
+                        from_cache=False,
+                    )
+                else:
+                    error_msg = "Build succeeded but output file is missing or empty"
+                    logger.error(error_msg)
+                    return BuildResult(
+                        success=False,
+                        sif_path=None,
+                        error_message=error_msg,
+                        build_time_seconds=build_time,
+                        from_cache=False,
+                    )
+            else:
+                error_msg = f"Build failed: {result.stderr}"
+
+                # Check for authentication errors and provide helpful message
+                if "UNAUTHORIZED" in result.stderr or "authentication required" in result.stderr:
+                    error_msg += (
+                        "\n\nDocker Hub authentication required. Please either:\n"
+                        "  1. Run 'docker login' to authenticate with Docker Hub, or\n"
+                        "  2. Set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables\n"
+                        "Note: Docker authentication is recommended as it provides better reliability."
+                    )
+
+                logger.error(error_msg)
+                return BuildResult(
+                    success=False,
+                    sif_path=None,
+                    error_message=error_msg,
+                    build_time_seconds=build_time,
+                    from_cache=False,
+                )
+
+        except subprocess.TimeoutExpired:
+            build_time = time.time() - start_time
+            error_msg = f"Build timeout after {timeout}s"
+            logger.error(error_msg)
+            return BuildResult(
+                success=False,
+                sif_path=None,
+                error_message=error_msg,
+                build_time_seconds=build_time,
+                from_cache=False,
+            )
+
+        except Exception as e:
+            build_time = time.time() - start_time
+            error_msg = f"Build error: {str(e)}"
+            logger.error(error_msg)
+            return BuildResult(
+                success=False,
+                sif_path=None,
+                error_message=error_msg,
+                build_time_seconds=build_time,
+                from_cache=False,
+            )
 
     def check_singularity_available(self) -> bool:
         """
@@ -125,6 +450,9 @@ class SingularityBuilder:
         # Prepare build directory
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # Setup Docker authentication for Singularity
+        self._setup_docker_auth_env()
+
         # Build command
         docker_uri = f"docker://{docker_image.full_name}"
         cmd = ["singularity", "build"]
@@ -181,6 +509,16 @@ class SingularityBuilder:
                     )
             else:
                 error_msg = f"Build failed: {result.stderr}"
+
+                # Check for authentication errors and provide helpful message
+                if "UNAUTHORIZED" in result.stderr or "authentication required" in result.stderr:
+                    error_msg += (
+                        "\n\nDocker Hub authentication required. Please either:\n"
+                        "  1. Run 'docker login' to authenticate with Docker Hub, or\n"
+                        "  2. Set SINGULARITY_DOCKER_USERNAME and SINGULARITY_DOCKER_PASSWORD environment variables\n"
+                        "Note: Docker authentication is recommended as it provides better reliability."
+                    )
+
                 logger.error(error_msg)
                 return BuildResult(
                     success=False,
@@ -285,6 +623,13 @@ class SingularityBuilder:
         temp_dir = self.config.singularity_tmp_dir
         temp_sif = temp_dir / f"{instance_id}.sif"
 
+        # Check if Docker is available for authentication
+        use_docker_daemon = self.check_docker_available()
+        if use_docker_daemon:
+            logger.info("Docker is available, using Docker daemon for authenticated pull")
+        else:
+            logger.info("Docker not available, using direct Singularity build")
+
         # Build with retries
         max_retries = self.config.get("docker.max_retries", 3)
         retry_delay = self.config.get("docker.retry_delay", 5)
@@ -297,11 +642,19 @@ class SingularityBuilder:
                 )
                 time.sleep(retry_delay * attempt)  # Exponential backoff
 
-            result = self.build_from_docker(
-                docker_image=docker_image,
-                output_path=temp_sif,
-                force=True,  # Always rebuild in temp location
-            )
+            # Use Docker daemon if available (handles authentication better)
+            if use_docker_daemon:
+                result = self.build_from_docker_daemon(
+                    docker_image=docker_image,
+                    output_path=temp_sif,
+                    force=True,  # Always rebuild in temp location
+                )
+            else:
+                result = self.build_from_docker(
+                    docker_image=docker_image,
+                    output_path=temp_sif,
+                    force=True,  # Always rebuild in temp location
+                )
 
             last_result = result
 
