@@ -149,7 +149,7 @@ class SingularityTestExecutor:
 
         # Build coverage flags if needed
         if use_coverage:
-            cov_flags = f'--cov={module_name} --cov-report=json --cov-report=term'
+            cov_flags = f'--cov={module_name} --cov-branch --cov-report=json --cov-report=term'
         else:
             cov_flags = ''
             # Log why coverage is disabled for pytest internals
