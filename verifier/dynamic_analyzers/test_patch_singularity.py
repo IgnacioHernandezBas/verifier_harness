@@ -250,11 +250,199 @@ def install_package_in_singularity(
     }
 
 
+def install_hypothesis_in_singularity(
+    repo_path: Path,
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+) -> Dict[str, Any]:
+    """
+    Install hypothesis to a directory within the repo (writable and accessible in container).
+
+    Since Singularity containers are read-only, we install hypothesis to a local directory
+    within the bound repo path. This directory will be added to PYTHONPATH when running tests.
+
+    Parameters
+    ----------
+    repo_path : Path
+        Path to the repository (will be bound as /workspace in container).
+    image_path : Path or str
+        Singularity image to use.
+
+    Returns
+    -------
+    dict with keys: 'returncode', 'stdout', 'stderr', 'installed', 'packages_dir'
+    """
+    repo_path = repo_path.resolve()
+    image_path = Path(image_path)
+
+    if not repo_path.exists():
+        raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+    if not image_path.exists():
+        raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
+
+    # Create a packages directory within the repo (writable and bound to container)
+    packages_dir = repo_path / ".pip_packages"
+    packages_dir.mkdir(exist_ok=True)
+
+    # First, check if hypothesis is already installed in testbed or packages_dir
+    check_cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--env", f"PYTHONPATH=/workspace/.pip_packages:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/python",
+        "-c",
+        "import hypothesis; print(hypothesis.__version__)",
+    ]
+
+    check_proc = subprocess.run(check_cmd, capture_output=True, text=True, timeout=10)
+
+    if check_proc.returncode == 0:
+        version = check_proc.stdout.strip()
+        print(f"✅ Hypothesis already available (version {version})")
+        return {
+            "returncode": 0,
+            "stdout": f"hypothesis {version} already installed",
+            "stderr": "",
+            "installed": True,
+            "already_present": True,
+            "packages_dir": str(packages_dir),
+        }
+
+    # Install hypothesis to the packages directory using --target
+    # This installs to /workspace/.pip_packages which is writable (bound from host)
+    cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/pip",
+        "install",
+        "--target", "/workspace/.pip_packages",
+        "--no-cache-dir",
+        "--quiet",
+        "hypothesis",
+    ]
+
+    print(f"📦 Installing hypothesis to {packages_dir}...")
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+    if proc.returncode == 0:
+        print(f"✅ Hypothesis installed successfully to .pip_packages/")
+    else:
+        print(f"⚠️  Hypothesis installation had issues")
+        print(f"   Return code: {proc.returncode}")
+        print(f"   stderr: {proc.stderr[:400]}")
+
+    return {
+        "returncode": proc.returncode,
+        "stdout": proc.stdout,
+        "stderr": proc.stderr,
+        "installed": proc.returncode == 0,
+        "packages_dir": str(packages_dir),
+    }
+
+
+def install_pytest_cov_in_singularity(
+    repo_path: Path,
+    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+) -> Dict[str, Any]:
+    """
+    Install pytest-cov to a directory within the repo for coverage collection.
+
+    Since Singularity containers are read-only, we install pytest-cov to a local directory
+    within the bound repo path. This directory will be added to PYTHONPATH when running tests.
+
+    Parameters
+    ----------
+    repo_path : Path
+        Path to the repository (will be bound as /workspace in container).
+    image_path : Path or str
+        Singularity image to use.
+
+    Returns
+    -------
+    dict with keys: 'returncode', 'stdout', 'stderr', 'installed', 'packages_dir'
+    """
+    repo_path = repo_path.resolve()
+    image_path = Path(image_path)
+
+    if not repo_path.exists():
+        raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+    if not image_path.exists():
+        raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
+
+    # Create a packages directory within the repo (writable and bound to container)
+    packages_dir = repo_path / ".pip_packages"
+    packages_dir.mkdir(exist_ok=True)
+
+    # Check if pytest-cov is already installed
+    check_cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--env", f"PYTHONPATH=/workspace/.pip_packages:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/python",
+        "-c",
+        "import pytest_cov; print(pytest_cov.__version__)",
+    ]
+
+    check_proc = subprocess.run(check_cmd, capture_output=True, text=True, timeout=10)
+
+    if check_proc.returncode == 0:
+        version = check_proc.stdout.strip()
+        print(f"✅ pytest-cov already available (version {version})")
+        return {
+            "returncode": 0,
+            "stdout": f"pytest-cov {version} already installed",
+            "stderr": "",
+            "installed": True,
+            "already_present": True,
+            "packages_dir": str(packages_dir),
+        }
+
+    # Install pytest-cov and coverage to the packages directory
+    cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/pip",
+        "install",
+        "--target", "/workspace/.pip_packages",
+        "--no-cache-dir",
+        "--quiet",
+        "pytest-cov",
+        "coverage",
+    ]
+
+    print(f"📦 Installing pytest-cov to {packages_dir}...")
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+    if proc.returncode == 0:
+        print(f"✅ pytest-cov installed successfully to .pip_packages/")
+    else:
+        print(f"⚠️  pytest-cov installation had issues")
+        print(f"   Return code: {proc.returncode}")
+        print(f"   stderr: {proc.stderr[:400]}")
+
+    return {
+        "returncode": proc.returncode,
+        "stdout": proc.stdout,
+        "stderr": proc.stderr,
+        "installed": proc.returncode == 0,
+        "packages_dir": str(packages_dir),
+    }
+
+
 def run_tests_in_singularity(
     repo_path: Path,
     tests: List[str],
     image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
     extra_env: Optional[Dict[str, str]] = None,
+    collect_coverage: bool = False,
+    coverage_source: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Run pytest inside a Singularity container over the given repo.
@@ -270,10 +458,15 @@ def run_tests_in_singularity(
         Singularity image to use.
     extra_env : Dict[str,str], optional
         Extra env vars to pass into the container.
+    collect_coverage : bool, optional
+        If True, collect code coverage using pytest-cov.
+    coverage_source : str, optional
+        Source directory to measure coverage for (default: /workspace).
+        Can be a specific module path like 'sklearn' or 'django'.
 
     Returns
     -------
-    dict with keys: 'returncode', 'stdout', 'stderr'
+    dict with keys: 'returncode', 'stdout', 'stderr', 'coverage_file' (if collect_coverage=True)
     """
     repo_path = repo_path.resolve()
     if not repo_path.exists():
@@ -311,11 +504,21 @@ def run_tests_in_singularity(
         print(f"ℹ️  Using existing C extensions ({so_count} files)")
 
     # Build environment variables for testbed Python
-    # PYTHONPATH allows import from workspace
+    # PYTHONPATH allows import from workspace and .pip_packages (for hypothesis, etc.)
+    path_components = []
+
+    # Add .pip_packages if it exists (for hypothesis and other locally installed packages)
+    if (repo_path / ".pip_packages").exists():
+        path_components.append("/workspace/.pip_packages")
+
+    # Add lib directory if it exists
     if (repo_path / "lib").exists() and (repo_path / "lib").is_dir():
-        python_path = "/workspace/lib:/workspace"
-    else:
-        python_path = "/workspace"
+        path_components.append("/workspace/lib")
+
+    # Always add workspace root
+    path_components.append("/workspace")
+
+    python_path = ":".join(path_components)
 
     env_dict = {
         "PYTHONPATH": python_path,
@@ -331,6 +534,24 @@ def run_tests_in_singularity(
     # If no specific tests are given, run full suite
     test_args = tests or []
 
+    # Build pytest arguments
+    pytest_args = ["-q"]
+
+    # Add coverage collection if requested
+    coverage_file = None
+    if collect_coverage:
+        coverage_file = repo_path / ".coverage.json"
+        cov_source = coverage_source or "/workspace"
+
+        pytest_args.extend([
+            f"--cov={cov_source}",
+            "--cov-report=term-missing:skip-covered",  # Show only uncovered lines in terminal
+        ])
+
+        print(f"📊 Coverage collection enabled for: {cov_source}")
+
+    pytest_args.extend(test_args)
+
     # Use the container's testbed Python environment which has pytest pre-installed
     # This is the standard SWE-bench environment at /opt/miniconda3/envs/testbed
     python_path_in_container = "/opt/miniconda3/envs/testbed/bin/python"
@@ -345,18 +566,53 @@ def run_tests_in_singularity(
         python_path_in_container,
         "-m",
         "pytest",
-        "-q",
-        *test_args,
+        *pytest_args,
     ]
 
     print(f"🧪 Running tests in Singularity:\n  {' '.join(cmd)}\n")
     proc = subprocess.run(cmd, capture_output=True, text=True)
 
-    return {
+    result = {
         "returncode": proc.returncode,
         "stdout": proc.stdout,
         "stderr": proc.stderr,
     }
+
+    if collect_coverage:
+        # pytest-cov creates .coverage file, convert it to JSON using coverage.py
+        # The .coverage file is a binary SQLite database that coverage.py uses
+        coverage_db = repo_path / ".coverage"
+
+        if coverage_db.exists():
+            # Convert .coverage to JSON using coverage command
+            json_cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                "--pwd", "/workspace",
+                "--env", f"PYTHONPATH=/workspace/.pip_packages:/workspace",
+                str(image_path),
+                "/opt/miniconda3/envs/testbed/bin/python",
+                "-m",
+                "coverage",
+                "json",
+                "-o", "/workspace/.coverage.json",
+            ]
+
+            json_proc = subprocess.run(json_cmd, capture_output=True, text=True, timeout=30)
+
+            if json_proc.returncode == 0 and coverage_file and coverage_file.exists():
+                result["coverage_file"] = str(coverage_file)
+                print(f"✓ Coverage data saved to: {coverage_file.name}")
+            else:
+                print(f"⚠️  Failed to convert coverage to JSON")
+                print(f"   {json_proc.stderr[:200]}")
+                result["coverage_file"] = None
+        else:
+            print(f"⚠️  Coverage database not generated (.coverage file missing)")
+            result["coverage_file"] = None
+
+    return result
 
 
 # -----------------------------
