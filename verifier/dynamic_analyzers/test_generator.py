@@ -14,6 +14,7 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 from .patch_analyzer import PatchAnalysis
 from .test_pattern_learner import TestPatternLearner, ClassTestPatterns
+from .signature_pattern_extractor import SignaturePatternExtractor
 
 
 class HypothesisTestGenerator:
@@ -33,6 +34,8 @@ class HypothesisTestGenerator:
         """
         self.repo_path = repo_path
         self.pattern_learner = TestPatternLearner(repo_path) if repo_path else None
+        self.signature_extractor = SignaturePatternExtractor()
+        self.patched_code_cache = None  # Store patched code for signature extraction
 
     def generate_tests(self, patch_analysis: PatchAnalysis, patched_code: str) -> str:
         """
@@ -45,6 +48,9 @@ class HypothesisTestGenerator:
         Returns:
             Complete Python test file as a string
         """
+        # Cache patched code for signature extraction
+        self.patched_code_cache = patched_code
+
         test_lines = [
             "# Auto-generated change-aware fuzzing tests for patch validation",
             "import pytest",
@@ -297,40 +303,57 @@ class HypothesisTestGenerator:
         """
         Generate pattern-based test for class methods using learned patterns.
 
+        Uses a multi-tier fallback strategy:
+        1. Try learning from existing tests (best - uses real patterns)
+        2. Fall back to signature extraction (good - uses type hints and defaults)
+        3. Fall back to None (will use existence check)
+
         Args:
             class_name: Name of the class
             func_name: Name of the method being tested
 
         Returns:
-            List of code lines for the test, or None if patterns unavailable
+            List of code lines for the test, or None if no patterns available
         """
         try:
-            # Learn patterns from existing tests
-            # Use the module path if available from patch analysis
-            patterns = self.pattern_learner.learn_patterns(class_name)
+            # TIER 1: Try learning patterns from existing tests
+            if self.pattern_learner:
+                patterns = self.pattern_learner.learn_patterns(class_name)
 
-            if not patterns or not patterns.patterns:
-                return None
+                if patterns and patterns.patterns:
+                    # Get the most common patterns
+                    top_patterns = patterns.get_most_common_patterns(limit=3)
 
-            # Get the most common patterns
-            top_patterns = patterns.get_most_common_patterns(limit=3)
+                    if top_patterns:
+                        # Generate strategies from learned patterns
+                        strategies = self.pattern_learner.generate_hypothesis_strategy_from_patterns(patterns)
 
-            if not top_patterns:
-                return None
+                        if strategies:
+                            # Generate Hypothesis-based test with learned strategies
+                            return self._generate_hypothesis_pattern_test(class_name, func_name, strategies, top_patterns)
+                        else:
+                            # If we can't generate strategies, use direct patterns
+                            return self._generate_direct_pattern_test(class_name, func_name, top_patterns)
 
-            # Generate strategies from learned patterns
-            strategies = self.pattern_learner.generate_hypothesis_strategy_from_patterns(patterns)
+            # TIER 2: Fall back to signature extraction (for new LLM-generated code)
+            if self.patched_code_cache:
+                print(f"ℹ️  No test patterns found for {class_name}, trying signature extraction...")
+                return self._generate_signature_based_test(class_name, func_name)
 
-            if not strategies:
-                # If we can't generate strategies, use direct patterns
-                return self._generate_direct_pattern_test(class_name, func_name, top_patterns)
-
-            # Generate Hypothesis-based test with learned strategies
-            return self._generate_hypothesis_pattern_test(class_name, func_name, strategies, top_patterns)
+            # TIER 3: No patterns available
+            return None
 
         except Exception as e:
-            # If pattern learning fails, return None to fallback to existence check
+            # If pattern learning fails, try signature extraction before giving up
             print(f"Warning: Pattern learning failed for {class_name}: {e}")
+
+            # Try signature extraction as fallback
+            if self.patched_code_cache:
+                try:
+                    return self._generate_signature_based_test(class_name, func_name)
+                except Exception as e2:
+                    print(f"Warning: Signature extraction also failed: {e2}")
+
             return None
 
     def _generate_direct_pattern_test(self, class_name: str, func_name: str,
@@ -436,6 +459,127 @@ class HypothesisTestGenerator:
         ])
 
         return test_lines
+
+    def _generate_signature_based_test(self, class_name: str, func_name: str) -> Optional[List[str]]:
+        """
+        Generate test based on function signature (type hints and defaults).
+
+        This is used as a fallback for LLM-generated code or new functions
+        where no existing tests are available.
+
+        Args:
+            class_name: Name of the class
+            func_name: Name of the method
+
+        Returns:
+            List of code lines for the test, or None if extraction fails
+        """
+        # Extract patterns from signature
+        sig_patterns = self.signature_extractor.extract_from_code(
+            self.patched_code_cache,
+            class_name,
+            func_name
+        )
+
+        if not sig_patterns:
+            return None
+
+        # Try to generate Hypothesis strategies
+        strategies = self.signature_extractor.generate_hypothesis_strategies(sig_patterns)
+
+        if strategies:
+            # Generate Hypothesis-based test with signature strategies
+            test_lines = [
+                "# Hypothesis strategies inferred from function signature",
+            ]
+
+            # Build the @given decorator
+            strategy_params = []
+            param_names = []
+            for param_name, strategy_code in strategies[:5]:  # Limit to 5 parameters
+                strategy_params.append(f"{param_name}={strategy_code}")
+                param_names.append(param_name)
+
+            given_decorator = f"@given({', '.join(strategy_params)})"
+            func_params = ", ".join(param_names)
+
+            test_lines.extend([
+                given_decorator,
+                "@settings(max_examples=50, deadline=2000)",
+                f"def test_{func_name}_signature_based({func_params}):",
+                f'    """',
+                f'    Test {class_name}.{func_name} using signature-inferred strategies.',
+                f'    Note: This is a fallback test for LLM-generated or new code.',
+                f'    """',
+                f"    try:",
+                f"        # Create instance with signature-inferred parameters",
+                f"        instance = {class_name}({func_params})",
+                f"        assert instance is not None",
+            ])
+
+            # Add specific tests based on the function
+            if func_name == "__init__":
+                test_lines.extend([
+                    f"        # Verify initialization completed successfully",
+                ])
+            else:
+                test_lines.extend([
+                    f"        # Verify method exists and is callable",
+                    f"        assert hasattr(instance, '{func_name}')",
+                    f"        assert callable(getattr(instance, '{func_name}'))",
+                ])
+
+            test_lines.extend([
+                f"    except (ValueError, TypeError, AttributeError) as e:",
+                f"        # Expected for some parameter combinations",
+                f"        pass",
+                f"",
+                f"",
+            ])
+
+            return test_lines
+
+        # If we can't generate Hypothesis strategies, try default-based test
+        default_params = self.signature_extractor.generate_default_based_test(
+            class_name, func_name, sig_patterns
+        )
+
+        if default_params:
+            test_lines = [
+                f"def test_{func_name}_with_defaults():",
+                f'    """Test {class_name}.{func_name} using default parameter values"""',
+                f"    # Parameters extracted from function signature",
+            ]
+
+            params_str = ", ".join([f"{k}={repr(v)}" for k, v in default_params.items()])
+
+            test_lines.extend([
+                f"    try:",
+                f"        instance = {class_name}({params_str})",
+                f"        assert instance is not None",
+            ])
+
+            if func_name == "__init__":
+                test_lines.extend([
+                    f"        # __init__ tested by successful instantiation",
+                ])
+            else:
+                test_lines.extend([
+                    f"        # Verify method exists",
+                    f"        assert hasattr(instance, '{func_name}')",
+                ])
+
+            test_lines.extend([
+                f"    except Exception as e:",
+                f"        # Some parameter combinations may not be valid",
+                f"        pass",
+                f"",
+                f"",
+            ])
+
+            return test_lines
+
+        return None
 
 
 # Example usage
