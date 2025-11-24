@@ -5,15 +5,19 @@ This is the KEY INNOVATION: traditional coverage measures the entire codebase,
 but we only care about coverage of the lines that actually changed in the patch.
 
 This makes fuzzing much faster and more targeted.
+
+Now includes branch coverage analysis for better insights into conditional logic.
 """
 
-from typing import Dict, List, Set, Any
+from typing import Dict, List, Set, Any, Tuple
 
 
 class CoverageAnalyzer:
     """
     Calculate coverage for changed lines only.
     This is the key innovation: we don't care about unchanged code.
+
+    Now supports both line coverage and branch coverage analysis.
     """
 
     def calculate_changed_line_coverage(
@@ -138,6 +142,99 @@ class CoverageAnalyzer:
             'newly_covered_lines': sorted(newly_covered),
             'still_uncovered_lines': sorted(still_uncovered),
             'improvement_pct': (after_cov - before_cov) * 100
+        }
+
+    def calculate_branch_coverage(
+        self,
+        coverage_data: Dict,
+        changed_lines: Dict[str, List[int]],
+        all_changed_lines: List[int] = None
+    ) -> Dict:
+        """
+        Calculate branch coverage for changed lines.
+
+        Branch coverage shows which conditional branches (if/else, etc.) were taken.
+
+        Args:
+            coverage_data: coverage.py JSON output (with branch data)
+            changed_lines: {function_name: [line_numbers]} from patch analysis
+            all_changed_lines: Optional flat list of all changed lines
+
+        Returns:
+            {
+                'total_branches': int,
+                'covered_branches': int,
+                'branch_coverage': float (0.0 to 1.0),
+                'missing_branches': [(line, branch_id)],
+                'branch_details': {line_no: {'total': int, 'covered': int}}
+            }
+        """
+        if not coverage_data or 'files' not in coverage_data:
+            return {
+                'total_branches': 0,
+                'covered_branches': 0,
+                'branch_coverage': 0.0,
+                'missing_branches': [],
+                'branch_details': {}
+            }
+
+        # Collect all changed lines
+        all_changed_lines_set = set()
+        if all_changed_lines:
+            all_changed_lines_set.update(all_changed_lines)
+        for lines in changed_lines.values():
+            all_changed_lines_set.update(lines)
+
+        # Analyze branch coverage for changed lines
+        total_branches = 0
+        covered_branches = 0
+        missing_branches = []
+        branch_details = {}
+
+        for file_path, file_data in coverage_data.get('files', {}).items():
+            # Get branch info if available (requires --cov-branch)
+            missing_branch_data = file_data.get('missing_branches', [])
+            executed_branches = file_data.get('executed_branches', [])
+
+            # coverage.py represents branches as [line_no, branch_no]
+            # e.g., [10, 0] means line 10, branch 0
+
+            # Count branches on changed lines
+            for line_no in all_changed_lines_set:
+                line_branches = []
+
+                # Check executed branches on this line
+                for branch in executed_branches:
+                    if isinstance(branch, list) and len(branch) >= 2:
+                        if branch[0] == line_no:
+                            line_branches.append(branch)
+                            covered_branches += 1
+
+                # Check missing branches on this line
+                for branch in missing_branch_data:
+                    if isinstance(branch, list) and len(branch) >= 2:
+                        if branch[0] == line_no:
+                            line_branches.append(branch)
+                            missing_branches.append(tuple(branch))
+
+                if line_branches:
+                    total_branches += len(line_branches)
+                    branch_details[line_no] = {
+                        'total': len(line_branches),
+                        'covered': len([b for b in line_branches if b not in missing_branch_data])
+                    }
+
+        branch_coverage = (
+            covered_branches / total_branches
+            if total_branches > 0 else 1.0
+        )
+
+        return {
+            'total_branches': total_branches,
+            'covered_branches': covered_branches,
+            'branch_coverage': branch_coverage,
+            'missing_branches': missing_branches,
+            'branch_details': branch_details
         }
 
     def generate_coverage_report(

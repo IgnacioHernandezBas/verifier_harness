@@ -545,10 +545,11 @@ def run_tests_in_singularity(
 
         pytest_args.extend([
             f"--cov={cov_source}",
+            "--cov-branch",  # Enable branch coverage tracking
             "--cov-report=term-missing:skip-covered",  # Show only uncovered lines in terminal
         ])
 
-        print(f"📊 Coverage collection enabled for: {cov_source}")
+        print(f"📊 Coverage collection enabled for: {cov_source} (with branch coverage)")
 
     pytest_args.extend(test_args)
 
