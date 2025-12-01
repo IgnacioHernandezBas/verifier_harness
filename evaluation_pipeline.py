@@ -1,9 +1,10 @@
 """
-Integrated Evaluation Pipeline: Static + Dynamic Fuzzing
+Integrated Evaluation Pipeline: Static + Dynamic Fuzzing + Supplementary Rules
 
 This module combines:
 1. Static verification (existing code quality analyzers)
 2. Dynamic fuzzing (new change-aware fuzzing)
+3. Supplementary verification rules (targeted bug detection)
 
 to provide comprehensive patch evaluation for SWE-bench tasks.
 """
@@ -29,13 +30,12 @@ import streamlit.modules.static_eval.static_modules.syntax_structure as syntax_s
 
 class EvaluationPipeline:
     """
-    Complete evaluation pipeline: static verification + dynamic fuzzing.
+    Complete evaluation pipeline: static verification + dynamic fuzzing + supplementary rules.
 
-    This pipeline implements change-aware fuzzing:
-    - Analyzes patches to find what changed
-    - Generates targeted tests for changed code
-    - Executes tests in Singularity containers
-    - Measures coverage only for changed lines
+    This pipeline implements comprehensive verification:
+    - Static analysis for code quality
+    - Change-aware fuzzing for coverage
+    - Supplementary rules for targeted bug detection
     """
 
     def __init__(
@@ -43,9 +43,11 @@ class EvaluationPipeline:
         singularity_image_path: str = "/fs/nexus-scratch/ihbas/.containers/singularity/verifier-swebench.sif",
         enable_static: bool = True,
         enable_fuzzing: bool = True,
+        enable_rules: bool = True,
         fuzzing_timeout: int = 120,
         static_threshold: float = 0.5,
         coverage_threshold: float = 0.5,
+        rules_fail_on_high_severity: bool = True,
     ):
         """
         Initialize the evaluation pipeline.
@@ -54,9 +56,11 @@ class EvaluationPipeline:
             singularity_image_path: Path to Singularity .sif image
             enable_static: Enable static verification
             enable_fuzzing: Enable dynamic fuzzing
+            enable_rules: Enable supplementary verification rules
             fuzzing_timeout: Timeout for fuzzing tests (seconds)
             static_threshold: Minimum static quality score (0-1)
             coverage_threshold: Minimum coverage for changed lines (0-1)
+            rules_fail_on_high_severity: Reject patches with high-severity rule findings
         """
         # Static analysis components
         self.enable_static = enable_static
@@ -75,6 +79,10 @@ class EvaluationPipeline:
             )
             self.coverage_analyzer = CoverageAnalyzer()
 
+        # Supplementary rules
+        self.enable_rules = enable_rules
+        self.rules_fail_on_high_severity = rules_fail_on_high_severity
+
         # Thresholds
         self.static_threshold = static_threshold
         self.coverage_threshold = coverage_threshold
@@ -83,10 +91,11 @@ class EvaluationPipeline:
         self,
         patch_data: Dict[str, Any],
         skip_static: bool = False,
-        skip_fuzzing: bool = False
+        skip_fuzzing: bool = False,
+        skip_rules: bool = False
     ) -> Dict[str, Any]:
         """
-        Evaluate a patch using static + dynamic analysis.
+        Evaluate a patch using static + dynamic analysis + supplementary rules.
 
         Args:
             patch_data: {
@@ -98,6 +107,7 @@ class EvaluationPipeline:
             }
             skip_static: Skip static verification
             skip_fuzzing: Skip dynamic fuzzing
+            skip_rules: Skip supplementary rules
 
         Returns:
             {
@@ -106,6 +116,7 @@ class EvaluationPipeline:
                 'reason': str,
                 'static_result': dict (if enabled),
                 'fuzzing_result': dict (if enabled),
+                'rules_result': dict (if enabled),
                 'timestamp': float,
                 'execution_time': float
             }
@@ -177,10 +188,52 @@ class EvaluationPipeline:
                 result['fuzzing_result'] = {'status': 'error', 'error': str(e)}
 
         # ===================================================================
+        # PHASE 3: Supplementary Verification Rules
+        # ===================================================================
+        if self.enable_rules and not skip_rules:
+            print(f"\n[PHASE 3] Supplementary Verification Rules...")
+
+            try:
+                rules_result = self._run_supplementary_rules(patch_data)
+                result['rules_result'] = rules_result
+
+                # Check rules results
+                if rules_result.get('status') == 'error':
+                    print(f"  ⚠️ Rules execution error (non-blocking)")
+                elif rules_result.get('status') == 'skipped':
+                    print(f"  ℹ️  Rules skipped: {rules_result.get('reason', 'N/A')}")
+                else:
+                    failed_count = rules_result.get('failed_rules', 0)
+                    high_severity_count = sum(
+                        1 for f in rules_result.get('findings', [])
+                        if f.get('severity') == 'high'
+                    )
+
+                    if failed_count > 0:
+                        print(f"  ⚠️  {failed_count} rule(s) failed")
+                        print(f"      High severity: {high_severity_count}")
+
+                        # Fail on high severity if configured
+                        if high_severity_count > 0 and self.rules_fail_on_high_severity:
+                            result['verdict'] = 'REJECT'
+                            rule_names = ', '.join(rules_result.get('rule_names', []))
+                            result['reason'] = f'Critical bugs found by rules: {rule_names}'
+                        elif result['verdict'] not in ['REJECT', 'ERROR']:
+                            # Downgrade to warning if not already rejected
+                            result['verdict'] = 'WARNING'
+                            result['reason'] = f'Potential issues found by {failed_count} rule(s)'
+                    else:
+                        print(f"  ✓ All rules passed")
+
+            except Exception as e:
+                print(f"  ✗ Rules error (non-blocking): {e}")
+                result['rules_result'] = {'status': 'error', 'error': str(e)}
+
+        # ===================================================================
         # FINAL VERDICT
         # ===================================================================
         if result['verdict'] == 'UNKNOWN':
-            if not self.enable_static and not self.enable_fuzzing:
+            if not self.enable_static and not self.enable_fuzzing and not self.enable_rules:
                 result['verdict'] = 'ERROR'
                 result['reason'] = 'No analysis enabled'
             else:
@@ -351,6 +404,62 @@ class EvaluationPipeline:
             'changed_functions': patch_analysis.changed_functions,
             'change_types': patch_analysis.change_types
         }
+
+    def _run_supplementary_rules(self, patch_data: Dict) -> Dict:
+        """Run supplementary verification rules on the patch"""
+        from verifier.rules.runner import run_rules
+        from verifier.rules import RULE_IDS
+
+        repo_path = patch_data.get('repo_path')
+        diff = patch_data.get('diff', '')
+
+        if not repo_path:
+            return {
+                'status': 'skipped',
+                'reason': 'No repository path provided'
+            }
+
+        try:
+            # Run all rules
+            results = run_rules(
+                rule_ids=RULE_IDS,
+                repo_path=str(repo_path),
+                patch_str=diff
+            )
+
+            # Aggregate findings
+            all_findings = []
+            failed_rules = []
+
+            for result in results:
+                if result.status == 'failed':
+                    failed_rules.append(result.name)
+                    all_findings.extend(result.findings)
+
+            # Print findings summary
+            if all_findings:
+                print(f"      Total findings: {len(all_findings)}")
+                for finding in all_findings[:3]:  # Show first 3
+                    severity_icon = '🔴' if finding['severity'] == 'high' else '🟡'
+                    print(f"        {severity_icon} {finding['description'][:60]}...")
+                if len(all_findings) > 3:
+                    print(f"        ... and {len(all_findings) - 3} more")
+
+            return {
+                'status': 'completed',
+                'total_rules': len(results),
+                'failed_rules': len(failed_rules),
+                'passed_rules': len(results) - len(failed_rules),
+                'rule_names': failed_rules,
+                'findings': all_findings,
+                'details': [r.to_dict() for r in results]
+            }
+
+        except Exception as e:
+            return {
+                'status': 'error',
+                'error': str(e)
+            }
 
     def evaluate_batch(
         self,
