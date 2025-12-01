@@ -417,6 +417,8 @@ class HypothesisTestGenerator:
 
         given_decorator = f"@given({', '.join(strategy_params)})"
         func_params = ", ".join(param_names)
+        # Use keyword arguments for instance creation to ensure correct parameter assignment
+        func_kwargs = ", ".join([f"{name}={name}" for name in param_names])
 
         test_lines.extend([
             given_decorator,
@@ -427,8 +429,8 @@ class HypothesisTestGenerator:
             f'    Patterns learned from: {patterns[0].source_location if patterns else "existing tests"}',
             f'    """',
             f"    try:",
-            f"        # Create instance with fuzzed parameters",
-            f"        instance = {class_name}({func_params})",
+            f"        # Create instance with fuzzed parameters (using keyword arguments)",
+            f"        instance = {class_name}({func_kwargs})",
             f"        assert instance is not None",
             f"",
         ])
@@ -502,6 +504,8 @@ class HypothesisTestGenerator:
 
             given_decorator = f"@given({', '.join(strategy_params)})"
             func_params = ", ".join(param_names)
+            # Use keyword arguments for instance creation to ensure correct parameter assignment
+            func_kwargs = ", ".join([f"{name}={name}" for name in param_names])
 
             test_lines.extend([
                 given_decorator,
@@ -512,8 +516,8 @@ class HypothesisTestGenerator:
                 f'    Note: This is a fallback test for LLM-generated or new code.',
                 f'    """',
                 f"    try:",
-                f"        # Create instance with signature-inferred parameters",
-                f"        instance = {class_name}({func_params})",
+                f"        # Create instance with signature-inferred parameters (using keyword arguments)",
+                f"        instance = {class_name}({func_kwargs})",
                 f"        assert instance is not None",
             ])
 

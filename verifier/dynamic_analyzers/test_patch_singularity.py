@@ -540,6 +540,14 @@ def run_tests_in_singularity(
     # Add coverage collection if requested
     coverage_file = None
     if collect_coverage:
+        # Clean up old coverage files to prevent conflicts
+        old_coverage_db = repo_path / ".coverage"
+        old_coverage_json = repo_path / ".coverage.json"
+        if old_coverage_db.exists():
+            old_coverage_db.unlink()
+        if old_coverage_json.exists():
+            old_coverage_json.unlink()
+
         coverage_file = repo_path / ".coverage.json"
         cov_source = coverage_source or "/workspace"
 
@@ -600,14 +608,17 @@ def run_tests_in_singularity(
                 "-o", "/workspace/.coverage.json",
             ]
 
-            json_proc = subprocess.run(json_cmd, capture_output=True, text=True, timeout=30)
+            json_proc = subprocess.run(json_cmd, capture_output=True, text=True, timeout=120)
 
             if json_proc.returncode == 0 and coverage_file and coverage_file.exists():
                 result["coverage_file"] = str(coverage_file)
                 print(f"✓ Coverage data saved to: {coverage_file.name}")
             else:
                 print(f"⚠️  Failed to convert coverage to JSON")
-                print(f"   {json_proc.stderr[:200]}")
+                if json_proc.stderr:
+                    print(f"   stderr: {json_proc.stderr[:200]}")
+                if json_proc.stdout:
+                    print(f"   stdout: {json_proc.stdout[:200]}")
                 result["coverage_file"] = None
         else:
             print(f"⚠️  Coverage database not generated (.coverage file missing)")

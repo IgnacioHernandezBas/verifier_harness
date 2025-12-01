@@ -9,7 +9,7 @@ This makes fuzzing much faster and more targeted.
 Now includes branch coverage analysis for better insights into conditional logic.
 """
 
-from typing import Dict, List, Set, Any, Tuple
+from typing import Dict, List, Set, Any, Tuple, Union
 
 
 class CoverageAnalyzer:
@@ -147,7 +147,7 @@ class CoverageAnalyzer:
     def calculate_branch_coverage(
         self,
         coverage_data: Dict,
-        changed_lines: Dict[str, List[int]],
+        changed_lines: Union[Dict[str, List[int]], List[int]],
         all_changed_lines: List[int] = None
     ) -> Dict:
         """
@@ -157,7 +157,7 @@ class CoverageAnalyzer:
 
         Args:
             coverage_data: coverage.py JSON output (with branch data)
-            changed_lines: {function_name: [line_numbers]} from patch analysis
+            changed_lines: Either {function_name: [line_numbers]} dict OR flat list of line numbers
             all_changed_lines: Optional flat list of all changed lines
 
         Returns:
@@ -178,12 +178,20 @@ class CoverageAnalyzer:
                 'branch_details': {}
             }
 
-        # Collect all changed lines
+        # Collect all changed lines - handle both dict and list inputs
         all_changed_lines_set = set()
         if all_changed_lines:
             all_changed_lines_set.update(all_changed_lines)
-        for lines in changed_lines.values():
-            all_changed_lines_set.update(lines)
+
+        # Handle changed_lines as either dict or list
+        if isinstance(changed_lines, dict):
+            for lines in changed_lines.values():
+                all_changed_lines_set.update(lines)
+        elif isinstance(changed_lines, list):
+            all_changed_lines_set.update(changed_lines)
+        elif changed_lines:
+            # Fallback: try to iterate
+            all_changed_lines_set.update(changed_lines)
 
         # Analyze branch coverage for changed lines
         total_branches = 0
