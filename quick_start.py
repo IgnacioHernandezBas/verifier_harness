@@ -60,17 +60,12 @@ def test_single_instance(instance_id: str):
     print("="*60 + "\n")
 
     # Step 1: Check container
-    print("Step 1: Checking Singularity container...")
-    container_path = Path.home() / ".containers/singularity/verifier-swebench.sif"
+    PROJECT_ROOT = Path(__file__).resolve().parent
+    container_path = PROJECT_ROOT / "singularity_images" / "verifier-swebench.sif"
     if not container_path.exists():
-        # Try alternate location
-        scratch_path = Path(os.environ.get('SCRATCH0', '/tmp')) / ".containers/singularity/verifier-swebench.sif"
-        if scratch_path.exists():
-            container_path = scratch_path
-        else:
-            print(f"✗ Container not found at {container_path}")
-            print("  Please run: python test_singularity_build.py")
-            return False
+        print(f"✗ Container not found at {container_path}")
+        print("  Please run: python test_singularity_build.py")
+        return False
 
     print(f"✓ Container found: {container_path}")
     print(f"  Size: {container_path.stat().st_size / (1024*1024):.1f} MB\n")

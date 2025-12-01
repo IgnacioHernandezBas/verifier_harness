@@ -1,0 +1,9 @@
+--- a/sample/boundaries.py
++++ b/sample/boundaries.py
+@@ -1,4 +1,4 @@
+ 
+ 	def should_retry(count: int) -> bool:
+-		return count <= 3
+-	
++		# incorrect boundary change: now strictly greater
++		return count < 3
