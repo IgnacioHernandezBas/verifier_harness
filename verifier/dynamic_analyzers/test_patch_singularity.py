@@ -38,7 +38,7 @@ from swebench_integration.patch_loader import PatchLoader, PatchApplicationError
 # Singularity helpers
 # -----------------------------
 def build_singularity_image(
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
     python_version: str = "3.11",
     force_rebuild: bool = False,
 ) -> Path:
@@ -108,7 +108,7 @@ From: python:{python_version}-slim
 
         # Set up Singularity temporary directories to avoid permission issues
         # Use accessible filesystem instead of compute-node-only scratch
-        scratch_base = Path("/fs/nexus-scratch/ihbas/.singularity")
+        scratch_base = PROJECT_ROOT / "singularity_temp"
         singularity_tmp = scratch_base / "tmp"
         singularity_cache = scratch_base / "cache"
         singularity_tmp.mkdir(parents=True, exist_ok=True)
@@ -143,7 +143,7 @@ From: python:{python_version}-slim
 
 def install_package_in_singularity(
     repo_path: Path,
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
 ) -> Dict[str, Any]:
     """
     Install the package and its dependencies inside the Singularity container.
@@ -252,7 +252,7 @@ def install_package_in_singularity(
 
 def install_hypothesis_in_singularity(
     repo_path: Path,
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
 ) -> Dict[str, Any]:
     """
     Install hypothesis to a directory within the repo (writable and accessible in container).
@@ -345,7 +345,7 @@ def install_hypothesis_in_singularity(
 
 def install_pytest_cov_in_singularity(
     repo_path: Path,
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
 ) -> Dict[str, Any]:
     """
     Install pytest-cov to a directory within the repo for coverage collection.
@@ -439,7 +439,7 @@ def install_pytest_cov_in_singularity(
 def run_tests_in_singularity(
     repo_path: Path,
     tests: List[str],
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
     extra_env: Optional[Dict[str, str]] = None,
     collect_coverage: bool = False,
     coverage_source: Optional[str] = None,
@@ -656,7 +656,7 @@ def _index_dataset_by_instance_id(
 
 def run_evaluation(
     predictions: List[Dict[str, Any]],
-    image_path: Path | str = "/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
     dataset_source: str = "princeton-nlp/SWE-bench_Verified",
     hf_mode: bool = True,
     split: str = "test",
@@ -919,7 +919,7 @@ if __name__ == "__main__":
     try:
         eval_results = run_evaluation(
             predictions=predictions,
-            image_path="/scratch0/ihbas/.containers/singularity/verifier-swebench.sif",
+            image_path="/scratch/verifier_harness/verifier-swebench.sif",
             dataset_source="princeton-nlp/SWE-bench_Verified",
             hf_mode=True,
             split="test",
