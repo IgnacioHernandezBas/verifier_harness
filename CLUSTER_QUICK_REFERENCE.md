@@ -6,7 +6,7 @@
 
 ```bash
 # Basic: 10 instances from one repo
-
+python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 
 # Multi-repo: 50 instances
 python submit_integrated_batch.py --limit 50 --max-parallel 5
@@ -111,7 +111,7 @@ scancel <JOB_ID>_<ARRAY_TASK_ID>
 ### Workflow 1: Quick test (5 instances)
 
 ```bash
-python submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 5 --max-parallel 2
+python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 ```
 
 ---

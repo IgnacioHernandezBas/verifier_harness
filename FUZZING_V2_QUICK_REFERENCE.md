@@ -100,7 +100,7 @@ No changes needed - just re-run your batch jobs.
 │ • Generates Hypothesis strategies from patterns        │
 │ • Example: RidgeClassifierCV(alphas=[0.1, 1.0], cv=5) │
 └─────────────────────────────────────────────────────────┘
-                        ↓ (if no patterns found)
+                        ↓ (if no patterns found) 
 ┌─────────────────────────────────────────────────────────┐
 │ TIER 2: Signature Extraction (GOOD - 40-60% coverage) │
 │ ─────────────────────────────────────────────────────  │

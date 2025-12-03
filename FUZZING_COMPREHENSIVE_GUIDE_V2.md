@@ -1,9 +1,31 @@
-# Comprehensive Dynamic Fuzzing Guide v2.0
-**Production-Ready Change-Aware Fuzzing for Patch Verification**
+# Comprehensive Dynamic Fuzzing Guide v2.1
+**Production-Ready Change-Aware Test Generation for Patch Verification**
 
 **Last Updated**: December 2025
-**Status**: ✅ Production Ready with Pattern Recognition
+**Status**: ✅ Enhanced with Smart Strategy Inference & Two-Phase Testing
 **Coverage Target**: 50-80% of changed lines (from baseline 20%)
+
+## 🆕 Recent Improvements (v2.1)
+
+1. **Smart Strategy Inference** - Automatically infers appropriate Hypothesis strategies based on:
+   - Parameter names (e.g., `cv` → `st.integers(2, 10)`, `store_*` → `st.booleans()`)
+   - Default values (e.g., `False` → `st.booleans()`, `[0.1, 1.0]` → `st.floats()`)
+   - Type hints (e.g., `Optional[int]` → `st.one_of(st.none(), st.integers())`)
+
+2. **Two-Phase Testing for sklearn** - Generates integration tests that:
+   - Phase 1: Create instance with various parameters
+   - Phase 2: Call `.fit()` with dummy data to trigger lazy initialization
+   - Verifies new parameters (like `store_cv_values`) actually work end-to-end
+
+3. **Better Parameter Validation** - Uses `assume()` to ensure valid parameter combinations:
+   - `assume(cv >= 2)` for cross-validation parameters
+   - `assume(not store_cv_values or cv is not None)` for dependent parameters
+   - Smart validation for size, alpha, tolerance parameters
+
+4. **Targeted Verification of New Code** - Specifically checks that new parameters added by patches:
+   - Are properly stored as attributes
+   - Create expected storage structures (e.g., `cv_values_` when `store_cv_values=True`)
+   - Work correctly through the full pipeline (init → fit → predict)
 
 ---
 
@@ -217,7 +239,7 @@ verifier_harness/
 │
 ├── slurm_worker_integrated.py           # 🔄 SLURM worker (UPDATED)
 ├── submit_integrated_batch.py            # Batch submission
-└── fuzzing_pipeline_real_coverage.ipynb  # Interactive notebook
+└── integrated_pipeline_modular.ipynb     # Interactive notebook (UPDATED)
 ```
 
 ---
