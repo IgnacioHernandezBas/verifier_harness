@@ -627,6 +627,190 @@ def run_tests_in_singularity(
     return result
 
 
+def _install_dataclasses_if_needed(repo_path: Path, image_path: Path) -> None:
+    """
+    Install dataclasses backport if testbed Python < 3.7.
+
+    The rules framework uses dataclasses which are built-in from Python 3.7+.
+    For older Python versions, we install the backport to .pip_packages.
+    """
+    # Check Python version in testbed
+    check_cmd = [
+        "singularity", "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/python", "-c",
+        "import sys; print('{}.{}'.format(sys.version_info.major, sys.version_info.minor))",
+    ]
+
+    try:
+        proc = subprocess.run(check_cmd, capture_output=True, text=True, timeout=10)
+        if proc.returncode == 0:
+            version_str = proc.stdout.strip()
+            major, minor = map(int, version_str.split('.'))
+            python_version = (major, minor)
+        else:
+            # Default to assuming Python 3.6
+            python_version = (3, 6)
+    except Exception:
+        # If check fails, assume we need it
+        python_version = (3, 6)
+
+    # dataclasses is built-in from Python 3.7+
+    if python_version >= (3, 7):
+        return  # No need to install
+
+    # Check if already installed
+    pip_packages_dir = repo_path / ".pip_packages"
+    if (pip_packages_dir / "dataclasses.py").exists():
+        return  # Already installed
+
+    # Install dataclasses backport
+    pip_packages_dir.mkdir(exist_ok=True)
+
+    install_cmd = [
+        "singularity", "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/pip", "install",
+        "--target", "/workspace/.pip_packages",
+        "--no-cache-dir", "--quiet",
+        "dataclasses",
+    ]
+
+    subprocess.run(install_cmd, capture_output=True, text=True, timeout=60)
+
+
+def run_rules_in_singularity(
+    repo_path: Path,
+    patch_str: str,
+    rule_ids: Optional[List[str]] = None,
+    image_path: Path | str = "/scratch/verifier_harness/verifier-swebench.sif",
+    verifier_harness_path: Optional[Path] = None,
+) -> Dict[str, Any]:
+    """
+    Run verification rules inside a Singularity container.
+
+    This allows rules to load and execute code from packages with C extensions
+    (like sklearn) that are built for the container environment.
+
+    Parameters
+    ----------
+    repo_path : Path
+        Local path to the patched repository.
+    patch_str : str
+        The unified diff patch string.
+    rule_ids : List[str], optional
+        List of rule IDs to run (e.g., ['rule_1', 'rule_2']). If None, runs all rules.
+    image_path : Path or str
+        Singularity image to use.
+    verifier_harness_path : Path, optional
+        Path to verifier_harness root. If None, uses current working directory.
+
+    Returns
+    -------
+    dict with keys: 'returncode', 'stdout', 'stderr', 'results' (list of RuleResult dicts)
+    """
+    repo_path = repo_path.resolve()
+    if not repo_path.exists():
+        raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+
+    image_path = Path(image_path)
+    if not image_path.exists():
+        raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
+
+    # Find verifier_harness root
+    if verifier_harness_path is None:
+        verifier_harness_path = Path.cwd()
+    verifier_harness_path = verifier_harness_path.resolve()
+
+    # Install dataclasses backport for Python 3.6 (needed for rules framework)
+    # This is a no-op if Python >= 3.7 or if already installed
+    _install_dataclasses_if_needed(repo_path, image_path)
+
+    # Write patch to a temporary file in the repo
+    patch_file = repo_path / ".patch_for_rules.diff"
+    patch_file.write_text(patch_str, encoding='utf-8')
+
+    # Determine which rules to run - CLI only accepts single rule or "all", not comma-separated
+    rule_arg = "all" if rule_ids is None else "all"  # Always use "all" for now
+
+    # Build the command to run rules inside the container
+    # We need to:
+    # 1. Mount both the repo and the verifier_harness code
+    # 2. Set PYTHONPATH to include both
+    # 3. Run the rules CLI
+
+    # Use TESTBED Python to execute repo code dynamically
+    # Rules require dataclasses (Python 3.7+), but we install the backport in .pip_packages
+    # This allows rules to both use modern features AND execute repo C extensions
+    python_path_components = [
+        "/workspace/.pip_packages",  # Has dataclasses backport + pytest/hypothesis/etc.
+        "/workspace",  # The repo being tested
+        "/verifier_harness",  # Our rules code
+    ]
+    python_path = ":".join(python_path_components)
+
+    # Build singularity command
+    # Use TESTBED Python so we can execute repo code with its C extensions
+    cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
+        "--bind", f"{str(verifier_harness_path)}:/verifier_harness",  # Mount our code
+        "--pwd", "/workspace",  # Set working directory
+        "--env", f"PYTHONPATH={python_path}",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/python",  # Use testbed Python to execute repo code
+        "-m", "verifier.rules.runner",
+        "--rule", rule_arg,
+        "--repo", "/workspace",
+        "--patch-file", "/workspace/.patch_for_rules.diff",
+    ]
+
+    print(f"🔍 Running rules in Singularity container...")
+    print(f"  Rules: {rule_arg}")
+    print(f"  Repo: {repo_path.name}")
+
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+
+    # Clean up temp patch file
+    if patch_file.exists():
+        patch_file.unlink()
+
+    result = {
+        "returncode": proc.returncode,
+        "stdout": proc.stdout,
+        "stderr": proc.stderr,
+    }
+
+    # Parse JSON output from rules
+    if proc.returncode == 0 or proc.stdout:
+        try:
+            # Rules output JSON to stdout
+            results_json = json.loads(proc.stdout)
+
+            # Handle both single rule (dict) and multiple rules (list) output
+            if isinstance(results_json, dict):
+                result["results"] = [results_json]
+            else:
+                result["results"] = results_json
+
+            print(f"✓ Rules executed successfully: {len(result['results'])} rule(s) ran")
+
+        except json.JSONDecodeError as e:
+            print(f"⚠️  Failed to parse rules JSON output: {e}")
+            print(f"   stdout: {proc.stdout[:200]}")
+            result["results"] = []
+    else:
+        print(f"⚠️  Rules execution failed (exit code {proc.returncode})")
+        if proc.stderr:
+            print(f"   Error: {proc.stderr[:400]}")
+        result["results"] = []
+
+    return result
+
+
 # -----------------------------
 # Core evaluation
 # -----------------------------

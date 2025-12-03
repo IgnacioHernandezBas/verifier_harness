@@ -1,14 +1,12 @@
 """CLI runner for verification rules."""
 
-from __future__ import annotations
-
 import argparse
 import importlib
 import json
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import List
+from typing import List, Optional
 
 from . import RULE_IDS
 from .base import RuleResult
@@ -50,7 +48,7 @@ def run_rules(rule_ids: List[str], repo_path: str, patch_str: str) -> List[RuleR
     return results
 
 
-def _parse_args(argv: List[str] | None = None) -> argparse.Namespace:
+def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run verifier rules against a patch.")
     parser.add_argument("--rule", choices=["all"] + RULE_IDS, default="all", help="Rule to run (default: all)")
     parser.add_argument("--repo", required=True, help="Path to the repository containing the patched code")
@@ -68,7 +66,7 @@ def _read_patch(args: argparse.Namespace) -> str:
     return patch_path.read_text(encoding="utf-8")
 
 
-def main(argv: List[str] | None = None) -> None:
+def main(argv: Optional[List[str]] = None) -> None:
     args = _parse_args(argv)
     patch_str = _read_patch(args)
 

@@ -68,6 +68,9 @@ class PatchAnalyzer:
                 class_context={}
             )
 
+        # Extract context from diff headers (fallback if AST matching fails)
+        diff_contexts = self._extract_context_from_diff(patch_content)
+
         # Parse the patched code to map lines to functions and classes
         try:
             tree = ast.parse(patched_code)
@@ -129,6 +132,24 @@ class PatchAnalyzer:
 
                         self._classify_changes(node, func_changed_lines, change_types)
 
+            # Fallback: If AST matching found no functions, use diff context
+            if not changed_functions and diff_contexts:
+                print(f"  ℹ️  AST matching found no functions, using diff context as fallback")
+                for ctx in diff_contexts:
+                    func_name = ctx.get('func_name')
+                    class_name = ctx.get('class_name')
+
+                    # Use function name if available, otherwise use class name
+                    if func_name:
+                        changed_functions.append(func_name)
+                        changed_lines_by_func[func_name] = changed_line_numbers
+                        if class_name:
+                            class_context[func_name] = class_name
+                    elif class_name and class_name not in changed_functions:
+                        # Class-level changes (like docstrings)
+                        changed_functions.append(class_name)
+                        changed_lines_by_func[class_name] = changed_line_numbers
+
             return PatchAnalysis(
                 file_path=file_path,
                 changed_functions=changed_functions,
@@ -156,7 +177,7 @@ class PatchAnalyzer:
         Extract line numbers that were added/modified from unified diff.
 
         Unified diff format:
-        @@ -old_start,old_count +new_start,new_count @@
+        @@ -old_start,old_count +new_start,new_count @@ context
         """
         changed_lines = []
         lines = patch_content.split('\n')
@@ -177,6 +198,49 @@ class PatchAnalyzer:
                 current_line += 1
 
         return changed_lines
+
+    def _extract_context_from_diff(self, patch_content: str) -> List[Dict[str, str]]:
+        """
+        Extract function/class context from @@ headers.
+
+        Returns list of {class_name, func_name, line_start}
+        """
+        contexts = []
+        lines = patch_content.split('\n')
+
+        for line in lines:
+            if line.startswith('@@'):
+                # Extract context after second @@
+                # Format: @@ -old +new @@ context
+                parts = line.split('@@')
+                if len(parts) >= 3:
+                    context = parts[2].strip()
+
+                    # Extract line number
+                    match = re.search(r'\+(\d+)', line)
+                    line_start = int(match.group(1)) if match else 0
+
+                    # Parse context for class and function
+                    class_name = None
+                    func_name = None
+
+                    # Look for "class ClassName" or "def function_name"
+                    class_match = re.search(r'class\s+(\w+)', context)
+                    func_match = re.search(r'def\s+(\w+)', context)
+
+                    if class_match:
+                        class_name = class_match.group(1)
+                    if func_match:
+                        func_name = func_match.group(1)
+
+                    if class_name or func_name:
+                        contexts.append({
+                            'class_name': class_name,
+                            'func_name': func_name,
+                            'line_start': line_start
+                        })
+
+        return contexts
 
     def _classify_changes(self, func_node, changed_lines: List[int], change_types: Dict):
         """Classify what types of code constructs changed"""

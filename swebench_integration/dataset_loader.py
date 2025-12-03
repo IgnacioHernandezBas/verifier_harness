@@ -52,18 +52,18 @@ class DatasetLoader:
         return data
 
     def iter_samples(
-    
+
         self,
         limit: Optional[int] = None,
-        filter_repo: Optional[str] = None, 
+        filter_repo: Optional[str] = None,
     ) -> Generator[Dict, None, None]:
         """
         Parameters:
         limit: Optional limit on number of samples to yield.
-        filter_repo: Optional substring to filter samples by repository name.    
-    
+        filter_repo: Optional substring to filter samples by repository name.
+
         Objective:
-        Reads the dataset,normalizes each entry into a common format, and yields one sample at a time 
+        Reads the dataset,normalizes each entry into a common format, and yields one sample at a time
         {
             'repo': ...,
             'base_commit': ...,
@@ -77,7 +77,8 @@ class DatasetLoader:
         else:
             data_iter = iter(self._load_local_json())
 
-        for i, raw_sample in enumerate(data_iter):
+        yielded_count = 0
+        for raw_sample in data_iter:
             raw_sample = dict(raw_sample)  # Ensure it's a dict (HuggingFace datasets may return DatasetDict)
             if filter_repo and filter_repo not in str(raw_sample.get(self.field_map["repo"], "")):
                 continue
@@ -91,7 +92,8 @@ class DatasetLoader:
             }
 
             yield sample
-            if limit and i + 1 >= limit:
+            yielded_count += 1
+            if limit and yielded_count >= limit:
                 break
 
 """ 

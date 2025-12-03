@@ -247,13 +247,21 @@ class HypothesisTestGenerator:
 
         # For class methods, try pattern-based test generation
         if class_name:
+            print(f"  🔍 Class method detected: {class_name}.{func_name}")
             # Try to use pattern learning if available
             if self.pattern_learner:
+                print(f"  📚 Pattern learner available, attempting pattern learning...")
                 pattern_test = self._generate_pattern_based_class_test(class_name, func_name)
                 if pattern_test:
+                    print(f"  ✅ Pattern-based test generated!")
                     return pattern_test
+                else:
+                    print(f"  ⚠️  Pattern learning returned nothing")
+            else:
+                print(f"  ⚠️  No pattern learner initialized")
 
             # Fallback: basic existence check if pattern learning unavailable or failed
+            print(f"  ℹ️  Falling back to existence check")
             return [
                 f"def test_{func_name}_exists():",
                 f'    """Verify {class_name}.{func_name} exists and is callable"""',
@@ -318,22 +326,46 @@ class HypothesisTestGenerator:
         try:
             # TIER 1: Try learning patterns from existing tests
             if self.pattern_learner:
+                print(f"    🔍 Learning patterns for {class_name}...")
                 patterns = self.pattern_learner.learn_patterns(class_name)
 
                 if patterns and patterns.patterns:
+                    print(f"    ✅ Found {len(patterns.patterns)} patterns")
                     # Get the most common patterns
                     top_patterns = patterns.get_most_common_patterns(limit=3)
+                    print(f"    📊 Top {len(top_patterns)} patterns selected")
 
                     if top_patterns:
                         # Generate strategies from learned patterns
                         strategies = self.pattern_learner.generate_hypothesis_strategy_from_patterns(patterns)
+                        print(f"    🎯 Generated {len(strategies)} Hypothesis strategies")
 
                         if strategies:
+                            # ENHANCEMENT: Also add strategies for parameters not in patterns (like new params)
+                            # Extract function signature to find ALL parameters
+                            func_signatures = self._extract_function_signatures(self.patched_code_cache)
+                            if func_name in func_signatures:
+                                sig_params = set(func_signatures[func_name].get('params', []))
+                                learned_params = set(s[0] for s in strategies)
+                                missing_params = sig_params - learned_params
+
+                                if missing_params:
+                                    print(f"    ⚠️  Found {len(missing_params)} params not in patterns: {missing_params}")
+                                    # Add basic strategies for missing params
+                                    for param in missing_params:
+                                        # Use simple strategies for new parameters
+                                        strategies.append((param, "st.booleans()"))  # Most new params are flags
+                                        print(f"    ➕ Added strategy for new param: {param}")
+
                             # Generate Hypothesis-based test with learned strategies
+                            print(f"    🧪 Generating Hypothesis-based test with {len(strategies)} total strategies")
                             return self._generate_hypothesis_pattern_test(class_name, func_name, strategies, top_patterns)
                         else:
                             # If we can't generate strategies, use direct patterns
+                            print(f"    📝 Generating direct pattern test")
                             return self._generate_direct_pattern_test(class_name, func_name, top_patterns)
+                else:
+                    print(f"    ⚠️  No patterns found for {class_name}")
 
             # TIER 2: Fall back to signature extraction (for new LLM-generated code)
             if self.patched_code_cache:
@@ -422,7 +454,7 @@ class HypothesisTestGenerator:
 
         test_lines.extend([
             given_decorator,
-            "@settings(max_examples=50, deadline=2000)",
+            "@settings(max_examples=100, deadline=2000)",  # Increased from 50 to 100 for better coverage
             f"def test_{func_name}_with_fuzzing({func_params}):",
             f'    """',
             f'    Fuzz test {class_name}.{func_name} with learned parameter strategies.',
@@ -438,17 +470,39 @@ class HypothesisTestGenerator:
         # Add specific tests based on the function
         if func_name == "__init__":
             test_lines.extend([
-                f"        # Verify initialization completed",
-                f"        # Check that attributes were set",
+                f"        # Verify initialization completed successfully",
+                f"        assert instance is not None",
+                f"        # Try to access common attributes to trigger lazy initialization",
+                f"        try:",
+                f"            # Access __dict__ to trigger any property evaluations",
+                f"            _ = instance.__dict__",
+                f"            # Try str/repr which often triggers internal state validation",
+                f"            _ = str(type(instance))",
+                f"        except Exception:",
+                f"            pass  # Some objects don't allow __dict__ access",
+                f"",
             ])
-            # Add checks for common attributes set from parameters
+            # Add actual attribute checks (not comments)
             for param_name in param_names[:3]:
-                test_lines.append(f"        # Parameter {param_name} may set instance.{param_name}")
+                test_lines.extend([
+                    f"        # Verify parameter {param_name} was processed",
+                    f"        if hasattr(instance, '{param_name}'):",
+                    f"            _ = getattr(instance, '{param_name}')  # Access it",
+                ])
+            test_lines.append(f"")
         else:
             test_lines.extend([
-                f"        # Verify method exists and is callable",
-                f"        assert hasattr(instance, '{func_name}')",
-                f"        assert callable(getattr(instance, '{func_name}'))",
+                f"        # Call the method to actually test it (not just check existence)",
+                f"        method = getattr(instance, '{func_name}')",
+                f"        assert callable(method)",
+                f"        # Try calling with no args first",
+                f"        try:",
+                f"            result = method()",
+                f"            # Verify result properties",
+                f"            _ = type(result)  # Access the result",
+                f"        except TypeError:",
+                f"            # Method requires arguments - that's okay, we tested it exists",
+                f"            pass",
             ])
 
         test_lines.extend([
