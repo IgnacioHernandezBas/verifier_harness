@@ -72,7 +72,8 @@ class EvaluationPipeline:
         self.enable_fuzzing = enable_fuzzing
         if enable_fuzzing:
             self.patch_analyzer = PatchAnalyzer()
-            self.test_generator = HypothesisTestGenerator()
+            # Phase 1: Enable differential testing (original vs patched comparison)
+            self.test_generator = HypothesisTestGenerator(enable_differential=True)
             self.test_executor = SingularityTestExecutor(
                 image_path=singularity_image_path,
                 timeout=fuzzing_timeout
@@ -367,9 +368,16 @@ class EvaluationPipeline:
 
         # Step 2: Generate tests
         print(f"  Step 2: Generating fuzzing tests...")
-        test_code = self.test_generator.generate_tests(patch_analysis, patched_code)
+        # Phase 1: Pass original_code if available for differential testing
+        original_code = patch_data.get('original_code', None)
+        if original_code:
+            print(f"  → Differential testing enabled (comparing original vs patched)")
+        test_code = self.test_generator.generate_tests(patch_analysis, patched_code, original_code)
         test_count = test_code.count('def test_')
+        differential_count = test_code.count('test_') - test_code.count('def test_')
         print(f"  Generated {test_count} test functions")
+        if 'DIFFERENTIAL TESTS' in test_code:
+            print(f"  → Includes differential tests for behavioral divergence detection")
 
         # Step 3: Execute tests in Singularity
         print(f"  Step 3: Executing tests in Singularity container...")

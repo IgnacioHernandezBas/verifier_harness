@@ -87,7 +87,7 @@ def main():
         config.set("singularity.cache_internal_dir", "/fs/nexus-scratch/ihbas/.singularity/cache")
         config.set("singularity.build_timeout", 3600)
         config.set("docker.max_retries", 3)
-        config.set("docker.image_patterns", ["swebench/sweb.eval.x86_64.{repo}_1776_{repo}-{version}:latest"])
+        config.set("docker.image_patterns", ["swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"])
         
         builder = SingularityBuilder(config)
         build_result = builder.build_instance(instance_id, force_rebuild=False, check_docker_exists=False)

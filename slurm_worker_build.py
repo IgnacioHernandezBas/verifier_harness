@@ -30,7 +30,7 @@ def main():
     
     # Use correct SWE-bench image pattern
     config.set("docker.image_patterns", [
-        "swebench/sweb.eval.x86_64.{repo}_1776_{repo}-{version}:latest",
+        "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest",
     ])
     
     # Build the container

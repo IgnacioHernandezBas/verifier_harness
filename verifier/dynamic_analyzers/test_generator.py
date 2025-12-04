@@ -15,6 +15,7 @@ from pathlib import Path
 from .patch_analyzer import PatchAnalysis
 from .test_pattern_learner import TestPatternLearner, ClassTestPatterns
 from .signature_pattern_extractor import SignaturePatternExtractor
+from .differential_tester import DifferentialFuzzer
 
 
 class HypothesisTestGenerator:
@@ -25,25 +26,28 @@ class HypothesisTestGenerator:
     Now supports pattern-based test generation by learning from existing tests.
     """
 
-    def __init__(self, repo_path: Optional[Path] = None):
+    def __init__(self, repo_path: Optional[Path] = None, enable_differential: bool = True):
         """
         Initialize the test generator.
 
         Args:
             repo_path: Path to repository for pattern learning (optional)
+            enable_differential: Enable differential testing (comparing original vs patched)
         """
         self.repo_path = repo_path
         self.pattern_learner = TestPatternLearner(repo_path) if repo_path else None
         self.signature_extractor = SignaturePatternExtractor()
         self.patched_code_cache = None  # Store patched code for signature extraction
+        self.enable_differential = enable_differential
 
-    def generate_tests(self, patch_analysis: PatchAnalysis, patched_code: str) -> str:
+    def generate_tests(self, patch_analysis: PatchAnalysis, patched_code: str, original_code: Optional[str] = None) -> str:
         """
         Generate test code targeting the changes in the patch.
 
         Args:
             patch_analysis: Analysis of what changed in the patch
             patched_code: The full patched code (for import context)
+            original_code: Original code before patch (for differential testing)
 
         Returns:
             Complete Python test file as a string
@@ -133,6 +137,18 @@ class HypothesisTestGenerator:
 
             # Always generate general property test
             test_lines.extend(self._generate_property_test(func_name, func_sig, class_name))
+
+        # Add differential tests if original code is available
+        if self.enable_differential and original_code:
+            test_lines.append("")
+            test_lines.append("# ========== DIFFERENTIAL TESTS (Original vs Patched) ==========")
+            test_lines.append("")
+
+            for func_name in patch_analysis.changed_functions:
+                func_sig = function_signatures.get(func_name, {'params': [], 'has_args': False, 'has_kwargs': False})
+                diff_tests = self._generate_differential_tests(func_name, func_sig, original_code, patched_code)
+                if diff_tests:
+                    test_lines.extend(diff_tests)
 
         return '\n'.join(test_lines)
 
@@ -319,7 +335,7 @@ class HypothesisTestGenerator:
 
         return [
             f"@given({strategies})" if strategies else "",
-            f"@settings(max_examples=50, deadline=1000)",
+            f"@settings(max_examples=1000, deadline=2000)",
             f"def test_{func_name}_boundaries({', '.join([f'arg{i}' for i in range(min(param_count, 3))])}):" if param_count > 0 else f"def test_{func_name}_boundaries():",
             f'    """Test boundary conditions for {func_name}"""',
             f"    try:",
@@ -339,7 +355,7 @@ class HypothesisTestGenerator:
 
         return [
             f"@given(st.lists(st.integers(), min_size=0, max_size=100))",
-            f"@settings(max_examples=50, deadline=1000)",
+            f"@settings(max_examples=1000, deadline=2000)",
             f"def test_{func_name}_loops(items):",
             f'    """Test loop edge cases for {func_name}"""',
             f"    try:",
@@ -425,7 +441,7 @@ class HypothesisTestGenerator:
 
         return [
             f"@given({strategies})" if strategies else "",
-            f"@settings(max_examples=100, deadline=1000)",
+            f"@settings(max_examples=1000, deadline=2000)",
             f"def test_{func_name}_properties({args}):" if args else f"def test_{func_name}_properties():",
             f'    """Test general properties of {func_name}"""',
             f"    try:",
@@ -610,7 +626,7 @@ class HypothesisTestGenerator:
 
         test_lines.extend([
             given_decorator,
-            "@settings(max_examples=100, deadline=2000)",  # Increased from 50 to 100 for better coverage
+            "@settings(max_examples=1000, deadline=2000)",  # Increased to 1000 for differential testing
             f"def test_{func_name}_with_fuzzing({func_params}):",
             f'    """',
             f'    Fuzz test {class_name}.{func_name} with learned parameter strategies.',
@@ -799,7 +815,7 @@ class HypothesisTestGenerator:
             "import numpy as np",
             "",
             given_decorator,
-            "@settings(max_examples=50, deadline=3000)",  # Longer deadline for fit operations
+            "@settings(max_examples=1000, deadline=5000)",  # Longer deadline for fit operations
             f"def test_{func_name}_sklearn_integration({func_params}):",
             f'    """',
             f'    Integration test for {class_name}.{func_name} with actual fit/predict workflow.',
@@ -943,7 +959,7 @@ class HypothesisTestGenerator:
 
             test_lines.extend([
                 given_decorator,
-                "@settings(max_examples=50, deadline=2000)",
+                "@settings(max_examples=1000, deadline=3000)",
                 f"def test_{func_name}_signature_based({func_params}):",
                 f'    """',
                 f'    Test {class_name}.{func_name} using signature-inferred strategies.',
@@ -1018,6 +1034,106 @@ class HypothesisTestGenerator:
             return test_lines
 
         return None
+
+    def _generate_differential_tests(self, func_name: str, func_sig: Dict,
+                                     original_code: str, patched_code: str) -> List[str]:
+        """
+        Generate differential tests comparing original vs patched behavior.
+
+        Args:
+            func_name: Name of the function to test
+            func_sig: Function signature dictionary
+            original_code: Code before patch
+            patched_code: Code after patch
+
+        Returns:
+            List of test code lines
+        """
+        params = func_sig.get('params', [])
+        if not params:
+            return []
+
+        # Generate strategies for each parameter
+        strategies = []
+        for param in params[:5]:  # Limit to 5 params
+            strategy = self._infer_smart_strategy_for_param(param, func_sig)
+            strategies.append(f"{param}={strategy}")
+
+        param_str = ", ".join(params[:5])
+        strategy_str = ", ".join(strategies)
+
+        test_lines = [
+            f"def test_{func_name}_differential({param_str}):",
+            f'    """',
+            f'    Differential test: Compare behavior between original and patched {func_name}.',
+            f'    Detects behavioral divergences (different results or exceptions).',
+            f'    """',
+            f"    # Load original function",
+            f"    original_code = '''",
+            f"{original_code}",
+            f"    '''",
+            f"    ",
+            f"    # Load patched function",
+            f"    patched_code = '''",
+            f"{patched_code}",
+            f"    '''",
+            f"    ",
+            f"    # Execute both versions",
+            f"    original_namespace = {{}}",
+            f"    patched_namespace = {{}}",
+            f"    ",
+            f"    try:",
+            f"        exec(original_code, original_namespace)",
+            f"        original_func = original_namespace.get('{func_name}')",
+            f"    except Exception as e:",
+            f"        pytest.skip(f'Could not load original function: {{e}}')",
+            f"    ",
+            f"    try:",
+            f"        exec(patched_code, patched_namespace)",
+            f"        patched_func = patched_namespace.get('{func_name}')",
+            f"    except Exception as e:",
+            f"        pytest.skip(f'Could not load patched function: {{e}}')",
+            f"    ",
+            f"    if original_func is None or patched_func is None:",
+            f"        pytest.skip('Functions not found in code')",
+            f"    ",
+            f"    # Execute original",
+            f"    try:",
+            f"        original_result = original_func({param_str})",
+            f"        original_exception = None",
+            f"    except Exception as e:",
+            f"        original_result = None",
+            f"        original_exception = type(e).__name__",
+            f"    ",
+            f"    # Execute patched",
+            f"    try:",
+            f"        patched_result = patched_func({param_str})",
+            f"        patched_exception = None",
+            f"    except Exception as e:",
+            f"        patched_result = None",
+            f"        patched_exception = type(e).__name__",
+            f"    ",
+            f"    # Compare behavior",
+            f"    if original_exception != patched_exception:",
+            f"        pytest.fail(",
+            f"            f'Exception mismatch: original raised {{original_exception}}, '",
+            f"            f'patched raised {{patched_exception}}'",
+            f"        )",
+            f"    ",
+            f"    if original_exception is None and original_result != patched_result:",
+            f"        pytest.fail(",
+            f"            f'Result mismatch: original={{original_result}}, patched={{patched_result}}'",
+            f"        )",
+            f"",
+        ]
+
+        # Wrap with Hypothesis decorator
+        hypothesis_test = [
+            f"@given({strategy_str})",
+            f"@settings(max_examples=1000, deadline=3000)",
+        ] + test_lines
+
+        return hypothesis_test
 
 
 # Example usage

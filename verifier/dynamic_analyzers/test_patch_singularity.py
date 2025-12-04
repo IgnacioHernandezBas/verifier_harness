@@ -443,17 +443,22 @@ def run_tests_in_singularity(
     extra_env: Optional[Dict[str, str]] = None,
     collect_coverage: bool = False,
     coverage_source: Optional[str] = None,
+    verbose: bool = False,
 ) -> Dict[str, Any]:
     """
-    Run pytest inside a Singularity container over the given repo.
+    Run tests inside a Singularity container over the given repo.
+
+    Automatically detects test framework (pytest vs Django) based on test format.
 
     Parameters
     ----------
     repo_path : Path
         Local path to the patched repository.
     tests : List[str]
-        List of pytest node ids (e.g. 'tests/test_foo.py::test_bar').
-        If empty, runs 'pytest -q' over the whole suite.
+        List of test identifiers. Format depends on framework:
+        - Pytest: 'tests/test_foo.py::test_bar'
+        - Django: 'test_name (module.Class)'
+        If empty, runs tests over the whole suite.
     image_path : Path or str
         Singularity image to use.
     extra_env : Dict[str,str], optional
@@ -475,6 +480,38 @@ def run_tests_in_singularity(
     image_path = Path(image_path)
     if not image_path.exists():
         raise FileNotFoundError(f"Singularity image does not exist: {image_path}")
+
+    # Detect test framework based on test format
+    def detect_test_framework(test_list: List[str]) -> str:
+        """Detect if tests are pytest or Django format."""
+        if not test_list:
+            return "pytest"  # default
+
+        # Check first few tests
+        for test in test_list[:5]:
+            if "::" in test:
+                return "pytest"
+            elif "(" in test and ")" in test:
+                return "django"
+
+        return "pytest"  # default fallback
+
+    def convert_django_test_name(test_str: str) -> str:
+        """
+        Convert Django unittest format to Django test command format.
+
+        Input:  'test_ascii_validator (auth_tests.test_validators.UsernameValidatorsTests)'
+        Output: 'auth_tests.test_validators.UsernameValidatorsTests.test_ascii_validator'
+        """
+        import re
+        match = re.match(r'^(\w+)\s+\(([^)]+)\)$', test_str.strip())
+        if match:
+            test_method, test_class = match.groups()
+            return f"{test_class}.{test_method}"
+        return test_str  # fallback to original if parsing fails
+
+    test_framework = detect_test_framework(tests)
+    print(f"📝 Detected test framework: {test_framework}")
 
     # Check if C extensions already exist (from install_package_in_singularity)
     # If not, copy pre-built .so files from container's /testbed
@@ -531,54 +568,125 @@ def run_tests_in_singularity(
     for k, v in env_dict.items():
         env_args.extend(["--env", f"{k}={v}"])
 
-    # If no specific tests are given, run full suite
-    test_args = tests or []
+    # Prepare test arguments based on framework
+    if test_framework == "django":
+        # Set Django settings module for Django's own test suite
+        # This is required for running Django tests via 'python -m django test'
+        if "DJANGO_SETTINGS_MODULE" not in env_dict:
+            env_dict["DJANGO_SETTINGS_MODULE"] = "tests.test_sqlite"
+            env_args.extend(["--env", "DJANGO_SETTINGS_MODULE=tests.test_sqlite"])
+        # Convert Django test names
+        converted_tests = [convert_django_test_name(t) for t in tests] if tests else []
+        test_args = converted_tests
 
-    # Build pytest arguments
-    pytest_args = ["-q"]
+        # Build Django test arguments
+        test_runner_args = []
+        if verbose:
+            test_runner_args.append("--verbosity=2")
 
-    # Add coverage collection if requested
-    coverage_file = None
-    if collect_coverage:
-        # Clean up old coverage files to prevent conflicts
-        old_coverage_db = repo_path / ".coverage"
-        old_coverage_json = repo_path / ".coverage.json"
-        if old_coverage_db.exists():
-            old_coverage_db.unlink()
-        if old_coverage_json.exists():
-            old_coverage_json.unlink()
+        # Add coverage for Django if requested
+        coverage_file = None
+        if collect_coverage:
+            # Clean up old coverage files
+            old_coverage_db = repo_path / ".coverage"
+            old_coverage_json = repo_path / ".coverage.json"
+            if old_coverage_db.exists():
+                old_coverage_db.unlink()
+            if old_coverage_json.exists():
+                old_coverage_json.unlink()
 
-        coverage_file = repo_path / ".coverage.json"
-        cov_source = coverage_source or "/workspace"
+            coverage_file = repo_path / ".coverage.json"
 
-        pytest_args.extend([
-            f"--cov={cov_source}",
-            "--cov-branch",  # Enable branch coverage tracking
-            "--cov-report=term-missing:skip-covered",  # Show only uncovered lines in terminal
-        ])
+            # For Django, we need to use coverage run command
+            print(f"📊 Coverage collection enabled for Django tests")
 
-        print(f"📊 Coverage collection enabled for: {cov_source} (with branch coverage)")
+        test_runner_args.extend(test_args)
 
-    pytest_args.extend(test_args)
+        # Use Django's own test runner (tests/runtests.py) instead of 'python -m django test'
+        # Django's repository has a custom test runner
+        python_path_in_container = "/opt/miniconda3/envs/testbed/bin/python"
 
-    # Use the container's testbed Python environment which has pytest pre-installed
-    # This is the standard SWE-bench environment at /opt/miniconda3/envs/testbed
-    python_path_in_container = "/opt/miniconda3/envs/testbed/bin/python"
+        if collect_coverage:
+            # Run with coverage
+            cov_source = coverage_source or "."
+            cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                "--pwd", "/workspace",
+                *env_args,
+                str(image_path),
+                python_path_in_container,
+                "-m",
+                "coverage",
+                "run",
+                "--source", cov_source,
+                "--branch",
+                "tests/runtests.py",
+                *test_runner_args,
+            ]
+        else:
+            cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                "--pwd", "/workspace",
+                *env_args,
+                str(image_path),
+                python_path_in_container,
+                "tests/runtests.py",
+                *test_runner_args,
+            ]
 
-    cmd = [
-        "singularity",
-        "exec",
-        "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
-        "--pwd", "/workspace",  # Set working directory
-        *env_args,
-        str(image_path),
-        python_path_in_container,
-        "-m",
-        "pytest",
-        *pytest_args,
-    ]
+    else:  # pytest
+        # If no specific tests are given, run full suite
+        test_args = tests or []
 
-    print(f"🧪 Running tests in Singularity:\n  {' '.join(cmd)}\n")
+        # Build pytest arguments
+        pytest_args = ["-v"] if verbose else ["-q"]
+
+        # Add coverage collection if requested
+        coverage_file = None
+        if collect_coverage:
+            # Clean up old coverage files to prevent conflicts
+            old_coverage_db = repo_path / ".coverage"
+            old_coverage_json = repo_path / ".coverage.json"
+            if old_coverage_db.exists():
+                old_coverage_db.unlink()
+            if old_coverage_json.exists():
+                old_coverage_json.unlink()
+
+            coverage_file = repo_path / ".coverage.json"
+            cov_source = coverage_source or "/workspace"
+
+            pytest_args.extend([
+                f"--cov={cov_source}",
+                "--cov-branch",  # Enable branch coverage tracking
+                "--cov-report=term-missing:skip-covered",  # Show only uncovered lines in terminal
+            ])
+
+            print(f"📊 Coverage collection enabled for: {cov_source} (with branch coverage)")
+
+        pytest_args.extend(test_args)
+
+        # Use the container's testbed Python environment which has pytest pre-installed
+        # This is the standard SWE-bench environment at /opt/miniconda3/envs/testbed
+        python_path_in_container = "/opt/miniconda3/envs/testbed/bin/python"
+
+        cmd = [
+            "singularity",
+            "exec",
+            "--bind", f"{str(repo_path)}:/workspace",  # Mount repo
+            "--pwd", "/workspace",  # Set working directory
+            *env_args,
+            str(image_path),
+            python_path_in_container,
+            "-m",
+            "pytest",
+            *pytest_args,
+        ]
+
+    print(f"🧪 Running {test_framework} tests in Singularity:\n  {' '.join(cmd)}\n")
     proc = subprocess.run(cmd, capture_output=True, text=True)
 
     result = {

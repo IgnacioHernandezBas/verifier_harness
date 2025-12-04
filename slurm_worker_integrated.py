@@ -8,6 +8,7 @@ import sys
 import json
 import argparse
 from pathlib import Path
+from typing import Dict, List
 import time
 import traceback
 import os
@@ -25,6 +26,7 @@ from verifier.dynamic_analyzers.analyze_coverage_unified import analyze_coverage
 from verifier.dynamic_analyzers import test_patch_singularity
 from verifier.utils.diff_utils import parse_unified_diff, filter_paths_to_py
 from verifier.rules import RULE_IDS
+import re
 
 import streamlit.modules.static_eval.static_modules.code_quality as code_quality
 import streamlit.modules.static_eval.static_modules.syntax_structure as syntax_structure
@@ -51,7 +53,7 @@ class IntegratedPipelineWorker:
         self.swebench_config.set("singularity.build_timeout", 1800)
         self.swebench_config.set("docker.max_retries", 3)
         self.swebench_config.set("docker.image_patterns", [
-            "swebench/sweb.eval.x86_64.{repo}_1776_{repo}-{version}:latest",
+            "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest",
         ])
 
         self.builder = SingularityBuilder(self.swebench_config)
@@ -98,6 +100,10 @@ class IntegratedPipelineWorker:
             repos_root = f"./repos_temp_{task_id}"
             patcher = PatchLoader(sample=sample, repos_root=repos_root)
             repo_path = patcher.clone_repository()
+
+            # Phase 1: Capture original code BEFORE applying patch
+            original_code_map = self._capture_original_code(repo_path, sample['patch'])
+
             patch_result = patcher.apply_patch()
 
             if not patch_result['applied']:
@@ -189,7 +195,7 @@ class IntegratedPipelineWorker:
                 results['static'] = self._run_static(repo_path, sample['patch'])
 
             if self.config['enable_fuzzing']:
-                results['fuzzing'] = self._run_fuzzing(repo_path, sample, container_path)
+                results['fuzzing'] = self._run_fuzzing(repo_path, sample, container_path, original_code_map)
 
             if self.config['enable_rules']:
                 results['rules'] = self._run_rules(repo_path, sample['patch'], container_path)
@@ -305,7 +311,178 @@ class IntegratedPipelineWorker:
 
         return result
 
-    def _run_fuzzing(self, repo_path: str, sample: dict, container_path: str) -> dict:
+    def _capture_original_code(self, repo_path: str, patch_diff: str) -> Dict[str, str]:
+        """
+        Capture original code from modified files BEFORE patch is applied.
+
+        Args:
+            repo_path: Path to repository
+            patch_diff: Unified diff string
+
+        Returns:
+            Dict mapping file paths to their original content
+        """
+        original_code_map = {}
+
+        try:
+            # Parse patch to find modified files
+            parsed_diff = parse_unified_diff(patch_diff)
+            modified_files = filter_paths_to_py(list(parsed_diff.keys()))
+
+            # Read original content of each file
+            for file_path in modified_files:
+                full_path = Path(repo_path) / file_path
+                if full_path.exists():
+                    try:
+                        original_code_map[file_path] = full_path.read_text(encoding='utf-8')
+                        print(f"    → Captured original code: {file_path}")
+                    except Exception as e:
+                        print(f"    → Warning: Could not read {file_path}: {e}")
+
+        except Exception as e:
+            print(f"    → Warning: Could not capture original code: {e}")
+
+        return original_code_map
+
+    def _parse_test_failures(self, fuzzing_output: str) -> List[Dict]:
+        """
+        Parse pytest output to extract detailed failure information.
+
+        Args:
+            fuzzing_output: Combined stdout/stderr from fuzzing tests
+
+        Returns:
+            List of failure dicts with structured information
+        """
+        failures = []
+
+        # Pattern 1: FAILED test lines with file and line number (verbose mode)
+        failed_pattern = r"FAILED ([\w\./]+\.py)::(test_\w+)(.*?)(?=\n|$)"
+        for match in re.finditer(failed_pattern, fuzzing_output):
+            test_file = match.group(1)
+            test_name = match.group(2)
+            extra = match.group(3).strip()
+
+            failures.append({
+                'test_file': test_file,
+                'test_name': test_name,
+                'extra_info': extra
+            })
+
+        # Pattern 2: ERROR test lines
+        error_pattern = r"ERROR ([\w\./]+\.py)::(test_\w+)"
+        for match in re.finditer(error_pattern, fuzzing_output):
+            failures.append({
+                'test_file': match.group(1),
+                'test_name': match.group(2),
+                'error': True
+            })
+
+        # Pattern 3: Parse from verbose failure sections (captures more detail)
+        # Look for sections like:
+        # _______ test_name _______
+        # <traceback>
+        # AssertionError: message
+        failure_section_pattern = r"_{5,}\s+(test_\w+)\s+_{5,}(.*?)(?=_{5,}|short test summary|$)"
+        for match in re.finditer(failure_section_pattern, fuzzing_output, re.DOTALL):
+            test_name = match.group(1)
+            section_content = match.group(2)
+
+            # Check if we already have this failure
+            existing = next((f for f in failures if f.get('test_name') == test_name), None)
+            if not existing:
+                failures.append({
+                    'test_name': test_name,
+                    'test_file': 'test_fuzzing_generated.py'  # Default, will be overridden if found
+                })
+                existing = failures[-1]
+
+            # Extract assertion message from section
+            assertion_match = re.search(r"AssertionError: (.*?)(?=\n\n|\n[A-Z]|$)", section_content, re.DOTALL)
+            if assertion_match:
+                existing['assertion_message'] = assertion_match.group(1).strip()[:200]
+
+            # Extract falsifying example
+            falsi_match = re.search(r"Falsifying example: test_\w+\((.*?)\)", section_content)
+            if falsi_match:
+                existing['falsifying_example'] = falsi_match.group(1).strip()[:200]
+
+            # Extract exception type
+            exc_match = re.search(r"raised ([\w\.]+)", section_content)
+            if exc_match:
+                existing['exception_type'] = exc_match.group(1)
+
+        # Pattern 4: Extract Hypothesis falsifying examples (top-level)
+        hypothesis_pattern = r"Falsifying example: (test_\w+)\((.*?)\)"
+        for match in re.finditer(hypothesis_pattern, fuzzing_output):
+            test_name = match.group(1)
+            example = match.group(2).strip()[:200]
+
+            existing = next((f for f in failures if f.get('test_name') == test_name), None)
+            if existing:
+                existing['falsifying_example'] = example
+
+        # Pattern 5: Parse summary line to count failures if no detailed failures found
+        # Example: "1 failed, 1 passed, 1 skipped"
+        if not failures:
+            summary_match = re.search(r"(\d+) failed", fuzzing_output)
+            if summary_match:
+                failure_count = int(summary_match.group(1))
+                # Create generic failure entries
+                for i in range(failure_count):
+                    failures.append({
+                        'test_name': f'unknown_test_{i+1}',
+                        'test_file': 'test_fuzzing_generated.py',
+                        'note': 'Failure detected from summary, but test name not found in output (may be truncated or in quiet mode)'
+                    })
+
+        return failures
+
+    def _parse_divergence_info(self, fuzzing_output: str) -> Dict:
+        """
+        Parse differential test output to extract divergence information.
+
+        Args:
+            fuzzing_output: Combined stdout/stderr from fuzzing tests
+
+        Returns:
+            Dict with divergence detection results
+        """
+        divergences = []
+        divergence_count = 0
+
+        # Pattern 1: Exception mismatch in differential tests
+        exception_pattern = r"Exception mismatch: original raised (\w+), patched raised (\w+)"
+        for match in re.finditer(exception_pattern, fuzzing_output):
+            divergence_count += 1
+            divergences.append({
+                'type': 'exception_divergence',
+                'original': match.group(1),
+                'patched': match.group(2),
+            })
+
+        # Pattern 2: Result mismatch in differential tests
+        result_pattern = r"Result mismatch: original=(.*?), patched=(.*?)(?:\n|$)"
+        for match in re.finditer(result_pattern, fuzzing_output):
+            divergence_count += 1
+            divergences.append({
+                'type': 'result_divergence',
+                'original': match.group(1).strip(),
+                'patched': match.group(2).strip(),
+            })
+
+        # Pattern 3: Count differential test failures
+        differential_test_pattern = r"FAILED.*test_\w+_differential"
+        differential_failures = len(re.findall(differential_test_pattern, fuzzing_output))
+
+        return {
+            'divergences_detected': divergence_count > 0,
+            'divergence_count': divergence_count,
+            'differential_test_failures': differential_failures,
+            'divergence_details': divergences[:10],  # Limit to first 10 for brevity
+        }
+
+    def _run_fuzzing(self, repo_path: str, sample: dict, container_path: str, original_code_map: Dict[str, str] = None) -> dict:
         """Run dynamic fuzzing."""
         print("  → Dynamic fuzzing...")
 
@@ -322,6 +499,18 @@ class IntegratedPipelineWorker:
                 'tests_generated': 0,
                 'combined_coverage': 0.0,
                 'passed': True,
+                'divergences_detected': False,
+                'divergence_count': 0,
+                'differential_testing_enabled': False,
+                'details': {
+                    'differential_testing': {
+                        'enabled': False,
+                        'divergences_detected': False,
+                        'divergence_count': 0,
+                        'differential_test_failures': 0,
+                        'divergence_details': [],
+                    }
+                }
             }
 
         first_file_path = modified_files[0]
@@ -360,6 +549,14 @@ class IntegratedPipelineWorker:
 
         tests_passed = (test_result['returncode'] == 0)
 
+        # DEBUG: Print baseline test output if tests failed
+        if not tests_passed:
+            print(f"\n⚠️  BASELINE TESTS FAILED (returncode={test_result['returncode']})")
+            print("STDERR (first 2000 chars):")
+            print(test_result.get('stderr', '')[:2000])
+            print("\nSTDOUT (first 2000 chars):")
+            print(test_result.get('stdout', '')[:2000])
+
         # Analyze coverage
         baseline_coverage = 0.0
         baseline_covered_lines = set()
@@ -380,14 +577,34 @@ class IntegratedPipelineWorker:
 
         # Generate fuzzing tests
         print(f"DEBUG: Initializing test generator with repo_path={repo_path}")
-        test_generator = HypothesisTestGenerator(repo_path=Path(repo_path))
+        # Phase 1: Enable differential testing
+        test_generator = HypothesisTestGenerator(repo_path=Path(repo_path), enable_differential=True)
+
+        # Phase 1: Get original code for differential testing
+        original_code = None
+        if original_code_map and first_file_path in original_code_map:
+            original_code = original_code_map[first_file_path]
+            print(f"    ✓ Original code available for differential testing")
+        else:
+            print(f"    ⚠️  No original code - differential tests will not be generated")
+
         print(f"DEBUG: Generating tests for {len(patch_analysis.changed_functions)} functions")
-        test_code = test_generator.generate_tests(patch_analysis, patched_code)
+        if original_code:
+            print(f"DEBUG: Differential testing enabled (comparing original vs patched)")
+        test_code = test_generator.generate_tests(patch_analysis, patched_code, original_code)
         test_count = test_code.count('def test_')
         print(f"DEBUG: Generated {test_count} tests")
+        if 'DIFFERENTIAL TESTS' in test_code:
+            print(f"DEBUG: Generated differential tests for behavioral divergence detection")
 
-        test_file = Path(repo_path) / "test_fuzzing_generated.py"
+        # Ensure repo directory exists before writing test file
+        repo_dir = Path(repo_path)
+        if not repo_dir.exists():
+            raise FileNotFoundError(f"Repository directory doesn't exist: {repo_dir}")
+
+        test_file = repo_dir / "test_fuzzing_generated.py"
         test_file.write_text(test_code, encoding='utf-8')
+        print(f"DEBUG: Test file written to: {test_file}")
 
         test_patch_singularity.install_hypothesis_in_singularity(
             repo_path=Path(repo_path),
@@ -398,9 +615,10 @@ class IntegratedPipelineWorker:
             repo_path=Path(repo_path),
             tests=["test_fuzzing_generated.py"],
             image_path=str(container_path),
-            extra_env={"HYPOTHESIS_MAX_EXAMPLES": "50"},
+            extra_env={"HYPOTHESIS_MAX_EXAMPLES": "1000"},
             collect_coverage=True,
             coverage_source=coverage_source,
+            verbose=True,  # Enable verbose output to capture detailed failure info
         )
 
         fuzzing_success = (fuzzing_result['returncode'] == 0)
@@ -424,8 +642,35 @@ class IntegratedPipelineWorker:
 
         passed = combined_coverage >= self.config['coverage_threshold']
 
+        # Parse FULL output before truncating (important: do this first!)
+        full_fuzzing_output = (fuzzing_result.get('stdout', '') + '\n' + fuzzing_result.get('stderr', ''))
+
+        # Extract structured failure information
+        test_failures = self._parse_test_failures(full_fuzzing_output)
+        divergence_info = self._parse_divergence_info(full_fuzzing_output)
+
+        # Enhanced console output with divergence info
         print(f"    Tests: {'PASS' if tests_passed else 'FAIL'}, Fuzzing: {test_count} tests")
         print(f"    Coverage: {combined_coverage*100:.1f}% {'✅' if passed else '⚠️'}")
+
+        # Show divergence status prominently
+        if divergence_info['divergences_detected']:
+            print(f"    ⚠️  DIVERGENCES DETECTED: {divergence_info['divergence_count']} behavioral difference(s) found!")
+            print(f"       Differential test failures: {divergence_info['differential_test_failures']}")
+        else:
+            if original_code:
+                print(f"    ✅ No behavioral divergences detected (original vs patched behavior matches)")
+            else:
+                print(f"    ℹ️  Differential testing skipped (no original code available)")
+
+        # Show non-divergence test failures
+        if test_failures and not fuzzing_success:
+            non_divergence_failures = [f for f in test_failures if '_differential' not in f.get('test_name', '')]
+            if non_divergence_failures:
+                print(f"    ⚠️  Other test failures: {len(non_divergence_failures)} test(s) failed")
+                for fail in non_divergence_failures[:3]:  # Show first 3
+                    msg = fail.get('assertion_message', fail.get('exception_type', 'Unknown error'))[:80]
+                    print(f"       - {fail['test_name']}: {msg}")
 
         # Calculate improvement
         improvement = (combined_coverage - baseline_coverage) * 100 if baseline_coverage >= 0 else 0.0
@@ -438,6 +683,9 @@ class IntegratedPipelineWorker:
             'baseline_coverage': baseline_coverage * 100,
             'improvement': improvement,
             'passed': passed,
+            'divergences_detected': divergence_info['divergences_detected'],
+            'divergence_count': divergence_info['divergence_count'],
+            'differential_testing_enabled': original_code is not None,
             'details': {
                 'patch_analysis': {
                     'modified_files': modified_files,
@@ -458,6 +706,16 @@ class IntegratedPipelineWorker:
                     'count': test_count,
                     'passed': fuzzing_success,
                     'returncode': fuzzing_result['returncode'],
+                    'test_failures': test_failures,  # ← NEW: Structured failure info
+                    'stdout': fuzzing_result.get('stdout', '')[-5000:] if fuzzing_result.get('stdout') else '',  # Last 5000 chars
+                    'stderr': fuzzing_result.get('stderr', '')[-5000:] if fuzzing_result.get('stderr') else '',  # Last 5000 chars
+                },
+                'differential_testing': {
+                    'enabled': original_code is not None,
+                    'divergences_detected': divergence_info['divergences_detected'],
+                    'divergence_count': divergence_info['divergence_count'],
+                    'differential_test_failures': divergence_info['differential_test_failures'],
+                    'divergence_details': divergence_info['divergence_details'],
                 },
             }
         }

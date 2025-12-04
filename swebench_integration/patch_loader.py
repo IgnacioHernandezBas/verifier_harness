@@ -80,10 +80,23 @@ class PatchLoader:
             )
 
         if self.base_commit:
-            subprocess.run(
+            # Try shallow fetch first (faster)
+            result = subprocess.run(
                 ["git", "fetch", "--depth", "1", "origin", self.base_commit],
                 cwd=temp_dir, check=False, capture_output=True,
             )
+
+            # If shallow fetch failed, unshallow and fetch the commit
+            if result.returncode != 0:
+                subprocess.run(
+                    ["git", "fetch", "--unshallow"],
+                    cwd=temp_dir, check=False, capture_output=True,
+                )
+                subprocess.run(
+                    ["git", "fetch", "origin", self.base_commit],
+                    cwd=temp_dir, check=True, capture_output=True,
+                )
+
             subprocess.run(
                 ["git", "checkout", self.base_commit],
                 cwd=temp_dir, check=True, capture_output=True,
