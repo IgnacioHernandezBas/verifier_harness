@@ -40,7 +40,7 @@ def analyze_coverage_unified(coverage_data, patch_analysis, analyzer, label="Cov
 
     # Only show branch coverage if there are actually branches
     if branch_result['total_branches'] > 0:
-        print(f"\n   Branch coverage: {branch_result['coverage']*100:.1f}%")
+        print(f"\n   Branch coverage: {branch_result['branch_coverage']*100:.1f}%")
         print(f"   Total branches: {branch_result['total_branches']}")
         print(f"   Covered branches: {branch_result['covered_branches']}")
         if branch_result['missing_branches']:

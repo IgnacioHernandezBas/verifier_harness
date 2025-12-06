@@ -217,6 +217,33 @@ def install_package_in_singularity(
         )
         so_count = len(count_result.stdout.strip().split('\n')) if count_result.stdout.strip() else 0
 
+        # For matplotlib, also copy data files (mpl-data directory) and _version.py
+        # Check if this is a matplotlib repo
+        is_matplotlib = (repo_path / "lib" / "matplotlib").exists()
+        if is_matplotlib:
+            print(f"   Detected matplotlib, copying data files and _version.py...")
+            mpl_files_cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                str(image_path),
+                "bash", "-c",
+                "if [ -d /testbed/lib/matplotlib/mpl-data ]; then "
+                "cp -r /testbed/lib/matplotlib/mpl-data /workspace/lib/matplotlib/ 2>/dev/null || true; "
+                "fi; "
+                "if [ -f /testbed/lib/matplotlib/_version.py ]; then "
+                "cp /testbed/lib/matplotlib/_version.py /workspace/lib/matplotlib/ 2>/dev/null || true; "
+                "fi"
+            ]
+            mpl_files_proc = subprocess.run(mpl_files_cmd, capture_output=True, text=True, timeout=60)
+            version_exists = (repo_path / "lib" / "matplotlib" / "_version.py").exists()
+            data_exists = (repo_path / "lib" / "matplotlib" / "mpl-data").exists()
+            if mpl_files_proc.returncode == 0:
+                if version_exists:
+                    print(f"✅ Successfully copied matplotlib _version.py")
+                if data_exists:
+                    print(f"✅ Successfully copied matplotlib data files")
+
         if so_count > 0:
             print(f"✅ Successfully copied {so_count} pre-built C extension files")
             return {
@@ -403,7 +430,12 @@ def install_pytest_cov_in_singularity(
         }
 
     # Install pytest-cov and coverage to the packages directory
-    cmd = [
+    # CRITICAL: Use --no-deps for pytest-cov to avoid installing pytest as a dependency
+    # This prevents version conflicts when testing repos that provide their own pytest
+    # (e.g., pytest repos have patched pytest in /workspace/src/pytest)
+
+    # Step 1: Install coverage (pytest-cov's main dependency)
+    coverage_cmd = [
         "singularity",
         "exec",
         "--bind", f"{str(repo_path)}:/workspace",
@@ -413,12 +445,33 @@ def install_pytest_cov_in_singularity(
         "--target", "/workspace/.pip_packages",
         "--no-cache-dir",
         "--quiet",
-        "pytest-cov",
         "coverage",
     ]
 
+    # Step 2: Install pytest-cov WITHOUT dependencies to avoid conflicts
+    pytest_cov_cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/pip",
+        "install",
+        "--target", "/workspace/.pip_packages",
+        "--no-cache-dir",
+        "--no-deps",  # CRITICAL: Don't install pytest, pluggy, py, etc.
+        "--quiet",
+        "pytest-cov",
+    ]
+
     print(f"📦 Installing pytest-cov to {packages_dir}...")
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+
+    # Install coverage first
+    proc1 = subprocess.run(coverage_cmd, capture_output=True, text=True, timeout=60)
+    if proc1.returncode != 0:
+        print(f"⚠️  Coverage installation failed: {proc1.stderr[:200]}")
+
+    # Then install pytest-cov without deps
+    proc = subprocess.run(pytest_cov_cmd, capture_output=True, text=True, timeout=60)
 
     if proc.returncode == 0:
         print(f"✅ pytest-cov installed successfully to .pip_packages/")
@@ -541,19 +594,43 @@ def run_tests_in_singularity(
         print(f"ℹ️  Using existing C extensions ({so_count} files)")
 
     # Build environment variables for testbed Python
-    # PYTHONPATH allows import from workspace and .pip_packages (for hypothesis, etc.)
+    # PYTHONPATH search order is CRITICAL for correctness:
+    #
+    # PROBLEM: When pytest-cov is installed to .pip_packages/, it also installs pytest
+    # as a dependency. If .pip_packages comes first in PYTHONPATH, Python will import
+    # the wrong pytest (from .pip_packages) instead of the patched pytest in /workspace.
+    #
+    # SOLUTION: Workspace paths must come BEFORE .pip_packages to ensure:
+    # 1. Patched code (pytest/django/matplotlib/etc.) is loaded from /workspace first
+    # 2. Testing tools (pytest-cov, hypothesis) fall through to .pip_packages only if
+    #    not found in workspace (which is correct - they're auxiliary packages)
+    #
+    # This order is safe for all repos:
+    # - pytest: Loads patched pytest from /workspace/src ✓
+    # - django: Loads patched django from /workspace, pytest-cov from .pip_packages ✓
+    # - matplotlib: Loads patched matplotlib from /workspace/lib, pytest-cov from .pip_packages ✓
     path_components = []
 
-    # Add .pip_packages if it exists (for hypothesis and other locally installed packages)
-    if (repo_path / ".pip_packages").exists():
-        path_components.append("/workspace/.pip_packages")
+    # CRITICAL: Add workspace paths FIRST (before .pip_packages)
+    # This ensures patched code always takes precedence
 
-    # Add lib directory if it exists
+    # Add src directory FIRST for repos using src-layout (e.g., pytest)
+    # In src-layout, packages are in /workspace/src/package_name/
+    # No harm in adding /workspace/src even if empty - Python will skip it during imports
+    if (repo_path / "src").exists() and (repo_path / "src").is_dir():
+        path_components.append("/workspace/src")
+
+    # Add workspace root
+    path_components.append("/workspace")
+
+    # Add lib directory for packages like matplotlib that use lib/ structure
     if (repo_path / "lib").exists() and (repo_path / "lib").is_dir():
         path_components.append("/workspace/lib")
 
-    # Always add workspace root
-    path_components.append("/workspace")
+    # Add .pip_packages LAST (for auxiliary testing tools like pytest-cov, hypothesis)
+    # These should only be used if not found in workspace paths above
+    if (repo_path / ".pip_packages").exists():
+        path_components.append("/workspace/.pip_packages")
 
     python_path = ":".join(path_components)
 
@@ -641,6 +718,8 @@ def run_tests_in_singularity(
     else:  # pytest
         # If no specific tests are given, run full suite
         test_args = tests or []
+
+        # No special handling needed for matplotlib test paths - they work as-is
 
         # Build pytest arguments
         pytest_args = ["-v"] if verbose else ["-q"]

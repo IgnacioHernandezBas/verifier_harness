@@ -539,9 +539,30 @@ class IntegratedPipelineWorker:
 
         all_tests = f2p + p2p
 
+        # Filter out malformed test names (e.g., unclosed brackets from dataset errors)
+        # This handles dataset issues like 'test_stem[png-w/' which should be 'test_stem[png-w/ line collection]'
+        filtered_tests = []
+        malformed_tests = []
+        for test_name in all_tests:
+            # Check for common malformations:
+            # 1. Unclosed brackets (opening '[' without closing ']')
+            if '[' in test_name and not test_name.endswith(']'):
+                # Count brackets
+                open_count = test_name.count('[')
+                close_count = test_name.count(']')
+                if open_count > close_count:
+                    malformed_tests.append(test_name)
+                    continue
+            filtered_tests.append(test_name)
+
+        if malformed_tests:
+            print(f"    ⚠️  Filtered out {len(malformed_tests)} malformed test names from dataset:")
+            for t in malformed_tests[:5]:  # Show first 5
+                print(f"       - {t}")
+
         test_result = test_patch_singularity.run_tests_in_singularity(
             repo_path=Path(repo_path),
-            tests=all_tests,
+            tests=filtered_tests,
             image_path=str(container_path),
             collect_coverage=True,
             coverage_source=coverage_source,
@@ -695,6 +716,8 @@ class IntegratedPipelineWorker:
                 },
                 'baseline_tests': {
                     'count': len(all_tests),
+                    'count_after_filtering': len(filtered_tests),
+                    'malformed_tests_filtered': len(malformed_tests),
                     'fail_to_pass': len(f2p),
                     'pass_to_pass': len(p2p),
                     'passed': tests_passed,
