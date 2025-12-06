@@ -407,10 +407,17 @@ class IntegratedPipelineWorker:
             if falsi_match:
                 existing['falsifying_example'] = falsi_match.group(1).strip()[:200]
 
-            # Extract exception type
+            # Extract exception type and message
             exc_match = re.search(r"raised ([\w\.]+)", section_content)
             if exc_match:
                 existing['exception_type'] = exc_match.group(1)
+
+            # Extract NameError, ImportError, and other common errors with full message
+            # Pattern: NameError: name 'foo' is not defined
+            error_msg_match = re.search(r"(NameError|ImportError|AttributeError|TypeError|ValueError): (.*?)(?=\n(?:[A-Z]|$))", section_content, re.DOTALL)
+            if error_msg_match:
+                existing['exception_type'] = error_msg_match.group(1)
+                existing['exception_message'] = error_msg_match.group(2).strip()[:300]
 
         # Pattern 4: Extract Hypothesis falsifying examples (top-level)
         hypothesis_pattern = r"Falsifying example: (test_\w+)\((.*?)\)"
@@ -711,8 +718,16 @@ class IntegratedPipelineWorker:
                 'patch_analysis': {
                     'modified_files': modified_files,
                     'primary_file': first_file_path,
+                    'file_path': patch_analysis.file_path,
                     'total_changed_lines': len(patch_analysis.all_changed_lines),
+                    'all_changed_lines': patch_analysis.all_changed_lines,
                     'module_path': patch_analysis.module_path,
+                    # Critical: Include detected functions and classes for debugging
+                    'functions': patch_analysis.changed_functions,
+                    'classes': list(set(patch_analysis.class_context.values())) if patch_analysis.class_context else [],
+                    'changed_lines': patch_analysis.changed_lines,
+                    'class_context': patch_analysis.class_context or {},
+                    'change_types': patch_analysis.change_types,
                 },
                 'baseline_tests': {
                     'count': len(all_tests),
@@ -730,8 +745,9 @@ class IntegratedPipelineWorker:
                     'passed': fuzzing_success,
                     'returncode': fuzzing_result['returncode'],
                     'test_failures': test_failures,  # ← NEW: Structured failure info
-                    'stdout': fuzzing_result.get('stdout', '')[-5000:] if fuzzing_result.get('stdout') else '',  # Last 5000 chars
-                    'stderr': fuzzing_result.get('stderr', '')[-5000:] if fuzzing_result.get('stderr') else '',  # Last 5000 chars
+                    # Increased from 5000 to 20000 to capture full tracebacks with -vv --tb=short
+                    'stdout': fuzzing_result.get('stdout', '')[-20000:] if fuzzing_result.get('stdout') else '',  # Last 20000 chars
+                    'stderr': fuzzing_result.get('stderr', '')[-20000:] if fuzzing_result.get('stderr') else '',  # Last 20000 chars
                 },
                 'differential_testing': {
                     'enabled': original_code is not None,
