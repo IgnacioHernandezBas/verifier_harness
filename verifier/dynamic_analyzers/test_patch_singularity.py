@@ -722,7 +722,14 @@ def run_tests_in_singularity(
         # No special handling needed for matplotlib test paths - they work as-is
 
         # Build pytest arguments
-        pytest_args = ["-v"] if verbose else ["-q"]
+        # Use -vv for double verbosity to capture full error messages
+        # Use --tb=short for concise but complete tracebacks (better than auto)
+        # This ensures we capture full NameError messages and other exceptions
+        if verbose:
+            pytest_args = ["-vv", "--tb=short"]
+        else:
+            # Even in quiet mode, use short tracebacks for better error diagnosis
+            pytest_args = ["-q", "--tb=line"]
 
         # Add coverage collection if requested
         coverage_file = None
