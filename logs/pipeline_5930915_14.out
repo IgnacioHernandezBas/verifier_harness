@@ -1,0 +1,116 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5931040
+Array Task ID: 14
+Node: cbcb30
+Started: Fri Dec  5 15:33:44 EST 2025
+
+Processing: astropy__astropy-14539
+
+Available disk space: 85034 GB
+
+Loading instance: astropy__astropy-14539
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy ...
+    → Captured original code: astropy/io/fits/diff.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 69.7/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1577 lines
+DEBUG: changed_functions: ['_diff']
+DEBUG: class_context: {'_diff': 'TableDataDiff'}
+DEBUG: all_changed_lines: 1 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-14539.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_tables astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_data astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_headers astropy/io/fits/tests/test_diff.py::TestDiff::test_slightly_different_headers astropy/io/fits/tests/test_diff.py::TestDiff::test_common_keywords astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_count astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keywords astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_values astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_comments astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_values_with_duplicate astropy/io/fits/tests/test_diff.py::TestDiff::test_asymmetric_duplicate_keywords astropy/io/fits/tests/test_diff.py::TestDiff::test_floating_point_rtol astropy/io/fits/tests/test_diff.py::TestDiff::test_floating_point_atol astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blanks astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[HeaderDiff] astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[HDUDiff] astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[FITSDiff] astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_hdus astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_keyword_values astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_keyword_comments astropy/io/fits/tests/test_diff.py::TestDiff::test_trivial_identical_images astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_relative_tolerance astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_absolute_tolerance astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_rtol_and_atol astropy/io/fits/tests/test_diff.py::TestDiff::test_not_identical_within_rtol_and_atol astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_comp_image_hdus astropy/io/fits/tests/test_diff.py::TestDiff::test_different_dimensions astropy/io/fits/tests/test_diff.py::TestDiff::test_different_pixels astropy/io/fits/tests/test_diff.py::TestDiff::test_diff_empty_tables astropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_table_fields astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_field_names astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_field_counts astropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_rows astropy/io/fits/tests/test_diff.py::TestDiff::test_identical_files_basic astropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files1 astropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files2 astropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files3 astropy/io/fits/tests/test_diff.py::TestDiff::test_diff_nans astropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_from_path_string astropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_overwrite_safety astropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_overwrite_success astropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_nodiff astropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_dimsdiff astropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_bytesdiff astropy/io/fits/tests/test_diff.py::test_fitsdiff_hdu_name astropy/io/fits/tests/test_diff.py::test_fitsdiff_no_hdu_name astropy/io/fits/tests/test_diff.py::test_fitsdiff_with_names astropy/io/fits/tests/test_diff.py::test_rawdatadiff_diff_with_rtol
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [1452]
+   Uncovered lines: []
+
+   Branch coverage: 30.0%
+   Total branches: 10
+   Covered branches: 3
+   Missing branches: 7
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: TableDataDiff._diff
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for TableDataDiff...
+    ✅ Found 2 patterns
+    📊 Top 2 patterns selected
+    🎯 Generated 2 Hypothesis strategies
+    🧪 Generating Hypothesis-based test with 2 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.82.6)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_14/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-14539.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 0.0%
+   Covered lines: []
+   Uncovered lines: [1452]
+
+   Branch coverage: 0.0%
+   Total branches: 10
+   Covered branches: 0
+   Missing branches: 10
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 1 test(s) failed
+       - test__diff_boundaries: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✓ GOOD
+Score: 75.9/100
+Time: 740.0s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-14539.json
+
+Finished: Fri Dec  5 15:46:11 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_14

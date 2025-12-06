@@ -1,0 +1,3706 @@
+{
+  "instance_id": "scikit-learn__scikit-learn-13124",
+  "success": true,
+  "repo": "scikit-learn/scikit-learn",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 65.74,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 2252,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 78,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_split.py": [
+            {
+              "type": "convention",
+              "symbol": "superfluous-parens",
+              "line": 810,
+              "message": "Unnecessary parens after '=' keyword",
+              "message_id": "C0325"
+            },
+            {
+              "type": "convention",
+              "symbol": "too-many-lines",
+              "line": 1,
+              "message": "Too many lines in module (2252/1000)",
+              "message_id": "C0302"
+            },
+            {
+              "type": "warning",
+              "symbol": "fixme",
+              "line": 2223,
+              "message": "XXX This is copied from BaseEstimator's get_params",
+              "message_id": "W0511"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 64,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 97,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 107,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 112,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 166,
+              "message": "Signature differs from overridden '_iter_test_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 169,
+              "message": "Signature differs from overridden 'get_n_splits' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 242,
+              "message": "Signature differs from overridden '_iter_test_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 246,
+              "message": "Signature differs from overridden 'get_n_splits' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 272,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 279,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 284,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 319,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 423,
+              "message": "Signature differs from overridden '_iter_test_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 495,
+              "message": "Signature differs from overridden '_iter_test_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 504,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "useless-parent-delegation",
+              "line": 532,
+              "message": "Useless parent or super() delegation in method 'split'",
+              "message_id": "W0246"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 559,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class 'StratifiedKFold'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 621,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 621,
+              "message": "Too many local variables (18/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 628,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 637,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 641,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 621,
+              "message": "Unused argument 'X'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 673,
+              "message": "Signature differs from overridden '_iter_test_masks' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 678,
+              "message": "Signature differs from overridden 'split' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 716,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class 'TimeSeriesSplit'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "warning",
+              "symbol": "unbalanced-tuple-unpacking",
+              "line": 800,
+              "message": "Possible unbalanced tuple unpacking with sequence defined at line 215 of sklearn.utils.validation: left side has 3 labels, right side has 0 values",
+              "message_id": "W0632"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 806,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 822,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class 'LeaveOneGroupOut'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 864,
+              "message": "Signature differs from overridden '_iter_test_masks' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 872,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "useless-parent-delegation",
+              "line": 904,
+              "message": "Useless parent or super() delegation in method 'split'",
+              "message_id": "W0246"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 931,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class 'LeavePGroupsOut'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 990,
+              "message": "Signature differs from overridden '_iter_test_masks' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 997,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "useless-parent-delegation",
+              "line": 1035,
+              "message": "Useless parent or super() delegation in method 'split'",
+              "message_id": "W0246"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1102,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 1129,
+              "message": "Unused variable 'idx'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1135,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1280,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1315,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1318,
+              "message": "Argument name \"X\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1318,
+              "message": "Unused argument 'X'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1318,
+              "message": "Unused argument 'y'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1318,
+              "message": "Unused argument 'groups'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 1418,
+              "message": "Unused variable 'i'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 1493,
+              "message": "Signature differs from overridden '_iter_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "warning",
+              "symbol": "useless-parent-delegation",
+              "line": 1507,
+              "message": "Useless parent or super() delegation in method 'split'",
+              "message_id": "W0246"
+            },
+            {
+              "type": "warning",
+              "symbol": "useless-parent-delegation",
+              "line": 1672,
+              "message": "Useless parent or super() delegation in method '__init__'",
+              "message_id": "W0246"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 1677,
+              "message": "Signature differs from overridden '_iter_indices' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 1677,
+              "message": "Too many local variables (21/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1699,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1703,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "signature-differs",
+              "line": 1737,
+              "message": "Signature differs from overridden 'split' method",
+              "message_id": "W0222"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1796,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1800,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-raise",
+              "line": 1804,
+              "message": "Unnecessary \"elif\" after \"raise\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1720"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1805,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1811,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1817,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-boolean-expressions",
+              "line": 1825,
+              "message": "Too many boolean expressions in if statement (7/5)",
+              "message_id": "R0916"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1830,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-boolean-expressions",
+              "line": 1834,
+              "message": "Too many boolean expressions in if statement (7/5)",
+              "message_id": "R0916"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1839,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "error",
+              "symbol": "possibly-used-before-assignment",
+              "line": 1852,
+              "message": "Possibly using variable 'n_test' before assignment",
+              "message_id": "E0606"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 1862,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 1870,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class 'PredefinedSplit'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-differ",
+              "line": 1940,
+              "message": "Number of parameters was 4 in 'BaseCrossValidator._iter_test_masks' and is now 1 in overriding 'PredefinedSplit._iter_test_masks' method",
+              "message_id": "W0221"
+            },
+            {
+              "type": "warning",
+              "symbol": "abstract-method",
+              "line": 1970,
+              "message": "Method '_iter_test_indices' is abstract in class 'BaseCrossValidator' but is not overridden in child class '_CVIterableWrapper'",
+              "message_id": "W0223"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 2064,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 2072,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 2178,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2235,
+              "message": "Consider using '{}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "convention",
+              "symbol": "use-implicit-booleaness-not-len",
+              "line": 2245,
+              "message": "Do not use `len(SEQUENCE)` without comparison to determine if a sequence is empty",
+              "message_id": "C1802"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 2252,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 12,
+        "issues": [
+          {
+            "line": 1004,
+            "code": "E741",
+            "message": "ambiguous variable name 'l'"
+          },
+          {
+            "line": 1807,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1809,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1825,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1826,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1827,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1828,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1834,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1835,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1836,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1837,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2064,
+            "code": "W504",
+            "message": "line break after binary operator"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 0.0,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_split.py": [
+            {
+              "name": "_validate_shuffle_split",
+              "complexity": 22,
+              "lineno": 1820
+            },
+            {
+              "name": "_validate_shuffle_split_init",
+              "complexity": 18,
+              "lineno": 1775
+            },
+            {
+              "name": "check_cv",
+              "complexity": 11,
+              "lineno": 2022
+            },
+            {
+              "name": "train_test_split",
+              "complexity": 11,
+              "lineno": 2080
+            },
+            {
+              "name": "_build_repr",
+              "complexity": 8,
+              "lineno": 2222
+            },
+            {
+              "name": "_iter_indices",
+              "complexity": 8,
+              "lineno": 1677
+            },
+            {
+              "name": "_make_test_folds",
+              "complexity": 7,
+              "lineno": 621
+            },
+            {
+              "name": "_iter_test_indices",
+              "complexity": 5,
+              "lineno": 495
+            },
+            {
+              "name": "TimeSeriesSplit",
+              "complexity": 5,
+              "lineno": 716
+            },
+            {
+              "name": "split",
+              "complexity": 5,
+              "lineno": 777
+            },
+            {
+              "name": "_iter_test_masks",
+              "complexity": 5,
+              "lineno": 990
+            },
+            {
+              "name": "__init__",
+              "complexity": 5,
+              "lineno": 1086
+            },
+            {
+              "name": "_approximate_mode",
+              "complexity": 4,
+              "lineno": 1540
+            },
+            {
+              "name": "_BaseKFold",
+              "complexity": 4,
+              "lineno": 266
+            },
+            {
+              "name": "__init__",
+              "complexity": 4,
+              "lineno": 270
+            },
+            {
+              "name": "KFold",
+              "complexity": 4,
+              "lineno": 348
+            },
+            {
+              "name": "GroupKFold",
+              "complexity": 4,
+              "lineno": 439
+            },
+            {
+              "name": "StratifiedKFold",
+              "complexity": 4,
+              "lineno": 559
+            },
+            {
+              "name": "_iter_test_masks",
+              "complexity": 4,
+              "lineno": 864
+            },
+            {
+              "name": "_RepeatedSplits",
+              "complexity": 4,
+              "lineno": 1062
+            },
+            {
+              "name": "StratifiedShuffleSplit",
+              "complexity": 4,
+              "lineno": 1609
+            },
+            {
+              "name": "LeaveOneOut",
+              "complexity": 3,
+              "lineno": 119
+            },
+            {
+              "name": "LeavePOut",
+              "complexity": 3,
+              "lineno": 194
+            },
+            {
+              "name": "split",
+              "complexity": 3,
+              "lineno": 291
+            },
+            {
+              "name": "_iter_test_indices",
+              "complexity": 3,
+              "lineno": 423
+            },
+            {
+              "name": "LeaveOneGroupOut",
+              "complexity": 3,
+              "lineno": 822
+            },
+            {
+              "name": "LeavePGroupsOut",
+              "complexity": 3,
+              "lineno": 931
+            },
+            {
+              "name": "split",
+              "complexity": 3,
+              "lineno": 1102
+            },
+            {
+              "name": "ShuffleSplit",
+              "complexity": 3,
+              "lineno": 1343
+            },
+            {
+              "name": "GroupShuffleSplit",
+              "complexity": 3,
+              "lineno": 1426
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 1477
+            },
+            {
+              "name": "_iter_indices",
+              "complexity": 3,
+              "lineno": 1493
+            },
+            {
+              "name": "BaseCrossValidator",
+              "complexity": 2,
+              "lineno": 58
+            },
+            {
+              "name": "split",
+              "complexity": 2,
+              "lineno": 64
+            },
+            {
+              "name": "_iter_test_masks",
+              "complexity": 2,
+              "lineno": 97
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 2,
+              "lineno": 169
+            },
+            {
+              "name": "_iter_test_indices",
+              "complexity": 2,
+              "lineno": 242
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 2,
+              "lineno": 246
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 416
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 489
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 615
+            },
+            {
+              "name": "_iter_test_masks",
+              "complexity": 2,
+              "lineno": 673
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 770
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 2,
+              "lineno": 877
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 2,
+              "lineno": 1008
+            },
+            {
+              "name": "RepeatedKFold",
+              "complexity": 2,
+              "lineno": 1163
+            },
+            {
+              "name": "RepeatedStratifiedKFold",
+              "complexity": 2,
+              "lineno": 1216
+            },
+            {
+              "name": "BaseShuffleSplit",
+              "complexity": 2,
+              "lineno": 1269
+            },
+            {
+              "name": "split",
+              "complexity": 2,
+              "lineno": 1280
+            },
+            {
+              "name": "_iter_indices",
+              "complexity": 2,
+              "lineno": 1412
+            },
+            {
+              "name": "PredefinedSplit",
+              "complexity": 2,
+              "lineno": 1870
+            },
+            {
+              "name": "split",
+              "complexity": 2,
+              "lineno": 1912
+            },
+            {
+              "name": "_iter_test_masks",
+              "complexity": 2,
+              "lineno": 1940
+            },
+            {
+              "name": "_CVIterableWrapper",
+              "complexity": 2,
+              "lineno": 1970
+            },
+            {
+              "name": "split",
+              "complexity": 2,
+              "lineno": 1996
+            },
+            {
+              "name": "_iter_test_indices",
+              "complexity": 1,
+              "lineno": 107
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 112
+            },
+            {
+              "name": "__repr__",
+              "complexity": 1,
+              "lineno": 115
+            },
+            {
+              "name": "_iter_test_indices",
+              "complexity": 1,
+              "lineno": 166
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 239
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 326
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 532
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 678
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 904
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 987
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 1035
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 1135
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1211
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1264
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1272
+            },
+            {
+              "name": "_iter_indices",
+              "complexity": 1,
+              "lineno": 1315
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 1318
+            },
+            {
+              "name": "__repr__",
+              "complexity": 1,
+              "lineno": 1339
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 1507
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1672
+            },
+            {
+              "name": "split",
+              "complexity": 1,
+              "lineno": 1737
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1906
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 1948
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1972
+            },
+            {
+              "name": "get_n_splits",
+              "complexity": 1,
+              "lineno": 1975
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 288,
+        "total_issues": 305,
+        "issues": [
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/graph.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/graph.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.graph_shortest_path\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 10,
+            "column": 19,
+            "severity": "error",
+            "message": "Name \"basestring\" is not defined",
+            "error_code": "name-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 11,
+            "column": 31,
+            "severity": "error",
+            "message": "Name \"unicode\" is not defined",
+            "error_code": "name-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 14,
+            "column": 25,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[type[bytes], type[str]]\", variable has type \"tuple[type[str], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/__check_build/__init__.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.__check_build._check_build\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 331,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 335,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 349,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 386,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 390,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_arff.py",
+            "line_number": 394,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ArffException\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/my_exceptions.py",
+            "line_number": 69,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_exception_mapping\" (hint: \"_exception_mapping: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/my_exceptions.py",
+            "line_number": 112,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"exceptions\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "def open(filename: int | str | bytes | PathLike[str] | PathLike",
+            "error_code": "bytes"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "def open_py_source(filename: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 58,
+            "column": 5,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 58,
+            "column": 5,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 58,
+            "column": 5,
+            "severity": "note",
+            "message": "def get_ident() -> int",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 58,
+            "column": 5,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 58,
+            "column": 5,
+            "severity": "note",
+            "message": "def get_ident() -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semlock.py",
+            "line_number": 149,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"_RandomNameSequence\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/utils.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"psutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/format_stack.py",
+            "line_number": 35,
+            "column": 23,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Callable[[], bytes | bytearray]], Generator[TokenInfo, None, None]]\", variable has type \"Callable[[Callable[[], str]], Generator[TokenInfo, None, None]]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 13,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"RLock\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 18,
+            "column": 11,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 23,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"lz4\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/compressor.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"lz4.frame\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/disk.py",
+            "line_number": 20,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 17,
+            "column": 9,
+            "severity": "error",
+            "message": "Incompatible import of \"mp\" (imported name has type Module, local name has type \"int | None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 32,
+            "column": 19,
+            "severity": "error",
+            "message": "\"int\" has no attribute \"get_context\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 47,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"multiprocessing.forking\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 47,
+            "column": 9,
+            "severity": "error",
+            "message": "Name \"assert_spawning\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 49,
+            "column": 23,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type \"Callable[[Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/optimize.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.optimize.linesearch\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 42,
+            "column": 9,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 42,
+            "column": 9,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 42,
+            "column": 9,
+            "severity": "note",
+            "message": "def replace(src: str | bytes | PathLike[str] | PathLike[bytes], dst: str | bytes | PathLike[str] | PathLike",
+            "error_code": "bytes"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 42,
+            "column": 9,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 42,
+            "column": 9,
+            "severity": "note",
+            "message": "def replace(src: Any, dst: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 22,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Unpickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 22,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Unpickler]\", variable has type \"type[_Unpickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 23,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Pickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 23,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Pickler]\", variable has type \"type[_Pickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 28,
+            "column": 10,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 37,
+            "column": 11,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 24,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Pickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 24,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Pickler]\", variable has type \"type[_Pickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 132,
+            "column": 27,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 134,
+            "column": 30,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 136,
+            "column": 31,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 138,
+            "column": 35,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 158,
+            "column": 29,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 188,
+            "column": 37,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[ZipNumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 190,
+            "column": 18,
+            "severity": "error",
+            "message": "Invalid index type \"bytes\" for \"dict[int, Callable[[Unpickler], None]]\"; expected type \"int\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 190,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[ZipNumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/func_inspect.py",
+            "line_number": 23,
+            "column": 21,
+            "severity": "error",
+            "message": "List or tuple literal expected as the second argument to \"namedtuple()\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/_build_utils/__init__.py",
+            "line_number": 74,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"Cython\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/_build_utils/__init__.py",
+            "line_number": 79,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"Cython.Build\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 14,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign to a type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 14,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type \"type[Path]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 356,
+            "column": 37,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[NumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 358,
+            "column": 18,
+            "severity": "error",
+            "message": "Invalid index type \"bytes\" for \"dict[int, Callable[[Unpickler], None]]\"; expected type \"int\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 358,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[NumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memmapping_reducer.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"pickle\" has no attribute \"whichmodule\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memmapping_reducer.py",
+            "line_number": 27,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"cPickle\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memmapping_reducer.py",
+            "line_number": 39,
+            "column": 10,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_memmapping_reducer.py",
+            "line_number": 20,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 43,
+            "column": 10,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 21,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 70,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"cStringIO\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 72,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"StringIO\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 75,
+            "column": 5,
+            "severity": "error",
+            "message": "Module has no attribute \"ClassType\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 76,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible import of \"Pickler\" (imported name has type \"type[_Pickler]\", local name has type \"type[Pickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 83,
+            "column": 28,
+            "severity": "error",
+            "message": "Need type annotation for \"_dynamic_modules_globals\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 270,
+            "column": 16,
+            "severity": "error",
+            "message": "\"type[Pickler]\" has no attribute \"dispatch\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 584,
+            "column": 9,
+            "severity": "error",
+            "message": "Need type annotation for \"_extract_code_globals_cache\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 695,
+            "column": 14,
+            "severity": "error",
+            "message": "Module has no attribute \"ClassType\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py",
+            "line_number": 854,
+            "column": 18,
+            "severity": "error",
+            "message": "Name \"file\" is not defined",
+            "error_code": "name-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/cloudpickle_wrapper.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"WRAP_CACHE\" (hint: \"WRAP_CACHE: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/context.py",
+            "line_number": 258,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[LokyInitMainProcess]\", base class \"LokyContext\" defined the type as \"type[LokyProcess]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/context.py",
+            "line_number": 264,
+            "column": 5,
+            "severity": "error",
+            "message": "Module has no attribute \"_concrete_contexts\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/context.py",
+            "line_number": 265,
+            "column": 5,
+            "severity": "error",
+            "message": "Module has no attribute \"_concrete_contexts\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/__init__.py",
+            "line_number": 14,
+            "column": 5,
+            "severity": "error",
+            "message": "\"type[SemLock]\" has no attribute \"_make_name\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/_posix_reduction.py",
+            "line_number": 61,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine type of \"register\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/_posix_reduction.py",
+            "line_number": 62,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine type of \"register\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/_posix_reduction.py",
+            "line_number": 76,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine type of \"register\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/reduction.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"cPickle\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/reduction.py",
+            "line_number": 55,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"dispatch_table\" (hint: \"dispatch_table: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/semaphore_tracker.py",
+            "line_number": 35,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"_multiprocessing\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/queues.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"multiprocessing.synchronize\" has no attribute \"SEM_VALUE_MAX\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/queues.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"multiprocessing.queues\" has no attribute \"Full\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/queues.py",
+            "line_number": 22,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"multiprocessing.queues\" has no attribute \"_sentinel\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/popen_loky_posix.py",
+            "line_number": 190,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"info\" (hint: \"info: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/popen_loky_posix.py",
+            "line_number": 196,
+            "column": 13,
+            "severity": "error",
+            "message": "\"BaseProcess\" has no attribute \"_inheriting\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/popen_loky_posix.py",
+            "line_number": 202,
+            "column": 21,
+            "severity": "error",
+            "message": "\"BaseProcess\" has no attribute \"_inheriting\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/synchronize.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"_multiprocessing\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/backend/synchronize.py",
+            "line_number": 61,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"_RandomNameSequence\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 59,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"Image\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 59,
+            "column": 9,
+            "severity": "error",
+            "message": "Name \"Image\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 62,
+            "column": 27,
+            "severity": "error",
+            "message": "Module has no attribute \"fromstring\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/process_executor.py",
+            "line_number": 89,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign to a type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/process_executor.py",
+            "line_number": 89,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[RuntimeError]\", variable has type \"type[BrokenProcessPool]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/process_executor.py",
+            "line_number": 111,
+            "column": 20,
+            "severity": "error",
+            "message": "Need type annotation for \"_threads_wakeups\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/process_executor.py",
+            "line_number": 128,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"psutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/externals/loky/process_executor.py",
+            "line_number": 128,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install types-psutil\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_parallel_backends.py",
+            "line_number": 30,
+            "column": 27,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/parallel.py",
+            "line_number": 203,
+            "column": 30,
+            "severity": "error",
+            "message": "Item \"None\" of \"int | None\" has no attribute \"get_context\"",
+            "error_code": "union-attr"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"distributed\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"distributed.client\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"distributed.utils\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"distributed.worker\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"distributed.sizeof\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_dask.py",
+            "line_number": 107,
+            "column": 32,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"float\", base class \"AutoBatchingMixin\" defined the type as \"int\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/_store_backends.py",
+            "line_number": 34,
+            "column": 24,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/externals/joblib/memory.py",
+            "line_number": 174,
+            "column": 20,
+            "severity": "error",
+            "message": "Need type annotation for \"_FUNCTION_HASHES\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/_joblib.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"joblib\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 37,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.misc\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 173,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible import of \"MaskedArray\" (imported name has type \"type[numpy.ma.core.MaskedArray[_ShapeT_co, _DTypeT_co]]\", local name has type \"type[sklearn.utils.fixes.MaskedArray]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/base.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/__init__.py",
+            "line_number": 54,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"__SKLEARN_SETUP__\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install scipy-stubs\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 22,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.metrics.cluster.expected_mutual_info_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/__init__.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/__init__.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.murmurhash\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/multiclass.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/multiclass.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.base\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/base.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/online_lda.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/online_lda.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/online_lda.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/online_lda.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.decomposition._online_lda\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/online_lda.py",
+            "line_number": 29,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"float\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/fastica_.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/isotonic.py",
+            "line_number": 7,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/isotonic.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.stats\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/isotonic.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn._isotonic\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.feature_extraction._hashing\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/_feature_agglomeration.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 30,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.datasets._svmlight_format\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/base.py",
+            "line_number": 4,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.io\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 36,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot determine type of \"WindowsError\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 57,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"nose.tools\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 934,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"numpydoc\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 36,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/imputation.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/label.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/label.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 5,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 5,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils._random\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/_pprint.py",
+            "line_number": 327,
+            "column": 17,
+            "severity": "error",
+            "message": "\"type[PrettyPrinter]\" has no attribute \"_dispatch\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils._logistic_sigmoid\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/factor_analysis.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/truncated_svd.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/truncated_svd.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/truncated_svd.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/incremental_pca.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/pca.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/pca.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/pca.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/pca.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/nmf.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/nmf.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/nmf.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.decomposition.cdnmf_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/kde.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/kde.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.ball_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/kde.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.kd_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/rcv1.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/rcv1.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/olivetti_faces.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.io.matlab\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/openml.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/openml.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/mldata.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/_encoders.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 33,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.preprocessing._csr_polynomial_expansion\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/base.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/base.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/base.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/base.py",
+            "line_number": 34,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.seq_dataset\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/sag.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.linear_model.sag_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/theil_sen.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/theil_sen.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/theil_sen.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg.lapack\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/huber.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/bayes.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/bayes.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/samples_generator.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/samples_generator.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 32,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.metrics.pairwise_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/classification.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/ranking.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/metrics/ranking.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.stats\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/svm/__init__.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.svm\" has no attribute \"libsvm\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/svm/__init__.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.svm\" has no attribute \"liblinear\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/svm/__init__.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.svm\" has no attribute \"libsvm_sparse\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/svm/base.py",
+            "line_number": 2,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/svm/base.py",
+            "line_number": 2,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/kernel_pca.py",
+            "line_number": 7,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/kernel_pca.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/nearest_centroid.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/twenty_newsgroups.py",
+            "line_number": 37,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/datasets/twenty_newsgroups.py",
+            "line_number": 37,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/kernels.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/kernels.py",
+            "line_number": 29,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial.distance\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/base.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/base.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.ball_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/base.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.kd_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_validation.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_validation.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_validation.py",
+            "line_number": 860,
+            "column": 38,
+            "severity": "error",
+            "message": "Not all arguments converted during string formatting",
+            "error_code": "str-format"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/regression.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/classification.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_search.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.stats\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/omp.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/omp.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg.lapack\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/logistic.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/logistic.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/ridge.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/ridge.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/stochastic_gradient.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.linear_model.sgd_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/least_angle.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/least_angle.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg.lapack\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/least_angle.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.utils\" has no attribute \"arrayfuncs\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/__init__.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.ball_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/__init__.py",
+            "line_number": 7,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.kd_tree\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/neighbors/__init__.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.neighbors.dist_metrics\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/spectral_embedding_.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/spectral_embedding_.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/spectral_embedding_.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/spectral_embedding_.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.csgraph\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/spectral_embedding_.py",
+            "line_number": 214,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"pyamg\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/locally_linear.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/locally_linear.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/locally_linear.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/dbscan_.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/dbscan_.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.cluster._dbscan_inner\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/coordinate_descent.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/coordinate_descent.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.linear_model\" has no attribute \"cd_fast\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/linear_model/__init__.py",
+            "line_number": 22,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.linear_model.sgd_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/decomposition/dict_learning.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/t_sne.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/t_sne.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/t_sne.py",
+            "line_number": 16,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial.distance\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/t_sne.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.manifold\" has no attribute \"_utils\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/manifold/t_sne.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.manifold\" has no attribute \"_barnes_hut_tsne\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/birch.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/bicluster.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/bicluster.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/bicluster.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/k_means_.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/k_means_.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/k_means_.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/k_means_.py",
+            "line_number": 35,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.cluster\" has no attribute \"_k_means\"; maybe \"k_means\"?",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/k_means_.py",
+            "line_number": 36,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.cluster._k_means_elkan\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/hierarchical.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/hierarchical.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.csgraph\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/hierarchical.py",
+            "line_number": 22,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.cluster\" has no attribute \"_hierarchical\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/hierarchical.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.fast_dict\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/hierarchical.py",
+            "line_number": 220,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.cluster\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/spectral.py",
+            "line_number": 74,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/cluster/spectral.py",
+            "line_number": 75,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/image.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/multiclass.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/multiclass.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/gpr.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/gpr.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.optimize\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.optimize\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_9/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "Found 288 errors in 118 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 288 errors in 118 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/sklearn/model_selection/_split.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": true,
+    "fuzzing_passed": false,
+    "tests_generated": 2,
+    "combined_coverage": 100.0,
+    "baseline_coverage": 100.0,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "sklearn/model_selection/_split.py"
+        ],
+        "primary_file": "sklearn/model_selection/_split.py",
+        "total_changed_lines": 2,
+        "module_path": "sklearn.model_selection._split"
+      },
+      "baseline_tests": {
+        "count": 61,
+        "fail_to_pass": 1,
+        "pass_to_pass": 60,
+        "passed": true,
+        "returncode": 0,
+        "coverage": 100.0,
+        "covered_lines": 2
+      },
+      "fuzzing_tests": {
+        "count": 2,
+        "passed": false,
+        "returncode": 2,
+        "test_failures": [],
+        "stdout": "-12\nsklearn/tree/_reingold_tilford.py                                   131    131     0%   19-203\nsklearn/tree/export.py                                              294    294     0%   13-780\nsklearn/tree/tests/test_export.py                                   103    103     0%   4-331\nsklearn/tree/tests/test_reingold_tilford.py                          24     24     0%   1-52\nsklearn/tree/tests/test_tree.py                                     927    927     0%   4-1830\nsklearn/tree/tree.py                                                264    264     0%   19-1496\nsklearn/utils/__init__.py                                           156    156     0%   4-638\nsklearn/utils/_joblib.py                                             22     22     0%   3-31\nsklearn/utils/_pprint.py                                            237    237     0%   66-435\nsklearn/utils/_scipy_sparse_lsqr_backport.py                        198    198     0%   53-507\nsklearn/utils/_show_versions.py                                      41     41     0%   8-116\nsklearn/utils/_unittest_backport.py                                  85     85     0%   51-224\nsklearn/utils/class_weight.py                                        58     58     0%   5-177\nsklearn/utils/deprecation.py                                         46     46     0%   1-103\nsklearn/utils/estimator_checks.py                                  1343   1343     0%   1-2386\nsklearn/utils/extmath.py                                            195    195     0%   14-814\nsklearn/utils/fixes.py                                              120    120     0%   13-233\nsklearn/utils/graph.py                                               20     20     0%   13-68\nsklearn/utils/linear_assignment_.py                                 101    101     0%   16-272\nsklearn/utils/metaestimators.py                                      88     88     0%   6-208\nsklearn/utils/mocking.py                                             51     51     0%   1-134\nsklearn/utils/multiclass.py                                         143    143     0%   4-445\nsklearn/utils/optimize.py                                            68     68     0%   16-204\nsklearn/utils/random.py                                              39     39     0%   4-95\nsklearn/utils/sparsefuncs.py                                        196    196     0%   6-541\nsklearn/utils/stats.py                                                8      8     0%   1-18\nsklearn/utils/testing.py                                            389    389     0%   13-990\nsklearn/utils/tests/test_class_weight.py                            146    146     0%   1-260\nsklearn/utils/tests/test_cython_blas.py                             103    103     0%   1-178\nsklearn/utils/tests/test_deprecation.py                              30     30     0%   5-58\nsklearn/utils/tests/test_estimator_checks.py                        277    277     0%   1-466\nsklearn/utils/tests/test_extmath.py                                 350    350     0%   7-644\nsklearn/utils/tests/test_fast_dict.py                                22     22     0%   3-32\nsklearn/utils/tests/test_fixes.py                                    38     38     0%   6-71\nsklearn/utils/tests/test_linear_assignment.py                        18     18     0%   4-60\nsklearn/utils/tests/test_metaestimators.py                           37     37     0%   1-77\nsklearn/utils/tests/test_multiclass.py                              147    147     0%   2-380\nsklearn/utils/tests/test_murmurhash.py                               50     50     0%   5-79\nsklearn/utils/tests/test_optimize.py                                 18     18     0%   1-29\nsklearn/utils/tests/test_pprint.py                                   95     95     0%   1-322\nsklearn/utils/tests/test_random.py                                   88     88     0%   2-179\nsklearn/utils/tests/test_seq_dataset.py                              56     56     0%   5-83\nsklearn/utils/tests/test_shortest_path.py                            53     53     0%   1-95\nsklearn/utils/tests/test_show_versions.py                            23     23     0%   2-32\nsklearn/utils/tests/test_sparsefuncs.py                             338    338     0%   1-524\nsklearn/utils/tests/test_testing.py                                 256    256     0%   1-558\nsklearn/utils/tests/test_utils.py                                   174    174     0%   1-320\nsklearn/utils/tests/test_validation.py                              444    444     0%   3-799\nsklearn/utils/validation.py                                         260    260     0%   11-938\n-----------------------------------------------------------------------------------------------\nTOTAL                                                             67209  67209     0%\n\n24 files skipped due to complete coverage.\n\n!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!\n======================== 1 warning, 2 errors in 10.44s =========================\n",
+        "stderr": "/workspace/.pip_packages/coverage/control.py:768: CoverageWarning: No data was collected. (no-data-collected)\n  self._warn(\"No data was collected.\", slug=\"no-data-collected\")\n"
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 9,
+    "failed_rules": 0,
+    "findings_count": 0,
+    "high_severity_count": 0,
+    "medium_severity_count": 0,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 0,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [],
+      "low": []
+    },
+    "findings_by_taxonomy": {}
+  },
+  "overall_score": 74.722,
+  "verdict": "\u2713 GOOD",
+  "reason": "All checks passed",
+  "elapsed_seconds": 86.60703301429749
+}

@@ -1,0 +1,150 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5931196
+Array Task ID: 6
+Node: cbcb30
+Started: Fri Dec  5 17:49:59 EST 2025
+
+Processing: matplotlib__matplotlib-20859
+
+Available disk space: 84875 GB
+
+Loading instance: matplotlib__matplotlib-20859
+Repo: matplotlib/matplotlib
+
+[1/5] Setting up repository...
+[+] Cloning matplotlib/matplotlib into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib ...
+    → Captured original code: lib/matplotlib/legend.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=False
+   Copying pre-built C extensions from container...
+   Detected matplotlib, copying data files and _version.py...
+✅ Successfully copied matplotlib _version.py
+✅ Successfully copied matplotlib data files
+✅ Successfully copied 20 pre-built C extension files
+✅ pytest-cov already available (version 5.0.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 63.1/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1249 lines
+DEBUG: changed_functions: ['__init__']
+DEBUG: class_context: {'__init__': 'Legend'}
+DEBUG: all_changed_lines: 5 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/src:/workspace:/workspace/lib:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-20859.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered lib/matplotlib/tests/test_legend.py::test_subfigure_legend lib/matplotlib/tests/test_legend.py::test_legend_ordereddict lib/matplotlib/tests/test_legend.py::test_legend_auto1[png] lib/matplotlib/tests/test_legend.py::test_legend_auto1[pdf] lib/matplotlib/tests/test_legend.py::test_legend_auto2[png] lib/matplotlib/tests/test_legend.py::test_legend_auto2[pdf] lib/matplotlib/tests/test_legend.py::test_legend_auto3[png] lib/matplotlib/tests/test_legend.py::test_legend_auto3[pdf] lib/matplotlib/tests/test_legend.py::test_various_labels[png] lib/matplotlib/tests/test_legend.py::test_various_labels[pdf] lib/matplotlib/tests/test_legend.py::test_labels_first[png] lib/matplotlib/tests/test_legend.py::test_multiple_keys[png] lib/matplotlib/tests/test_legend.py::test_alpha_rgba[png] lib/matplotlib/tests/test_legend.py::test_alpha_rcparam[png] lib/matplotlib/tests/test_legend.py::test_fancy[png] lib/matplotlib/tests/test_legend.py::test_fancy[pdf] lib/matplotlib/tests/test_legend.py::test_framealpha[png] lib/matplotlib/tests/test_legend.py::test_framealpha[pdf] lib/matplotlib/tests/test_legend.py::test_rc[png] lib/matplotlib/tests/test_legend.py::test_rc[pdf] lib/matplotlib/tests/test_legend.py::test_legend_expand[png] lib/matplotlib/tests/test_legend.py::test_legend_expand[pdf] lib/matplotlib/tests/test_legend.py::test_hatching[png] lib/matplotlib/tests/test_legend.py::test_hatching[pdf] lib/matplotlib/tests/test_legend.py::test_legend_remove lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_no_args lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_positional_handles_labels lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_positional_handles_only lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_positional_labels_only lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_three_args lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_handler_map lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_kwargs_handles_only lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_kwargs_labels_only lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_legend_kwargs_handles_labels lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_warn_mixed_args_and_kwargs lib/matplotlib/tests/test_legend.py::TestLegendFunction::test_parasite lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_handle_label lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_no_args lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_label_arg lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_label_three_args lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_label_three_args_pluskw lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_legend_kw_args lib/matplotlib/tests/test_legend.py::TestLegendFigureFunction::test_warn_args_kwargs lib/matplotlib/tests/test_legend.py::test_legend_stackplot[png] lib/matplotlib/tests/test_legend.py::test_cross_figure_patch_legend lib/matplotlib/tests/test_legend.py::test_nanscatter lib/matplotlib/tests/test_legend.py::test_legend_repeatcheckok lib/matplotlib/tests/test_legend.py::test_not_covering_scatter[png] lib/matplotlib/tests/test_legend.py::test_not_covering_scatter_transform[png] lib/matplotlib/tests/test_legend.py::test_linecollection_scaled_dashes lib/matplotlib/tests/test_legend.py::test_handler_numpoints lib/matplotlib/tests/test_legend.py::test_empty_bar_chart_with_legend lib/matplotlib/tests/test_legend.py::test_shadow_framealpha lib/matplotlib/tests/test_legend.py::test_legend_title_empty lib/matplotlib/tests/test_legend.py::test_legend_proper_window_extent lib/matplotlib/tests/test_legend.py::test_window_extent_cached_renderer lib/matplotlib/tests/test_legend.py::test_legend_title_fontprop_fontsize lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_single[red] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_single[none] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_single[color2] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_list lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_linecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_markeredgecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_markerfacecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_single[red] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_single[none] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_single[color2] lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_linecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_markeredgecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_markeredgecolor_short lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_markerfacecolor lib/matplotlib/tests/test_legend.py::test_legend_labelcolor_rcparam_markerfacecolor_short lib/matplotlib/tests/test_legend.py::test_get_set_draggable lib/matplotlib/tests/test_legend.py::test_alpha_handles lib/matplotlib/tests/test_legend.py::test_warn_big_data_best_loc lib/matplotlib/tests/test_legend.py::test_no_warn_big_data_when_loc_specified lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_multiple_label[label_array0] lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_multiple_label[label_array1] lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_multiple_label[label_array2] lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_single_label[one] lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_single_label[1] lib/matplotlib/tests/test_legend.py::test_plot_multiple_input_single_label[int] lib/matplotlib/tests/test_legend.py::test_plot_single_input_multiple_label[label_array0] lib/matplotlib/tests/test_legend.py::test_plot_single_input_multiple_label[label_array1] lib/matplotlib/tests/test_legend.py::test_plot_single_input_multiple_label[label_array2] lib/matplotlib/tests/test_legend.py::test_plot_multiple_label_incorrect_length_exception lib/matplotlib/tests/test_legend.py::test_legend_face_edgecolor lib/matplotlib/tests/test_legend.py::test_legend_text_axes lib/matplotlib/tests/test_legend.py::test_handlerline2d
+
+✓ Coverage data saved to: .coverage.json
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+
+
+STDOUT (first 2000 chars):
+........................................................................ [ 80%]
+..F..............                                                        [100%]
+=================================== FAILURES ===================================
+_________________________ test_warn_big_data_best_loc __________________________
+
+    def test_warn_big_data_best_loc():
+        fig, ax = plt.subplots()
+        fig.canvas.draw()  # So that we can call draw_artist later.
+        for idx in range(1000):
+            ax.plot(np.arange(5000), label=idx)
+        with rc_context({'legend.loc': 'best'}):
+            legend = ax.legend()
+        with pytest.warns(UserWarning) as records:
+>           fig.draw_artist(legend)  # Don't bother drawing the lines -- it's slow.
+E           Failed: DID NOT WARN. No warnings of type (<class 'UserWarning'>,) were emitted.
+E            Emitted warnings: [].
+
+lib/matplotlib/tests/test_legend.py:769: Failed
+
+---------- coverage: platform linux, python 3.8.20-final-0 -----------
+Name                                                   Stmts   Miss Branch BrPart  Cover   Missing
+--------------------------------------------------------------------------------------------------
+lib/matplotlib/__init__.py                               536    230    221     37    53%   145-158, 168-169, 184, 186-187, 206, 223-226, 248-249, 336-339, 346, 351, 364-367, 378-423, 428, 430-431, 437-442, 467, 473, 479->483, 564-565, 573, 628-632, 634-635, 637-640, 644, 647-648, 650-651, 657-660, 663-666, 671-672, 694, 707-708, 718, 724, 729-735, 742-749, 754, 787-789, 794, 797-803, 814-827, 857-870, 902, 958-977, 1015-1017, 1040-1044, 1084, 1140-1147, 1159, 1170, 1177, 1206, 1219-1262, 1273-1281, 1285-1290, 1327->1334, 1331, 1333, 1413-1437
+lib/matplotlib/_animation_data.py                          4      4      0      0     0%   2-257
+lib/matplotlib/_api/__init__.py                           72     25     37      7    60%   46, 53, 82, 88-92, 125-128, 155-163, 182, 186-187, 236-2
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [363, 437, 441, 442, 443]
+   Uncovered lines: []
+
+   Branch coverage: 32.9%
+   Total branches: 70
+   Covered branches: 23
+   Missing branches: 47
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: Legend.__init__
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for Legend...
+    ⚠️  No patterns found for Legend
+ℹ️  No test patterns found for Legend, trying signature extraction...
+  ✅ Pattern-based test generated!
+DEBUG: Generated 4 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/src:/workspace:/workspace/lib:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-20859.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [363, 437, 441, 442, 443]
+   Uncovered lines: []
+
+   Branch coverage: 17.4%
+   Total branches: 69
+   Covered branches: 12
+   Missing branches: 57
+    Tests: FAIL, Fuzzing: 4 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 2 test(s) failed
+       - test___init___boundaries: Unknown error
+       - test___init___exceptions: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: matplotlib__matplotlib
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 33.9/100
+Time: 143.3s
+============================================================
+
+
+💾 Results saved to: results/matplotlib__matplotlib-20859.json
+
+Finished: Fri Dec  5 17:52:27 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_6

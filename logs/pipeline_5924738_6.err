@@ -1,0 +1,17 @@
+/var/spool/slurm/slurmd.spool/job5924745/slurm_script: line 28: /nfshomes/ihbas/miniconda3/etc/profile.d/conda.sh: No such file or directory
+
+CondaError: Run 'conda init' before 'conda activate'
+
+2025-12-02 12:16:35,373 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for scikit-learn__scikit-learn-12585...
+2025-12-02 12:16:35,381 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-02 12:16:35,382 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-12585.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-12585:latest
+2025-12-02 12:33:07,641 - swebench_singularity.singularity_builder - INFO - Successfully built scikit-learn__scikit-learn-12585.sif (1321.7 MB) in 992.3s
+2025-12-02 12:33:07,643 - swebench_singularity.cache_manager - INFO - Caching scikit-learn__scikit-learn-12585 -> /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12585.sif
+2025-12-02 12:33:13,729 - swebench_singularity.cache_manager - INFO - Cached scikit-learn__scikit-learn-12585 (1321.7 MB)
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 141, in run
+    install_result = test_patch_singularity.install_package_in_singularity(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/verifier/dynamic_analyzers/test_patch_singularity.py", line 169, in install_package_in_singularity
+    raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+FileNotFoundError: Repository path does not exist: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp/scikit-learn__scikit-learn

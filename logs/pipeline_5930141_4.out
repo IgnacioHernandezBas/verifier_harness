@@ -1,0 +1,154 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930146
+Array Task ID: 4
+Node: cbcb30
+Started: Fri Dec  5 12:24:29 EST 2025
+
+Processing: astropy__astropy-13398
+
+Available disk space: 85080 GB
+
+Loading instance: astropy__astropy-13398
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy ...
+    → Captured original code: astropy/coordinates/builtin_frames/__init__.py
+    → Captured original code: astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py
+    → Captured original code: astropy/coordinates/builtin_frames/itrs.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 75.5/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 152 lines
+DEBUG: changed_functions: ['make_transform_graph_docs']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 202 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13398.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_altaz_with_refraction astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_topo_to_hadec_with_refraction astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_itrs_topo astropy/coordinates/tests/test_intermediate_transformations.py::test_itrs_straight_overhead astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrs[icoo0] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrs[icoo1] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrs_dist_diff[gframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrs_dist_diff[gframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_to_altaz astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_to_hadec astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_itrs astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_itrs astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_cirs astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_hadec astropy/coordinates/tests/test_intermediate_transformations.py::test_precessed_geocentric astropy/coordinates/tests/test_intermediate_transformations.py::test_precessed_geocentric_different_obstime astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_sunish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_sunish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_sunish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_sunish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_sunish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_moonish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_moonish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_moonish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_moonish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_moonish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_bothroutes[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_bothroutes[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_bothroutes[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_bothroutes[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_altaz_bothroutes[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_moonish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_moonish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_moonish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_moonish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_moonish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_nodist[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_nodist[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_nodist[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_nodist[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_altaz_nodist[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_icrs_moonish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_icrs_moonish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_icrs_moonish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_icrs_moonish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_cirs_icrs_moonish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_icrs_moonish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_icrs_moonish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_icrs_moonish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_icrs_moonish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_icrs_moonish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrscirs_sunish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrscirs_sunish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrscirs_sunish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrscirs_sunish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_gcrscirs_sunish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_altaz_moonish[testframe0] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_altaz_moonish[testframe1] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_altaz_moonish[testframe2] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_altaz_moonish[testframe3] astropy/coordinates/tests/test_intermediate_transformations.py::test_icrs_altaz_moonish[testframe4] astropy/coordinates/tests/test_intermediate_transformations.py::test_gcrs_self_transform_closeby astropy/coordinates/tests/test_intermediate_transformations.py::test_teme_itrf astropy/coordinates/tests/test_intermediate_transformations.py::test_precessedgeocentric_loopback astropy/coordinates/tests/test_intermediate_transformations.py::test_teme_loopback astropy/coordinates/tests/test_intermediate_transformations.py::test_tete_transforms astropy/coordinates/tests/test_intermediate_transformations.py::test_straight_overhead astropy/coordinates/tests/test_intermediate_transformations.py::test_aa_high_precision_nodata astropy/coordinates/tests/test_intermediate_transformations.py::TestGetLocationGCRS::test_get_gcrs_posvel astropy/coordinates/tests/test_intermediate_transformations.py::TestGetLocationGCRS::test_tete_quick astropy/coordinates/tests/test_intermediate_transformations.py::TestGetLocationGCRS::test_cirs_quick
+
+✓ Coverage data saved to: .coverage.json
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject
+
+
+STDOUT (first 2000 chars):
+Internet access disabled
+F....................................................................... [100%]
+=================================== FAILURES ===================================
+___________________ test_itrs_topo_to_altaz_with_refraction ____________________
+
+    def test_itrs_topo_to_altaz_with_refraction():
+    
+        loc = EarthLocation(lat=0*u.deg, lon=0*u.deg, height=0*u.m)
+        usph = golden_spiral_grid(200)
+        dist = np.linspace(1., 1000.0, len(usph)) * u.au
+        icrs = ICRS(ra=usph.lon, dec=usph.lat, distance=dist)
+        altaz_frame1 = AltAz(obstime = 'J2000', location=loc)
+        altaz_frame2 = AltAz(obstime = 'J2000', location=loc, pressure=1000.0 * u.hPa,
+                             relative_humidity=0.5)
+        cirs_frame = CIRS(obstime = 'J2000', location=loc)
+        itrs_frame = ITRS(location=loc)
+    
+        # Normal route
+        # No Refraction
+>       altaz1 = icrs.transform_to(altaz_frame1)
+
+astropy/coordinates/tests/test_intermediate_transformations.py:211: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+astropy/coordinates/baseframe.py:1202: in transform_to
+    return trans(self, new_frame)
+astropy/coordinates/transformations.py:1478: in __call__
+    curr_coord = t(curr_coord, curr_toframe)
+astropy/coordinates/transformations.py:1079: in __call__
+    return supcall(fromcoord, toframe)
+astropy/coordinates/builtin_frames/icrs_observed_transforms.py:29: in icrs_to_observed
+    astrom = erfa_astrom.get().apco(observed_frame)
+astropy/coordinates/erfa_astrom.py:50: in apco
+    xp, yp = get_polar_motion(obstime)
+astropy/coordinates/builtin_frames/utils.py:47: in get_polar_motion
+    xp, yp, status = iers_table.pm_xy(time, return_status=True)
+astropy/utils/iers/iers.py:365: in pm_xy
+    return self._interpolate(jd1, jd2, ['PM_x', 'PM_y'],
+astropy/utils/iers/iers.py:392: in _interpolate
+    mjd, utc = self.mjd_utc(jd1, jd2)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 149, 151, 164, 166, 199, 201, 214, 216]
+   Uncovered lines: []
+
+   Branch coverage: 9.9%
+   Total branches: 5200
+   Covered branches: 516
+   Missing branches: 4684
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.46.7)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13398.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 149, 151, 164, 166, 199, 201, 214, 216]
+   Uncovered lines: []
+
+   Branch coverage: 5.5%
+   Total branches: 5200
+   Covered branches: 285
+   Missing branches: 4915
+    Tests: FAIL, Fuzzing: 3 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+⚠️  Rules execution failed (exit code 1)
+   Error: WARNING: IERSWarning: failed to download https://datacenter.iers.org/data/9/finals2000A.all: <urlopen error Verification of TLS/SSL certificate at https://datacenter.iers.org/data/9/finals2000A.all failed: this can mean either the server is misconfigured or your local root CA certificates are out-of-date; in the latter case this can usually be addressed by installing the Python package "certifi" (
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 52.6/100
+Time: 194.0s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-13398.json
+
+Finished: Fri Dec  5 12:27:48 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_4

@@ -1,0 +1,17 @@
+2025-12-04 17:34:55,085 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for matplotlib__matplotlib-20488...
+2025-12-04 17:34:55,099 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-04 17:34:55,100 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/matplotlib__matplotlib-20488.sif docker://docker.io/swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-20488:latest
+2025-12-04 17:58:25,358 - swebench_singularity.singularity_builder - INFO - Successfully built matplotlib__matplotlib-20488.sif (2032.2 MB) in 1410.3s
+2025-12-04 17:58:25,359 - swebench_singularity.cache_manager - INFO - Caching matplotlib__matplotlib-20488 -> /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-20488.sif
+2025-12-04 17:58:41,675 - swebench_singularity.cache_manager - INFO - Cached matplotlib__matplotlib-20488 (2032.2 MB)
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 198, in run
+    results['fuzzing'] = self._run_fuzzing(repo_path, sample, container_path, original_code_map)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 653, in _run_fuzzing
+    fuzzing_analysis = analyze_coverage_unified(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/verifier/dynamic_analyzers/analyze_coverage_unified.py", line 43, in analyze_coverage_unified
+    print(f"\n   Branch coverage: {branch_result['coverage']*100:.1f}%")
+                                   ~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'coverage'

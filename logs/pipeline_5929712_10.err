@@ -1,0 +1,53 @@
+2025-12-04 19:48:07,090 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for matplotlib__matplotlib-22871...
+2025-12-04 19:48:07,093 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-04 19:48:07,093 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/matplotlib__matplotlib-22871.sif docker://docker.io/swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22871:latest
+2025-12-04 20:10:35,162 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 19:48:07  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 19:48:07  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1070544468/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 19:48:25  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 19:48:25  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1070544468/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 19:51:52  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 19:51:52  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1070544468/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:01:45  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:01:45  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1070544468/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:bbd3eadce327845606c73d7732cf68f1859ff4cc68fd9a773b4dfa094d96ea03: unpack entry: usr/lib/ruby/gems/3.0.0/gems/typeprof-0.12.0/smoke/wrong-extend.rb: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1070544468/rootfs/usr/lib/ruby/gems/3.0.0/gems/typeprof-0.12.0/smoke/wrong-extend.rb: disk quota exceeded
+
+2025-12-04 20:10:35,162 - swebench_singularity.singularity_builder - INFO - Retry attempt 2/3 for matplotlib__matplotlib-22871
+2025-12-04 20:10:40,163 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/matplotlib__matplotlib-22871.sif docker://docker.io/swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22871:latest
+2025-12-04 20:34:23,278 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 20:10:40  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:10:40  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-621979855/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:10:56  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:10:56  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-621979855/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:14:28  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:14:28  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-621979855/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:24:32  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:24:32  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-621979855/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:bbd3eadce327845606c73d7732cf68f1859ff4cc68fd9a773b4dfa094d96ea03: unpack entry: usr/lib/ruby/3.0.0/bundler/vendor/net-http-persistent/lib/net: mkdirall: unpriv.mkdirall: mkdir /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-621979855/rootfs/usr/lib/ruby/3.0.0/bundler/vendor/net-http-persistent/lib/net: disk quota exceeded
+
+2025-12-04 20:34:23,278 - swebench_singularity.singularity_builder - INFO - Retry attempt 3/3 for matplotlib__matplotlib-22871
+2025-12-04 20:34:33,279 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/matplotlib__matplotlib-22871.sif docker://docker.io/swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-22871:latest
+2025-12-04 21:03:39,301 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 20:34:33  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:34:33  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2489429902/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:35:03  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:35:03  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2489429902/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:41:49  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:41:49  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2489429902/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 20:52:23  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 20:52:23  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2489429902/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:bbd3eadce327845606c73d7732cf68f1859ff4cc68fd9a773b4dfa094d96ea03: unpack entry: usr/lib/ruby/gems/3.0.0/gems/minitest-5.14.2/design_rationale.rb: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2489429902/rootfs/usr/lib/ruby/gems/3.0.0/gems/minitest-5.14.2/design_rationale.rb: disk quota exceeded
+
+2025-12-04 21:03:39,301 - swebench_singularity.singularity_builder - ERROR - Failed to build matplotlib__matplotlib-22871 after 3 attempts

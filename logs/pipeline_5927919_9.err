@@ -1,0 +1,14 @@
+2025-12-03 16:41:07,284 - swebench_singularity.singularity_builder - INFO - Using cached image for scikit-learn__scikit-learn-13124: /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-13124.sif
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 192, in run
+    results['fuzzing'] = self._run_fuzzing(repo_path, sample, container_path)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 440, in _run_fuzzing
+    test_file.write_text(test_code, encoding='utf-8')
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/pathlib.py", line 1078, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/test_fuzzing_generated.py'

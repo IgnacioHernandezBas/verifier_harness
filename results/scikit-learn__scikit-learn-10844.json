@@ -1,0 +1,2456 @@
+{
+  "instance_id": "scikit-learn__scikit-learn-10844",
+  "success": true,
+  "repo": "scikit-learn/scikit-learn",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 70.76,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 873,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 11,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py": [
+            {
+              "type": "error",
+              "symbol": "import-error",
+              "line": 23,
+              "message": "Unable to import 'sklearn.metrics.cluster.expected_mutual_info_fast'",
+              "message_id": "E0401"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 28,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 42,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 45,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 48,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "redefined-outer-name",
+              "line": 283,
+              "message": "Redefining name 'v_measure_score' from outer scope (line 435)",
+              "message_id": "W0621"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 273,
+              "message": "Variable name \"entropy_C\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 274,
+              "message": "Variable name \"entropy_K\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 277,
+              "message": "Variable name \"MI\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 595,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 787,
+              "message": "Unused argument 'sparse'",
+              "message_id": "W0613"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 6,
+        "issues": [
+          {
+            "line": 201,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 202,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 285,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 606,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 691,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 772,
+            "code": "W504",
+            "message": "line break after binary operator"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 9.63,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py": [
+            {
+              "name": "adjusted_rand_score",
+              "complexity": 7,
+              "lineno": 112
+            },
+            {
+              "name": "contingency_matrix",
+              "complexity": 5,
+              "lineno": 53
+            },
+            {
+              "name": "homogeneity_completeness_v_measure",
+              "complexity": 5,
+              "lineno": 217
+            },
+            {
+              "name": "check_clusterings",
+              "complexity": 4,
+              "lineno": 34
+            },
+            {
+              "name": "mutual_info_score",
+              "complexity": 4,
+              "lineno": 530
+            },
+            {
+              "name": "adjusted_mutual_info_score",
+              "complexity": 3,
+              "lineno": 611
+            },
+            {
+              "name": "normalized_mutual_info_score",
+              "complexity": 3,
+              "lineno": 707
+            },
+            {
+              "name": "fowlkes_mallows_score",
+              "complexity": 2,
+              "lineno": 787
+            },
+            {
+              "name": "entropy",
+              "complexity": 2,
+              "lineno": 863
+            },
+            {
+              "name": "comb2",
+              "complexity": 1,
+              "lineno": 28
+            },
+            {
+              "name": "homogeneity_score",
+              "complexity": 1,
+              "lineno": 291
+            },
+            {
+              "name": "completeness_score",
+              "complexity": 1,
+              "lineno": 365
+            },
+            {
+              "name": "v_measure_score",
+              "complexity": 1,
+              "lineno": 435
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 146,
+        "total_issues": 162,
+        "issues": [
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 10,
+            "column": 19,
+            "severity": "error",
+            "message": "Name \"basestring\" is not defined",
+            "error_code": "name-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 11,
+            "column": 31,
+            "severity": "error",
+            "message": "Name \"unicode\" is not defined",
+            "error_code": "name-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_compat.py",
+            "line_number": 14,
+            "column": 25,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[type[bytes], type[str]]\", variable has type \"tuple[type[str], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/__check_build/__init__.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.__check_build._check_build\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/my_exceptions.py",
+            "line_number": 58,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_exception_mapping\" (hint: \"_exception_mapping: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/my_exceptions.py",
+            "line_number": 97,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"exceptions\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/funcsigs.py",
+            "line_number": 21,
+            "column": 23,
+            "severity": "error",
+            "message": "\"Callable[[Iterable[object]], bool]\" not callable",
+            "error_code": "operator"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 385,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible redefinition (redefinition with type \"Callable[[Any], Any]\", original type overloaded function)",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 393,
+            "column": 5,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 393,
+            "column": 5,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 393,
+            "column": 5,
+            "severity": "note",
+            "message": "def callable(object, /) -> TypeIs[Callable",
+            "error_code": "..., object]"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 393,
+            "column": 5,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/six.py",
+            "line_number": 393,
+            "column": 5,
+            "severity": "note",
+            "message": "def callable(obj: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "def open(filename: int | str | bytes | PathLike[str] | PathLike",
+            "error_code": "bytes"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_memory_helpers.py",
+            "line_number": 96,
+            "column": 5,
+            "severity": "note",
+            "message": "def open_py_source(filename: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/format_stack.py",
+            "line_number": 35,
+            "column": 23,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Callable[[], bytes | bytearray]], Generator[TokenInfo, None, None]]\", variable has type \"Callable[[Callable[[], str]], Generator[TokenInfo, None, None]]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 16,
+            "column": 9,
+            "severity": "error",
+            "message": "Incompatible import of \"mp\" (imported name has type Module, local name has type \"int | None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 24,
+            "column": 16,
+            "severity": "error",
+            "message": "\"int\" has no attribute \"Semaphore\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 37,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"multiprocessing.forking\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 37,
+            "column": 9,
+            "severity": "error",
+            "message": "Name \"assert_spawning\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_multiprocessing_helpers.py",
+            "line_number": 39,
+            "column": 23,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type \"Callable[[Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 21,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"RLock\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 28,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Unpickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 28,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Unpickler]\", variable has type \"type[_Unpickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 29,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Pickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 29,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Pickler]\", variable has type \"type[_Pickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 34,
+            "column": 10,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 39,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 49,
+            "column": 11,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 65,
+            "column": 32,
+            "severity": "error",
+            "message": "Argument 1 to \"append\" of \"list\" has incompatible type \"type[BZ2File]\"; expected \"type[GzipFile]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_utils.py",
+            "line_number": 68,
+            "column": 32,
+            "severity": "error",
+            "message": "Argument 1 to \"append\" of \"list\" has incompatible type \"type[LZMAFile]\"; expected \"type[GzipFile]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 41,
+            "column": 9,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 41,
+            "column": 9,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 41,
+            "column": 9,
+            "severity": "note",
+            "message": "def replace(src: str | bytes | PathLike[str] | PathLike[bytes], dst: str | bytes | PathLike[str] | PathLike",
+            "error_code": "bytes"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 41,
+            "column": 9,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/backports.py",
+            "line_number": 41,
+            "column": 9,
+            "severity": "note",
+            "message": "def replace(src: Any, dst: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 24,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"Pickler\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 24,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Pickler]\", variable has type \"type[_Pickler]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 132,
+            "column": 27,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 134,
+            "column": 30,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 136,
+            "column": 31,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 138,
+            "column": 35,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any, Any, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/hashing.py",
+            "line_number": 158,
+            "column": 29,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Hasher, Any], Any]\", target has type \"Callable[[Unpickler, Any], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/_scipy_sparse_lsqr_backport.py",
+            "line_number": 58,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg.interface\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 188,
+            "column": 37,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[ZipNumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 190,
+            "column": 18,
+            "severity": "error",
+            "message": "Invalid index type \"bytes\" for \"dict[int, Callable[[Unpickler], None]]\"; expected type \"int\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle_compat.py",
+            "line_number": 190,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[ZipNumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 24,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible import of \"signature\" (imported name has type \"Callable[[Any], Any]\", local name has type \"Callable[[Callable[..., Any], DefaultNamedArg(bool, 'follow_wrapped'), DefaultNamedArg(Mapping[str, Any] | None, 'globals'), DefaultNamedArg(Mapping[str, Any] | None, 'locals'), DefaultNamedArg(bool, 'eval_str')], Signature]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 57,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible redefinition (redefinition with type \"Callable[[Any, Any, Any, Any], Any]\", original type \"_UFunc_Nin2_Nout1[Literal['true_divide'], Literal[11], None]\")",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 144,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 144,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"sparse_lsqr\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 148,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 150,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.misc\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/fixes.py",
+            "line_number": 297,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible import of \"MaskedArray\" (imported name has type \"type[numpy.ma.core.MaskedArray[_ShapeT_co, _DTypeT_co]]\", local name has type \"type[sklearn.utils.fixes.MaskedArray]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 14,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign to a type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 14,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type \"type[Path]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 345,
+            "column": 37,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[NumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 347,
+            "column": 18,
+            "severity": "error",
+            "message": "Invalid index type \"bytes\" for \"dict[int, Callable[[Unpickler], None]]\"; expected type \"int\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/numpy_pickle.py",
+            "line_number": 347,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[NumpyUnpickler], Any]\", target has type \"Callable[[Unpickler], None]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/sparsefuncs.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 33,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"pickle\" has no attribute \"whichmodule\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 36,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"cPickle\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 59,
+            "column": 10,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/pool.py",
+            "line_number": 29,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/_parallel_backends.py",
+            "line_number": 21,
+            "column": 27,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/parallel.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"cPickle\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/parallel.py",
+            "line_number": 118,
+            "column": 26,
+            "severity": "error",
+            "message": "Item \"None\" of \"int | None\" has no attribute \"get_context\"",
+            "error_code": "union-attr"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/joblib/memory.py",
+            "line_number": 217,
+            "column": 20,
+            "severity": "error",
+            "message": "Need type annotation for \"_FUNCTION_HASHES\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 59,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"Image\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 59,
+            "column": 9,
+            "severity": "error",
+            "message": "Name \"Image\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/externals/_pilutil.py",
+            "line_number": 62,
+            "column": 27,
+            "severity": "error",
+            "message": "Module has no attribute \"fromstring\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/base.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/__init__.py",
+            "line_number": 54,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"__SKLEARN_SETUP__\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/validation.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/multiclass.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"collections\" does not explicitly export attribute \"Sequence\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/multiclass.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/multiclass.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse.base\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/__init__.py",
+            "line_number": 4,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"collections\" does not explicitly export attribute \"Sequence\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/__init__.py",
+            "line_number": 7,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/__init__.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.murmurhash\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install scipy-stubs\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.metrics.cluster.expected_mutual_info_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/image.py",
+            "line_number": 15,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"collections\" does not explicitly export attribute \"Mapping\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/dict_vectorizer.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 6,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/random.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils._random\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 23,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.datasets._svmlight_format\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/svmlight_format.py",
+            "line_number": 29,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/base.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves.urllib.request\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 20,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 21,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.io\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"urllib2\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 41,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot determine type of \"WindowsError\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 53,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"nose.tools\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 856,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"numpydoc\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/testing.py",
+            "line_number": 41,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"WindowsError\" is used before definition",
+            "error_code": "used-before-def"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/preprocessing/imputation.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/preprocessing/label.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/preprocessing/label.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils._logistic_sigmoid\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/extmath.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/rcv1.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/rcv1.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/olivetti_faces.py",
+            "line_number": 29,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.io.matlab\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/mldata.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"urllib2\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/mldata.py",
+            "line_number": 22,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 19,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/preprocessing/data.py",
+            "line_number": 29,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.utils.sparsefuncs_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/hashing.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"sklearn.feature_extraction\" has no attribute \"_hashing\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"collections\" does not explicitly export attribute \"Mapping\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/feature_extraction/text.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/samples_generator.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/samples_generator.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/samples_generator.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"collections\" does not explicitly export attribute \"Iterable\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 17,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 18,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/pairwise.py",
+            "line_number": 30,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.metrics.pairwise_fast\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/classification.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/ranking.py",
+            "line_number": 24,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/ranking.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.stats\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/twenty_newsgroups.py",
+            "line_number": 47,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/datasets/twenty_newsgroups.py",
+            "line_number": 47,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/kernels.py",
+            "line_number": 27,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/kernels.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.spatial.distance\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/kernels.py",
+            "line_number": 119,
+            "column": 14,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"six.with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/scorer.py",
+            "line_number": 46,
+            "column": 19,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"six.with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/utils/metaestimators.py",
+            "line_number": 18,
+            "column": 24,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"six.with_metaclass\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gpr.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gpr.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.optimize\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/multiclass.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.sparse\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/multiclass.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/multiclass.py",
+            "line_number": 57,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"sklearn.externals.six.moves\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.linalg\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 12,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.optimize\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gpc.py",
+            "line_number": 13,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy.special\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_2/scikit-learn__scikit-learn/sklearn/gaussian_process/gaussian_process.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"scipy\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "Found 146 errors in 54 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 146 errors in 54 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/scikit-learn__scikit-learn/sklearn/metrics/cluster/supervised.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": true,
+    "fuzzing_passed": true,
+    "tests_generated": 3,
+    "combined_coverage": 66.66666666666666,
+    "baseline_coverage": 66.66666666666666,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "sklearn/metrics/cluster/supervised.py"
+        ],
+        "primary_file": "sklearn/metrics/cluster/supervised.py",
+        "total_changed_lines": 3,
+        "module_path": "sklearn.metrics.cluster.supervised"
+      },
+      "baseline_tests": {
+        "count": 17,
+        "fail_to_pass": 1,
+        "pass_to_pass": 16,
+        "passed": true,
+        "returncode": 0,
+        "coverage": 66.66666666666666,
+        "covered_lines": 2
+      },
+      "fuzzing_tests": {
+        "count": 3,
+        "passed": true,
+        "returncode": 0,
+        "test_failures": [],
+        "stdout": "    172     82      0    13%   38, 47-52, 63-72, 81-84, 91-94, 100, 108-112, 134-140, 194-225, 310-349, 368, 417-441, 447, 483-496, 523-535, 567-580, 607-614, 623-629, 634-642, 691-715, 734-737, 756-766\nsklearn/utils/fixes.py                                              178    142     76      5    17%   23-24, 32-34, 50, 54-71, 80-131, 136, 142, 149-150, 155-252, 257, 263-279, 283-294\nsklearn/utils/graph.py                                               26     26     10      0     0%   13-84\nsklearn/utils/linear_assignment_.py                                 106     94     30      0    10%   53-60, 73-93, 100-103, 107-108, 128-145, 156-167, 176-180, 192-217, 231-267, 277-282\nsklearn/utils/metaestimators.py                                      87     87     52      0     0%   6-207\nsklearn/utils/mocking.py                                             52     52     18      0     0%   1-86\nsklearn/utils/multiclass.py                                         145    123     74      0    10%   26-29, 33, 74-105, 109, 140-154, 169-172, 239-291, 308-326, 352-400, 422-448\nsklearn/utils/optimize.py                                            68     68     26      0     0%   16-204\nsklearn/utils/random.py                                              47     47     16      0     0%   4-197\nsklearn/utils/sparsefuncs.py                                        154    133     90      0     9%   18-20, 24-25, 43-44, 61-62, 86-99, 141-158, 175-180, 197-202, 220-231, 249-282, 304-309, 327-336, 359-362, 381-410, 418-428, 434-438, 456-470\nsklearn/utils/sparsetools/__init__.py                                 4      4      0      0     0%   3-13\nsklearn/utils/stats.py                                               11     11      0      0     0%   1-25\nsklearn/utils/testing.py                                            390    285    176      0    20%   27, 54-59, 65-71, 139-159, 188-228, 237-243, 251-265, 292-295, 312-316, 320-328, 331-337, 340-347, 350-355, 386-401, 430-442, 468-483, 503, 506-521, 527-528, 533-534, 604-663, 669-670, 675-687, 692-699, 721-727, 732-738, 742-743, 748-749, 757-764, 769-771, 774-778, 781, 790-804, 823-833, 856-906\nsklearn/utils/tests/test_bench.py                                     6      6      0      0     0%   2-11\nsklearn/utils/tests/test_class_weight.py                            127    127      0      0     0%   1-228\nsklearn/utils/tests/test_deprecation.py                              47     47     10      0     0%   5-78\nsklearn/utils/tests/test_estimator_checks.py                        200    200     44      0     0%   1-348\nsklearn/utils/tests/test_extmath.py                                 355    355     46      0     0%   7-635\nsklearn/utils/tests/test_fast_dict.py                                23     23      4      0     0%   3-33\nsklearn/utils/tests/test_fixes.py                                    14     14      2      0     0%   6-26\nsklearn/utils/tests/test_graph.py                                    14     14      6      0     0%   4-25\nsklearn/utils/tests/test_linear_assignment.py                        18     18      6      0     0%   4-60\nsklearn/utils/tests/test_metaestimators.py                           38     38     14      0     0%   1-79\nsklearn/utils/tests/test_multiclass.py                              152    152     50      0     0%   2-383\nsklearn/utils/tests/test_murmurhash.py                               51     51     12      0     0%   5-80\nsklearn/utils/tests/test_optimize.py                                 18     18      2      0     0%   1-29\nsklearn/utils/tests/test_random.py                                   89     89     18      0     0%   1-181\nsklearn/utils/tests/test_seq_dataset.py                              56     56     10      0     0%   5-83\nsklearn/utils/tests/test_shortest_path.py                            53     53     20      0     0%   1-95\nsklearn/utils/tests/test_sparsefuncs.py                             337    337     30      0     0%   1-493\nsklearn/utils/tests/test_stats.py                                     9      9      2      0     0%   1-24\nsklearn/utils/tests/test_testing.py                                 196    196     16      0     0%   1-480\nsklearn/utils/tests/test_utils.py                                   159    159     12      0     0%   1-275\nsklearn/utils/tests/test_validation.py                              375    375     52      0     0%   3-689\nsklearn/utils/validation.py                                         233    200    159      0     8%   36-50, 62, 97-111, 116, 123-139, 167-173, 197-203, 217-220, 236-247, 292-335, 339-341, 432-559, 663-677, 695-706, 720-726, 754, 784-809, 849-860, 875-877\n-------------------------------------------------------------------------------------------------------------\nTOTAL                                                             65830  64819  16619     12     1%\n\n29 files skipped due to complete coverage.\n\n\n================== 2 passed, 1 skipped, 7 warnings in 44.83s ===================\n",
+        "stderr": ""
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 7,
+    "failed_rules": 2,
+    "findings_count": 30,
+    "high_severity_count": 0,
+    "medium_severity_count": 30,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 2,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "failed",
+        "findings": [
+          {
+            "description": "Use of 'check_clusterings' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'contingency_matrix' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'labels_true' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'labels_pred' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'tk' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'qk' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'c' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'n_samples' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'pk' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'len' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'log' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Use of 'np' before it is definitely defined",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'label_idx' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'pi' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          },
+          {
+            "description": "Resource 'pi_sum' is acquired but never closed or released",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "def-use"
+            ]
+          }
+        ],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "failed",
+        "findings": [
+          {
+            "description": "Concurrent execution raised exceptions",
+            "location": "sklearn/metrics/cluster/supervised.py:787",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "concurrency"
+            ]
+          },
+          {
+            "description": "Concurrent execution raised exceptions",
+            "location": "sklearn/metrics/cluster/supervised.py:863",
+            "severity": "medium",
+            "taxonomy_tags": [
+              "concurrency"
+            ]
+          }
+        ],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 2,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [
+        {
+          "description": "Use of 'check_clusterings' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'contingency_matrix' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'labels_true' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'labels_pred' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'tk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'qk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'c' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'n_samples' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'len' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'log' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'label_idx' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pi' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pi_sum' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Concurrent execution raised exceptions",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "concurrency"
+          ]
+        },
+        {
+          "description": "Concurrent execution raised exceptions",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "concurrency"
+          ]
+        }
+      ],
+      "low": []
+    },
+    "findings_by_taxonomy": {
+      "def-use": [
+        {
+          "description": "Use of 'check_clusterings' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'contingency_matrix' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'labels_true' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'labels_pred' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'tk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'qk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'c' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'n_samples' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pk' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'len' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'log' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Use of 'np' before it is definitely defined",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'label_idx' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pi' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        },
+        {
+          "description": "Resource 'pi_sum' is acquired but never closed or released",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "def-use"
+          ]
+        }
+      ],
+      "concurrency": [
+        {
+          "description": "Concurrent execution raised exceptions",
+          "location": "sklearn/metrics/cluster/supervised.py:787",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "concurrency"
+          ]
+        },
+        {
+          "description": "Concurrent execution raised exceptions",
+          "location": "sklearn/metrics/cluster/supervised.py:863",
+          "severity": "medium",
+          "taxonomy_tags": [
+            "concurrency"
+          ]
+        }
+      ]
+    }
+  },
+  "overall_score": 87.89466666666668,
+  "verdict": "\u2705 EXCELLENT",
+  "reason": "All checks passed",
+  "elapsed_seconds": 189.55760836601257
+}

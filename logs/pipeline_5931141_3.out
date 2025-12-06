@@ -1,0 +1,121 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5931144
+Array Task ID: 3
+Node: cbcb30
+Started: Fri Dec  5 17:02:56 EST 2025
+
+Processing: matplotlib__matplotlib-20488
+
+Available disk space: 84878 GB
+
+Loading instance: matplotlib__matplotlib-20488
+Repo: matplotlib/matplotlib
+
+[1/5] Setting up repository...
+[+] Cloning matplotlib/matplotlib into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib ...
+    → Captured original code: lib/matplotlib/image.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=False
+   Copying pre-built C extensions from container...
+   Detected matplotlib, copying data files...
+✅ Successfully copied matplotlib data files
+✅ Successfully copied 20 pre-built C extension files
+✅ pytest-cov already available (version 5.0.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 63.7/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1786 lines
+DEBUG: changed_functions: ['_make_image']
+DEBUG: class_context: {'_make_image': '_ImageBase'}
+DEBUG: all_changed_lines: 3 lines
+    ⚠️  Filtered out 2 malformed test names from dataset:
+       - lib/matplotlib/tests/test_image.py::test_composite[True-1-ps-
+       - lib/matplotlib/tests/test_image.py::test_composite[False-2-ps-
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📝 Detected matplotlib repo - adjusting test paths (removing 'lib/' prefix)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/src:/workspace:/workspace/lib:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-20488.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered matplotlib/tests/test_image.py::test_huge_range_log[png--1] matplotlib/tests/test_image.py::test_image_interps[png] matplotlib/tests/test_image.py::test_image_interps[pdf] matplotlib/tests/test_image.py::test_alpha_interp[png] matplotlib/tests/test_image.py::test_figimage[png-False] matplotlib/tests/test_image.py::test_figimage[png-True] matplotlib/tests/test_image.py::test_figimage[pdf-False] matplotlib/tests/test_image.py::test_figimage[pdf-True] matplotlib/tests/test_image.py::test_image_python_io matplotlib/tests/test_image.py::test_imshow_antialiased[png-5-2-hanning] matplotlib/tests/test_image.py::test_imshow_antialiased[png-5-5-nearest] matplotlib/tests/test_image.py::test_imshow_antialiased[png-5-10-nearest] matplotlib/tests/test_image.py::test_imshow_antialiased[png-3-2.9-hanning] matplotlib/tests/test_image.py::test_imshow_antialiased[png-3-9.1-nearest] matplotlib/tests/test_image.py::test_imshow_zoom[png] matplotlib/tests/test_image.py::test_imshow_pil[png] matplotlib/tests/test_image.py::test_imshow_pil[pdf] matplotlib/tests/test_image.py::test_imread_pil_uint16 matplotlib/tests/test_image.py::test_imread_fspath matplotlib/tests/test_image.py::test_imsave[png] matplotlib/tests/test_image.py::test_imsave[jpg] matplotlib/tests/test_image.py::test_imsave[jpeg] matplotlib/tests/test_image.py::test_imsave[tiff] matplotlib/tests/test_image.py::test_imsave_fspath[png] matplotlib/tests/test_image.py::test_imsave_fspath[pdf] matplotlib/tests/test_image.py::test_imsave_fspath[ps] matplotlib/tests/test_image.py::test_imsave_fspath[eps] matplotlib/tests/test_image.py::test_imsave_fspath[svg] matplotlib/tests/test_image.py::test_imsave_color_alpha matplotlib/tests/test_image.py::test_imsave_pil_kwargs_png matplotlib/tests/test_image.py::test_imsave_pil_kwargs_tiff matplotlib/tests/test_image.py::test_image_alpha[png] matplotlib/tests/test_image.py::test_image_alpha[pdf] matplotlib/tests/test_image.py::test_cursor_data matplotlib/tests/test_image.py::test_format_cursor_data[data0-[1e+04]-[10001]] matplotlib/tests/test_image.py::test_format_cursor_data[data1-[0.123]-[0.123]] matplotlib/tests/test_image.py::test_image_clip[png] matplotlib/tests/test_image.py::test_image_cliprect[png] matplotlib/tests/test_image.py::test_imshow[png] matplotlib/tests/test_image.py::test_imshow[pdf] matplotlib/tests/test_image.py::test_imshow_10_10_1[png] matplotlib/tests/test_image.py::test_imshow_10_10_2 matplotlib/tests/test_image.py::test_imshow_10_10_5 matplotlib/tests/test_image.py::test_no_interpolation_origin[png] matplotlib/tests/test_image.py::test_no_interpolation_origin[pdf] matplotlib/tests/test_image.py::test_image_shift[pdf] matplotlib/tests/test_image.py::test_image_edges matplotlib/tests/test_image.py::test_image_composite_background[png] matplotlib/tests/test_image.py::test_image_composite_alpha[png] matplotlib/tests/test_image.py::test_image_composite_alpha[pdf] matplotlib/tests/test_image.py::test_clip_path_disables_compositing[pdf] matplotlib/tests/test_image.py::test_bbox_image_inverted[png] matplotlib/tests/test_image.py::test_get_window_extent_for_AxisImage matplotlib/tests/test_image.py::test_zoom_and_clip_upper_origin[png] matplotlib/tests/test_image.py::test_nonuniformimage_setcmap matplotlib/tests/test_image.py::test_nonuniformimage_setnorm matplotlib/tests/test_image.py::test_jpeg_2d matplotlib/tests/test_image.py::test_jpeg_alpha matplotlib/tests/test_image.py::test_axesimage_setdata matplotlib/tests/test_image.py::test_figureimage_setdata matplotlib/tests/test_image.py::test_setdata_xya[NonUniformImage-x0-y0-a0] matplotlib/tests/test_image.py::test_setdata_xya[PcolorImage-x1-y1-a1] matplotlib/tests/test_image.py::test_minimized_rasterized matplotlib/tests/test_image.py::test_load_from_url matplotlib/tests/test_image.py::test_log_scale_image[png] matplotlib/tests/test_image.py::test_log_scale_image[pdf] matplotlib/tests/test_image.py::test_rotate_image[png] matplotlib/tests/test_image.py::test_rotate_image[pdf] matplotlib/tests/test_image.py::test_image_preserve_size matplotlib/tests/test_image.py::test_image_preserve_size2 matplotlib/tests/test_image.py::test_mask_image_over_under[png] matplotlib/tests/test_image.py::test_mask_image[png] matplotlib/tests/test_image.py::test_mask_image_all matplotlib/tests/test_image.py::test_imshow_endianess[png] matplotlib/tests/test_image.py::test_imshow_masked_interpolation[png] matplotlib/tests/test_image.py::test_imshow_masked_interpolation[pdf] matplotlib/tests/test_image.py::test_imshow_no_warn_invalid matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype0] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype1] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype2] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype3] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype4] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype5] matplotlib/tests/test_image.py::test_imshow_clips_rgb_to_valid_range[dtype6] matplotlib/tests/test_image.py::test_imshow_flatfield[png] matplotlib/tests/test_image.py::test_imshow_bignumbers[png] matplotlib/tests/test_image.py::test_imshow_bignumbers_real[png] matplotlib/tests/test_image.py::test_empty_imshow[Normalize] matplotlib/tests/test_image.py::test_empty_imshow[LogNorm] matplotlib/tests/test_image.py::test_empty_imshow[<lambda>0] matplotlib/tests/test_image.py::test_empty_imshow[<lambda>1] matplotlib/tests/test_image.py::test_imshow_float16 matplotlib/tests/test_image.py::test_imshow_float128 matplotlib/tests/test_image.py::test_imshow_bool matplotlib/tests/test_image.py::test_composite[True-1-svg-<image] matplotlib/tests/test_image.py::test_composite[False-2-svg-<image] matplotlib/tests/test_image.py::test_relim matplotlib/tests/test_image.py::test_unclipped matplotlib/tests/test_image.py::test_respects_bbox matplotlib/tests/test_image.py::test_image_cursor_formatting matplotlib/tests/test_image.py::test_image_array_alpha[png] matplotlib/tests/test_image.py::test_image_array_alpha[pdf] matplotlib/tests/test_image.py::test_image_array_alpha_validation matplotlib/tests/test_image.py::test_exact_vmin matplotlib/tests/test_image.py::test_https_imread_smoketest matplotlib/tests/test_image.py::test_quantitynd matplotlib/tests/test_image.py::test_huge_range_log[png-1] matplotlib/tests/test_image.py::test_spy_box[png] matplotlib/tests/test_image.py::test_spy_box[pdf] matplotlib/tests/test_image.py::test_nonuniform_and_pcolor[png]
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=4)
+STDERR (first 2000 chars):
+ERROR: file or directory not found: matplotlib/tests/test_image.py::test_huge_range_log[png--1]
+
+
+
+STDOUT (first 2000 chars):
+
+no tests ran in 0.03s
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: _ImageBase._make_image
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for _ImageBase...
+    ⚠️  No patterns found for _ImageBase
+ℹ️  No test patterns found for _ImageBase, trying signature extraction...
+  ✅ Pattern-based test generated!
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📝 Detected matplotlib repo - adjusting test paths (removing 'lib/' prefix)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/src:/workspace:/workspace/lib:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-20488.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 66.7%
+   Covered lines: [536, 537]
+   Uncovered lines: [535]
+
+   Branch coverage: 0.0%
+   Total branches: 2
+   Covered branches: 0
+   Missing branches: 2
+    Tests: FAIL, Fuzzing: 3 tests
+    Coverage: 66.7% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: matplotlib__matplotlib
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 30.8/100
+Time: 63.1s
+============================================================
+
+
+💾 Results saved to: results/matplotlib__matplotlib-20488.json
+
+Finished: Fri Dec  5 17:04:09 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_3

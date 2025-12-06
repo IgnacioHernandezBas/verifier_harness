@@ -1,0 +1,105 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929506
+Array Task ID: 10
+Node: cbcb30
+Started: Thu Dec  4 16:01:07 EST 2025
+
+Processing: django__django-11099
+
+Available disk space: 84916 GB
+
+Loading instance: django__django-11099
+Repo: django/django
+
+[1/5] Setting up repository...
+[+] Cloning django/django into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django ...
+    → Captured original code: django/contrib/auth/validators.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 74.2/100 ✅
+  → Dynamic fuzzing...
+  ℹ️  AST matching found no functions, using diff context as fallback
+DEBUG: File has 25 lines
+DEBUG: changed_functions: ['ASCIIUsernameValidator']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 2 lines
+📝 Detected test framework: django
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for Django tests
+🧪 Running django tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env DJANGO_SETTINGS_MODULE=tests.test_sqlite /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11099.sif /opt/miniconda3/envs/testbed/bin/python -m coverage run --source django --branch tests/runtests.py auth_tests.test_validators.UsernameValidatorsTests.test_ascii_validator auth_tests.test_validators.UsernameValidatorsTests.test_unicode_validator auth_tests.test_validators.UserAttributeSimilarityValidatorTest.test_help_text auth_tests.test_validators.MinimumLengthValidatorTest.test_help_text auth_tests.test_validators.MinimumLengthValidatorTest.test_validate auth_tests.test_validators.NumericPasswordValidatorTest.test_help_text auth_tests.test_validators.NumericPasswordValidatorTest.test_validate auth_tests.test_validators.UserAttributeSimilarityValidatorTest.test_validate auth_tests.test_validators.UserAttributeSimilarityValidatorTest.test_validate_property auth_tests.test_validators.PasswordValidationTest.test_empty_password_validator_help_text_html auth_tests.test_validators.PasswordValidationTest.test_get_default_password_validators auth_tests.test_validators.PasswordValidationTest.test_get_password_validators_custom auth_tests.test_validators.PasswordValidationTest.test_password_changed auth_tests.test_validators.PasswordValidationTest.test_password_changed_with_custom_validator auth_tests.test_validators.PasswordValidationTest.test_password_validators_help_text_html auth_tests.test_validators.PasswordValidationTest.test_password_validators_help_text_html_escaping auth_tests.test_validators.PasswordValidationTest.test_password_validators_help_texts auth_tests.test_validators.PasswordValidationTest.test_validate_password auth_tests.test_validators.CommonPasswordValidatorTest.test_help_text auth_tests.test_validators.CommonPasswordValidatorTest.test_validate auth_tests.test_validators.CommonPasswordValidatorTest.test_validate_custom_list auth_tests.test_validators.CommonPasswordValidatorTest.test_validate_django_supplied_file
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [10, 20]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 1 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: django (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11099.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=django --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [10, 20]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 1 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 1 test(s) failed
+       - test_ASCIIUsernameValidator_properties: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: django__django
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✓ GOOD
+Score: 77.2/100
+Time: 162.9s
+============================================================
+
+
+💾 Results saved to: results/django__django-11099.json
+
+Finished: Thu Dec  4 16:03:54 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_10

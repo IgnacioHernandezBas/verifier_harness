@@ -1,0 +1,28 @@
+2025-12-04 11:04:21,486 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for scikit-learn__scikit-learn-9288...
+2025-12-04 11:04:21,495 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-04 11:04:21,496 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-9288.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-9288:latest
+2025-12-04 11:14:47,058 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 11:04:27  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 11:04:27  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2917980077/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 11:04:46  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 11:04:46  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2917980077/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 11:08:59  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 11:08:59  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2917980077/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:bb6a6a2d3ad9575c315d5e9aa70aeda67d63830ef779e65d55850524e86cfa7d: unpack entry: opt/miniconda3/pkgs/libpng-1.6.39-h5eee18b_0/include/png.h: link: unpriv.symlink: symlink libpng16/png.h /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2917980077/rootfs/opt/miniconda3/pkgs/libpng-1.6.39-h5eee18b_0/include/png.h: disk quota exceeded
+
+2025-12-04 11:14:47,059 - swebench_singularity.singularity_builder - INFO - Retry attempt 2/3 for scikit-learn__scikit-learn-9288
+2025-12-04 11:14:52,060 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-9288.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-9288:latest
+2025-12-04 11:34:00,049 - swebench_singularity.singularity_builder - INFO - Successfully built scikit-learn__scikit-learn-9288.sif (1338.3 MB) in 1148.0s
+2025-12-04 11:34:00,052 - swebench_singularity.cache_manager - INFO - Caching scikit-learn__scikit-learn-9288 -> /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-9288.sif
+2025-12-04 11:34:07,601 - swebench_singularity.cache_manager - INFO - Cached scikit-learn__scikit-learn-9288 (1338.3 MB)
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 150, in run
+    install_result = test_patch_singularity.install_package_in_singularity(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/verifier/dynamic_analyzers/test_patch_singularity.py", line 169, in install_package_in_singularity
+    raise FileNotFoundError(f"Repository path does not exist: {repo_path}")
+FileNotFoundError: Repository path does not exist: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_32/scikit-learn__scikit-learn

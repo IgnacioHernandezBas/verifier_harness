@@ -1,0 +1,99 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928091
+Array Task ID: 5
+Node: cbcb30
+Started: Wed Dec  3 18:15:47 EST 2025
+
+Processing: scikit-learn__scikit-learn-11578
+
+Available disk space: 85241 GB
+
+Loading instance: scikit-learn__scikit-learn-11578
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/linear_model/logistic.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 41 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 63.1/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1834 lines
+DEBUG: changed_functions: ['_log_reg_scoring_path']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 1 lines
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-11578.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_multinomial_score[neg_log_loss-multiclass_agg_list3] sklearn/linear_model/tests/test_logistic.py::test_predict_2_classes sklearn/linear_model/tests/test_logistic.py::test_error sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_mock_scorer sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_score_does_not_warn_by_default sklearn/linear_model/tests/test_logistic.py::test_lr_liblinear_warning sklearn/linear_model/tests/test_logistic.py::test_predict_3_classes sklearn/linear_model/tests/test_logistic.py::test_predict_iris sklearn/linear_model/tests/test_logistic.py::test_multinomial_validation[lbfgs] sklearn/linear_model/tests/test_logistic.py::test_multinomial_validation[newton-cg] sklearn/linear_model/tests/test_logistic.py::test_multinomial_validation[sag] sklearn/linear_model/tests/test_logistic.py::test_multinomial_validation[saga] sklearn/linear_model/tests/test_logistic.py::test_check_solver_option[LogisticRegression] sklearn/linear_model/tests/test_logistic.py::test_check_solver_option[LogisticRegressionCV] sklearn/linear_model/tests/test_logistic.py::test_multinomial_binary[lbfgs] sklearn/linear_model/tests/test_logistic.py::test_multinomial_binary[newton-cg] sklearn/linear_model/tests/test_logistic.py::test_multinomial_binary[sag] sklearn/linear_model/tests/test_logistic.py::test_multinomial_binary[saga] sklearn/linear_model/tests/test_logistic.py::test_multinomial_binary_probabilities sklearn/linear_model/tests/test_logistic.py::test_sparsify sklearn/linear_model/tests/test_logistic.py::test_inconsistent_input sklearn/linear_model/tests/test_logistic.py::test_write_parameters sklearn/linear_model/tests/test_logistic.py::test_nan sklearn/linear_model/tests/test_logistic.py::test_consistency_path sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_path_convergence_fail sklearn/linear_model/tests/test_logistic.py::test_liblinear_dual_random_state sklearn/linear_model/tests/test_logistic.py::test_logistic_loss_and_grad sklearn/linear_model/tests/test_logistic.py::test_logistic_grad_hess sklearn/linear_model/tests/test_logistic.py::test_logistic_cv sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_multinomial_score[accuracy-multiclass_agg_list0] sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_multinomial_score[precision-multiclass_agg_list1] sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_multinomial_score[f1-multiclass_agg_list2] sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_multinomial_score[recall-multiclass_agg_list4] sklearn/linear_model/tests/test_logistic.py::test_multinomial_logistic_regression_string_inputs sklearn/linear_model/tests/test_logistic.py::test_logistic_cv_sparse sklearn/linear_model/tests/test_logistic.py::test_intercept_logistic_helper sklearn/linear_model/tests/test_logistic.py::test_ovr_multinomial_iris sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_solvers sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_solvers_multiclass sklearn/linear_model/tests/test_logistic.py::test_logistic_regressioncv_class_weights sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_sample_weights sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_class_weights sklearn/linear_model/tests/test_logistic.py::test_logistic_regression_multinomial sklearn/linear_model/tests/test_logistic.py::test_multinomial_grad_hess sklearn/linear_model/tests/test_logistic.py::test_liblinear_decision_function_zero sklearn/linear_model/tests/test_logistic.py::test_liblinear_logregcv_sparse sklearn/linear_model/tests/test_logistic.py::test_saga_sparse sklearn/linear_model/tests/test_logistic.py::test_logreg_intercept_scaling sklearn/linear_model/tests/test_logistic.py::test_logreg_intercept_scaling_zero sklearn/linear_model/tests/test_logistic.py::test_logreg_l1 sklearn/linear_model/tests/test_logistic.py::test_logreg_l1_sparse_data sklearn/linear_model/tests/test_logistic.py::test_logreg_cv_penalty sklearn/linear_model/tests/test_logistic.py::test_logreg_predict_proba_multinomial sklearn/linear_model/tests/test_logistic.py::test_max_iter sklearn/linear_model/tests/test_logistic.py::test_n_iter[newton-cg] sklearn/linear_model/tests/test_logistic.py::test_n_iter[liblinear] sklearn/linear_model/tests/test_logistic.py::test_n_iter[sag] sklearn/linear_model/tests/test_logistic.py::test_n_iter[saga] sklearn/linear_model/tests/test_logistic.py::test_n_iter[lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-True-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-True-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-True-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-True-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-False-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-False-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-False-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-True-False-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-True-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-True-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-True-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-True-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-False-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-False-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-False-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[ovr-False-False-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-True-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-True-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-True-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-True-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-False-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-False-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-False-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-True-False-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-True-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-True-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-True-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-True-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-False-newton-cg] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-False-sag] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-False-saga] sklearn/linear_model/tests/test_logistic.py::test_warm_start[multinomial-False-False-lbfgs] sklearn/linear_model/tests/test_logistic.py::test_saga_vs_liblinear sklearn/linear_model/tests/test_logistic.py::test_dtype_match sklearn/linear_model/tests/test_logistic.py::test_warm_start_converge_LR
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [925]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-11578.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [925]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 7/9 passed
+    Findings: 36 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 88.9/100
+Time: 117.5s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-11578.json
+
+Finished: Wed Dec  3 18:17:49 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_5

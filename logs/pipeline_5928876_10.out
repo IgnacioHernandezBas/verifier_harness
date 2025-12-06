@@ -1,0 +1,111 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928886
+Array Task ID: 10
+Node: clip10
+Started: Thu Dec  4 10:35:56 EST 2025
+
+Processing: scikit-learn__scikit-learn-13135
+
+Available disk space: 85091 GB
+
+Loading instance: scikit-learn__scikit-learn-13135
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/preprocessing/_discretization.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 42 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 74.4/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 297 lines
+DEBUG: changed_functions: ['fit']
+DEBUG: class_context: {'fit': 'KBinsDiscretizer'}
+DEBUG: all_changed_lines: 2 lines
+ℹ️  Using existing C extensions (43 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-13135.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/preprocessing/tests/test_discretization.py::test_nonuniform_strategies[kmeans-expected_2bins1-expected_3bins1-expected_5bins1] sklearn/preprocessing/tests/test_discretization.py::test_fit_transform[uniform-expected0] sklearn/preprocessing/tests/test_discretization.py::test_fit_transform[kmeans-expected1] sklearn/preprocessing/tests/test_discretization.py::test_fit_transform[quantile-expected2] sklearn/preprocessing/tests/test_discretization.py::test_valid_n_bins sklearn/preprocessing/tests/test_discretization.py::test_invalid_n_bins sklearn/preprocessing/tests/test_discretization.py::test_invalid_n_bins_array sklearn/preprocessing/tests/test_discretization.py::test_fit_transform_n_bins_array[uniform-expected0] sklearn/preprocessing/tests/test_discretization.py::test_fit_transform_n_bins_array[kmeans-expected1] sklearn/preprocessing/tests/test_discretization.py::test_fit_transform_n_bins_array[quantile-expected2] sklearn/preprocessing/tests/test_discretization.py::test_invalid_n_features sklearn/preprocessing/tests/test_discretization.py::test_same_min_max[uniform] sklearn/preprocessing/tests/test_discretization.py::test_same_min_max[kmeans] sklearn/preprocessing/tests/test_discretization.py::test_same_min_max[quantile] sklearn/preprocessing/tests/test_discretization.py::test_transform_1d_behavior sklearn/preprocessing/tests/test_discretization.py::test_numeric_stability sklearn/preprocessing/tests/test_discretization.py::test_invalid_encode_option sklearn/preprocessing/tests/test_discretization.py::test_encode_options sklearn/preprocessing/tests/test_discretization.py::test_invalid_strategy_option sklearn/preprocessing/tests/test_discretization.py::test_nonuniform_strategies[uniform-expected_2bins0-expected_3bins0-expected_5bins0] sklearn/preprocessing/tests/test_discretization.py::test_nonuniform_strategies[quantile-expected_2bins2-expected_3bins2-expected_5bins2] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[ordinal-uniform] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[ordinal-kmeans] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[ordinal-quantile] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-uniform] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-kmeans] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-quantile] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-dense-uniform] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-dense-kmeans] sklearn/preprocessing/tests/test_discretization.py::test_inverse_transform[onehot-dense-quantile] sklearn/preprocessing/tests/test_discretization.py::test_transform_outside_fit_range[uniform] sklearn/preprocessing/tests/test_discretization.py::test_transform_outside_fit_range[kmeans] sklearn/preprocessing/tests/test_discretization.py::test_transform_outside_fit_range[quantile] sklearn/preprocessing/tests/test_discretization.py::test_overwrite
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [175, 176]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: KBinsDiscretizer.fit
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for KBinsDiscretizer...
+    ✅ Found 19 patterns
+    📊 Top 3 patterns selected
+    🎯 Generated 3 Hypothesis strategies
+    ⚠️  Found 2 params not in patterns: {'X', 'y'}
+    ➕ Added smart strategy for new param 'X': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    ➕ Added smart strategy for new param 'y': st.one_of(st.none(), st.integers(), st.text())...
+    🧪 Generating Hypothesis-based test with 5 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (43 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-13135.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 50.0%
+   Covered lines: [176]
+   Uncovered lines: [175]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 92.3/100
+Time: 173.8s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-13135.json
+
+Finished: Thu Dec  4 10:38:57 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_10

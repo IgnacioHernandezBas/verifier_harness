@@ -1,0 +1,41 @@
+2025-12-04 10:40:27,635 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for scikit-learn__scikit-learn-14629...
+2025-12-04 10:40:27,639 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-04 10:40:27,641 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-14629.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629:latest
+2025-12-04 10:44:55,755 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 10:40:33  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:40:33  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1994019250/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 10:41:01  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:41:01  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1994019250/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713: unpack entry: opt/miniconda3/lib/libmenuw.so: link: unpriv.symlink: symlink libmenuw.so.6.4 /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-1994019250/rootfs/opt/miniconda3/lib/libmenuw.so: disk quota exceeded
+
+2025-12-04 10:44:55,756 - swebench_singularity.singularity_builder - INFO - Retry attempt 2/3 for scikit-learn__scikit-learn-14629
+2025-12-04 10:45:00,757 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-14629.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629:latest
+2025-12-04 10:49:34,046 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 10:45:01  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:45:01  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3916473751/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 10:45:32  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:45:32  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3916473751/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713: unpack entry: opt/miniconda3/lib/python3.11/asyncio/__pycache__/base_futures.cpython-311.pyc: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3916473751/rootfs/opt/miniconda3/lib/python3.11/asyncio/__pycache__/base_futures.cpython-311.pyc: disk quota exceeded
+
+2025-12-04 10:49:34,047 - swebench_singularity.singularity_builder - INFO - Retry attempt 3/3 for scikit-learn__scikit-learn-14629
+2025-12-04 10:49:44,047 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-14629.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-14629:latest
+2025-12-04 10:53:42,680 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 10:49:44  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:49:44  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3423154156/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 10:50:07  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:50:07  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3423154156/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713: unpack entry: opt/miniconda3/lib/python3.11/concurrent/futures/_base.py: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3423154156/rootfs/opt/miniconda3/lib/python3.11/concurrent/futures/_base.py: disk quota exceeded
+
+2025-12-04 10:53:42,681 - swebench_singularity.singularity_builder - ERROR - Failed to build scikit-learn__scikit-learn-14629 after 3 attempts

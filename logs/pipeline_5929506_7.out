@@ -1,0 +1,108 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929517
+Array Task ID: 7
+Node: cbcb30
+Started: Thu Dec  4 15:57:36 EST 2025
+
+Processing: django__django-11066
+
+Available disk space: 84917 GB
+
+Loading instance: django__django-11066
+Repo: django/django
+
+[1/5] Setting up repository...
+[+] Cloning django/django into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django ...
+    → Captured original code: django/contrib/contenttypes/management/__init__.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 72.0/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 134 lines
+DEBUG: changed_functions: ['_rename']
+DEBUG: class_context: {'_rename': 'RenameContentType'}
+DEBUG: all_changed_lines: 1 lines
+📝 Detected test framework: django
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for Django tests
+🧪 Running django tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env DJANGO_SETTINGS_MODULE=tests.test_sqlite /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11066.sif /opt/miniconda3/envs/testbed/bin/python -m coverage run --source django --branch tests/runtests.py contenttypes_tests.test_operations.ContentTypeOperationsTests.test_existing_content_type_rename_other_database contenttypes_tests.test_operations.ContentTypeOperationsTests.test_content_type_rename_conflict contenttypes_tests.test_operations.ContentTypeOperationsTests.test_existing_content_type_rename contenttypes_tests.test_operations.ContentTypeOperationsTests.test_missing_content_type_rename_ignore
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [27]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: RenameContentType._rename
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for RenameContentType...
+    ⚠️  No patterns found for RenameContentType
+ℹ️  No test patterns found for RenameContentType, trying signature extraction...
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: django (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11066.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=django --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [27]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: django__django
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 91.6/100
+Time: 184.3s
+============================================================
+
+
+💾 Results saved to: results/django__django-11066.json
+
+Finished: Thu Dec  4 16:00:44 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_7

@@ -1,0 +1,120 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5931068
+Array Task ID: 20
+Node: cbcb30
+Started: Fri Dec  5 15:57:47 EST 2025
+
+Processing: astropy__astropy-7671
+
+Available disk space: 85019 GB
+
+Loading instance: astropy__astropy-7671
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy ...
+    → Captured original code: astropy/utils/introspection.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 2.5.1)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 77.8/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 394 lines
+DEBUG: changed_functions: ['minversion']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 9 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7671.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/utils/tests/test_introspection.py::test_minversion astropy/utils/tests/test_introspection.py::test_pkg_finder astropy/utils/tests/test_introspection.py::test_find_current_mod astropy/utils/tests/test_introspection.py::test_find_mod_objs
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pytest.py", line 73, in <module>
+    raise SystemExit(pytest.main())
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/_pytest/config.py", line 50, in main
+    config = _prepareconfig(args, plugins)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/_pytest/config.py", line 160, in _prepareconfig
+    pluginmanager=pluginmanager, args=args)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/__init__.py", line 617, in __call__
+    return self._hookexec(self, self._nonwrappers + self._wrappers, kwargs)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/__init__.py", line 222, in _hookexec
+    return self._inner_hookexec(hook, methods, kwargs)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/__init__.py", line 216, in <lambda>
+    firstresult=hook.spec_opts.get('firstresult'),
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/callers.py", line 196, in _multicall
+    gen.send(outcome)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/_pytest/helpconfig.py", line 68, in pytest_cmdline_parse
+    config = outcome.get_result()
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/callers.py", line 76, in get_result
+    raise ex[1].with_traceback(ex[2])
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/pluggy/callers.py", line 180, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/_pytest/config.py", line 943, in pytest_cmdline_parse
+    self.parse(args)
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/site-packages/_pytes
+
+STDOUT (first 2000 chars):
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 3.44.2)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_20/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7671.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: FAIL, Fuzzing: 3 tests
+    Coverage: 0.0% ⚠️
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 7/9 passed
+    Findings: 22 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 28.3/100
+Time: 612.1s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-7671.json
+
+Finished: Fri Dec  5 16:08:02 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_20

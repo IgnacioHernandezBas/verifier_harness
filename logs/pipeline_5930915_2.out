@@ -1,0 +1,170 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930931
+Array Task ID: 2
+Node: cbcb30
+Started: Fri Dec  5 15:10:42 EST 2025
+
+Processing: astropy__astropy-13033
+
+Available disk space: 85042 GB
+
+Loading instance: astropy__astropy-13033
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy ...
+    → Captured original code: astropy/timeseries/core.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 75.2/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 100 lines
+DEBUG: changed_functions: ['_check_required_columns', 'as_scalar_or_list_str']
+DEBUG: class_context: {'_check_required_columns': 'BaseTimeSeries'}
+DEBUG: all_changed_lines: 11 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13033.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/timeseries/tests/test_sampled.py::test_required_columns astropy/timeseries/tests/test_sampled.py::test_empty_initialization astropy/timeseries/tests/test_sampled.py::test_empty_initialization_invalid astropy/timeseries/tests/test_sampled.py::test_initialize_only_time astropy/timeseries/tests/test_sampled.py::test_initialization_with_data astropy/timeseries/tests/test_sampled.py::test_initialize_only_data astropy/timeseries/tests/test_sampled.py::test_initialization_with_table astropy/timeseries/tests/test_sampled.py::test_initialization_missing_time_delta astropy/timeseries/tests/test_sampled.py::test_initialization_invalid_time_and_time_start astropy/timeseries/tests/test_sampled.py::test_initialization_invalid_time_delta astropy/timeseries/tests/test_sampled.py::test_initialization_with_time_in_data astropy/timeseries/tests/test_sampled.py::test_initialization_n_samples astropy/timeseries/tests/test_sampled.py::test_initialization_length_mismatch astropy/timeseries/tests/test_sampled.py::test_initialization_invalid_both_time_and_time_delta astropy/timeseries/tests/test_sampled.py::test_fold astropy/timeseries/tests/test_sampled.py::test_fold_invalid_options astropy/timeseries/tests/test_sampled.py::test_read_time_missing astropy/timeseries/tests/test_sampled.py::test_read_time_wrong astropy/timeseries/tests/test_sampled.py::test_read astropy/timeseries/tests/test_sampled.py::test_periodogram[BoxLeastSquares] astropy/timeseries/tests/test_sampled.py::test_periodogram[LombScargle]
+
+✓ Coverage data saved to: .coverage.json
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject
+
+
+STDOUT (first 2000 chars):
+Internet access disabled
+..............F......                                                    [100%]
+=================================== FAILURES ===================================
+__________________________________ test_fold ___________________________________
+
+files = None
+
+    def update_leap_seconds(files=None):
+        """If the current ERFA leap second table is out of date, try to update it.
+    
+        Uses `astropy.utils.iers.LeapSeconds.auto_open` to try to find an
+        up-to-date table.  See that routine for the definition of "out of date".
+    
+        In order to make it safe to call this any time, all exceptions are turned
+        into warnings,
+    
+        Parameters
+        ----------
+        files : list of path-like, optional
+            List of files/URLs to attempt to open.  By default, uses defined by
+            `astropy.utils.iers.LeapSeconds.auto_open`, which includes the table
+            used by ERFA itself, so if that is up to date, nothing will happen.
+    
+        Returns
+        -------
+        n_update : int
+            Number of items updated.
+    
+        """
+        try:
+            from astropy.utils import iers
+    
+>           table = iers.LeapSeconds.auto_open(files)
+
+astropy/time/core.py:2824: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'astropy.utils.iers.iers.LeapSeconds'>
+files = ['erfa', '/workspace/astropy/utils/iers/data/Leap_Second.dat', 'https://hpiers.obspm.fr/iers/bul/bulc/Leap_Second.dat', 'https://www.ietf.org/timezones/data/leap-seconds.list']
+
+    @classmethod
+    def auto_open(cls, files=None):
+        """Attempt to get an up-to-date leap-second list.
+    
+        The routine will try the files in sequence until it finds one
+        whose expiration date is "good enough" (see below).  If none
+        are good enough, it returns the one with the most recent expiration
+        date, warning if that file is expired.
+    
+        For remote files that are c
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [58, 59, 60, 61, 62, 63, 64, 86, 87, 88, 89]
+   Uncovered lines: []
+
+   Branch coverage: 8.2%
+   Total branches: 416
+   Covered branches: 34
+   Missing branches: 382
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 2 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: BaseTimeSeries._check_required_columns
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for BaseTimeSeries...
+    ⚠️  No patterns found for BaseTimeSeries
+ℹ️  No test patterns found for BaseTimeSeries, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 7 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.82.6)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13033.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [58, 59, 60, 61, 62, 63, 64, 86, 87, 88, 89]
+   Uncovered lines: []
+
+   Branch coverage: 5.3%
+   Total branches: 416
+   Covered branches: 22
+   Missing branches: 394
+    Tests: FAIL, Fuzzing: 7 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 37.6/100
+Time: 177.6s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-13033.json
+
+Finished: Fri Dec  5 15:13:51 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_2

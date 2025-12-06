@@ -1,0 +1,116 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930067
+Array Task ID: 4
+Node: cbcb30
+Started: Fri Dec  5 10:23:18 EST 2025
+
+Processing: pytest-dev__pytest-5262
+
+Available disk space: 85105 GB
+
+Loading instance: pytest-dev__pytest-5262
+Repo: pytest-dev/pytest
+
+[1/5] Setting up repository...
+[+] Cloning pytest-dev/pytest into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest ...
+    → Captured original code: src/_pytest/capture.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 65.9/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 848 lines
+DEBUG: changed_functions: ['mode']
+DEBUG: class_context: {'mode': 'EncodedFile'}
+DEBUG: all_changed_lines: 4 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-5262.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered testing/test_capture.py::TestFDCapture::test_capfd_sys_stdout_mode [100%] testing/test_capture.py::TestCaptureManager::test_getmethod_default_no_fd testing/test_capture.py::TestCaptureManager::test_capturing_basic_api[no] testing/test_capture.py::TestCaptureManager::test_capturing_basic_api[sys] testing/test_capture.py::TestCaptureManager::test_capturing_basic_api[fd] testing/test_capture.py::TestCaptureManager::test_init_capturing testing/test_capture.py::TestCaptureIO::test_text testing/test_capture.py::TestCaptureIO::test_unicode_and_str_mixture testing/test_capture.py::TestCaptureIO::test_write_bytes_to_buffer testing/test_capture.py::test_dontreadfrominput testing/test_capture.py::test_dontreadfrominput_buffer_python3 testing/test_capture.py::test_dupfile_on_bytesio testing/test_capture.py::test_dupfile_on_textio testing/test_capture.py::TestFDCapture::test_stderr testing/test_capture.py::TestStdCapture::test_capturing_done_simple testing/test_capture.py::TestStdCapture::test_capturing_reset_simple testing/test_capture.py::TestStdCapture::test_capturing_readouterr testing/test_capture.py::TestStdCapture::test_capture_results_accessible_by_attribute testing/test_capture.py::TestStdCapture::test_capturing_readouterr_unicode testing/test_capture.py::TestStdCapture::test_reset_twice_error testing/test_capture.py::TestStdCapture::test_capturing_modify_sysouterr_in_between testing/test_capture.py::TestStdCapture::test_capturing_error_recursive testing/test_capture.py::TestStdCapture::test_just_out_capture testing/test_capture.py::TestStdCapture::test_just_err_capture testing/test_capture.py::TestStdCapture::test_stdin_restored testing/test_capture.py::TestStdCapture::test_stdin_nulled_by_default testing/test_capture.py::TestStdCaptureFD::test_capturing_done_simple testing/test_capture.py::TestStdCaptureFD::test_capturing_reset_simple testing/test_capture.py::TestStdCaptureFD::test_capturing_readouterr testing/test_capture.py::TestStdCaptureFD::test_capture_results_accessible_by_attribute testing/test_capture.py::TestStdCaptureFD::test_capturing_readouterr_unicode testing/test_capture.py::TestStdCaptureFD::test_reset_twice_error testing/test_capture.py::TestStdCaptureFD::test_capturing_modify_sysouterr_in_between testing/test_capture.py::TestStdCaptureFD::test_capturing_error_recursive testing/test_capture.py::TestStdCaptureFD::test_just_out_capture testing/test_capture.py::TestStdCaptureFD::test_just_err_capture testing/test_capture.py::TestStdCaptureFD::test_stdin_restored testing/test_capture.py::TestStdCaptureFD::test_stdin_nulled_by_default testing/test_capture.py::TestStdCaptureFD::test_intermingling testing/test_capture.py::test_capture_not_started_but_reset testing/test_capture.py::test_using_capsys_fixture_works_with_sys_stdout_encoding testing/test_capture.py::test_capsys_results_accessible_by_attribute testing/test_capture.py::test_pickling_and_unpickling_encoded_file testing/test_capture.py::test_capturing_unicode[fd] testing/test_capture.py::test_capturing_unicode[sys] testing/test_capture.py::test_capturing_bytes_in_utf8_encoding[fd] testing/test_capture.py::test_capturing_bytes_in_utf8_encoding[sys] testing/test_capture.py::test_collect_capturing testing/test_capture.py::TestPerTestCapturing::test_capture_and_fixtures testing/test_capture.py::TestPerTestCapturing::test_no_carry_over testing/test_capture.py::TestPerTestCapturing::test_teardown_capturing testing/test_capture.py::TestPerTestCapturing::test_teardown_capturing_final testing/test_capture.py::TestPerTestCapturing::test_capturing_outerr testing/test_capture.py::TestLoggingInteraction::test_logging_stream_ownership testing/test_capture.py::TestLoggingInteraction::test_logging_and_immediate_setupteardown testing/test_capture.py::TestLoggingInteraction::test_logging_and_crossscope_fixtures testing/test_capture.py::TestLoggingInteraction::test_conftestlogging_is_shown testing/test_capture.py::TestLoggingInteraction::test_conftestlogging_and_test_logging testing/test_capture.py::TestLoggingInteraction::test_logging_after_cap_stopped testing/test_capture.py::TestCaptureFixture::test_std_functional[opt0] testing/test_capture.py::TestCaptureFixture::test_std_functional[opt1] testing/test_capture.py::TestCaptureFixture::test_capsyscapfd testing/test_capture.py::TestCaptureFixture::test_capturing_getfixturevalue testing/test_capture.py::TestCaptureFixture::test_capsyscapfdbinary testing/test_capture.py::TestCaptureFixture::test_capture_is_represented_on_failure_issue128[sys] testing/test_capture.py::TestCaptureFixture::test_capture_is_represented_on_failure_issue128[fd] testing/test_capture.py::TestCaptureFixture::test_stdfd_functional testing/test_capture.py::TestCaptureFixture::test_capfdbinary testing/test_capture.py::TestCaptureFixture::test_capsysbinary testing/test_capture.py::TestCaptureFixture::test_partial_setup_failure testing/test_capture.py::TestCaptureFixture::test_keyboardinterrupt_disables_capturing testing/test_capture.py::TestCaptureFixture::test_capture_and_logging testing/test_capture.py::TestCaptureFixture::test_disabled_capture_fixture[True-capsys] testing/test_capture.py::TestCaptureFixture::test_disabled_capture_fixture[True-capfd] testing/test_capture.py::TestCaptureFixture::test_disabled_capture_fixture[False-capsys] testing/test_capture.py::TestCaptureFixture::test_disabled_capture_fixture[False-capfd] testing/test_capture.py::TestCaptureFixture::test_fixture_use_by_other_fixtures[capsys] testing/test_capture.py::TestCaptureFixture::test_fixture_use_by_other_fixtures[capfd] testing/test_capture.py::TestCaptureFixture::test_fixture_use_by_other_fixtures_teardown[capsys] testing/test_capture.py::TestCaptureFixture::test_fixture_use_by_other_fixtures_teardown[capfd] testing/test_capture.py::test_setup_failure_does_not_kill_capturing testing/test_capture.py::test_fdfuncarg_skips_on_no_osdup testing/test_capture.py::test_capture_conftest_runtest_setup testing/test_capture.py::test_capture_badoutput_issue412 testing/test_capture.py::test_capture_early_option_parsing testing/test_capture.py::test_capture_binary_output testing/test_capture.py::test_error_during_readouterr testing/test_capture.py::test_dupfile testing/test_capture.py::TestFDCapture::test_simple testing/test_capture.py::TestFDCapture::test_simple_many testing/test_capture.py::TestFDCapture::test_simple_fail_second_start testing/test_capture.py::TestFDCapture::test_stdin testing/test_capture.py::TestFDCapture::test_writeorg testing/test_capture.py::TestFDCapture::test_simple_resume_suspend testing/test_capture.py::TestStdCaptureFD::test_simple_only_fd testing/test_capture.py::TestStdCaptureFDinvalidFD::test_stdcapture_fd_invalid_fd testing/test_capture.py::test_fdcapture_tmpfile_remains_the_same[True] testing/test_capture.py::test_fdcapture_tmpfile_remains_the_same[False] testing/test_capture.py::test_close_and_capture_again testing/test_capture.py::test_capturing_and_logging_fundamentals[SysCapture] testing/test_capture.py::test_capturing_and_logging_fundamentals[FDCapture] testing/test_capture.py::test_error_attribute_issue555 testing/test_capture.py::test_dontreadfrominput_has_encoding testing/test_capture.py::test_crash_on_closing_tmpfile_py27 testing/test_capture.py::test_global_capture_with_live_logging testing/test_capture.py::test_capture_with_live_logging[capsys] testing/test_capture.py::test_capture_with_live_logging[capfd] testing/test_capture.py::test_typeerror_encodedfile_write
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=4)
+STDERR (first 2000 chars):
+ERROR: while parsing the following warning configuration:
+
+  ignore:yield tests are deprecated, and scheduled to be removed in pytest 4.0:pytest.RemovedInPytest4Warning
+
+This error occurred:
+
+Traceback (most recent call last):
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1967, in parse_warning_filter
+    category: type[Warning] = _resolve_warning_category(category_)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 2013, in _resolve_warning_category
+    cat = getattr(m, klass)
+AttributeError: module 'pytest' has no attribute 'RemovedInPytest4Warning'
+
+
+
+
+STDOUT (first 2000 chars):
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: EncodedFile.mode
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for EncodedFile...
+    ⚠️  No patterns found for EncodedFile
+ℹ️  No test patterns found for EncodedFile, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 1 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-5262.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: FAIL, Fuzzing: 1 tests
+    Coverage: 0.0% ⚠️
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: pytest-dev__pytest
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 24.8/100
+Time: 565.4s
+============================================================
+
+
+💾 Results saved to: results/pytest-dev__pytest-5262.json
+
+Finished: Fri Dec  5 10:32:47 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_4

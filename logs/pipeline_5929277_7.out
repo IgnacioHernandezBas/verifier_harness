@@ -1,0 +1,100 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929312
+Array Task ID: 7
+Node: cbcb30
+Started: Thu Dec  4 14:06:01 EST 2025
+
+Processing: scikit-learn__scikit-learn-12682
+
+Available disk space: 85035 GB
+
+Loading instance: scikit-learn__scikit-learn-12682
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn ...
+    → Captured original code: examples/decomposition/plot_sparse_coding.py
+    → Captured original code: sklearn/decomposition/dict_learning.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 50 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 64.4/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 105 lines
+DEBUG: changed_functions: ['ricker_function']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 66 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (51 files)
+📊 Coverage collection enabled for: examples (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12682.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=examples --cov-branch --cov-report=term-missing:skip-covered sklearn/decomposition/tests/test_dict_learning.py::test_max_iter sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_shapes_omp sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_shapes sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_overcomplete sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_positive_parameter sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-False-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[False-True-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-False-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_positivity[True-True-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_dict_positivity[False] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_dict_positivity[True] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lars_code_positivity sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_reconstruction sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_reconstruction_parallel sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_lassocd_readonly_data sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_nonzero_coefs sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_unknown_fit_algorithm sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_split sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_shapes sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_lars_positive_parameter sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-False-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[False-True-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-False-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_positivity[True-True-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_lars[False] sklearn/decomposition/tests/test_dict_learning.py::test_minibatch_dictionary_learning_lars[True] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[False-False] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[False-True] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[True-False] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_positivity[True-True] sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_verbosity sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_estimator_shapes sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_overcomplete sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_initialization sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_readonly_initialization sklearn/decomposition/tests/test_dict_learning.py::test_dict_learning_online_partial_fit sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_shapes sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[False-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-lasso_lars] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-lasso_cd] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_positivity[True-threshold] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_unavailable_positivity[lars] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_unavailable_positivity[omp] sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_input sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_error sklearn/decomposition/tests/test_dict_learning.py::test_sparse_encode_error_default_sparsity sklearn/decomposition/tests/test_dict_learning.py::test_unknown_method sklearn/decomposition/tests/test_dict_learning.py::test_sparse_coder_estimator sklearn/decomposition/tests/test_dict_learning.py::test_sparse_coder_parallel_mmap
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 0.0%
+   Covered lines: []
+   Uncovered lines: [30, 31, 32, 76, 77, 131, 250, 251, 334, 429, 504, 505, 506, 507, 508, 588, 589, 626, 627, 655, 724, 725, 726, 727, 728, 824, 825, 862, 863, 885, 886, 891, 921, 922, 996, 997, 998, 999, 1000, 1001, 1019, 1020, 1025, 1151, 1152, 1153, 1154, 1155, 1156, 1186, 1187, 1192, 1230, 1341, 1342, 1343, 1344, 1345, 1346, 1379, 1380, 1383, 1384, 1389, 1424, 1474]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (51 files)
+📊 Coverage collection enabled for: examples (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12682.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=examples --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 0.0% ⚠️
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+⚠️  Failed to parse rules JSON output: Expecting value: line 2 column 1 (char 1)
+   stdout: 
+===========================================
+Sparse coding with a precomputed dictionary
+===========================================
+
+Transform a signal as a sparse combination of Ricker wavelets. Thi
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ⚠️ WARNING
+Score: 64.3/100
+Time: 65.9s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-12682.json
+
+Finished: Thu Dec  4 14:07:14 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_7

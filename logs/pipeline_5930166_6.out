@@ -1,0 +1,113 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930176
+Array Task ID: 6
+Node: cbcb30
+Started: Fri Dec  5 12:41:30 EST 2025
+
+Processing: astropy__astropy-13579
+
+Available disk space: 85064 GB
+
+Loading instance: astropy__astropy-13579
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy ...
+    → Captured original code: astropy/wcs/wcsapi/wrappers/sliced_wcs.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 70.4/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 310 lines
+DEBUG: changed_functions: ['world_to_pixel_values']
+DEBUG: class_context: {'world_to_pixel_values': 'SlicedLowLevelWCS'}
+DEBUG: all_changed_lines: 3 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13579.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_coupled_world_slicing astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_invalid_slices astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_sanitize_slice[item0-4-expected0] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_sanitize_slice[item1-5-expected1] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_sanitize_slice[item2-10-expected2] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_ellipsis astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_pixel_to_world_broadcasting astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_world_to_pixel_broadcasting astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_spectral_slice astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_spectral_range astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_celestial_slice astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_celestial_range astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_celestial_range_rot astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_no_array_shape astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_ellipsis_none_types astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice10-slice20-expected0] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice11-slice21-expected1] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice12-slice22-expected2] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice13-slice23-expected3] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice14-slice24-expected4] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice15-slice25-expected5] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice16-slice26-expected6] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice17-slice27-expected7] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice18-slice28-expected8] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice19-slice29-expected9] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice110-slice210-expected10] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice111-slice211-expected11] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice112-slice212-expected12] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice113-slice213-expected13] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice114-slice214-expected14] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice115-slice215-expected15] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice116-3-3] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice117-3-5] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice118-3-3] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_combine_slices[slice119-3-5] astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_nested_slicing astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_too_much_slicing astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_1d_sliced_low_level astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_dropped_dimensions astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_dropped_dimensions_4d astropy/wcs/wcsapi/wrappers/tests/test_sliced_wcs.py::test_pixel_to_world_values_different_int_types
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [246, 247, 256]
+   Uncovered lines: []
+
+   Branch coverage: 3.4%
+   Total branches: 88
+   Covered branches: 3
+   Missing branches: 85
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: SlicedLowLevelWCS.world_to_pixel_values
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for SlicedLowLevelWCS...
+    ⚠️  No patterns found for SlicedLowLevelWCS
+ℹ️  No test patterns found for SlicedLowLevelWCS, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 1 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.82.6)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13579.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [246, 247, 256]
+   Uncovered lines: []
+
+   Branch coverage: 3.4%
+   Total branches: 88
+   Covered branches: 3
+   Missing branches: 85
+    Tests: PASS, Fuzzing: 1 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 91.1/100
+Time: 710.5s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-13579.json
+
+Finished: Fri Dec  5 12:53:24 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_6

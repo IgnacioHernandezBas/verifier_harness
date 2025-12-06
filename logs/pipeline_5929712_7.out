@@ -1,0 +1,113 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929719
+Array Task ID: 7
+Node: cbcb30
+Started: Thu Dec  4 19:46:34 EST 2025
+
+Processing: matplotlib__matplotlib-21568
+
+Available disk space: 84980 GB
+
+Loading instance: matplotlib__matplotlib-21568
+Repo: matplotlib/matplotlib
+
+[1/5] Setting up repository...
+[+] Cloning matplotlib/matplotlib into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib ...
+    → Captured original code: lib/matplotlib/dates.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+   Detected matplotlib, copying data files...
+✅ Successfully copied matplotlib data files
+✅ Successfully copied 20 pre-built C extension files
+✅ pytest-cov already available (version 5.0.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 72.3/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1924 lines
+DEBUG: changed_functions: ['_wrap_in_tex']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 5 lines
+    ⚠️  Filtered out 2 malformed test names from dataset:
+       - lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta0-1997-Jan-01
+       - lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta1-1997-Jan-01
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace/lib:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-21568.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered lib/matplotlib/tests/test_dates.py::test_date_formatter_usetex[delta2-expected2] lib/matplotlib/tests/test_dates.py::test_date_formatter_usetex[delta3-expected3] lib/matplotlib/tests/test_dates.py::test_concise_formatter_usetex[t_delta2-expected2] lib/matplotlib/tests/test_dates.py::test_concise_formatter_usetex[t_delta3-expected3] lib/matplotlib/tests/test_dates.py::test_date_numpyx lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[s]-t00] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[s]-t01] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[s]-t02] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[us]-t00] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[us]-t01] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[us]-t02] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ms]-t00] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ms]-t01] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ms]-t02] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ns]-t00] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ns]-t01] lib/matplotlib/tests/test_dates.py::test_date_date2num_numpy[datetime64[ns]-t02] lib/matplotlib/tests/test_dates.py::test_date2num_NaT[datetime64[s]] lib/matplotlib/tests/test_dates.py::test_date2num_NaT[datetime64[us]] lib/matplotlib/tests/test_dates.py::test_date2num_NaT[datetime64[ms]] lib/matplotlib/tests/test_dates.py::test_date2num_NaT[datetime64[ns]] lib/matplotlib/tests/test_dates.py::test_date2num_NaT_scalar[s] lib/matplotlib/tests/test_dates.py::test_date2num_NaT_scalar[ms] lib/matplotlib/tests/test_dates.py::test_date2num_NaT_scalar[us] lib/matplotlib/tests/test_dates.py::test_date2num_NaT_scalar[ns] lib/matplotlib/tests/test_dates.py::test_date_empty lib/matplotlib/tests/test_dates.py::test_date_not_empty lib/matplotlib/tests/test_dates.py::test_axhline lib/matplotlib/tests/test_dates.py::test_date_axhspan[png] lib/matplotlib/tests/test_dates.py::test_date_axvspan[png] lib/matplotlib/tests/test_dates.py::test_date_axhline[png] lib/matplotlib/tests/test_dates.py::test_date_axvline[png] lib/matplotlib/tests/test_dates.py::test_too_many_date_ticks lib/matplotlib/tests/test_dates.py::test_RRuleLocator[png] lib/matplotlib/tests/test_dates.py::test_RRuleLocator_dayrange lib/matplotlib/tests/test_dates.py::test_RRuleLocator_close_minmax lib/matplotlib/tests/test_dates.py::test_DateFormatter[png] lib/matplotlib/tests/test_dates.py::test_locator_set_formatter lib/matplotlib/tests/test_dates.py::test_date_formatter_callable lib/matplotlib/tests/test_dates.py::test_date_formatter_usetex[delta0-expected0] lib/matplotlib/tests/test_dates.py::test_date_formatter_usetex[delta1-expected1] lib/matplotlib/tests/test_dates.py::test_drange lib/matplotlib/tests/test_dates.py::test_auto_date_locator lib/matplotlib/tests/test_dates.py::test_auto_date_locator_intmult lib/matplotlib/tests/test_dates.py::test_concise_formatter_subsecond lib/matplotlib/tests/test_dates.py::test_concise_formatter lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta2-1997-Jan-01] lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta3-1997-Jan-02] lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta4-1997-Jan] lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta5-] lib/matplotlib/tests/test_dates.py::test_concise_formatter_show_offset[t_delta6-] lib/matplotlib/tests/test_dates.py::test_concise_formatter_usetex[t_delta0-expected0] lib/matplotlib/tests/test_dates.py::test_concise_formatter_usetex[t_delta1-expected1] lib/matplotlib/tests/test_dates.py::test_concise_formatter_formats lib/matplotlib/tests/test_dates.py::test_concise_formatter_zformats lib/matplotlib/tests/test_dates.py::test_concise_formatter_tz lib/matplotlib/tests/test_dates.py::test_auto_date_locator_intmult_tz lib/matplotlib/tests/test_dates.py::test_date_inverted_limit[png] lib/matplotlib/tests/test_dates.py::test_date2num_dst lib/matplotlib/tests/test_dates.py::test_date2num_dst_pandas lib/matplotlib/tests/test_dates.py::test_rrulewrapper lib/matplotlib/tests/test_dates.py::test_rrulewrapper_pytz lib/matplotlib/tests/test_dates.py::test_yearlocator_pytz lib/matplotlib/tests/test_dates.py::test_YearLocator lib/matplotlib/tests/test_dates.py::test_DayLocator lib/matplotlib/tests/test_dates.py::test_tz_utc lib/matplotlib/tests/test_dates.py::test_num2timedelta[1-tdelta0] lib/matplotlib/tests/test_dates.py::test_num2timedelta[x1-tdelta1] lib/matplotlib/tests/test_dates.py::test_datetime64_in_list lib/matplotlib/tests/test_dates.py::test_change_epoch lib/matplotlib/tests/test_dates.py::test_warn_notintervals lib/matplotlib/tests/test_dates.py::test_change_converter lib/matplotlib/tests/test_dates.py::test_change_interval_multiples lib/matplotlib/tests/test_dates.py::test_epoch2num lib/matplotlib/tests/test_dates.py::test_julian2num
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=4)
+STDERR (first 2000 chars):
+ImportError while loading conftest '/workspace/lib/matplotlib/tests/conftest.py'.
+lib/matplotlib/__init__.py:109: in <module>
+    from . import _api, _version, cbook, docstring, rcsetup
+E   ImportError: cannot import name '_version' from partially initialized module 'matplotlib' (most likely due to a circular import) (/workspace/lib/matplotlib/__init__.py)
+
+
+STDOUT (first 2000 chars):
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (20 files)
+📊 Coverage collection enabled for: matplotlib (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_7/matplotlib__matplotlib:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace/lib:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/matplotlib/matplotlib__matplotlib-21568.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=matplotlib --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 80.0%
+   Covered lines: [598, 599, 600, 601]
+   Uncovered lines: [602]
+
+   Branch coverage: 25.0%
+   Total branches: 4
+   Covered branches: 1
+   Missing branches: 3
+    Tests: FAIL, Fuzzing: 2 tests
+    Coverage: 80.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: matplotlib__matplotlib
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 34.7/100
+Time: 43.9s
+============================================================
+
+
+💾 Results saved to: results/matplotlib__matplotlib-21568.json
+
+Finished: Thu Dec  4 19:47:21 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_7

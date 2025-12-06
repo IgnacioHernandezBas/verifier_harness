@@ -1,0 +1,111 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928885
+Array Task ID: 9
+Node: clip10
+Started: Thu Dec  4 10:35:56 EST 2025
+
+Processing: scikit-learn__scikit-learn-13124
+
+Available disk space: 85091 GB
+
+Loading instance: scikit-learn__scikit-learn-13124
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/model_selection/_split.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 42 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 65.7/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 2252 lines
+DEBUG: changed_functions: ['_make_test_folds']
+DEBUG: class_context: {'_make_test_folds': 'StratifiedKFold'}
+DEBUG: all_changed_lines: 2 lines
+ℹ️  Using existing C extensions (43 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-13124.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/model_selection/tests/test_split.py::test_shuffle_stratifiedkfold sklearn/model_selection/tests/test_split.py::test_cross_validator_with_default_params sklearn/model_selection/tests/test_split.py::test_2d_y sklearn/model_selection/tests/test_split.py::test_kfold_valueerrors sklearn/model_selection/tests/test_split.py::test_kfold_indices sklearn/model_selection/tests/test_split.py::test_kfold_no_shuffle sklearn/model_selection/tests/test_split.py::test_stratified_kfold_no_shuffle sklearn/model_selection/tests/test_split.py::test_stratified_kfold_ratios sklearn/model_selection/tests/test_split.py::test_kfold_balance sklearn/model_selection/tests/test_split.py::test_stratifiedkfold_balance sklearn/model_selection/tests/test_split.py::test_shuffle_kfold sklearn/model_selection/tests/test_split.py::test_shuffle_kfold_stratifiedkfold_reproducibility sklearn/model_selection/tests/test_split.py::test_kfold_can_detect_dependent_samples_on_digits sklearn/model_selection/tests/test_split.py::test_shuffle_split sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_init sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_respects_test_size sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_iter sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_even sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_overlap_train_test_bug sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_multilabel sklearn/model_selection/tests/test_split.py::test_stratified_shuffle_split_multilabel_many_labels sklearn/model_selection/tests/test_split.py::test_predefinedsplit_with_kfold_split sklearn/model_selection/tests/test_split.py::test_group_shuffle_split sklearn/model_selection/tests/test_split.py::test_leave_one_p_group_out sklearn/model_selection/tests/test_split.py::test_leave_group_out_changing_groups sklearn/model_selection/tests/test_split.py::test_leave_one_p_group_out_error_on_fewer_number_of_groups sklearn/model_selection/tests/test_split.py::test_repeated_cv_value_errors sklearn/model_selection/tests/test_split.py::test_repeated_kfold_determinstic_split sklearn/model_selection/tests/test_split.py::test_get_n_splits_for_repeated_kfold sklearn/model_selection/tests/test_split.py::test_get_n_splits_for_repeated_stratified_kfold sklearn/model_selection/tests/test_split.py::test_repeated_stratified_kfold_determinstic_split sklearn/model_selection/tests/test_split.py::test_train_test_split_errors sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[1.2-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[1.0-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[0.0-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[-0.2-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[0.8-1.2] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[0.8-1.0] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[0.8-0.0] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes1[0.8--0.2] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[-10-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[0-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[11-0.8] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[0.8--10] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[0.8-0] sklearn/model_selection/tests/test_split.py::test_train_test_split_invalid_sizes2[0.8-11] sklearn/model_selection/tests/test_split.py::test_train_test_split sklearn/model_selection/tests/test_split.py::test_shufflesplit_errors sklearn/model_selection/tests/test_split.py::test_shufflesplit_reproducible sklearn/model_selection/tests/test_split.py::test_stratifiedshufflesplit_list_input sklearn/model_selection/tests/test_split.py::test_train_test_split_allow_nans sklearn/model_selection/tests/test_split.py::test_check_cv sklearn/model_selection/tests/test_split.py::test_cv_iterable_wrapper sklearn/model_selection/tests/test_split.py::test_group_kfold sklearn/model_selection/tests/test_split.py::test_time_series_cv sklearn/model_selection/tests/test_split.py::test_time_series_max_train_size sklearn/model_selection/tests/test_split.py::test_nested_cv sklearn/model_selection/tests/test_split.py::test_train_test_default_warning sklearn/model_selection/tests/test_split.py::test_nsplit_default_warn sklearn/model_selection/tests/test_split.py::test_check_cv_default_warn sklearn/model_selection/tests/test_split.py::test_build_repr
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [579, 622]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: StratifiedKFold._make_test_folds
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for StratifiedKFold...
+    ✅ Found 7 patterns
+    📊 Top 3 patterns selected
+    🎯 Generated 3 Hypothesis strategies
+    ⚠️  Found 2 params not in patterns: {'X', 'y'}
+    ➕ Added smart strategy for new param 'X': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    ➕ Added smart strategy for new param 'y': st.one_of(st.none(), st.integers(), st.text())...
+    🧪 Generating Hypothesis-based test with 5 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (43 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-13124.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 0.0%
+   Covered lines: []
+   Uncovered lines: [579, 622]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✓ GOOD
+Score: 74.7/100
+Time: 153.1s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-13124.json
+
+Finished: Thu Dec  4 10:38:37 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_9

@@ -1,0 +1,106 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930105
+Array Task ID: 1
+Node: cbcb30
+Started: Fri Dec  5 10:58:22 EST 2025
+
+Processing: astropy__astropy-12907
+
+Available disk space: 85101 GB
+
+Loading instance: astropy__astropy-12907
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy ...
+    → Captured original code: astropy/modeling/separable.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 79.0/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 317 lines
+DEBUG: changed_functions: ['_cstack']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 1 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-12907.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/modeling/tests/test_separable.py::test_separable[compound_model6-result6] astropy/modeling/tests/test_separable.py::test_separable[compound_model9-result9] astropy/modeling/tests/test_separable.py::test_coord_matrix astropy/modeling/tests/test_separable.py::test_cdot astropy/modeling/tests/test_separable.py::test_cstack astropy/modeling/tests/test_separable.py::test_arith_oper astropy/modeling/tests/test_separable.py::test_separable[compound_model0-result0] astropy/modeling/tests/test_separable.py::test_separable[compound_model1-result1] astropy/modeling/tests/test_separable.py::test_separable[compound_model2-result2] astropy/modeling/tests/test_separable.py::test_separable[compound_model3-result3] astropy/modeling/tests/test_separable.py::test_separable[compound_model4-result4] astropy/modeling/tests/test_separable.py::test_separable[compound_model5-result5] astropy/modeling/tests/test_separable.py::test_separable[compound_model7-result7] astropy/modeling/tests/test_separable.py::test_separable[compound_model8-result8] astropy/modeling/tests/test_separable.py::test_custom_model_separable
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [245]
+   Uncovered lines: []
+
+   Branch coverage: 8.3%
+   Total branches: 24
+   Covered branches: 2
+   Missing branches: 22
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.82.6)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-12907.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [245]
+   Uncovered lines: []
+
+   Branch coverage: 8.3%
+   Total branches: 24
+   Covered branches: 2
+   Missing branches: 22
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 7/9 passed
+    Findings: 16 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 93.7/100
+Time: 180.5s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-12907.json
+
+Finished: Fri Dec  5 11:01:27 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_1

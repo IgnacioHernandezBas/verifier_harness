@@ -1,0 +1,117 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929400
+Array Task ID: 9
+Node: cbcb30
+Started: Thu Dec  4 14:48:18 EST 2025
+
+Processing: django__django-11095
+
+Available disk space: 84963 GB
+
+Loading instance: django__django-11095
+Repo: django/django
+
+[1/5] Setting up repository...
+[+] Cloning django/django into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django ...
+    → Captured original code: django/contrib/admin/options.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 48.4/100 ❌
+  → Dynamic fuzzing...
+DEBUG: File has 2170 lines
+DEBUG: changed_functions: ['get_inlines', 'get_inline_instances']
+DEBUG: class_context: {'get_inlines': 'BaseModelAdmin', 'get_inline_instances': 'ModelAdmin'}
+DEBUG: all_changed_lines: 5 lines
+📝 Detected test framework: django
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for Django tests
+🧪 Running django tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11095.sif /opt/miniconda3/envs/testbed/bin/python -m coverage run --source django --branch -m django test generic_inline_admin.tests.GenericInlineModelAdminTest.test_get_inline_instances_override_get_inlines generic_inline_admin.tests.NoInlineDeletionTest.test_no_deletion generic_inline_admin.tests.GenericInlineModelAdminTest.test_custom_form_meta_exclude generic_inline_admin.tests.GenericInlineModelAdminTest.test_custom_form_meta_exclude_with_readonly generic_inline_admin.tests.GenericInlineModelAdminTest.test_get_fieldsets generic_inline_admin.tests.GenericInlineModelAdminTest.test_get_formset_kwargs generic_inline_admin.tests.GenericInlineModelAdminTest.test_get_formsets_with_inlines_returns_tuples generic_inline_admin.tests.GenericInlineAdminParametersTest.test_extra_param generic_inline_admin.tests.GenericInlineAdminParametersTest.test_get_extra generic_inline_admin.tests.GenericInlineAdminParametersTest.test_get_max_num generic_inline_admin.tests.GenericInlineAdminParametersTest.test_get_min_num generic_inline_admin.tests.GenericInlineAdminParametersTest.test_max_num_param generic_inline_admin.tests.GenericInlineAdminParametersTest.test_min_num_param generic_inline_admin.tests.GenericInlineAdminParametersTest.test_no_param generic_inline_admin.tests.GenericInlineAdminWithUniqueTogetherTest.test_add generic_inline_admin.tests.GenericInlineAdminWithUniqueTogetherTest.test_delete generic_inline_admin.tests.GenericAdminViewTest.test_basic_add_GET generic_inline_admin.tests.GenericAdminViewTest.test_basic_add_POST generic_inline_admin.tests.GenericAdminViewTest.test_basic_edit_GET generic_inline_admin.tests.GenericAdminViewTest.test_basic_edit_POST
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [330, 331, 332, 333, 589]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 2 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: BaseModelAdmin.get_inlines
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for BaseModelAdmin...
+    ⚠️  No patterns found for BaseModelAdmin
+ℹ️  No test patterns found for BaseModelAdmin, trying signature extraction...
+  ✅ Pattern-based test generated!
+  🔍 Class method detected: ModelAdmin.get_inline_instances
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for ModelAdmin...
+    ⚠️  No patterns found for ModelAdmin
+ℹ️  No test patterns found for ModelAdmin, trying signature extraction...
+  ✅ Pattern-based test generated!
+DEBUG: Generated 6 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: django (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_9/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-11095.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=django --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [330, 331, 332, 333, 589]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: FAIL, Fuzzing: 6 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 2 test(s) failed
+       - test_get_inlines_loops: Unknown error
+       - test_get_inline_instances_loops: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: django__django
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 29.5/100
+Time: 803.8s
+============================================================
+
+
+💾 Results saved to: results/django__django-11095.json
+
+Finished: Thu Dec  4 15:01:45 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_9

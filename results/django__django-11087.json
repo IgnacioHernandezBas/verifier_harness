@@ -1,0 +1,2956 @@
+{
+  "instance_id": "django__django-11087",
+  "success": true,
+  "repo": "django/django",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 63.71,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 348,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 64,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/django__django/django/db/models/deletion.py": [
+            {
+              "type": "convention",
+              "symbol": "line-too-long",
+              "line": 237,
+              "message": "Line too long (108/100)",
+              "message_id": "C0301"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-module-docstring",
+              "line": 1,
+              "message": "Missing module docstring",
+              "message_id": "C0114"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-class-docstring",
+              "line": 9,
+              "message": "Missing class docstring",
+              "message_id": "C0115"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 15,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 15,
+              "message": "Function name \"CASCADE\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 22,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 22,
+              "message": "Function name \"PROTECT\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 24,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 32,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 32,
+              "message": "Function name \"SET\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 34,
+              "message": "Unused argument 'using'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 37,
+              "message": "Unused argument 'using'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 43,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 43,
+              "message": "Function name \"SET_NULL\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 43,
+              "message": "Unused argument 'using'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 47,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 47,
+              "message": "Function name \"SET_DEFAULT\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 47,
+              "message": "Unused argument 'using'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 51,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 51,
+              "message": "Function name \"DO_NOTHING\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 51,
+              "message": "Unused argument 'collector'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 51,
+              "message": "Unused argument 'field'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 51,
+              "message": "Unused argument 'sub_objs'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 51,
+              "message": "Unused argument 'using'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 55,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-class-docstring",
+              "line": 64,
+              "message": "Missing class docstring",
+              "message_id": "C0115"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 105,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 105,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 149,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 151,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 168,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 174,
+              "message": "Too many arguments (8/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 174,
+              "message": "Too many positional arguments (8/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 174,
+              "message": "Too many local variables (21/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 206,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 207,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 215,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 216,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "comparison-with-callable",
+              "line": 221,
+              "message": "Comparing against a callable, did you omit the parenthesis?",
+              "message_id": "W0143"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 240,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 245,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 174,
+              "message": "Too many branches (16/12)",
+              "message_id": "R0912"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 175,
+              "message": "Unused argument 'source_attr'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 255,
+              "message": "Access to a protected member _base_manager of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 256,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 259,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 264,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 273,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 276,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 282,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "undefined-loop-variable",
+              "line": 295,
+              "message": "Using possibly undefined loop variable 'instances'",
+              "message_id": "W0631"
+            },
+            {
+              "type": "warning",
+              "symbol": "undefined-loop-variable",
+              "line": 296,
+              "message": "Using possibly undefined loop variable 'instances'",
+              "message_id": "W0631"
+            },
+            {
+              "type": "warning",
+              "symbol": "undefined-loop-variable",
+              "line": 299,
+              "message": "Using possibly undefined loop variable 'model'",
+              "message_id": "W0631"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 300,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "undefined-loop-variable",
+              "line": 300,
+              "message": "Using possibly undefined loop variable 'model'",
+              "message_id": "W0631"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 301,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "undefined-loop-variable",
+              "line": 301,
+              "message": "Using possibly undefined loop variable 'model'",
+              "message_id": "W0631"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 306,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 313,
+              "message": "Access to a protected member _raw_delete of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 314,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 332,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 334,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 347,
+              "message": "Access to a protected member _meta of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 282,
+              "message": "Too many branches (17/12)",
+              "message_id": "R0912"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 19,
+        "issues": [
+          {
+            "line": 18,
+            "code": "E501",
+            "message": "line too long (82 > 79 characters)"
+          },
+          {
+            "line": 26,
+            "code": "E501",
+            "message": "line too long (89 > 79 characters)"
+          },
+          {
+            "line": 56,
+            "code": "E501",
+            "message": "line too long (80 > 79 characters)"
+          },
+          {
+            "line": 60,
+            "code": "E501",
+            "message": "line too long (80 > 79 characters)"
+          },
+          {
+            "line": 105,
+            "code": "E501",
+            "message": "line too long (83 > 79 characters)"
+          },
+          {
+            "line": 122,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 151,
+            "code": "E501",
+            "message": "line too long (94 > 79 characters)"
+          },
+          {
+            "line": 151,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 158,
+            "code": "E501",
+            "message": "line too long (96 > 79 characters)"
+          },
+          {
+            "line": 175,
+            "code": "E501",
+            "message": "line too long (80 > 79 characters)"
+          },
+          {
+            "line": 237,
+            "code": "E501",
+            "message": "line too long (108 > 79 characters)"
+          },
+          {
+            "line": 239,
+            "code": "E501",
+            "message": "line too long (87 > 79 characters)"
+          },
+          {
+            "line": 240,
+            "code": "E501",
+            "message": "line too long (97 > 79 characters)"
+          },
+          {
+            "line": 244,
+            "code": "E501",
+            "message": "line too long (91 > 79 characters)"
+          },
+          {
+            "line": 273,
+            "code": "E501",
+            "message": "line too long (80 > 79 characters)"
+          },
+          {
+            "line": 274,
+            "code": "E501",
+            "message": "line too long (83 > 79 characters)"
+          },
+          {
+            "line": 288,
+            "code": "E501",
+            "message": "line too long (80 > 79 characters)"
+          },
+          {
+            "line": 299,
+            "code": "E501",
+            "message": "line too long (90 > 79 characters)"
+          },
+          {
+            "line": 318,
+            "code": "E501",
+            "message": "line too long (83 > 79 characters)"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 45.52,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/django__django/django/db/models/deletion.py": [
+            {
+              "name": "collect",
+              "complexity": 21,
+              "lineno": 174
+            },
+            {
+              "name": "delete",
+              "complexity": 21,
+              "lineno": 282
+            },
+            {
+              "name": "can_fast_delete",
+              "complexity": 12,
+              "lineno": 126
+            },
+            {
+              "name": "Collector",
+              "complexity": 8,
+              "lineno": 64
+            },
+            {
+              "name": "sort",
+              "complexity": 8,
+              "lineno": 264
+            },
+            {
+              "name": "add",
+              "complexity": 7,
+              "lineno": 81
+            },
+            {
+              "name": "get_candidate_relations_to_delete",
+              "complexity": 6,
+              "lineno": 55
+            },
+            {
+              "name": "CASCADE",
+              "complexity": 3,
+              "lineno": 15
+            },
+            {
+              "name": "get_del_batches",
+              "complexity": 3,
+              "lineno": 162
+            },
+            {
+              "name": "instances_with_model",
+              "complexity": 3,
+              "lineno": 259
+            },
+            {
+              "name": "SET",
+              "complexity": 2,
+              "lineno": 32
+            },
+            {
+              "name": "ProtectedError",
+              "complexity": 2,
+              "lineno": 9
+            },
+            {
+              "name": "add_field_update",
+              "complexity": 2,
+              "lineno": 108
+            },
+            {
+              "name": "_has_signal_listeners",
+              "complexity": 2,
+              "lineno": 120
+            },
+            {
+              "name": "PROTECT",
+              "complexity": 1,
+              "lineno": 22
+            },
+            {
+              "name": "SET_NULL",
+              "complexity": 1,
+              "lineno": 43
+            },
+            {
+              "name": "SET_DEFAULT",
+              "complexity": 1,
+              "lineno": 47
+            },
+            {
+              "name": "DO_NOTHING",
+              "complexity": 1,
+              "lineno": 51
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 10
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 65
+            },
+            {
+              "name": "related_objects",
+              "complexity": 1,
+              "lineno": 251
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 248,
+        "total_issues": 254,
+        "issues": [
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"ADMINS\" (hint: \"ADMINS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 31,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"INTERNAL_IPS\" (hint: \"INTERNAL_IPS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 35,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"ALLOWED_HOSTS\" (hint: \"ALLOWED_HOSTS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 150,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"LOCALE_PATHS\" (hint: \"LOCALE_PATHS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"DATABASES\" (hint: \"DATABASES: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 184,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"DATABASE_ROUTERS\" (hint: \"DATABASE_ROUTERS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 211,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"INSTALLED_APPS\" (hint: \"INSTALLED_APPS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 213,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"TEMPLATES\" (hint: \"TEMPLATES: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 245,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"DISALLOWED_USER_AGENTS\" (hint: \"DISALLOWED_USER_AGENTS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 247,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"ABSOLUTE_URL_OVERRIDES\" (hint: \"ABSOLUTE_URL_OVERRIDES: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 259,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"IGNORABLE_404_URLS\" (hint: \"IGNORABLE_404_URLS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 446,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"MIDDLEWARE\" (hint: \"MIDDLEWARE: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 522,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"AUTH_PASSWORD_VALIDATORS\" (hint: \"AUTH_PASSWORD_VALIDATORS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 547,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"CSRF_TRUSTED_ORIGINS\" (hint: \"CSRF_TRUSTED_ORIGINS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 568,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"LOGGING\" (hint: \"LOGGING: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 583,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"TEST_NON_SERIALIZED_APPS\" (hint: \"TEST_NON_SERIALIZED_APPS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 590,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"FIXTURE_DIRS\" (hint: \"FIXTURE_DIRS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 597,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"STATICFILES_DIRS\" (hint: \"STATICFILES_DIRS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 615,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"MIGRATION_MODULES\" (hint: \"MIGRATION_MODULES: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 625,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"SILENCED_SYSTEM_CHECKS\" (hint: \"SILENCED_SYSTEM_CHECKS: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/conf/global_settings.py",
+            "line_number": 635,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"SECURE_REDIRECT_EXEMPT\" (hint: \"SECURE_REDIRECT_EXEMPT: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/files/temp.py",
+            "line_number": 72,
+            "column": 5,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"NamedTemporaryFile\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/files/temp.py",
+            "line_number": 72,
+            "column": 26,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type overloaded function, variable has type \"type[TemporaryFile]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/http/cookie.py",
+            "line_number": 7,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[Morsel[_T]]\" has no attribute \"_reserved\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/files/locks.py",
+            "line_number": 31,
+            "column": 5,
+            "severity": "error",
+            "message": "Module \"ctypes\" has no attribute \"windll\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/files/locks.py",
+            "line_number": 44,
+            "column": 9,
+            "severity": "error",
+            "message": "Cannot assign multiple types to name \"ULONG_PTR\" without an explicit \"type[...]\" annotation",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/files/locks.py",
+            "line_number": 44,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[c_ulong]\", variable has type \"type[c_int64]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/http.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"urllib.parse\" has no attribute \"_coerce_args\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/http.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"urllib.parse\" has no attribute \"_splitnetloc\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/http.py",
+            "line_number": 9,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"urllib.parse\" has no attribute \"_splitparams\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/mail/message.py",
+            "line_number": 24,
+            "column": 30,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type \"int\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/mail/message.py",
+            "line_number": 154,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"as_string\" in base class \"MIMEMixin\" is incompatible with definition in base class \"Message\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/mail/message.py",
+            "line_number": 162,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"as_string\" in base class \"MIMEMixin\" is incompatible with definition in base class \"Message\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/mail/message.py",
+            "line_number": 184,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"as_string\" in base class \"MIMEMixin\" is incompatible with definition in base class \"Message\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/crypto.py",
+            "line_number": 14,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"SystemRandom\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/timezone.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"pytz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/timezone.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install types-pytz\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/timezone.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/timezone.py",
+            "line_number": 11,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/utils.py",
+            "line_number": 266,
+            "column": 32,
+            "severity": "error",
+            "message": "Argument 1 to \"_router_func\" has incompatible type \"str\"; expected \"ConnectionRouter\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/utils.py",
+            "line_number": 267,
+            "column": 33,
+            "severity": "error",
+            "message": "Argument 1 to \"_router_func\" has incompatible type \"str\"; expected \"ConnectionRouter\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/autoreload.py",
+            "line_number": 40,
+            "column": 15,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"None\", variable has type Module)",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/utils/autoreload.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"pywatchman\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/migration.py",
+            "line_number": 24,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"operations\" (hint: \"operations: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/migration.py",
+            "line_number": 28,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"dependencies\" (hint: \"dependencies: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/migration.py",
+            "line_number": 33,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"run_before\" (hint: \"run_before: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/migration.py",
+            "line_number": 38,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"replaces\" (hint: \"replaces: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/validators.py",
+            "line_number": 13,
+            "column": 16,
+            "severity": "error",
+            "message": "Need type annotation for \"EMPTY_VALUES\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/http/request.py",
+            "line_number": 43,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_upload_handlers\" (hint: \"_upload_handlers: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/utils.py",
+            "line_number": 80,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"__imul__\" in base class \"UserList\" is incompatible with definition in base class \"list\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/utils.py",
+            "line_number": 80,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"__mul__\" in base class \"UserList\" is incompatible with definition in base class \"list\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/utils.py",
+            "line_number": 80,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"__rmul__\" in base class \"UserList\" is incompatible with definition in base class \"list\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/utils.py",
+            "line_number": 80,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"insert\" in base class \"UserList\" is incompatible with definition in base class \"list\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/utils.py",
+            "line_number": 80,
+            "column": 1,
+            "severity": "error",
+            "message": "Definition of \"pop\" in base class \"UserList\" is incompatible with definition in base class \"list\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/template/__init__.py",
+            "line_number": 68,
+            "column": 1,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[str, str, str, str, str]\", variable has type \"tuple[str, str]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/renderers.py",
+            "line_number": 13,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"Jinja2\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/renderers.py",
+            "line_number": 48,
+            "column": 1,
+            "severity": "error",
+            "message": "Name \"DjangoTemplates\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/renderers.py",
+            "line_number": 56,
+            "column": 1,
+            "severity": "error",
+            "message": "Name \"Jinja2\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 299,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 304,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 309,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 314,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 319,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 333,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 375,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 508,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Input\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 672,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 673,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 674,
+            "column": 28,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 760,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 761,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 762,
+            "column": 28,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 767,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 768,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/widgets.py",
+            "line_number": 769,
+            "column": 28,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ChoiceWidget\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 49,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"default_validators\" (hint: \"default_validators: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 243,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[NumberInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 522,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[EmailInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 530,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[ClearableFileInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 656,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[URLInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 698,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[CheckboxInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 729,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[NullBooleanSelect]\", base class \"BooleanField\" defined the type as \"type[CheckboxInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 760,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[Select]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 1123,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[SplitDateTimeWidget]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/fields.py",
+            "line_number": 1124,
+            "column": 21,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[SplitHiddenDateTimeWidget]\", base class \"Field\" defined the type as \"type[HiddenInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/models.py",
+            "line_number": 464,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[BaseModelForm, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/models.py",
+            "line_number": 561,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"unique_fields\" (hint: \"unique_fields: set[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/models.py",
+            "line_number": 669,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[BaseModelFormSet, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/models.py",
+            "line_number": 1087,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[HiddenInput]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/forms/models.py",
+            "line_number": 1264,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[SelectMultiple]\", base class \"Field\" defined the type as \"type[TextInput]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/__init__.py",
+            "line_number": 102,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"default_validators\" (hint: \"default_validators: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/__init__.py",
+            "line_number": 1101,
+            "column": 36,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"dict[str, str]\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/__init__.py",
+            "line_number": 1851,
+            "column": 36,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"dict[str, str]\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/__init__.py",
+            "line_number": 2247,
+            "column": 27,
+            "severity": "error",
+            "message": "List item 1 has incompatible type \"bytes\"; expected \"dict[Any, Any] | tuple[()] | list[Any] | str | None\"",
+            "error_code": "list-item"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/files.py",
+            "line_number": 79,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[FieldFile, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/files.py",
+            "line_number": 94,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[FieldFile, Any, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/files.py",
+            "line_number": 113,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[FieldFile, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 11,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 17,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 23,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 24,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 53,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 57,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 58,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 63,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 67,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 83,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 94,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 100,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/window.py",
+            "line_number": 106,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 7,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 45,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 72,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 92,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 105,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/comparison.py",
+            "line_number": 106,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 134,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 243,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 262,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 274,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 279,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 284,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 289,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 315,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 406,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 416,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 427,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 438,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 446,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 459,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 529,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 536,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 543,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/lookups.py",
+            "line_number": 550,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Lookup\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 80,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 85,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 89,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 93,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 101,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 110,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 114,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 118,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 122,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 126,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Extract\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 253,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 257,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 261,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 266,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 270,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 274,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 287,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 300,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 304,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/datetime.py",
+            "line_number": 308,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"TruncBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 59,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 85,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 136,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 137,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 161,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 170,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 175,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 184,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 189,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 194,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 206,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 221,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 228,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 258,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 263,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 268,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 276,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 281,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 286,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 296,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 297,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 305,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 329,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/text.py",
+            "line_number": 334,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 13,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 18,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 23,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 28,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 33,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 34,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 53,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 61,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 66,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 74,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 86,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 91,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 96,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 101,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 102,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 115,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 116,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 120,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 121,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 128,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 129,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 133,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 145,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 150,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 155,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 160,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/functions/math.py",
+            "line_number": 165,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 100,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 101,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 105,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 106,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 122,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 123,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 127,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 128,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 132,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 143,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 144,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/aggregates.py",
+            "line_number": 148,
+            "column": 12,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Aggregate\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/base.py",
+            "line_number": 742,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[Model, Any, Any, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/base.py",
+            "line_number": 793,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[Model, Any, Any, Any, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/base.py",
+            "line_number": 921,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[Model, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/base.py",
+            "line_number": 1857,
+            "column": 1,
+            "severity": "error",
+            "message": "\"Callable[[Any], Any]\" has no attribute \"__safe_for_unpickle__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 208,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet], Any]\" has no attribute \"queryset_only\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 209,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"classmethod[Never, [], Any]\", variable has type \"Callable[[QuerySet], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 209,
+            "column": 30,
+            "severity": "error",
+            "message": "Argument 1 to \"classmethod\" has incompatible type \"Callable[[QuerySet], Any]\"; expected \"Callable[[type[Never]], Any]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 209,
+            "column": 30,
+            "severity": "note",
+            "message": "This is likely because \"as_manager\" has named arguments: \"cls\". Consider marking them positional-only",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 525,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 706,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 707,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet], Any]\" has no attribute \"queryset_only\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 715,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 733,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, KwArg(Any)], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 750,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 751,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any], Any]\" has no attribute \"queryset_only\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 1176,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any, Any, Any, Any, Any, Any], Any]\" has no attribute \"alters_data\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 1177,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, Any, Any, Any, Any, Any, Any], Any]\" has no attribute \"queryset_only\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/query.py",
+            "line_number": 1275,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuerySet, VarArg(Any), KwArg(Any)], Any]\" has no attribute \"queryset_only\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/manager.py",
+            "line_number": 165,
+            "column": 15,
+            "severity": "error",
+            "message": "Unsupported dynamic base class \"BaseManager.from_queryset\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 87,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"bool\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 88,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"bool\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 89,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"bool\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 90,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"bool\", base class \"Field\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 774,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[ManyToOneRel]\", base class \"ForeignObject\" defined the type as \"type[ForeignObjectRel]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/models/fields/related.py",
+            "line_number": 1006,
+            "column": 30,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[ReverseOneToOneDescriptor]\", base class \"ForeignObject\" defined the type as \"type[ReverseManyToOneDescriptor]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/operations/base.py",
+            "line_number": 35,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"serialization_expand_args\" (hint: \"serialization_expand_args: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/backends/oracle/functions.py",
+            "line_number": 5,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/backends/oracle/functions.py",
+            "line_number": 18,
+            "column": 16,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"Func\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/core/serializers/__init__.py",
+            "line_number": 33,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_serializers\" (hint: \"_serializers: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/operations/models.py",
+            "line_number": 554,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"AlterTogetherOptionOperation\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/db/migrations/operations/models.py",
+            "line_number": 565,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"AlterTogetherOptionOperation\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/http/response.py",
+            "line_number": 486,
+            "column": 6,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/views/generic/base.py",
+            "line_number": 48,
+            "column": 6,
+            "severity": "error",
+            "message": "Argument 1 to \"classonlymethod\" has incompatible type \"Callable[[View, KwArg(Any)], Any]\"; expected \"Callable[[type[Any], VarArg(Any), KwArg(Any)], Any]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/views/generic/base.py",
+            "line_number": 48,
+            "column": 6,
+            "severity": "note",
+            "message": "This is likely because \"as_view\" has named arguments: \"cls\". Consider marking them positional-only",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/views/generic/edit.py",
+            "line_number": 12,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"initial\" (hint: \"initial: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_8/django__django/django/views/generic/dates.py",
+            "line_number": 379,
+            "column": 27,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"MultipleObjectMixin\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "Found 248 errors in 40 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 248 errors in 40 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/django__django/django/db/models/deletion.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": true,
+    "fuzzing_passed": false,
+    "tests_generated": 9,
+    "combined_coverage": 100.0,
+    "baseline_coverage": 100.0,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "django/db/models/deletion.py"
+        ],
+        "primary_file": "django/db/models/deletion.py",
+        "total_changed_lines": 25,
+        "module_path": "django.db.models.deletion"
+      },
+      "baseline_tests": {
+        "count": 42,
+        "fail_to_pass": 1,
+        "pass_to_pass": 41,
+        "passed": true,
+        "returncode": 0,
+        "coverage": 100.0,
+        "covered_lines": 25
+      },
+      "fuzzing_tests": {
+        "count": 9,
+        "passed": false,
+        "returncode": 1,
+        "test_failures": [
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test__has_signal_listeners_boundaries",
+            "extra_info": "- Nam..."
+          },
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test_can_fast_delete_boundaries",
+            "extra_info": "- NameError..."
+          },
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test_collect_boundaries",
+            "extra_info": "- NameError: name '..."
+          }
+        ],
+        "stdout": "79-382, 392-398, 405, 413\ndjango/utils/timesince.py                                                       41     41     24      0     0%   1-91\ndjango/utils/timezone.py                                                        98     61     38      0    30%   41-48, 51, 54, 57, 66-71, 83, 89, 97, 102, 107, 122-127, 136-137, 153, 156-160, 163-166, 180-186, 201-208, 221, 228-232, 248, 261, 266-277, 282-287\ndjango/utils/topological_sort.py                                                17     13     18      0    17%   15-26, 31-36\ndjango/utils/translation/__init__.py                                           159     98     36      3    37%   55-64, 74, 82-87, 91, 99-104, 108, 116-121, 125, 129, 141-146, 151-152, 158, 161-164, 171-172, 175-176, 179-189, 191->exit, 192->exit, 197, 209-214, 218, 222, 226, 231-232, 235-239, 242-247, 251, 255, 259, 264-268, 273-284, 288, 292, 296, 300-301, 305, 309-327, 334\ndjango/utils/translation/reloader.py                                            21     21     10      0     0%   1-29\ndjango/utils/translation/template.py                                           155    155     98      0     0%   1-227\ndjango/utils/translation/trans_null.py                                          32     32      4      0     0%   5-67\ndjango/utils/translation/trans_real.py                                         251    195    110      0    16%   53-56, 72-105, 108, 118, 127-130, 134-145, 149-151, 157-166, 170-180, 184, 188, 196-198, 206-208, 216-217, 226-227, 232-239, 249-254, 265-270, 281-296, 300-307, 317, 323-328, 336, 340-347, 354-361, 376-378, 389, 405-424, 434-441, 454-484, 495-509\ndjango/utils/tree.py                                                            51     31     12      0    35%   39-41, 44-45, 48, 51-54, 58, 62, 66, 69, 76, 93-120, 124\ndjango/utils/version.py                                                         54     17     16      3    60%   32->39, 35-37, 55, 64-68, 88-89, 98-104\ndjango/utils/xmlutils.py                                                        19     19     10      0     0%   5-33\ndjango/views/__init__.py                                                         2      2      0      0     0%   1-3\ndjango/views/csrf.py                                                            18     18      2      0     0%   1-154\ndjango/views/debug.py                                                          287    287    126      0     0%   1-523\ndjango/views/decorators/cache.py                                                20     20      0      0     0%   1-47\ndjango/views/decorators/clickjacking.py                                         21     21      4      0     0%   1-53\ndjango/views/decorators/csrf.py                                                 27     27      4      0     0%   1-56\ndjango/views/decorators/debug.py                                                21     21      4      0     0%   1-78\ndjango/views/decorators/gzip.py                                                  4      4      0      0     0%   1-5\ndjango/views/decorators/http.py                                                 51     51     14      0     0%   5-121\ndjango/views/decorators/vary.py                                                 16     16      0      0     0%   1-41\ndjango/views/defaults.py                                                        56     56     10      0     0%   1-123\ndjango/views/generic/__init__.py                                                 8      8      2      0     0%   1-22\ndjango/views/generic/base.py                                                   109    109     40      0     0%   1-217\ndjango/views/generic/dates.py                                                  329    329     98      0     0%   1-724\ndjango/views/generic/detail.py                                                  79     79     38      0     0%   1-164\ndjango/views/generic/edit.py                                                   114    114     50      0     0%   1-241\ndjango/views/generic/list.py                                                    99     99     38      0     0%   1-194\ndjango/views/i18n.py                                                           106    106     54      0     0%   1-313\ndjango/views/static.py                                                          60     60     22      0     0%   5-135\n------------------------------------------------------------------------------------------------------------------------\nTOTAL                                                                        57740  52456  23547     67     8%\n\n130 files skipped due to complete coverage.\n\n=========================== short test summary info ============================\nFAILED test_fuzzing_generated.py::test__has_signal_listeners_boundaries - Nam...\nFAILED test_fuzzing_generated.py::test_can_fast_delete_boundaries - NameError...\nFAILED test_fuzzing_generated.py::test_collect_boundaries - NameError: name '...\n============= 3 failed, 3 passed, 3 skipped, 33 warnings in 46.82s =============\n",
+        "stderr": ""
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 9,
+    "failed_rules": 0,
+    "findings_count": 0,
+    "high_severity_count": 0,
+    "medium_severity_count": 0,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 0,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [],
+      "low": []
+    },
+    "findings_by_taxonomy": {}
+  },
+  "overall_score": 74.113,
+  "verdict": "\u2713 GOOD",
+  "reason": "All checks passed",
+  "elapsed_seconds": 198.65069365501404
+}

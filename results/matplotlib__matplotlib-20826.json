@@ -1,0 +1,3559 @@
+{
+  "instance_id": "matplotlib__matplotlib-20826",
+  "success": true,
+  "repo": "matplotlib/matplotlib",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 66.16,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 2531,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 130,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py": [
+            {
+              "type": "convention",
+              "symbol": "too-many-lines",
+              "line": 1,
+              "message": "Too many lines in module (2531/1000)",
+              "message_id": "C0302"
+            },
+            {
+              "type": "warning",
+              "symbol": "fixme",
+              "line": 1801,
+              "message": "XXX if the user changes units, the information will be lost here",
+              "message_id": "W0511"
+            },
+            {
+              "type": "refactor",
+              "symbol": "consider-using-from-import",
+              "line": 14,
+              "message": "Use 'from matplotlib import cbook' instead",
+              "message_id": "R0402"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 35,
+              "message": "Too many instance attributes (16/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 57,
+              "message": "Too many arguments (22/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 57,
+              "message": "Too many local variables (27/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 103,
+              "message": "Instance of 'Tick' has no '__name__' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 57,
+              "message": "Too many branches (19/12)",
+              "message_id": "R0912"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-statements",
+              "line": 57,
+              "message": "Too many statements (57/50)",
+              "message_id": "R0915"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 185,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 207,
+              "message": "Instance of 'Tick' has no '__name__' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 213,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 217,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-renamed",
+              "line": 234,
+              "message": "Parameter 'path' has been renamed to 'clippath' in overriding 'Tick.set_clip_path' method",
+              "message_id": "W0237"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 240,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 294,
+              "message": "Instance of 'Tick' has no '__name__' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 298,
+              "message": "Instance of 'Tick' has no '__name__' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 546,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 557,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 580,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 588,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-few-public-methods",
+              "line": 568,
+              "message": "Too few public methods (1/2)",
+              "message_id": "R0903"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 651,
+              "message": "Attribute name \"isDefault_label\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 667,
+              "message": "Attribute name \"offsetText\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 764,
+              "message": "Attribute name \"isDefault_majloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 765,
+              "message": "Attribute name \"isDefault_minloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 766,
+              "message": "Attribute name \"isDefault_majfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 767,
+              "message": "Attribute name \"isDefault_minfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 600,
+              "message": "Too many instance attributes (21/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 633,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 675,
+              "message": "Consider using '{}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 676,
+              "message": "Consider using '{}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 682,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 682,
+              "message": "Attribute name \"isDefault_majloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 683,
+              "message": "Access to a protected member _locator_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 686,
+              "message": "Attribute name \"isDefault_majloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 687,
+              "message": "Access to a protected member _locator_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 690,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 690,
+              "message": "Attribute name \"isDefault_majfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 691,
+              "message": "Access to a protected member _formatter_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 694,
+              "message": "Attribute name \"isDefault_majfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 695,
+              "message": "Access to a protected member _formatter_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 698,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 698,
+              "message": "Attribute name \"isDefault_minloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 699,
+              "message": "Access to a protected member _locator_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 702,
+              "message": "Attribute name \"isDefault_minloc\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 703,
+              "message": "Access to a protected member _locator_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 706,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 706,
+              "message": "Attribute name \"isDefault_minfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 707,
+              "message": "Access to a protected member _formatter_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 710,
+              "message": "Attribute name \"isDefault_minfmt\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 711,
+              "message": "Access to a protected member _formatter_is_default of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 719,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 722,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 769,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 872,
+              "message": "Access to a protected member _apply_params of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 876,
+              "message": "Access to a protected member _apply_params of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 927,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 888,
+              "message": "Too many branches (14/12)",
+              "message_id": "R0912"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-renamed",
+              "line": 932,
+              "message": "Parameter 'path' has been renamed to 'clippath' in overriding 'Axis.set_clip_path' method",
+              "message_id": "W0237"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1025,
+              "message": "Variable name \"ticklabelBoxes\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1025,
+              "message": "Variable name \"ticklabelBoxes2\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 1038,
+              "message": "Too many local variables (16/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1076,
+              "message": "Access to a protected member _interval_contains_close of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1106,
+              "message": "Variable name \"ticklabelBoxes\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1106,
+              "message": "Variable name \"ticklabelBoxes2\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 1126,
+              "message": "Instance of 'Axis' has no 'axis_name' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 1129,
+              "message": "Instance of 'Axis' has no 'axis_name' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 1135,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "inconsistent-return-statements",
+              "line": 1088,
+              "message": "Either all return statements in a function should return an expression, or none of them should.",
+              "message_id": "R1710"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1140,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1157,
+              "message": "Variable name \"ticklabelBoxes\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1157,
+              "message": "Variable name \"ticklabelBoxes2\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1149,
+              "message": "Unused argument 'args'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1149,
+              "message": "Unused argument 'kwargs'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 1237,
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1705"
+            },
+            {
+              "type": "error",
+              "symbol": "not-callable",
+              "line": 1275,
+              "message": "self.major.locator is not callable",
+              "message_id": "E1102"
+            },
+            {
+              "type": "error",
+              "symbol": "not-callable",
+              "line": 1280,
+              "message": "self.major.locator is not callable",
+              "message_id": "E1102"
+            },
+            {
+              "type": "error",
+              "symbol": "not-callable",
+              "line": 1281,
+              "message": "self.minor.locator is not callable",
+              "message_id": "E1102"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 1313,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1315,
+              "message": "Access to a protected member _tickdir of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1318,
+              "message": "Access to a protected member _tickdir of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1493,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1495,
+              "message": "Access to a protected member _is_natively_supported of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1524,
+              "message": "Access to a protected member _get_axis_map of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1529,
+              "message": "Access to a protected member _shared_axes of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1535,
+              "message": "Access to a protected member _update_axisinfo of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1643,
+              "message": "Access to a protected member _set_locator of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1659,
+              "message": "Access to a protected member _set_locator of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1675,
+              "message": "Unused argument 'pos'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "refactor",
+              "symbol": "unnecessary-comprehension",
+              "line": 1723,
+              "message": "Unnecessary use of a comprehension, use dict(zip(locator.locs, ticklabels)) instead.",
+              "message_id": "R1721"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1803,
+              "message": "Access to a protected member _get_axis_map of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1808,
+              "message": "Access to a protected member _shared_axes of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 1820,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1867,
+              "message": "Access to a protected member _get_axis_map of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1868,
+              "message": "Access to a protected member _align_label_groups of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1872,
+              "message": "Access to a protected member _align_label_groups of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1878,
+              "message": "Access to a protected member _update_ticks of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1879,
+              "message": "Access to a protected member _get_tick_bboxes of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "import-outside-toplevel",
+              "line": 1911,
+              "message": "Import outside toplevel (dateutil.tz)",
+              "message_id": "C0415"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 1936,
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1705"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 1961,
+              "message": "Instance of 'Axis' has no 'label_position' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1973,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 1446,
+              "message": "Attribute 'converter' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 1499,
+              "message": "Attribute 'converter' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 1534,
+              "message": "Attribute 'units' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-public-methods",
+              "line": 600,
+              "message": "Too many public methods (67/20)",
+              "message_id": "R0904"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-class-docstring",
+              "line": 2007,
+              "message": "Missing class docstring",
+              "message_id": "C0115"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2041,
+              "message": "Unused variable 'yaxes'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2044,
+              "message": "Unused variable 'l'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2044,
+              "message": "Unused variable 'r'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2083,
+              "message": "Unused variable 'y'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "convention",
+              "symbol": "use-implicit-booleaness-not-len",
+              "line": 2123,
+              "message": "Do not use `len(SEQUENCE)` without comparison to determine if a sequence is empty",
+              "message_id": "C1802"
+            },
+            {
+              "type": "convention",
+              "symbol": "use-implicit-booleaness-not-len",
+              "line": 2130,
+              "message": "Do not use `len(SEQUENCE)` without comparison to determine if a sequence is empty",
+              "message_id": "C1802"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 2145,
+              "message": "Variable name \"padPixels\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 2267,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 2121,
+              "message": "Attribute '_tick_position' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 2178,
+              "message": "Attribute '_tick_position' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 2183,
+              "message": "Attribute '_tick_position' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 2194,
+              "message": "Attribute '_tick_position' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-class-docstring",
+              "line": 2273,
+              "message": "Missing class docstring",
+              "message_id": "C0115"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2309,
+              "message": "Unused variable 'xaxes'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2312,
+              "message": "Unused variable 'b'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2312,
+              "message": "Unused variable 't'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2352,
+              "message": "Unused variable 'x'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2387,
+              "message": "Unused variable 'y'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 2402,
+              "message": "Instance of 'Text' has no 'set_ha' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 2406,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 2409,
+              "message": "Variable name \"padPixels\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 2528,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 16,
+        "issues": [
+          {
+            "line": 779,
+            "code": "E126",
+            "message": "continuation line over-indented for hanging indent"
+          },
+          {
+            "line": 779,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 785,
+            "code": "E126",
+            "message": "continuation line over-indented for hanging indent"
+          },
+          {
+            "line": 785,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 811,
+            "code": "E126",
+            "message": "continuation line over-indented for hanging indent"
+          },
+          {
+            "line": 811,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 814,
+            "code": "E126",
+            "message": "continuation line over-indented for hanging indent"
+          },
+          {
+            "line": 814,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1107,
+            "code": "E126",
+            "message": "continuation line over-indented for hanging indent"
+          },
+          {
+            "line": 1610,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2046,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2250,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2261,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2314,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2512,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2523,
+            "code": "W504",
+            "message": "line break after binary operator"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 0.0,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py": [
+            {
+              "name": "__init__",
+              "complexity": 22,
+              "lineno": 57
+            },
+            {
+              "name": "_update_axisinfo",
+              "complexity": 17,
+              "lineno": 1456
+            },
+            {
+              "name": "_get_ticks_position",
+              "complexity": 16,
+              "lineno": 1920
+            },
+            {
+              "name": "_apply_params",
+              "complexity": 15,
+              "lineno": 347
+            },
+            {
+              "name": "_translate_tick_kw",
+              "complexity": 15,
+              "lineno": 888
+            },
+            {
+              "name": "get_tightbbox",
+              "complexity": 14,
+              "lineno": 1088
+            },
+            {
+              "name": "set_tick_params",
+              "complexity": 12,
+              "lineno": 848
+            },
+            {
+              "name": "set_ticklabels",
+              "complexity": 12,
+              "lineno": 1678
+            },
+            {
+              "name": "grid",
+              "complexity": 9,
+              "lineno": 1393
+            },
+            {
+              "name": "_set_tick_locations",
+              "complexity": 9,
+              "lineno": 1798
+            },
+            {
+              "name": "_update_ticks",
+              "complexity": 8,
+              "lineno": 1038
+            },
+            {
+              "name": "_set_formatter",
+              "complexity": 8,
+              "lineno": 1605
+            },
+            {
+              "name": "set_units",
+              "complexity": 7,
+              "lineno": 1510
+            },
+            {
+              "name": "set_ticks_position",
+              "complexity": 7,
+              "lineno": 2160
+            },
+            {
+              "name": "set_ticks_position",
+              "complexity": 7,
+              "lineno": 2424
+            },
+            {
+              "name": "get_ticklabels",
+              "complexity": 6,
+              "lineno": 1211
+            },
+            {
+              "name": "_get_tick_boxes_siblings",
+              "complexity": 6,
+              "lineno": 1858
+            },
+            {
+              "name": "_get_tick_bboxes",
+              "complexity": 5,
+              "lineno": 1081
+            },
+            {
+              "name": "get_majorticklabels",
+              "complexity": 5,
+              "lineno": 1197
+            },
+            {
+              "name": "get_minorticklabels",
+              "complexity": 5,
+              "lineno": 1204
+            },
+            {
+              "name": "update_units",
+              "complexity": 5,
+              "lineno": 1435
+            },
+            {
+              "name": "convert_units",
+              "complexity": 5,
+              "lineno": 1493
+            },
+            {
+              "name": "contains",
+              "complexity": 5,
+              "lineno": 2032
+            },
+            {
+              "name": "_update_label_position",
+              "complexity": 5,
+              "lineno": 2071
+            },
+            {
+              "name": "_update_offset_text_position",
+              "complexity": 5,
+              "lineno": 2114
+            },
+            {
+              "name": "set_default_intervals",
+              "complexity": 5,
+              "lineno": 2246
+            },
+            {
+              "name": "contains",
+              "complexity": 5,
+              "lineno": 2300
+            },
+            {
+              "name": "_update_label_position",
+              "complexity": 5,
+              "lineno": 2340
+            },
+            {
+              "name": "set_default_intervals",
+              "complexity": 5,
+              "lineno": 2508
+            },
+            {
+              "name": "Axis",
+              "complexity": 4,
+              "lineno": 600
+            },
+            {
+              "name": "reset_ticks",
+              "complexity": 4,
+              "lineno": 828
+            },
+            {
+              "name": "get_minorticklocs",
+              "complexity": 4,
+              "lineno": 1277
+            },
+            {
+              "name": "get_ticks_direction",
+              "complexity": 4,
+              "lineno": 1299
+            },
+            {
+              "name": "XAxis",
+              "complexity": 4,
+              "lineno": 2007
+            },
+            {
+              "name": "get_text_heights",
+              "complexity": 4,
+              "lineno": 2138
+            },
+            {
+              "name": "get_text_widths",
+              "complexity": 4,
+              "lineno": 2406
+            },
+            {
+              "name": "Tick",
+              "complexity": 3,
+              "lineno": 35
+            },
+            {
+              "name": "_set_labelrotation",
+              "complexity": 3,
+              "lineno": 188
+            },
+            {
+              "name": "draw",
+              "complexity": 3,
+              "lineno": 290
+            },
+            {
+              "name": "_LazyTickList",
+              "complexity": 3,
+              "lineno": 568
+            },
+            {
+              "name": "__get__",
+              "complexity": 3,
+              "lineno": 579
+            },
+            {
+              "name": "clear",
+              "complexity": 3,
+              "lineno": 788
+            },
+            {
+              "name": "get_ticklabel_extents",
+              "complexity": 3,
+              "lineno": 1018
+            },
+            {
+              "name": "get_tick_padding",
+              "complexity": 3,
+              "lineno": 1140
+            },
+            {
+              "name": "draw",
+              "complexity": 3,
+              "lineno": 1149
+            },
+            {
+              "name": "_copy_tick_props",
+              "complexity": 3,
+              "lineno": 1336
+            },
+            {
+              "name": "get_major_ticks",
+              "complexity": 3,
+              "lineno": 1366
+            },
+            {
+              "name": "get_minor_ticks",
+              "complexity": 3,
+              "lineno": 1379
+            },
+            {
+              "name": "tick_top",
+              "complexity": 3,
+              "lineno": 2200
+            },
+            {
+              "name": "tick_bottom",
+              "complexity": 3,
+              "lineno": 2212
+            },
+            {
+              "name": "YAxis",
+              "complexity": 3,
+              "lineno": 2273
+            },
+            {
+              "name": "tick_right",
+              "complexity": 3,
+              "lineno": 2460
+            },
+            {
+              "name": "tick_left",
+              "complexity": 3,
+              "lineno": 2473
+            },
+            {
+              "name": "_apply_tickdir",
+              "complexity": 2,
+              "lineno": 200
+            },
+            {
+              "name": "contains",
+              "complexity": 2,
+              "lineno": 243
+            },
+            {
+              "name": "XTick",
+              "complexity": 2,
+              "lineno": 405
+            },
+            {
+              "name": "YTick",
+              "complexity": 2,
+              "lineno": 466
+            },
+            {
+              "name": "Ticker",
+              "complexity": 2,
+              "lineno": 527
+            },
+            {
+              "name": "locator",
+              "complexity": 2,
+              "lineno": 550
+            },
+            {
+              "name": "formatter",
+              "complexity": 2,
+              "lineno": 561
+            },
+            {
+              "name": "set_label_coords",
+              "complexity": 2,
+              "lineno": 730
+            },
+            {
+              "name": "_set_scale",
+              "complexity": 2,
+              "lineno": 757
+            },
+            {
+              "name": "_reset_major_tick_kw",
+              "complexity": 2,
+              "lineno": 776
+            },
+            {
+              "name": "_reset_minor_tick_kw",
+              "complexity": 2,
+              "lineno": 782
+            },
+            {
+              "name": "set_clip_path",
+              "complexity": 2,
+              "lineno": 932
+            },
+            {
+              "name": "_set_artist_props",
+              "complexity": 2,
+              "lineno": 1013
+            },
+            {
+              "name": "get_gridlines",
+              "complexity": 2,
+              "lineno": 1179
+            },
+            {
+              "name": "get_majorticklines",
+              "complexity": 2,
+              "lineno": 1249
+            },
+            {
+              "name": "get_minorticklines",
+              "complexity": 2,
+              "lineno": 1258
+            },
+            {
+              "name": "get_ticklines",
+              "complexity": 2,
+              "lineno": 1267
+            },
+            {
+              "name": "get_ticklocs",
+              "complexity": 2,
+              "lineno": 1295
+            },
+            {
+              "name": "have_units",
+              "complexity": 2,
+              "lineno": 1490
+            },
+            {
+              "name": "set_label_text",
+              "complexity": 2,
+              "lineno": 1544
+            },
+            {
+              "name": "set_major_locator",
+              "complexity": 2,
+              "lineno": 1631
+            },
+            {
+              "name": "set_minor_locator",
+              "complexity": 2,
+              "lineno": 1647
+            },
+            {
+              "name": "_set_ticklabels",
+              "complexity": 2,
+              "lineno": 1759
+            },
+            {
+              "name": "set_ticks",
+              "complexity": 2,
+              "lineno": 1827
+            },
+            {
+              "name": "axis_date",
+              "complexity": 2,
+              "lineno": 1898
+            },
+            {
+              "name": "_get_tick",
+              "complexity": 2,
+              "lineno": 2050
+            },
+            {
+              "name": "get_tick_space",
+              "complexity": 2,
+              "lineno": 2259
+            },
+            {
+              "name": "_get_tick",
+              "complexity": 2,
+              "lineno": 2318
+            },
+            {
+              "name": "get_tick_space",
+              "complexity": 2,
+              "lineno": 2521
+            },
+            {
+              "name": "_make_getset_interval",
+              "complexity": 1,
+              "lineno": 1977
+            },
+            {
+              "name": "label",
+              "complexity": 1,
+              "lineno": 185
+            },
+            {
+              "name": "apply_tickdir",
+              "complexity": 1,
+              "lineno": 213
+            },
+            {
+              "name": "get_tickdir",
+              "complexity": 1,
+              "lineno": 217
+            },
+            {
+              "name": "get_tick_padding",
+              "complexity": 1,
+              "lineno": 220
+            },
+            {
+              "name": "get_children",
+              "complexity": 1,
+              "lineno": 229
+            },
+            {
+              "name": "set_clip_path",
+              "complexity": 1,
+              "lineno": 234
+            },
+            {
+              "name": "get_pad_pixels",
+              "complexity": 1,
+              "lineno": 240
+            },
+            {
+              "name": "set_pad",
+              "complexity": 1,
+              "lineno": 255
+            },
+            {
+              "name": "get_pad",
+              "complexity": 1,
+              "lineno": 266
+            },
+            {
+              "name": "_get_text1",
+              "complexity": 1,
+              "lineno": 270
+            },
+            {
+              "name": "_get_text2",
+              "complexity": 1,
+              "lineno": 273
+            },
+            {
+              "name": "_get_tick1line",
+              "complexity": 1,
+              "lineno": 276
+            },
+            {
+              "name": "_get_tick2line",
+              "complexity": 1,
+              "lineno": 279
+            },
+            {
+              "name": "_get_gridline",
+              "complexity": 1,
+              "lineno": 282
+            },
+            {
+              "name": "get_loc",
+              "complexity": 1,
+              "lineno": 285
+            },
+            {
+              "name": "set_label1",
+              "complexity": 1,
+              "lineno": 301
+            },
+            {
+              "name": "set_label2",
+              "complexity": 1,
+              "lineno": 314
+            },
+            {
+              "name": "set_url",
+              "complexity": 1,
+              "lineno": 325
+            },
+            {
+              "name": "_set_artist_props",
+              "complexity": 1,
+              "lineno": 338
+            },
+            {
+              "name": "get_view_interval",
+              "complexity": 1,
+              "lineno": 341
+            },
+            {
+              "name": "update_position",
+              "complexity": 1,
+              "lineno": 394
+            },
+            {
+              "name": "_get_text1_transform",
+              "complexity": 1,
+              "lineno": 398
+            },
+            {
+              "name": "_get_text2_transform",
+              "complexity": 1,
+              "lineno": 401
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 412
+            },
+            {
+              "name": "_get_text1_transform",
+              "complexity": 1,
+              "lineno": 434
+            },
+            {
+              "name": "_get_text2_transform",
+              "complexity": 1,
+              "lineno": 437
+            },
+            {
+              "name": "_apply_tickdir",
+              "complexity": 1,
+              "lineno": 440
+            },
+            {
+              "name": "update_position",
+              "complexity": 1,
+              "lineno": 451
+            },
+            {
+              "name": "get_view_interval",
+              "complexity": 1,
+              "lineno": 461
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 473
+            },
+            {
+              "name": "_get_text1_transform",
+              "complexity": 1,
+              "lineno": 495
+            },
+            {
+              "name": "_get_text2_transform",
+              "complexity": 1,
+              "lineno": 498
+            },
+            {
+              "name": "_apply_tickdir",
+              "complexity": 1,
+              "lineno": 501
+            },
+            {
+              "name": "update_position",
+              "complexity": 1,
+              "lineno": 512
+            },
+            {
+              "name": "get_view_interval",
+              "complexity": 1,
+              "lineno": 522
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 539
+            },
+            {
+              "name": "locator",
+              "complexity": 1,
+              "lineno": 546
+            },
+            {
+              "name": "formatter",
+              "complexity": 1,
+              "lineno": 557
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 576
+            },
+            {
+              "name": "__str__",
+              "complexity": 1,
+              "lineno": 632
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 636
+            },
+            {
+              "name": "isDefault_majloc",
+              "complexity": 1,
+              "lineno": 682
+            },
+            {
+              "name": "isDefault_majloc",
+              "complexity": 1,
+              "lineno": 686
+            },
+            {
+              "name": "isDefault_majfmt",
+              "complexity": 1,
+              "lineno": 690
+            },
+            {
+              "name": "isDefault_majfmt",
+              "complexity": 1,
+              "lineno": 694
+            },
+            {
+              "name": "isDefault_minloc",
+              "complexity": 1,
+              "lineno": 698
+            },
+            {
+              "name": "isDefault_minloc",
+              "complexity": 1,
+              "lineno": 702
+            },
+            {
+              "name": "isDefault_minfmt",
+              "complexity": 1,
+              "lineno": 706
+            },
+            {
+              "name": "isDefault_minfmt",
+              "complexity": 1,
+              "lineno": 710
+            },
+            {
+              "name": "get_remove_overlapping_locs",
+              "complexity": 1,
+              "lineno": 719
+            },
+            {
+              "name": "set_remove_overlapping_locs",
+              "complexity": 1,
+              "lineno": 722
+            },
+            {
+              "name": "get_transform",
+              "complexity": 1,
+              "lineno": 750
+            },
+            {
+              "name": "get_scale",
+              "complexity": 1,
+              "lineno": 753
+            },
+            {
+              "name": "limit_range_for_scale",
+              "complexity": 1,
+              "lineno": 769
+            },
+            {
+              "name": "get_children",
+              "complexity": 1,
+              "lineno": 772
+            },
+            {
+              "name": "cla",
+              "complexity": 1,
+              "lineno": 824
+            },
+            {
+              "name": "get_view_interval",
+              "complexity": 1,
+              "lineno": 938
+            },
+            {
+              "name": "set_view_interval",
+              "complexity": 1,
+              "lineno": 942
+            },
+            {
+              "name": "get_data_interval",
+              "complexity": 1,
+              "lineno": 957
+            },
+            {
+              "name": "set_data_interval",
+              "complexity": 1,
+              "lineno": 961
+            },
+            {
+              "name": "get_inverted",
+              "complexity": 1,
+              "lineno": 975
+            },
+            {
+              "name": "set_inverted",
+              "complexity": 1,
+              "lineno": 986
+            },
+            {
+              "name": "set_default_intervals",
+              "complexity": 1,
+              "lineno": 999
+            },
+            {
+              "name": "get_label",
+              "complexity": 1,
+              "lineno": 1185
+            },
+            {
+              "name": "get_offset_text",
+              "complexity": 1,
+              "lineno": 1189
+            },
+            {
+              "name": "get_pickradius",
+              "complexity": 1,
+              "lineno": 1193
+            },
+            {
+              "name": "get_majorticklocs",
+              "complexity": 1,
+              "lineno": 1273
+            },
+            {
+              "name": "_get_tick",
+              "complexity": 1,
+              "lineno": 1320
+            },
+            {
+              "name": "_get_tick_label_size",
+              "complexity": 1,
+              "lineno": 1324
+            },
+            {
+              "name": "get_label_text",
+              "complexity": 1,
+              "lineno": 1346
+            },
+            {
+              "name": "get_major_locator",
+              "complexity": 1,
+              "lineno": 1350
+            },
+            {
+              "name": "get_minor_locator",
+              "complexity": 1,
+              "lineno": 1354
+            },
+            {
+              "name": "get_major_formatter",
+              "complexity": 1,
+              "lineno": 1358
+            },
+            {
+              "name": "get_minor_formatter",
+              "complexity": 1,
+              "lineno": 1362
+            },
+            {
+              "name": "get_units",
+              "complexity": 1,
+              "lineno": 1540
+            },
+            {
+              "name": "set_major_formatter",
+              "complexity": 1,
+              "lineno": 1565
+            },
+            {
+              "name": "set_minor_formatter",
+              "complexity": 1,
+              "lineno": 1591
+            },
+            {
+              "name": "set_pickradius",
+              "complexity": 1,
+              "lineno": 1663
+            },
+            {
+              "name": "_format_with_dict",
+              "complexity": 1,
+              "lineno": 1675
+            },
+            {
+              "name": "_update_label_position",
+              "complexity": 1,
+              "lineno": 1884
+            },
+            {
+              "name": "_update_offset_text_position",
+              "complexity": 1,
+              "lineno": 1891
+            },
+            {
+              "name": "get_tick_space",
+              "complexity": 1,
+              "lineno": 1915
+            },
+            {
+              "name": "get_label_position",
+              "complexity": 1,
+              "lineno": 1957
+            },
+            {
+              "name": "set_label_position",
+              "complexity": 1,
+              "lineno": 1963
+            },
+            {
+              "name": "get_minpos",
+              "complexity": 1,
+              "lineno": 1973
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 2011
+            },
+            {
+              "name": "set_label_position",
+              "complexity": 1,
+              "lineno": 2057
+            },
+            {
+              "name": "get_ticks_position",
+              "complexity": 1,
+              "lineno": 2224
+            },
+            {
+              "name": "get_minpos",
+              "complexity": 1,
+              "lineno": 2237
+            },
+            {
+              "name": "set_inverted",
+              "complexity": 1,
+              "lineno": 2240
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 2277
+            },
+            {
+              "name": "set_label_position",
+              "complexity": 1,
+              "lineno": 2325
+            },
+            {
+              "name": "_update_offset_text_position",
+              "complexity": 1,
+              "lineno": 2382
+            },
+            {
+              "name": "set_offset_position",
+              "complexity": 1,
+              "lineno": 2393
+            },
+            {
+              "name": "get_ticks_position",
+              "complexity": 1,
+              "lineno": 2486
+            },
+            {
+              "name": "get_minpos",
+              "complexity": 1,
+              "lineno": 2499
+            },
+            {
+              "name": "set_inverted",
+              "complexity": 1,
+              "lineno": 2502
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 162,
+        "total_issues": 170,
+        "issues": [
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_pylab_helpers.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"figs\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 114,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 178,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 182,
+            "column": 40,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 183,
+            "column": 39,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 85,
+            "column": 25,
+            "severity": "error",
+            "message": "Argument 1 to \"update\" of \"MutableMapping\" has incompatible type \"dict[str, tuple[float, float, float]]\"; expected \"SupportsKeysAndGetItem[str, str]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 418,
+            "column": 13,
+            "severity": "error",
+            "message": "\"dict[str, str]\" has no attribute \"cache\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/ticker.py",
+            "line_number": 248,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"locs\" (hint: \"locs: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 733,
+            "column": 30,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_polygons\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 757,
+            "column": 27,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_stars\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 931,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 936,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 941,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 946,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 951,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 956,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 961,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 966,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 971,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1803,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1804,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2149,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2150,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 168,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"setuptools_scm\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 579,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_deprecated_map\" (hint: \"_deprecated_map: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 601,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine consistent method resolution order (MRO) for \"RcParams\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 601,
+            "column": 1,
+            "severity": "error",
+            "message": "Metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases",
+            "error_code": "metaclass"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 893,
+            "column": 21,
+            "severity": "error",
+            "message": "Module has no attribute \"defaultParams\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 1263,
+            "column": 1,
+            "severity": "error",
+            "message": "\"Callable[[Any, Any, KwArg(Any)], Any]\" has no attribute \"__test__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 130,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 203,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 244,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 348,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 380,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 462,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 487,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 98,
+            "column": 18,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"fset\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 354,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 364,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 374,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 389,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 404,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 434,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 444,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 597,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 598,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 600,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 606,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 607,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 609,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 615,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 616,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 618,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 624,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 625,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 631,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 632,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 706,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 707,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 709,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 710,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 833,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 834,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 835,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 836,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 896,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 898,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 936,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 57,
+            "column": 13,
+            "severity": "error",
+            "message": "String argument 1 \"DviState\" to enum.Enum(...) does not match variable name \"_dvistate\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 829,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 983,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 41,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"Timer\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/style/core.py",
+            "line_number": 218,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"available\" (hint: \"available: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/artist.py",
+            "line_number": 1277,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in string interpolation (expression has type \"Number\", placeholder has type \"int | float\")",
+            "error_code": "str-format"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 1534,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[_GlueSpec]\" has no attribute \"_named\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 66,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_grey_arrayd\" (hint: \"_grey_arrayd: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 102,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.rrule\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 180,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.relativedelta\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 182,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1224,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any, Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1448,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 2005,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuadMesh, VarArg(Any), KwArg(Any)], Any]\" has no attribute \"__signature__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/mathtext.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 1454,
+            "column": 26,
+            "severity": "error",
+            "message": "Item \"None\" of \"str | None\" has no attribute \"splitlines\"",
+            "error_code": "union-attr"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2236,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2693,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 3128,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_TARGET_LIGHT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 403,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 411,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install types-python-dateutil\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_FORCE_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.backends._backend_agg\" has no attribute \"RendererAgg\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 553,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/contour.py",
+            "line_number": 1423,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"matplotlib._contour\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 34,
+            "column": 20,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 35,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 36,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 37,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BILINEAR\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 38,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"BICUBIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 39,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE16\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 40,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE36\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 41,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HANNING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 42,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HAMMING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 43,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HERMITE\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 44,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"KAISER\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 45,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"QUADRIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 46,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"CATROM\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 47,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"GAUSSIAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 48,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"BESSEL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 49,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"MITCHELL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 50,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"SINC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 51,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"LANCZOS\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 52,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BLACKMAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 370,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"list[tuple[str | None, str | None, str | None, str | None]]\", base class \"NavigationToolbar2\" defined the type as \"tuple[tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str]]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 507,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAggCore]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/offsetbox.py",
+            "line_number": 216,
+            "column": 6,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg.py",
+            "line_number": 301,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 2412,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"e\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 3442,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 66,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 72,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 77,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 52,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[str, str, str]\", base class \"_AxesBase\" defined the type as \"tuple[str, str]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(Any, Any, Any, /, filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3183,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3194,
+            "column": 23,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3196,
+            "column": 19,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 150,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1501,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1502,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarAffine\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1503,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"InvertedPolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1504,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaFormatter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1505,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"RadialLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1506,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/projections/geo.py",
+            "line_number": 232,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2071,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2086,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[SubFigure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2314,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2328,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[Figure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2455,
+            "column": 30,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, Never]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_5/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2458,
+            "column": 22,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, object]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "Found 162 errors in 36 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 162 errors in 36 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      },
+      "bandit": {
+        "enabled": true,
+        "total_issues": 2,
+        "severity_counts": {
+          "LOW": 2,
+          "MEDIUM": 0,
+          "HIGH": 0
+        },
+        "issues": [
+          {
+            "filename": "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 2197,
+            "line_range": [
+              2197
+            ],
+            "code": "2196         else:\n2197             assert False, \"unhandled parameter not caught by _check_in_list\"\n2198         self.stale = True",
+            "test_id": "B101",
+            "test_name": "assert_used",
+            "issue_severity": "LOW",
+            "issue_confidence": "HIGH",
+            "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+            "issue_cwe": {
+              "id": 703,
+              "link": "https://cwe.mitre.org/data/definitions/703.html"
+            },
+            "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b101_assert_used.html"
+          },
+          {
+            "filename": "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 2457,
+            "line_range": [
+              2457
+            ],
+            "code": "2456         else:\n2457             assert False, \"unhandled parameter not caught by _check_in_list\"\n2458         self.stale = True",
+            "test_id": "B101",
+            "test_name": "assert_used",
+            "issue_severity": "LOW",
+            "issue_confidence": "HIGH",
+            "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+            "issue_cwe": {
+              "id": 703,
+              "link": "https://cwe.mitre.org/data/definitions/703.html"
+            },
+            "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b101_assert_used.html"
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/matplotlib__matplotlib/lib/matplotlib/axis.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": true,
+    "fuzzing_passed": true,
+    "tests_generated": 1,
+    "combined_coverage": 100.0,
+    "baseline_coverage": 100.0,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "lib/matplotlib/axis.py"
+        ],
+        "primary_file": "lib/matplotlib/axis.py",
+        "total_changed_lines": 7,
+        "module_path": "matplotlib.axis"
+      },
+      "baseline_tests": {
+        "count": 674,
+        "count_after_filtering": 670,
+        "malformed_tests_filtered": 4,
+        "fail_to_pass": 1,
+        "pass_to_pass": 673,
+        "passed": true,
+        "returncode": 0,
+        "coverage": 100.0,
+        "covered_lines": 7
+      },
+      "fuzzing_tests": {
+        "count": 1,
+        "passed": true,
+        "returncode": 0,
+        "test_failures": [],
+        "stdout": "38-239, 259-260, 267, 275, 278, 287, 297, 303, 311, 325-326, 336-339, 342, 345, 358-359, 367, 370, 373, 388, 396, 407, 416, 470-501, 514, 543-548, 560, 571-574, 582, 593, 606-609, 617-623, 633, 665-667, 671-704, 708-720, 726-748, 752-757, 760-794, 802-830, 834-863, 928-937, 946, 957, 965-1016, 1019-1025, 1029-1048, 1051-1052, 1056, 1060-1078, 1086-1094, 1104, 1108-1142, 1152-1157, 1199-1204, 1216, 1225, 1237, 1250, 1253-1291, 1294-1317, 1320-1323, 1326-1344, 1349-1353, 1419-1423, 1426, 1429-1432, 1437, 1440-1443, 1448-1452, 1469-1504, 1534-1537, 1541-1543, 1570-1590, 1593, 1604-1613, 1617, 1657, 1678-1683, 1699, 1707, 1719-1720, 1724-1727, 1731-1732, 1735, 1751-1752, 1756-1757, 1760, 1772-1780, 1789, 1800, 1817-1821, 1826, 1830, 1834-1837, 1841-1842, 1845-1856, 1861-1876, 1885, 1889-1890, 1894-1895, 1898-1904, 1911-1921, 1925-1932, 1948-1951, 1955-1961, 1965-1968, 1972-1975, 2027-2029, 2033-2044, 2050, 2071-2094, 2104-2155, 2158-2159, 2162-2176, 2179-2189, 2193-2198, 2207, 2218, 2229-2234, 2243-2248, 2252, 2285-2293, 2297-2304, 2311, 2317-2330, 2336-2337, 2340-2433, 2437-2449, 2452-2470, 2497-2510, 2514-2517, 2522-2523, 2526-2612, 2616-2628, 2648-2649, 2653-2655, 2659, 2663, 2667-2740, 2743-2776, 2790-2796, 2812, 2816-2853\nlib/matplotlib/tight_bbox.py                              48     48     14      0     0%   5-88\nlib/matplotlib/tight_layout.py                           150    150     91      0     0%   12-354\nlib/matplotlib/transforms.py                            1144    783    328     16    26%   71->exit, 72->exit, 116-121, 130, 134-138, 143-152, 157-168, 175-178, 195-204, 217-223, 232, 251-257, 260, 264, 274, 284, 294, 304, 314, 324, 329, 334, 339, 344, 349, 354, 363, 372, 377-378, 383-384, 389-390, 395-396, 401, 410-411, 417-418, 424, 434-444, 450-451, 457-458, 464, 475-485, 491-494, 524-532, 543-544, 557-568, 576-579, 587-590, 602-606, 617, 625-630, 634-635, 639, 648-649, 656-660, 665-671, 679-683, 774-785, 787-795, 799-801, 806, 811, 820, 839-842, 845, 867, 887-903, 924-928, 933-934, 938-939, 943-944, 948-949, 953-954, 958-959, 963-964, 968-969, 973-977, 988, 999, 1010, 1017-1018, 1026-1028, 1034-1036, 1040, 1044, 1049, 1067-1078, 1084-1110, 1113-1118, 1148-1157, 1163-1169, 1172-1177, 1184-1187, 1191-1193, 1200-1203, 1207-1209, 1216-1219, 1223-1225, 1232-1235, 1239-1241, 1315, 1333, 1347, 1359-1366, 1379-1384, 1416-1432, 1438, 1458-1473, 1501, 1526, 1535, 1539, 1543, 1557-1559, 1568, 1578, 1588-1589, 1615-1639, 1675-1677, 1680-1684, 1687, 1693, 1696-1706, 1719-1730, 1732->exit, 1733->exit, 1734->exit, 1744-1745, 1749, 1752-1754, 1758, 1767, 1771, 1775, 1780, 1784, 1808, 1812-1813, 1819-1820, 1823-1827, 1830-1841, 1845-1852, 1870-1875, 1897, 1910-1913, 1925-1926, 1933-1935, 1945, 1952-1954, 1964-1970, 1980, 1990, 2001-2002, 2012-2015, 2028-2038, 2051-2057, 2070, 2082, 2088, 2092, 2096, 2100, 2104, 2108, 2112, 2116, 2120, 2127-2132, 2135, 2163-2167, 2171, 2176, 2178->exit, 2179->exit, 2184, 2188-2212, 2216, 2220-2231, 2256-2269, 2273-2284, 2295-2298, 2320-2329, 2333-2338, 2347-2352, 2356-2360, 2363-2366, 2368->exit, 2369->exit, 2370->exit, 2372->exit, 2379, 2383-2388, 2393-2398, 2403-2406, 2411, 2431-2443, 2447, 2450-2453, 2459-2465, 2486-2492, 2507-2515, 2521-2535, 2551-2558, 2564-2574, 2584-2594, 2605-2612, 2618-2630, 2639-2644, 2650-2656, 2677-2678, 2683-2686, 2708-2714, 2719-2727, 2737-2738, 2746-2747, 2753-2754, 2757, 2772-2780, 2783-2796, 2827-2854, 2873-2876, 2901-2905, 2924-2925, 2948-2959\nlib/matplotlib/tri/__init__.py                             8      8      0      0     0%   5-12\nlib/matplotlib/tri/triangulation.py                       88     88     42      0     0%   1-220\nlib/matplotlib/tri/tricontour.py                          55     55     16      0     0%   1-307\nlib/matplotlib/tri/trifinder.py                           26     26      2      0     0%   1-93\nlib/matplotlib/tri/triinterpolate.py                     539    539     84      0     0%   5-1579\nlib/matplotlib/tri/tripcolor.py                           56     56     24      0     0%   1-131\nlib/matplotlib/tri/triplot.py                             25     25      8      0     0%   1-82\nlib/matplotlib/tri/trirefine.py                           93     93     18      0     0%   5-307\nlib/matplotlib/tri/tritools.py                            77     77     12      0     0%   5-263\nlib/matplotlib/type1font.py                              211    211     95      0     0%   24-404\nlib/matplotlib/units.py                                   71     44     26      0    28%   62-69, 100-105, 117, 122, 132, 143-149, 167-173, 183-207\nlib/matplotlib/widgets.py                               1606   1606    672      0     0%   12-3512\n--------------------------------------------------------------------------------------------------\nTOTAL                                                  66834  62510  18284    172     6%\n\n5 files skipped due to complete coverage.\n\n\n============================== 1 passed in 21.76s ==============================\n",
+        "stderr": ""
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 9,
+    "failed_rules": 0,
+    "findings_count": 0,
+    "high_severity_count": 0,
+    "medium_severity_count": 0,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 0,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [],
+      "low": []
+    },
+    "findings_by_taxonomy": {}
+  },
+  "overall_score": 89.848,
+  "verdict": "\u2705 EXCELLENT",
+  "reason": "All checks passed",
+  "elapsed_seconds": 193.30433344841003
+}

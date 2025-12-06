@@ -1,0 +1,99 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928092
+Array Task ID: 6
+Node: cbcb30
+Started: Wed Dec  3 18:15:47 EST 2025
+
+Processing: scikit-learn__scikit-learn-12585
+
+Available disk space: 85241 GB
+
+Loading instance: scikit-learn__scikit-learn-12585
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/base.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 41 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 68.3/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 565 lines
+DEBUG: changed_functions: ['clone']
+DEBUG: class_context: {}
+DEBUG: all_changed_lines: 1 lines
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12585.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/tests/test_base.py::test_clone_estimator_types sklearn/tests/test_base.py::test_clone sklearn/tests/test_base.py::test_clone_2 sklearn/tests/test_base.py::test_clone_buggy sklearn/tests/test_base.py::test_clone_empty_array sklearn/tests/test_base.py::test_clone_nan sklearn/tests/test_base.py::test_clone_sparse_matrices sklearn/tests/test_base.py::test_repr sklearn/tests/test_base.py::test_str sklearn/tests/test_base.py::test_get_params sklearn/tests/test_base.py::test_is_classifier sklearn/tests/test_base.py::test_set_params sklearn/tests/test_base.py::test_set_params_passes_all_parameters sklearn/tests/test_base.py::test_set_params_updates_valid_params sklearn/tests/test_base.py::test_score_sample_weight sklearn/tests/test_base.py::test_clone_pandas_dataframe sklearn/tests/test_base.py::test_pickle_version_warning_is_not_raised_with_matching_version sklearn/tests/test_base.py::test_pickle_version_warning_is_issued_upon_different_version sklearn/tests/test_base.py::test_pickle_version_warning_is_issued_when_no_version_info_in_pickle sklearn/tests/test_base.py::test_pickle_version_no_warning_is_issued_with_non_sklearn_estimator sklearn/tests/test_base.py::test_pickling_when_getstate_is_overwritten_by_mixin sklearn/tests/test_base.py::test_pickling_when_getstate_is_overwritten_by_mixin_outside_of_sklearn sklearn/tests/test_base.py::test_pickling_works_when_getstate_is_overwritten_in_the_child_class
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [51]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12585.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [51]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 3 tests
+    Coverage: 100.0% ✅
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 5/9 passed
+    Findings: 35 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 90.5/100
+Time: 95.2s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-12585.json
+
+Finished: Wed Dec  3 18:17:26 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_6

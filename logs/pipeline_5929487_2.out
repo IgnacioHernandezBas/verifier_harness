@@ -1,0 +1,136 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929489
+Array Task ID: 2
+Node: cbcb30
+Started: Thu Dec  4 15:36:53 EST 2025
+
+Processing: django__django-10554
+
+Available disk space: 84934 GB
+
+Loading instance: django__django-10554
+Repo: django/django
+
+[1/5] Setting up repository...
+[+] Cloning django/django into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django ...
+    → Captured original code: django/db/models/sql/compiler.py
+    → Captured original code: django/db/models/sql/query.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 57.8/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1522 lines
+DEBUG: changed_functions: ['get_order_by']
+DEBUG: class_context: {'get_order_by': 'SQLCompiler'}
+DEBUG: all_changed_lines: 10 lines
+📝 Detected test framework: django
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for Django tests
+🧪 Running django tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env DJANGO_SETTINGS_MODULE=tests.test_sqlite /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-10554.sif /opt/miniconda3/envs/testbed/bin/python -m coverage run --source django --branch -m django test queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_values_list_and_order queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_values_list_on_annotated_and_unannotated queries.test_qs_combinators.QuerySetSetOperationTests.test_combining_multiple_models queries.test_qs_combinators.QuerySetSetOperationTests.test_count_difference queries.test_qs_combinators.QuerySetSetOperationTests.test_count_intersection queries.test_qs_combinators.QuerySetSetOperationTests.test_count_union queries.test_qs_combinators.QuerySetSetOperationTests.test_count_union_empty_result queries.test_qs_combinators.QuerySetSetOperationTests.test_difference_with_empty_qs queries.test_qs_combinators.QuerySetSetOperationTests.test_difference_with_values queries.test_qs_combinators.QuerySetSetOperationTests.test_intersection_with_empty_qs queries.test_qs_combinators.QuerySetSetOperationTests.test_intersection_with_values queries.test_qs_combinators.QuerySetSetOperationTests.test_limits queries.test_qs_combinators.QuerySetSetOperationTests.test_order_raises_on_non_selected_column queries.test_qs_combinators.QuerySetSetOperationTests.test_ordering queries.test_qs_combinators.QuerySetSetOperationTests.test_ordering_by_f_expression queries.test_qs_combinators.QuerySetSetOperationTests.test_qs_with_subcompound_qs queries.test_qs_combinators.QuerySetSetOperationTests.test_simple_difference queries.test_qs_combinators.QuerySetSetOperationTests.test_simple_intersection queries.test_qs_combinators.QuerySetSetOperationTests.test_simple_union queries.test_qs_combinators.QuerySetSetOperationTests.test_union_distinct queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_empty_qs queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_extra_and_values_list queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_two_annotated_values_list queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_values queries.test_qs_combinators.QuerySetSetOperationTests.test_unsupported_ordering_slicing_raises_db_error
+
+✓ Coverage data saved to: .coverage.json
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+E
+======================================================================
+ERROR: queries (unittest.loader._FailedTest)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: queries
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/testbed/lib/python3.6/unittest/loader.py", line 153, in loadTestsFromName
+    module = __import__(module_name)
+ModuleNotFoundError: No module named 'queries'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
+
+
+STDOUT (first 2000 chars):
+System check identified no issues (0 silenced).
+
+
+📊 BASELINE COVERAGE:
+   Line coverage: 70.0%
+   Covered lines: [359, 360, 361, 362, 363, 364, 1777]
+   Uncovered lines: [1778, 1779, 1780]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: SQLCompiler.get_order_by
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for SQLCompiler...
+    ⚠️  No patterns found for SQLCompiler
+ℹ️  No test patterns found for SQLCompiler, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: django (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-10554.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=django --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 70.0%
+   Covered lines: [359, 360, 361, 362, 363, 364, 1777]
+   Uncovered lines: [1778, 1779, 1780]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: FAIL, Fuzzing: 3 tests
+    Coverage: 70.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 2 test(s) failed
+       - test_get_order_by_boundaries: Unknown error
+       - test_get_order_by_exceptions: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: django__django
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 29.3/100
+Time: 169.1s
+============================================================
+
+
+💾 Results saved to: results/django__django-10554.json
+
+Finished: Thu Dec  4 15:39:51 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_2

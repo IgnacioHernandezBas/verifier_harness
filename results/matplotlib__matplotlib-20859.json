@@ -1,0 +1,2418 @@
+{
+  "instance_id": "matplotlib__matplotlib-20859",
+  "success": true,
+  "repo": "matplotlib/matplotlib",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 63.07000000000001,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 1249,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 70,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/lib/matplotlib/legend.py": [
+            {
+              "type": "convention",
+              "symbol": "too-many-lines",
+              "line": 1,
+              "message": "Too many lines in module (1249/1000)",
+              "message_id": "C0302"
+            },
+            {
+              "type": "warning",
+              "symbol": "fixme",
+              "line": 1038,
+              "message": "XXX TODO: If markers are present, it would be good to take them",
+              "message_id": "W0511"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-class-docstring",
+              "line": 52,
+              "message": "Missing class docstring",
+              "message_id": "C0115"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 79,
+              "message": "Instance of 'DraggableLegend' has no '_bbox_to_anchor' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 89,
+              "message": "Access to a protected member _loc of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 381,
+              "message": "Attribute name \"legendHandles\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 477,
+              "message": "Attribute name \"legendPatch\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 281,
+              "message": "Too many instance attributes (20/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 294,
+              "message": "Too many arguments (34/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 294,
+              "message": "Too many positional arguments (34/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 294,
+              "message": "Too many local variables (51/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "import-outside-toplevel",
+              "line": 362,
+              "message": "Import outside toplevel (matplotlib.axes.Axes)",
+              "message_id": "C0415"
+            },
+            {
+              "type": "convention",
+              "symbol": "import-outside-toplevel",
+              "line": 363,
+              "message": "Import outside toplevel (matplotlib.figure.FigureBase)",
+              "message_id": "C0415"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 403,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 416,
+              "message": "Instance of 'Legend' has no 'numpoints' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 417,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 424,
+              "message": "Instance of 'Legend' has no 'scatterpoints' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 426,
+              "message": "Instance of 'Legend' has no 'scatterpoints' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 554,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 294,
+              "message": "Too many branches (44/12)",
+              "message_id": "R0912"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-statements",
+              "line": 294,
+              "message": "Too many statements (116/50)",
+              "message_id": "R0915"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 298,
+              "message": "Unused argument 'markerscale'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 300,
+              "message": "Unused argument 'scatterpoints'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 307,
+              "message": "Unused argument 'borderpad'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 308,
+              "message": "Unused argument 'labelspacing'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 309,
+              "message": "Unused argument 'handlelength'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 310,
+              "message": "Unused argument 'handleheight'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 311,
+              "message": "Unused argument 'handletextpad'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 312,
+              "message": "Unused argument 'borderaxespad'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 313,
+              "message": "Unused argument 'columnspacing'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 582,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 582,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 612,
+              "message": "Instance of 'Legend' has no 'borderaxespad' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 612,
+              "message": "Instance of 'Legend' has no 'borderpad' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 621,
+              "message": "Instance of 'Legend' has no 'shadow' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 680,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 713,
+              "message": "Too many local variables (31/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 735,
+              "message": "Consider using '{\"verticalalignment\": 'baseline', \"horizontalalignment\": 'left', \"fontproperties\": self.prop, ... }' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 742,
+              "message": "Instance of 'Legend' has no 'handleheight' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 744,
+              "message": "Instance of 'Legend' has no 'handleheight' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 759,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 770,
+              "message": "Instance of 'Legend' has no 'handlelength' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 774,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 798,
+              "message": "Variable name \"itemBoxes\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 799,
+              "message": "Instance of 'Legend' has no 'handletextpad' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 806,
+              "message": "Instance of 'Legend' has no 'labelspacing' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 811,
+              "message": "Instance of 'Legend' has no 'columnspacing' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 817,
+              "message": "Instance of 'Legend' has no 'borderpad' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 818,
+              "message": "Instance of 'Legend' has no 'labelspacing' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 844,
+              "message": "Access to a protected member _children of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 855,
+              "message": "Variable name \"transOffset\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 855,
+              "message": "Access to a protected member _prepare_points of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 887,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 889,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 892,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 896,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 902,
+              "message": "Access to a protected member _text of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 907,
+              "message": "Access to a protected member _cachedRenderer of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 946,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 971,
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1705"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-f-string",
+              "line": 980,
+              "message": "Formatting a regular string which could be an f-string",
+              "message_id": "C0209"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1010,
+              "message": "Access to a protected member _get_anchored_bbox of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 1012,
+              "message": "Instance of 'Legend' has no 'borderaxespad' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 1014,
+              "message": "Too many local variables (16/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1036,
+              "message": "Variable name \"legendBox\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-renamed",
+              "line": 1060,
+              "message": "Parameter 'mouseevent' has been renamed to 'event' in overriding 'Legend.contains' method",
+              "message_id": "W0237"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-public-methods",
+              "line": 281,
+              "message": "Too many public methods (22/20)",
+              "message_id": "R0904"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1116,
+              "message": "Access to a protected member _children of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1123,
+              "message": "Access to a protected member _children of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "unbalanced-tuple-unpacking",
+              "line": 1243,
+              "message": "Possible unbalanced tuple unpacking with sequence : left side has 2 labels, right side has 0 values",
+              "message_id": "W0632"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 7,
+        "issues": [
+          {
+            "line": 524,
+            "code": "E241",
+            "message": "multiple spaces after ':'"
+          },
+          {
+            "line": 524,
+            "code": "E241",
+            "message": "multiple spaces after ','"
+          },
+          {
+            "line": 526,
+            "code": "E241",
+            "message": "multiple spaces after ':'"
+          },
+          {
+            "line": 528,
+            "code": "E241",
+            "message": "multiple spaces after ':'"
+          },
+          {
+            "line": 647,
+            "code": "E123",
+            "message": "closing bracket does not match indentation of opening bracket's line"
+          },
+          {
+            "line": 978,
+            "code": "E741",
+            "message": "ambiguous variable name 'l'"
+          },
+          {
+            "line": 1232,
+            "code": "E741",
+            "message": "ambiguous variable name 'l'"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 22.85,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/lib/matplotlib/legend.py": [
+            {
+              "name": "__init__",
+              "complexity": 48,
+              "lineno": 294
+            },
+            {
+              "name": "_parse_legend_args",
+              "complexity": 20,
+              "lineno": 1157
+            },
+            {
+              "name": "_get_legend_handles",
+              "complexity": 12,
+              "lineno": 1107
+            },
+            {
+              "name": "_find_best_position",
+              "complexity": 10,
+              "lineno": 1014
+            },
+            {
+              "name": "_init_legend_box",
+              "complexity": 9,
+              "lineno": 713
+            },
+            {
+              "name": "_auto_legend_data",
+              "complexity": 8,
+              "lineno": 827
+            },
+            {
+              "name": "set_bbox_to_anchor",
+              "complexity": 6,
+              "lineno": 951
+            },
+            {
+              "name": "Legend",
+              "complexity": 5,
+              "lineno": 281
+            },
+            {
+              "name": "_get_legend_handles_labels",
+              "complexity": 4,
+              "lineno": 1141
+            },
+            {
+              "name": "draw",
+              "complexity": 4,
+              "lineno": 600
+            },
+            {
+              "name": "get_legend_handler",
+              "complexity": 4,
+              "lineno": 688
+            },
+            {
+              "name": "set_draggable",
+              "complexity": 4,
+              "lineno": 1066
+            },
+            {
+              "name": "DraggableLegend",
+              "complexity": 3,
+              "lineno": 52
+            },
+            {
+              "name": "finalize_offset",
+              "complexity": 3,
+              "lineno": 75
+            },
+            {
+              "name": "_update_loc",
+              "complexity": 3,
+              "lineno": 81
+            },
+            {
+              "name": "_findoffset",
+              "complexity": 3,
+              "lineno": 582
+            },
+            {
+              "name": "get_lines",
+              "complexity": 3,
+              "lineno": 868
+            },
+            {
+              "name": "get_patches",
+              "complexity": 3,
+              "lineno": 872
+            },
+            {
+              "name": "set_title",
+              "complexity": 3,
+              "lineno": 882
+            },
+            {
+              "name": "_set_artist_props",
+              "complexity": 2,
+              "lineno": 557
+            },
+            {
+              "name": "get_legend_handler_map",
+              "complexity": 2,
+              "lineno": 673
+            },
+            {
+              "name": "get_window_extent",
+              "complexity": 2,
+              "lineno": 904
+            },
+            {
+              "name": "get_bbox_to_anchor",
+              "complexity": 2,
+              "lineno": 944
+            },
+            {
+              "name": "contains",
+              "complexity": 2,
+              "lineno": 1060
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 53
+            },
+            {
+              "name": "_update_bbox_to_anchor",
+              "complexity": 1,
+              "lineno": 91
+            },
+            {
+              "name": "__str__",
+              "complexity": 1,
+              "lineno": 290
+            },
+            {
+              "name": "_set_loc",
+              "complexity": 1,
+              "lineno": 568
+            },
+            {
+              "name": "_get_loc",
+              "complexity": 1,
+              "lineno": 577
+            },
+            {
+              "name": "get_default_handler_map",
+              "complexity": 1,
+              "lineno": 653
+            },
+            {
+              "name": "set_default_handler_map",
+              "complexity": 1,
+              "lineno": 660
+            },
+            {
+              "name": "update_default_handler_map",
+              "complexity": 1,
+              "lineno": 667
+            },
+            {
+              "name": "get_children",
+              "complexity": 1,
+              "lineno": 860
+            },
+            {
+              "name": "get_frame",
+              "complexity": 1,
+              "lineno": 864
+            },
+            {
+              "name": "get_texts",
+              "complexity": 1,
+              "lineno": 878
+            },
+            {
+              "name": "get_title",
+              "complexity": 1,
+              "lineno": 900
+            },
+            {
+              "name": "get_tightbbox",
+              "complexity": 1,
+              "lineno": 910
+            },
+            {
+              "name": "get_frame_on",
+              "complexity": 1,
+              "lineno": 927
+            },
+            {
+              "name": "set_frame_on",
+              "complexity": 1,
+              "lineno": 931
+            },
+            {
+              "name": "_get_anchored_bbox",
+              "complexity": 1,
+              "lineno": 995
+            },
+            {
+              "name": "get_draggable",
+              "complexity": 1,
+              "lineno": 1100
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 163,
+        "total_issues": 171,
+        "issues": [
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_pylab_helpers.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"figs\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 114,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 178,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 182,
+            "column": 40,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 183,
+            "column": 39,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/ticker.py",
+            "line_number": 248,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"locs\" (hint: \"locs: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 85,
+            "column": 25,
+            "severity": "error",
+            "message": "Argument 1 to \"update\" of \"MutableMapping\" has incompatible type \"dict[str, tuple[float, float, float]]\"; expected \"SupportsKeysAndGetItem[str, str]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 418,
+            "column": 13,
+            "severity": "error",
+            "message": "\"dict[str, str]\" has no attribute \"cache\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 733,
+            "column": 30,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_polygons\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 757,
+            "column": 27,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_stars\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/cm.py",
+            "line_number": 40,
+            "column": 12,
+            "severity": "error",
+            "message": "Cannot determine type of \"rcParams\"",
+            "error_code": "has-type"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 931,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 936,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 941,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 946,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 951,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 956,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 961,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 966,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 971,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1803,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1804,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2149,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2150,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 130,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 203,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 244,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 348,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 380,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 462,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 487,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 168,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"setuptools_scm\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 168,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 579,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_deprecated_map\" (hint: \"_deprecated_map: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 603,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine consistent method resolution order (MRO) for \"RcParams\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 603,
+            "column": 1,
+            "severity": "error",
+            "message": "Metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases",
+            "error_code": "metaclass"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 895,
+            "column": 21,
+            "severity": "error",
+            "message": "Module has no attribute \"defaultParams\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 1265,
+            "column": 1,
+            "severity": "error",
+            "message": "\"Callable[[Any, Any, KwArg(Any)], Any]\" has no attribute \"__test__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 57,
+            "column": 13,
+            "severity": "error",
+            "message": "String argument 1 \"DviState\" to enum.Enum(...) does not match variable name \"_dvistate\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 829,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 983,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 98,
+            "column": 18,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"fset\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 354,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 364,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 374,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 389,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 404,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 434,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 444,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 597,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 598,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 600,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 606,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 607,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 609,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 615,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 616,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 618,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 624,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 625,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 631,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 632,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 706,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 707,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 709,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 710,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 833,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 834,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 835,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 836,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 896,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 898,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 936,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/style/core.py",
+            "line_number": 227,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"available\" (hint: \"available: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 41,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"Timer\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/artist.py",
+            "line_number": 1277,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in string interpolation (expression has type \"Number\", placeholder has type \"int | float\")",
+            "error_code": "str-format"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 27,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 1539,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[_GlueSpec]\" has no attribute \"_named\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 66,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_grey_arrayd\" (hint: \"_grey_arrayd: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 102,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.rrule\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install types-python-dateutil\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 180,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.relativedelta\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 182,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/mathtext.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1224,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any, Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1448,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 2005,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuadMesh, VarArg(Any), KwArg(Any)], Any]\" has no attribute \"__signature__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 1454,
+            "column": 26,
+            "severity": "error",
+            "message": "Item \"None\" of \"str | None\" has no attribute \"splitlines\"",
+            "error_code": "union-attr"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2236,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2693,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 3128,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_TARGET_LIGHT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 403,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 411,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1911,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_FORCE_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.backends._backend_agg\" has no attribute \"RendererAgg\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 553,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/contour.py",
+            "line_number": 1423,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"matplotlib._contour\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 34,
+            "column": 20,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 35,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 36,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 37,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BILINEAR\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 38,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"BICUBIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 39,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE16\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 40,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE36\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 41,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HANNING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 42,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HAMMING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 43,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HERMITE\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 44,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"KAISER\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 45,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"QUADRIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 46,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"CATROM\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 47,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"GAUSSIAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 48,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"BESSEL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 49,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"MITCHELL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 50,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"SINC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 51,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"LANCZOS\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 52,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BLACKMAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 370,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"list[tuple[str | None, str | None, str | None, str | None]]\", base class \"NavigationToolbar2\" defined the type as \"tuple[tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str]]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 507,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAggCore]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/offsetbox.py",
+            "line_number": 216,
+            "column": 6,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg.py",
+            "line_number": 301,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 2412,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"e\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 3442,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 66,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 72,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 77,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 52,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[str, str, str]\", base class \"_AxesBase\" defined the type as \"tuple[str, str]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2791,
+            "column": 13,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2791,
+            "column": 13,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2791,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(Any, Any, Any, /, filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2791,
+            "column": 13,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2791,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3200,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3211,
+            "column": 23,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3213,
+            "column": 19,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 150,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1501,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1502,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarAffine\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1503,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"InvertedPolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1504,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaFormatter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1505,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"RadialLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1506,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/projections/geo.py",
+            "line_number": 232,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2071,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2086,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[SubFigure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2314,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2328,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[Figure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2455,
+            "column": 30,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, Never]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_6/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2458,
+            "column": 22,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, object]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "Found 163 errors in 37 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 163 errors in 37 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      },
+      "bandit": {
+        "enabled": true,
+        "total_issues": 2,
+        "severity_counts": {
+          "LOW": 2,
+          "MEDIUM": 0,
+          "HIGH": 0
+        },
+        "issues": [
+          {
+            "filename": "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/lib/matplotlib/legend.py",
+            "line_number": 840,
+            "line_range": [
+              840
+            ],
+            "code": "839         \"\"\"\n840         assert self.isaxes  # always holds, as this is only called internally\n841         bboxes = []",
+            "test_id": "B101",
+            "test_name": "assert_used",
+            "issue_severity": "LOW",
+            "issue_confidence": "HIGH",
+            "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+            "issue_cwe": {
+              "id": 703,
+              "link": "https://cwe.mitre.org/data/definitions/703.html"
+            },
+            "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b101_assert_used.html"
+          },
+          {
+            "filename": "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/lib/matplotlib/legend.py",
+            "line_number": 1021,
+            "line_range": [
+              1021
+            ],
+            "code": "1020         \"\"\"\n1021         assert self.isaxes  # always holds, as this is only called internally\n1022",
+            "test_id": "B101",
+            "test_name": "assert_used",
+            "issue_severity": "LOW",
+            "issue_confidence": "HIGH",
+            "issue_text": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+            "issue_cwe": {
+              "id": 703,
+              "link": "https://cwe.mitre.org/data/definitions/703.html"
+            },
+            "more_info": "https://bandit.readthedocs.io/en/1.8.6/plugins/b101_assert_used.html"
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_6/matplotlib__matplotlib/lib/matplotlib/legend.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": false,
+    "fuzzing_passed": false,
+    "tests_generated": 4,
+    "combined_coverage": 100.0,
+    "baseline_coverage": 100.0,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "lib/matplotlib/legend.py"
+        ],
+        "primary_file": "lib/matplotlib/legend.py",
+        "total_changed_lines": 5,
+        "module_path": "matplotlib.legend"
+      },
+      "baseline_tests": {
+        "count": 89,
+        "count_after_filtering": 89,
+        "malformed_tests_filtered": 0,
+        "fail_to_pass": 1,
+        "pass_to_pass": 88,
+        "passed": false,
+        "returncode": 1,
+        "coverage": 100.0,
+        "covered_lines": 5
+      },
+      "fuzzing_tests": {
+        "count": 4,
+        "passed": false,
+        "returncode": 1,
+        "test_failures": [
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test___init___boundaries",
+            "extra_info": "- NameError: name ..."
+          },
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test___init___exceptions",
+            "extra_info": "- NameError: name ..."
+          }
+        ],
+        "stdout": "57-1559, 1568, 1578, 1588-1589, 1615-1639, 1675-1677, 1680-1684, 1687, 1693, 1696-1706, 1719-1730, 1732->exit, 1733->exit, 1734->exit, 1744-1745, 1749, 1752-1754, 1758, 1767, 1771, 1775, 1780, 1784, 1808, 1812-1813, 1819-1820, 1823-1827, 1830-1841, 1845-1852, 1870-1875, 1897, 1910-1913, 1925-1926, 1933-1935, 1945, 1952-1954, 1964-1970, 1980, 1990, 2001-2002, 2012-2015, 2028-2038, 2051-2057, 2070, 2082, 2088, 2092, 2096, 2100, 2104, 2108, 2112, 2116, 2120, 2127-2132, 2135, 2163-2167, 2171, 2176, 2178->exit, 2179->exit, 2184, 2188-2212, 2216, 2220-2231, 2256-2269, 2273-2284, 2295-2298, 2320-2329, 2333-2338, 2347-2352, 2356-2360, 2363-2366, 2368->exit, 2369->exit, 2370->exit, 2372->exit, 2379, 2383-2388, 2393-2398, 2403-2406, 2411, 2431-2443, 2447, 2450-2453, 2459-2465, 2486-2492, 2507-2515, 2521-2535, 2551-2558, 2564-2574, 2584-2594, 2605-2612, 2618-2630, 2639-2644, 2650-2656, 2677-2678, 2683-2686, 2708-2714, 2719-2727, 2737-2738, 2746-2747, 2753-2754, 2757, 2772-2780, 2783-2796, 2827-2854, 2873-2876, 2901-2905, 2924-2925, 2948-2959\nlib/matplotlib/tri/triangulation.py                       88     74     42      0    11%   39-77, 87, 99-101, 108-113, 119-122, 136-165, 173-177, 190-192, 202-220\nlib/matplotlib/tri/tricontour.py                          55     39     16      0    25%   29, 35-51, 54-81, 280-281, 306-307\nlib/matplotlib/tri/trifinder.py                           26     15      2      0    39%   20-21, 38-42, 55-63, 79, 86, 93\nlib/matplotlib/tri/triinterpolate.py                     539    455     84      0    13%   34-56, 157-207, 258-261, 265, 270, 275-284, 382-418, 421, 426, 431-447, 467-479, 500-518, 542-546, 564-574, 692-709, 730-765, 786-790, 806-831, 849-882, 899-912, 938-981, 999-1007, 1016-1020, 1046-1061, 1068-1071, 1087-1108, 1115-1130, 1138-1156, 1166-1167, 1175-1213, 1227-1230, 1237-1238, 1246-1251, 1257-1262, 1268-1272, 1280-1283, 1315-1353, 1409-1430, 1444-1477, 1484, 1491, 1499-1519, 1536-1549, 1561-1579\nlib/matplotlib/tri/tripcolor.py                           56     50     24      0     8%   47-131\nlib/matplotlib/tri/triplot.py                             25     22      8      0     9%   35-82\nlib/matplotlib/tri/trirefine.py                           93     81     18      0    11%   43-44, 62, 94-131, 157-169, 191-307\nlib/matplotlib/tri/tritools.py                            77     65     12      0    13%   29-30, 44-47, 79-115, 165-190, 220-238, 260-263\nlib/matplotlib/type1font.py                              211    211     95      0     0%   24-404\nlib/matplotlib/units.py                                   71     44     26      0    28%   62-69, 100-105, 117, 122, 132, 143-149, 167-173, 183-207\nlib/matplotlib/widgets.py                               1624   1356    684     16    12%   36, 40-42, 46-48, 52, 56, 60, 73, 77, 88, 113->exit, 116-118, 127-128, 132-133, 155->exit, 157->exit, 177-196, 199-202, 205-209, 212-218, 226, 230, 242-278, 282-292, 303, 307-308, 325->exit, 327->exit, 411-485, 489-509, 513-534, 538-543, 553-568, 585, 684-778, 782-789, 793-800, 804, 808-816, 820-852, 856-866, 876, 886, 896-922, 939, 964->exit, 966->exit, 985-1034, 1037-1043, 1061-1072, 1078, 1086, 1090, 1116->exit, 1118->exit, 1120->exit, 1145-1184, 1188, 1199-1222, 1225-1229, 1232-1265, 1268-1275, 1278-1295, 1299-1311, 1316-1322, 1325-1336, 1339, 1342-1348, 1356, 1365, 1369, 1410-1450, 1452->exit, 1454->exit, 1458-1468, 1476-1492, 1500, 1504, 1522-1553, 1556-1560, 1563-1576, 1609-1625, 1629-1634, 1638-1659, 1662-1670, 1699-1729, 1733-1735, 1739-1740, 1744-1750, 1753-1770, 1773-1784, 1791-1818, 1825-1827, 1833-1847, 1851-1857, 1861-1881, 1886-1898, 1902-1906, 1916-1922, 1926-1937, 1944-1952, 1959-1963, 1970-1971, 1978-1989, 1996-2001, 2008-2010, 2108-2151, 2155->exit, 2163->exit, 2171-2197, 2201-2209, 2213-2220, 2224-2226, 2230-2258, 2263, 2268-2281, 2285-2314, 2318-2327, 2333-2372, 2375-2382, 2387-2408, 2412, 2417-2423, 2428-2433, 2457-2469, 2474-2475, 2480, 2492-2494, 2498-2499, 2503-2504, 2508-2509, 2526-2537, 2560-2567, 2571, 2575, 2579-2582, 2585, 2588, 2592-2598, 2726-2807, 2817->exit, 2825-2843, 2847-2893, 2898-2953, 2957-2967, 2972-2975, 2980-2985, 2990-2991, 2996-2999, 3004-3010, 3015-3033, 3038-3073, 3077, 3088-3093, 3119-3134, 3138-3147, 3193-3201, 3205, 3208-3209, 3213, 3216-3221, 3224-3228, 3303-3329, 3331->exit, 3339, 3343-3362, 3367-3374, 3379-3399, 3407-3411, 3416-3449, 3455-3459, 3465-3477, 3481-3492, 3497, 3525-3537, 3540-3548, 3551-3568\n--------------------------------------------------------------------------------------------------\nTOTAL                                                  67130  59279  18352    298    10%\n\n8 files skipped due to complete coverage.\n\n=========================== short test summary info ============================\nFAILED test_fuzzing_generated.py::test___init___boundaries - NameError: name ...\nFAILED test_fuzzing_generated.py::test___init___exceptions - NameError: name ...\n============= 2 failed, 1 passed, 1 skipped, 7 warnings in 22.62s ==============\n",
+        "stderr": ""
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 9,
+    "failed_rules": 0,
+    "findings_count": 0,
+    "high_severity_count": 0,
+    "medium_severity_count": 0,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 0,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [],
+      "low": []
+    },
+    "findings_by_taxonomy": {}
+  },
+  "overall_score": 33.92100000000001,
+  "verdict": "\u274c REJECT",
+  "reason": "Failed: Tests",
+  "elapsed_seconds": 143.31701064109802
+}

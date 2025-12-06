@@ -1,0 +1,110 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5929509
+Array Task ID: 3
+Node: cbcb30
+Started: Thu Dec  4 15:51:11 EST 2025
+
+Processing: django__django-10880
+
+Available disk space: 84920 GB
+
+Loading instance: django__django-10880
+Repo: django/django
+
+[1/5] Setting up repository...
+[+] Cloning django/django into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django ...
+    → Captured original code: django/db/models/aggregates.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 52.1/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 155 lines
+DEBUG: changed_functions: ['as_sql']
+DEBUG: class_context: {'as_sql': 'Aggregate'}
+DEBUG: all_changed_lines: 1 lines
+📝 Detected test framework: django
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for Django tests
+🧪 Running django tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env DJANGO_SETTINGS_MODULE=tests.test_sqlite /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-10880.sif /opt/miniconda3/envs/testbed/bin/python -m coverage run --source django --branch tests/runtests.py aggregation.tests.AggregateTestCase.test_count_distinct_expression aggregation.tests.AggregateTestCase.test_add_implementation aggregation.tests.AggregateTestCase.test_aggregate_alias aggregation.tests.AggregateTestCase.test_aggregate_annotation aggregation.tests.AggregateTestCase.test_aggregate_in_order_by aggregation.tests.AggregateTestCase.test_aggregate_multi_join aggregation.tests.AggregateTestCase.test_aggregate_over_complex_annotation aggregation.tests.AggregateTestCase.test_aggregation_expressions aggregation.tests.AggregateTestCase.test_annotate_basic aggregation.tests.AggregateTestCase.test_annotate_defer aggregation.tests.AggregateTestCase.test_annotate_defer_select_related aggregation.tests.AggregateTestCase.test_annotate_m2m aggregation.tests.AggregateTestCase.test_annotate_ordering aggregation.tests.AggregateTestCase.test_annotate_over_annotate aggregation.tests.AggregateTestCase.test_annotate_values aggregation.tests.AggregateTestCase.test_annotate_values_aggregate aggregation.tests.AggregateTestCase.test_annotate_values_list aggregation.tests.AggregateTestCase.test_annotated_aggregate_over_annotated_aggregate aggregation.tests.AggregateTestCase.test_annotation aggregation.tests.AggregateTestCase.test_annotation_expressions aggregation.tests.AggregateTestCase.test_arguments_must_be_expressions aggregation.tests.AggregateTestCase.test_avg_decimal_field aggregation.tests.AggregateTestCase.test_avg_duration_field aggregation.tests.AggregateTestCase.test_backwards_m2m_annotate aggregation.tests.AggregateTestCase.test_combine_different_types aggregation.tests.AggregateTestCase.test_complex_aggregations_require_kwarg aggregation.tests.AggregateTestCase.test_complex_values_aggregation aggregation.tests.AggregateTestCase.test_count aggregation.tests.AggregateTestCase.test_count_star aggregation.tests.AggregateTestCase.test_dates_with_aggregation aggregation.tests.AggregateTestCase.test_decimal_max_digits_has_no_effect aggregation.tests.AggregateTestCase.test_empty_aggregate aggregation.tests.AggregateTestCase.test_even_more_aggregate aggregation.tests.AggregateTestCase.test_expression_on_aggregation aggregation.tests.AggregateTestCase.test_filter_aggregate aggregation.tests.AggregateTestCase.test_filtering aggregation.tests.AggregateTestCase.test_fkey_aggregate aggregation.tests.AggregateTestCase.test_grouped_annotation_in_group_by aggregation.tests.AggregateTestCase.test_missing_output_field_raises_error aggregation.tests.AggregateTestCase.test_more_aggregation aggregation.tests.AggregateTestCase.test_multi_arg_aggregate aggregation.tests.AggregateTestCase.test_multiple_aggregates aggregation.tests.AggregateTestCase.test_non_grouped_annotation_not_in_group_by aggregation.tests.AggregateTestCase.test_nonaggregate_aggregation_throws aggregation.tests.AggregateTestCase.test_nonfield_annotation aggregation.tests.AggregateTestCase.test_order_of_precedence aggregation.tests.AggregateTestCase.test_related_aggregate aggregation.tests.AggregateTestCase.test_reverse_fkey_annotate aggregation.tests.AggregateTestCase.test_single_aggregate aggregation.tests.AggregateTestCase.test_sum_distinct_aggregate aggregation.tests.AggregateTestCase.test_sum_duration_field aggregation.tests.AggregateTestCase.test_ticket11881 aggregation.tests.AggregateTestCase.test_ticket12886 aggregation.tests.AggregateTestCase.test_ticket17424 aggregation.tests.AggregateTestCase.test_values_aggregation aggregation.tests.AggregateTestCase.test_values_annotation_with_expression
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [71]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: Aggregate.as_sql
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for Aggregate...
+    ⚠️  No patterns found for Aggregate
+ℹ️  No test patterns found for Aggregate, trying signature extraction...
+  ✅ Pattern-based test generated!
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: django (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/django__django:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/django/django__django-10880.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=django --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [71]
+   Uncovered lines: []
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 3 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+    ⚠️  Other test failures: 1 test(s) failed
+       - test_as_sql_boundaries: Unknown error
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: django__django
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✓ GOOD
+Score: 70.6/100
+Time: 170.5s
+============================================================
+
+
+💾 Results saved to: results/django__django-10880.json
+
+Finished: Thu Dec  4 15:54:04 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_3

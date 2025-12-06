@@ -1,0 +1,41 @@
+2025-12-04 10:54:30,159 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for scikit-learn__scikit-learn-25973...
+2025-12-04 10:54:30,163 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-04 10:54:30,164 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-25973.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25973:latest
+2025-12-04 10:57:27,182 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 10:54:53  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:54:53  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2499285695/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 10:55:18  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:55:18  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2499285695/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498: unpack entry: usr/lib/python3.10/unittest/result.py: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2499285695/rootfs/usr/lib/python3.10/unittest/result.py: disk quota exceeded
+
+2025-12-04 10:57:27,182 - swebench_singularity.singularity_builder - INFO - Retry attempt 2/3 for scikit-learn__scikit-learn-25973
+2025-12-04 10:57:32,183 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-25973.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25973:latest
+2025-12-04 11:00:20,848 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 10:57:33  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:57:33  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2381248335/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 10:57:58  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 10:57:58  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2381248335/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498: unpack entry: usr/share/X11/locale/vi_VN.viscii/Compose: close unpacked regular file: close /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-2381248335/rootfs/usr/share/X11/locale/vi_VN.viscii/Compose: disk quota exceeded
+
+2025-12-04 11:00:20,848 - swebench_singularity.singularity_builder - INFO - Retry attempt 3/3 for scikit-learn__scikit-learn-25973
+2025-12-04 11:00:30,849 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/scikit-learn__scikit-learn-25973.sif docker://docker.io/swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-25973:latest
+2025-12-04 11:03:14,199 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/04 11:00:31  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 11:00:31  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-4248958973/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/04 11:00:55  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/04 11:00:55  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-4248958973/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498: unpack entry: usr/lib/x86_64-linux-gnu/libubsan.so.1: link: unpriv.symlink: symlink libubsan.so.1.0.0 /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-4248958973/rootfs/usr/lib/x86_64-linux-gnu/libubsan.so.1: disk quota exceeded
+
+2025-12-04 11:03:14,200 - swebench_singularity.singularity_builder - ERROR - Failed to build scikit-learn__scikit-learn-25973 after 3 attempts

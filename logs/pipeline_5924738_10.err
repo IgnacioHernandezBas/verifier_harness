@@ -1,0 +1,24 @@
+/var/spool/slurm/slurmd.spool/job5924738/slurm_script: line 28: /nfshomes/ihbas/miniconda3/etc/profile.d/conda.sh: No such file or directory
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 97, in run
+    repo_path = patcher.clone_repository()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/swebench_integration/patch_loader.py", line 60, in clone_repository
+    shutil.rmtree(temp_dir)
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 752, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 672, in _rmtree_safe_fd
+    _rmtree_safe_fd(dirfd, fullname, onerror)
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 672, in _rmtree_safe_fd
+    _rmtree_safe_fd(dirfd, fullname, onerror)
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 672, in _rmtree_safe_fd
+    _rmtree_safe_fd(dirfd, fullname, onerror)
+  [Previous line repeated 2 more times]
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 703, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 701, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+FileNotFoundError: [Errno 2] No such file or directory: 'HEAD'

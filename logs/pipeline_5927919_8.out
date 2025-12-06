@@ -1,0 +1,99 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5927945
+Array Task ID: 8
+Node: cbcb30
+Started: Wed Dec  3 16:39:32 EST 2025
+
+Processing: scikit-learn__scikit-learn-12973
+
+Available disk space: 85262 GB
+
+Loading instance: scikit-learn__scikit-learn-12973
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn ...
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 41 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 52.8/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1550 lines
+DEBUG: changed_functions: ['fit']
+DEBUG: class_context: {'fit': 'LassoLarsIC'}
+DEBUG: all_changed_lines: 7 lines
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12973.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_fit_copyX_behaviour[False] sklearn/linear_model/tests/test_least_angle.py::test_simple sklearn/linear_model/tests/test_least_angle.py::test_simple_precomputed sklearn/linear_model/tests/test_least_angle.py::test_all_precomputed sklearn/linear_model/tests/test_least_angle.py::test_lars_lstsq sklearn/linear_model/tests/test_least_angle.py::test_lasso_gives_lstsq_solution sklearn/linear_model/tests/test_least_angle.py::test_collinearity sklearn/linear_model/tests/test_least_angle.py::test_no_path sklearn/linear_model/tests/test_least_angle.py::test_no_path_precomputed sklearn/linear_model/tests/test_least_angle.py::test_no_path_all_precomputed sklearn/linear_model/tests/test_least_angle.py::test_lars_precompute[Lars] sklearn/linear_model/tests/test_least_angle.py::test_lars_precompute[LarsCV] sklearn/linear_model/tests/test_least_angle.py::test_lars_precompute[LassoLarsIC] sklearn/linear_model/tests/test_least_angle.py::test_singular_matrix sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_lasso_cd sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_lasso_cd_early_stopping sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_path_length sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_lasso_cd_ill_conditioned sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_lasso_cd_ill_conditioned2 sklearn/linear_model/tests/test_least_angle.py::test_lars_add_features sklearn/linear_model/tests/test_least_angle.py::test_lars_n_nonzero_coefs sklearn/linear_model/tests/test_least_angle.py::test_multitarget sklearn/linear_model/tests/test_least_angle.py::test_lars_cv sklearn/linear_model/tests/test_least_angle.py::test_lars_cv_max_iter sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_ic sklearn/linear_model/tests/test_least_angle.py::test_lars_path_readonly_data sklearn/linear_model/tests/test_least_angle.py::test_lars_path_positive_constraint sklearn/linear_model/tests/test_least_angle.py::test_estimatorclasses_positive_constraint sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_lasso_cd_positive sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_vs_R_implementation sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_copyX_behaviour[True] sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_copyX_behaviour[False] sklearn/linear_model/tests/test_least_angle.py::test_lasso_lars_fit_copyX_behaviour[True]
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 42.9%
+   Covered lines: [1482, 1503, 1504]
+   Uncovered lines: [1493, 1494, 1495, 1508]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn
+DEBUG: Generating tests for 1 functions
+  🔍 Class method detected: LassoLarsIC.fit
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for LassoLarsIC...
+    ✅ Found 2 patterns
+    📊 Top 2 patterns selected
+    🎯 Generated 1 Hypothesis strategies
+    ⚠️  Found 3 params not in patterns: {'X', 'y', 'copy_X'}
+    ➕ Added smart strategy for new param 'X': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    ➕ Added smart strategy for new param 'y': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    ➕ Added smart strategy for new param 'copy_X': st.one_of(st.none(), st.integers(), st.text())...
+    🧪 Generating Hypothesis-based test with 4 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (42 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_8/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=50 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-12973.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 42.9% ⚠️
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ⚠️ WARNING
+Score: 65.1/100
+Time: 130.1s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-12973.json
+
+Finished: Wed Dec  3 16:41:48 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_8

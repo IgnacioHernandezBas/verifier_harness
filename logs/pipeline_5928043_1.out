@@ -1,0 +1,114 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928044
+Array Task ID: 1
+Node: cbcb30
+Started: Wed Dec  3 17:39:42 EST 2025
+
+Processing: scikit-learn__scikit-learn-10297
+
+Available disk space: 85242 GB
+
+Loading instance: scikit-learn__scikit-learn-10297
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/linear_model/ridge.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 40 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 62.1/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1387 lines
+DEBUG: changed_functions: ['__init__']
+DEBUG: class_context: {'__init__': 'RidgeClassifierCV'}
+DEBUG: all_changed_lines: 20 lines
+ℹ️  Using existing C extensions (41 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-10297.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_cv_store_cv_values sklearn/linear_model/tests/test_ridge.py::test_ridge sklearn/linear_model/tests/test_ridge.py::test_primal_dual_relationship sklearn/linear_model/tests/test_ridge.py::test_ridge_singular sklearn/linear_model/tests/test_ridge.py::test_ridge_regression_sample_weights sklearn/linear_model/tests/test_ridge.py::test_ridge_sample_weights sklearn/linear_model/tests/test_ridge.py::test_ridge_shapes sklearn/linear_model/tests/test_ridge.py::test_ridge_intercept sklearn/linear_model/tests/test_ridge.py::test_toy_ridge_object sklearn/linear_model/tests/test_ridge.py::test_ridge_vs_lstsq sklearn/linear_model/tests/test_ridge.py::test_ridge_individual_penalties sklearn/linear_model/tests/test_ridge.py::test_ridge_cv_sparse_svd sklearn/linear_model/tests/test_ridge.py::test_ridge_sparse_svd sklearn/linear_model/tests/test_ridge.py::test_class_weights sklearn/linear_model/tests/test_ridge.py::test_class_weight_vs_sample_weight sklearn/linear_model/tests/test_ridge.py::test_class_weights_cv sklearn/linear_model/tests/test_ridge.py::test_ridgecv_store_cv_values sklearn/linear_model/tests/test_ridge.py::test_ridgecv_sample_weight sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_sample_weights_greater_than_1d sklearn/linear_model/tests/test_ridge.py::test_sparse_design_with_sample_weights sklearn/linear_model/tests/test_ridge.py::test_raises_value_error_if_solver_not_supported sklearn/linear_model/tests/test_ridge.py::test_sparse_cg_max_iter sklearn/linear_model/tests/test_ridge.py::test_n_iter sklearn/linear_model/tests/test_ridge.py::test_ridge_fit_intercept_sparse sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_helper sklearn/linear_model/tests/test_ridge.py::test_errors_and_values_svd_helper sklearn/linear_model/tests/test_ridge.py::test_ridge_classifier_no_support_multilabel sklearn/linear_model/tests/test_ridge.py::test_dtype_match sklearn/linear_model/tests/test_ridge.py::test_dtype_match_cholesky
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 20.0%
+   Covered lines: [1313, 1314, 1315, 1345]
+   Uncovered lines: [1215, 1216, 1223, 1224, 1225, 1226, 1304, 1305, 1306, 1307, 1308, 1309, 1312, 1316, 1341, 1342]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: RidgeClassifierCV.__init__
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for RidgeClassifierCV...
+    ✅ Found 4 patterns
+    📊 Top 3 patterns selected
+    🎯 Generated 3 Hypothesis strategies
+    ⚠️  Found 4 params not in patterns: {'normalize', 'fit_intercept', 'cv', 'scoring'}
+    ➕ Added smart strategy for new param 'normalize': st.booleans()...
+    ➕ Added smart strategy for new param 'fit_intercept': st.booleans()...
+    ➕ Added smart strategy for new param 'cv': st.one_of(st.none(), st.integers(), st.text())...
+    ➕ Added smart strategy for new param 'scoring': st.one_of(st.none(), st.integers(), st.text())...
+    🧪 Generating Hypothesis-based test with 7 total strategies
+    🔬 Detected sklearn-like class, adding integration test with fit/predict
+    ✅ Added sklearn integration test
+  ✅ Pattern-based test generated!
+DEBUG: Generated 3 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (41 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-10297.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 15.0%
+   Covered lines: [1313, 1314, 1315]
+   Uncovered lines: [1215, 1216, 1223, 1224, 1225, 1226, 1304, 1305, 1306, 1307, 1308, 1309, 1312, 1316, 1341, 1342, 1345]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 3 tests
+    Coverage: 20.0% ⚠️
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ⚠️ WARNING
+Score: 80.6/100
+Time: 113.4s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-10297.json
+
+Finished: Wed Dec  3 17:41:46 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_1

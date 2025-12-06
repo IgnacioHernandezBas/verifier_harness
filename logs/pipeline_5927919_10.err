@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 100, in run
+    repo_path = patcher.clone_repository()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/swebench_integration/patch_loader.py", line 60, in clone_repository
+    shutil.rmtree(temp_dir)
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 763, in rmtree
+    onerror(os.rmdir, path, sys.exc_info())
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/shutil.py", line 761, in rmtree
+    os.rmdir(path, dir_fd=dir_fd)
+OSError: [Errno 39] Directory not empty: '/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_10/scikit-learn__scikit-learn'

@@ -1,0 +1,134 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930045
+Array Task ID: 1
+Node: cbcb30
+Started: Fri Dec  5 10:04:16 EST 2025
+
+Processing: pytest-dev__pytest-10051
+
+Available disk space: 85109 GB
+
+Loading instance: pytest-dev__pytest-10051
+Repo: pytest-dev/pytest
+
+[1/5] Setting up repository...
+[+] Cloning pytest-dev/pytest into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest ...
+    → Captured original code: src/_pytest/logging.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 74.7/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 829 lines
+DEBUG: changed_functions: ['clear', 'clear']
+DEBUG: class_context: {'clear': 'LogCaptureFixture'}
+DEBUG: all_changed_lines: 5 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-10051.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered testing/logging/test_fixture.py::test_clear_for_call_stage testing/logging/test_fixture.py::test_change_level testing/logging/test_fixture.py::test_with_statement testing/logging/test_fixture.py::test_log_access testing/logging/test_fixture.py::test_messages testing/logging/test_fixture.py::test_record_tuples testing/logging/test_fixture.py::test_unicode testing/logging/test_fixture.py::test_clear testing/logging/test_fixture.py::test_caplog_captures_for_all_stages testing/logging/test_fixture.py::test_fixture_help testing/logging/test_fixture.py::test_change_level_undo testing/logging/test_fixture.py::test_change_level_undos_handler_level testing/logging/test_fixture.py::test_ini_controls_global_log_level testing/logging/test_fixture.py::test_caplog_can_override_global_log_level testing/logging/test_fixture.py::test_caplog_captures_despite_exception testing/logging/test_fixture.py::test_log_report_captures_according_to_config_option_upon_failure
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/testbed/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/opt/miniconda3/envs/testbed/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/workspace/.pip_packages/pytest/__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 201, in console_main
+    code = main()
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 156, in main
+    config = _prepareconfig(args, plugins)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 342, in _prepareconfig
+    config = pluginmanager.hook.pytest_cmdline_parse(
+  File "/workspace/.pip_packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "/workspace/.pip_packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 167, in _multicall
+    raise exception
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+  File "/workspace/.pip_packages/_pytest/helpconfig.py", line 112, in pytest_cmdline_parse
+    config = yield
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1146, in pytest_cmdline_parse
+    self.parse(args)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1527, in parse
+    self._preparse(args, addopts=addopts)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1431, in _preparse
+    self.hook.pytest_load_initial_conftests(
+  File "/workspace/.pip_packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, 
+
+STDOUT (first 2000 chars):
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 2 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: LogCaptureFixture.clear
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for LogCaptureFixture...
+    ⚠️  No patterns found for LogCaptureFixture
+ℹ️  No test patterns found for LogCaptureFixture, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 1 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_1/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-10051.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: FAIL, Fuzzing: 1 tests
+    Coverage: 0.0% ⚠️
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: pytest-dev__pytest
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 27.4/100
+Time: 26.0s
+============================================================
+
+
+💾 Results saved to: results/pytest-dev__pytest-10051.json
+
+Finished: Fri Dec  5 10:04:52 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_1

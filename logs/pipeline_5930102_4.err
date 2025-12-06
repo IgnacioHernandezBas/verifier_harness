@@ -1,0 +1,19 @@
+2025-12-05 11:02:44,037 - swebench_singularity.singularity_builder - INFO - Resolving Docker image for astropy__astropy-13398...
+2025-12-05 11:02:44,048 - swebench_singularity.singularity_builder - INFO - Docker not available, using direct Singularity build
+2025-12-05 11:02:44,049 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/astropy__astropy-13398.sif docker://docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13398:latest
+2025-12-05 11:07:16,469 - swebench_singularity.singularity_builder - ERROR - Build failed: INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+INFO:    The %post section will be run under the fakeroot command
+INFO:    Starting build...
+INFO:    Fetching OCI image...
+INFO:    Extracting OCI image...
+2025/12/05 11:02:52  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/05 11:02:52  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3044948496/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+2025/12/05 11:03:09  warn xattr{etc/gshadow} ignoring ENOTSUP on setxattr "user.rootlesscontainers"
+2025/12/05 11:03:09  warn xattr{/fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3044948496/rootfs/etc/gshadow} destination filesystem does not support xattrs, further warnings will be suppressed
+FATAL:   While performing build: packer failed to pack: while unpacking rootfs: while unpacking layer sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713: unpack entry: opt/miniconda3/pkgs/ncurses-6.4-h6a678d5_0/share/terminfo/o/oblit: create regular: unpriv.create: open /fs/nexus-scratch/ihbas/.tmp/singularity_build/build-temp-3044948496/rootfs/opt/miniconda3/pkgs/ncurses-6.4-h6a678d5_0/share/terminfo/o/oblit: disk quota exceeded
+
+2025-12-05 11:07:16,469 - swebench_singularity.singularity_builder - INFO - Retry attempt 2/3 for astropy__astropy-13398
+2025-12-05 11:07:21,472 - swebench_singularity.singularity_builder - INFO - Building Singularity image: singularity build --fakeroot /fs/nexus-scratch/ihbas/.tmp/singularity_build/astropy__astropy-13398.sif docker://docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13398:latest
+2025-12-05 11:17:04,708 - swebench_singularity.singularity_builder - INFO - Successfully built astropy__astropy-13398.sif (999.9 MB) in 583.2s
+2025-12-05 11:17:04,710 - swebench_singularity.cache_manager - INFO - Caching astropy__astropy-13398 -> /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13398.sif
+2025-12-05 11:17:09,861 - swebench_singularity.cache_manager - INFO - Cached astropy__astropy-13398 (999.9 MB)

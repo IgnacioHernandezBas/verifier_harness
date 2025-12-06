@@ -1,0 +1,116 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930116
+Array Task ID: 5
+Node: cbcb30
+Started: Fri Dec  5 11:20:24 EST 2025
+
+Processing: astropy__astropy-13453
+
+Available disk space: 85097 GB
+
+Loading instance: astropy__astropy-13453
+Repo: astropy/astropy
+
+[1/5] Setting up repository...
+[+] Cloning astropy/astropy into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy ...
+    → Captured original code: astropy/io/ascii/html.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 17 pre-built C extension files
+✅ pytest-cov already available (version 4.1.0)
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 75.9/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 479 lines
+DEBUG: changed_functions: ['write']
+DEBUG: class_context: {'write': 'HTML'}
+DEBUG: all_changed_lines: 2 lines
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13453.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=astropy --cov-branch --cov-report=term-missing:skip-covered astropy/io/ascii/tests/test_html.py::test_write_table_formatted_columns astropy/io/ascii/tests/test_html.py::test_listwriter astropy/io/ascii/tests/test_html.py::test_htmlinputter_no_bs4 astropy/io/ascii/tests/test_html.py::test_multicolumn_write astropy/io/ascii/tests/test_html.py::test_write_no_multicols astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values_optional_columns astropy/io/ascii/tests/test_html.py::test_write_table_html_fill_values_masked astropy/io/ascii/tests/test_html.py::test_multicolumn_table_html_fill_values astropy/io/ascii/tests/test_html.py::test_multi_column_write_table_html_fill_values_masked
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [352, 358]
+   Uncovered lines: []
+
+   Branch coverage: 0.0%
+   Total branches: 48
+   Covered branches: 0
+   Missing branches: 48
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: HTML.write
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for HTML...
+    ✅ Found 1 patterns
+    📊 Top 1 patterns selected
+    🎯 Generated 1 Hypothesis strategies
+    ⚠️  Found 1 params not in patterns: {'table'}
+    ➕ Added smart strategy for new param 'table': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    🧪 Generating Hypothesis-based test with 2 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy/test_fuzzing_generated.py
+✅ Hypothesis already available (version 6.46.7)
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (17 files)
+📊 Coverage collection enabled for: astropy (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_5/astropy__astropy:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-13453.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=astropy --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 100.0%
+   Covered lines: [352, 358]
+   Uncovered lines: []
+
+   Branch coverage: 0.0%
+   Total branches: 48
+   Covered branches: 0
+   Missing branches: 48
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 100.0% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: astropy__astropy
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 92.8/100
+Time: 1032.4s
+============================================================
+
+
+💾 Results saved to: results/astropy__astropy-13453.json
+
+Finished: Fri Dec  5 11:37:42 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_5

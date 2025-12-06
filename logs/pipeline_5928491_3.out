@@ -1,0 +1,110 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5928494
+Array Task ID: 3
+Node: clip10
+Started: Thu Dec  4 10:12:15 EST 2025
+
+Processing: scikit-learn__scikit-learn-10908
+
+Available disk space: 85096 GB
+
+Loading instance: scikit-learn__scikit-learn-10908
+Repo: scikit-learn/scikit-learn
+
+[1/5] Setting up repository...
+[+] Cloning scikit-learn/scikit-learn into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn ...
+    → Captured original code: sklearn/feature_extraction/text.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (cached)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn
+   Setup files found: setup.py=True, pyproject.toml=False, setup.cfg=True
+   Copying pre-built C extensions from container...
+✅ Successfully copied 40 pre-built C extension files
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 68.4/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 1453 lines
+DEBUG: changed_functions: ['inverse_transform']
+DEBUG: class_context: {'inverse_transform': 'CountVectorizer'}
+DEBUG: all_changed_lines: 3 lines
+ℹ️  Using existing C extensions (41 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-10908.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered sklearn/feature_extraction/tests/test_text.py::test_feature_names sklearn/feature_extraction/tests/test_text.py::test_strip_accents sklearn/feature_extraction/tests/test_text.py::test_to_ascii sklearn/feature_extraction/tests/test_text.py::test_word_analyzer_unigrams sklearn/feature_extraction/tests/test_text.py::test_word_analyzer_unigrams_and_bigrams sklearn/feature_extraction/tests/test_text.py::test_unicode_decode_error sklearn/feature_extraction/tests/test_text.py::test_char_ngram_analyzer sklearn/feature_extraction/tests/test_text.py::test_char_wb_ngram_analyzer sklearn/feature_extraction/tests/test_text.py::test_word_ngram_analyzer sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_custom_vocabulary sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_custom_vocabulary_pipeline sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_custom_vocabulary_repeated_indices sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_custom_vocabulary_gap_index sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_stop_words sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_empty_vocabulary sklearn/feature_extraction/tests/test_text.py::test_fit_countvectorizer_twice sklearn/feature_extraction/tests/test_text.py::test_tf_idf_smoothing sklearn/feature_extraction/tests/test_text.py::test_tfidf_no_smoothing sklearn/feature_extraction/tests/test_text.py::test_sublinear_tf sklearn/feature_extraction/tests/test_text.py::test_vectorizer sklearn/feature_extraction/tests/test_text.py::test_tfidf_vectorizer_setters sklearn/feature_extraction/tests/test_text.py::test_hashing_vectorizer sklearn/feature_extraction/tests/test_text.py::test_vectorizer_max_features sklearn/feature_extraction/tests/test_text.py::test_count_vectorizer_max_features sklearn/feature_extraction/tests/test_text.py::test_vectorizer_max_df sklearn/feature_extraction/tests/test_text.py::test_vectorizer_min_df sklearn/feature_extraction/tests/test_text.py::test_count_binary_occurrences sklearn/feature_extraction/tests/test_text.py::test_hashed_binary_occurrences sklearn/feature_extraction/tests/test_text.py::test_vectorizer_inverse_transform sklearn/feature_extraction/tests/test_text.py::test_count_vectorizer_pipeline_grid_selection sklearn/feature_extraction/tests/test_text.py::test_vectorizer_pipeline_grid_selection sklearn/feature_extraction/tests/test_text.py::test_vectorizer_pipeline_cross_validation sklearn/feature_extraction/tests/test_text.py::test_vectorizer_unicode sklearn/feature_extraction/tests/test_text.py::test_tfidf_vectorizer_with_fixed_vocabulary sklearn/feature_extraction/tests/test_text.py::test_pickling_vectorizer sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_vocab_sets_when_pickling sklearn/feature_extraction/tests/test_text.py::test_countvectorizer_vocab_dicts_when_pickling sklearn/feature_extraction/tests/test_text.py::test_stop_words_removal sklearn/feature_extraction/tests/test_text.py::test_pickling_transformer sklearn/feature_extraction/tests/test_text.py::test_non_unique_vocab sklearn/feature_extraction/tests/test_text.py::test_hashingvectorizer_nan_in_docs sklearn/feature_extraction/tests/test_text.py::test_tfidfvectorizer_binary sklearn/feature_extraction/tests/test_text.py::test_tfidfvectorizer_export_idf sklearn/feature_extraction/tests/test_text.py::test_vectorizer_vocab_clone sklearn/feature_extraction/tests/test_text.py::test_vectorizer_string_object_as_input sklearn/feature_extraction/tests/test_text.py::test_vectorizers_invalid_ngram_range[vec0] sklearn/feature_extraction/tests/test_text.py::test_vectorizers_invalid_ngram_range[vec1] sklearn/feature_extraction/tests/test_text.py::test_vectorizers_invalid_ngram_range[vec2]
+
+✓ Coverage data saved to: .coverage.json
+
+📊 BASELINE COVERAGE:
+   Line coverage: 66.7%
+   Covered lines: [974, 976]
+   Uncovered lines: [975]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: CountVectorizer.inverse_transform
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for CountVectorizer...
+    ✅ Found 31 patterns
+    📊 Top 3 patterns selected
+    🎯 Generated 11 Hypothesis strategies
+    ⚠️  Found 1 params not in patterns: {'X'}
+    ➕ Added smart strategy for new param 'X': st.one_of(st.none(), st.booleans(), st.integers(mi...
+    🧪 Generating Hypothesis-based test with 12 total strategies
+  ✅ Pattern-based test generated!
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+ℹ️  Using existing C extensions (41 files)
+📊 Coverage collection enabled for: sklearn (with branch coverage)
+🧪 Running tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_3/scikit-learn__scikit-learn:/workspace --pwd /workspace --env PYTHONPATH=/workspace/.pip_packages:/workspace --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/scikit-learn/scikit-learn__scikit-learn-10908.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=sklearn --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+✓ Coverage data saved to: .coverage.json
+
+📊 FUZZING COVERAGE:
+   Line coverage: 0.0%
+   Covered lines: []
+   Uncovered lines: [974, 975, 976]
+
+   ℹ️  Branch coverage: N/A (no conditional branches in changed code)
+    Tests: PASS, Fuzzing: 2 tests
+    Coverage: 66.7% ✅
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: scikit-learn__scikit-learn
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ✅ EXCELLENT
+Score: 87.2/100
+Time: 163.9s
+============================================================
+
+
+💾 Results saved to: results/scikit-learn__scikit-learn-10908.json
+
+Finished: Thu Dec  4 10:15:12 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_3

@@ -1,0 +1,3697 @@
+{
+  "instance_id": "matplotlib__matplotlib-20676",
+  "success": true,
+  "repo": "matplotlib/matplotlib",
+  "container_from_cache": true,
+  "enabled_modules": {
+    "static": true,
+    "fuzzing": true,
+    "rules": true
+  },
+  "config": {
+    "static": {
+      "threshold": 0.5
+    },
+    "fuzzing": {
+      "coverage_threshold": 0.5
+    },
+    "rules": {
+      "fail_on_high_severity": true
+    },
+    "verdict_weights": {
+      "static": 30.0,
+      "tests": 40.0,
+      "fuzzing": 15.0,
+      "coverage": 10.0,
+      "rules": 5.0
+    }
+  },
+  "static": {
+    "sqi_score": 67.98,
+    "passed": true,
+    "sqi_breakdown": {},
+    "meta": {
+      "total_loc": 3414,
+      "n_files": 1
+    },
+    "config": {
+      "checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "weights": {
+        "pylint": 0.5,
+        "flake8": 0.15,
+        "radon": 0.25,
+        "mypy": 0.05,
+        "bandit": 0.05
+      }
+    },
+    "analyzers": {
+      "pylint": {
+        "enabled": true,
+        "total_issues": 152,
+        "by_file": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/matplotlib__matplotlib/lib/matplotlib/widgets.py": [
+            {
+              "type": "convention",
+              "symbol": "too-many-lines",
+              "line": 1,
+              "message": "Too many lines in module (3414/1000)",
+              "message_id": "C0302"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 81,
+              "message": "Unused argument 'event'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 112,
+              "message": "Access to a protected member _cids of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 155,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 157,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 159,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 159,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 225,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 232,
+              "message": "Too many instance attributes (10/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 239,
+              "message": "Too many arguments (10/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 239,
+              "message": "Too many positional arguments (10/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 273,
+              "message": "Instance of 'SliderBase' has no '_update' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 274,
+              "message": "Instance of 'SliderBase' has no '_update' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 276,
+              "message": "Instance of 'SliderBase' has no '_update' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 306,
+              "message": "Instance of 'SliderBase' has no 'val' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 306,
+              "message": "Instance of 'SliderBase' has no 'valinit' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 307,
+              "message": "Instance of 'SliderBase' has no 'set_val' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 307,
+              "message": "Instance of 'SliderBase' has no 'valinit' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 310,
+              "message": "Too many instance attributes (12/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 325,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 327,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 329,
+              "message": "Too many arguments (17/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 329,
+              "message": "Too many positional arguments (14/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 329,
+              "message": "Too many local variables (21/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 442,
+              "message": "Variable name \"handleXY\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 457,
+              "message": "Variable name \"handleXY\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "inconsistent-return-statements",
+              "line": 486,
+              "message": "Either all return statements in a function should return an expression, or none of them should.",
+              "message_id": "R1710"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 519,
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 537,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 584,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 587,
+              "message": "Too many instance attributes (9/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 602,
+              "message": "Too many arguments (14/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 602,
+              "message": "Too many positional arguments (14/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 602,
+              "message": "Too many local variables (20/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 712,
+              "message": "Variable name \"handleXY_1\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 713,
+              "message": "Variable name \"handleXY_2\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 722,
+              "message": "Variable name \"handleXY_1\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 723,
+              "message": "Variable name \"handleXY_2\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "warning",
+              "symbol": "redefined-builtin",
+              "line": 779,
+              "message": "Redefining built-in 'min'",
+              "message_id": "W0622"
+            },
+            {
+              "type": "refactor",
+              "symbol": "consider-using-min-builtin",
+              "line": 786,
+              "message": "Consider using 'min = min(min, self.val[1])' instead of unnecessary if block",
+              "message_id": "R1730"
+            },
+            {
+              "type": "warning",
+              "symbol": "redefined-builtin",
+              "line": 790,
+              "message": "Redefining built-in 'max'",
+              "message_id": "W0622"
+            },
+            {
+              "type": "refactor",
+              "symbol": "consider-using-max-builtin",
+              "line": 797,
+              "message": "Consider using 'max = max(max, self.val[0])' instead of unnecessary if block",
+              "message_id": "R1731"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 826,
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 855,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "redefined-builtin",
+              "line": 867,
+              "message": "Redefining built-in 'min'",
+              "message_id": "W0622"
+            },
+            {
+              "type": "warning",
+              "symbol": "redefined-builtin",
+              "line": 877,
+              "message": "Redefining built-in 'max'",
+              "message_id": "W0622"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 938,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 964,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 966,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 968,
+              "message": "Too many local variables (18/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-renamed",
+              "line": 1044,
+              "message": "Parameter 'active' has been renamed to 'index' in overriding 'CheckButtons.set_active' method",
+              "message_id": "W0237"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 1085,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1142,
+              "message": "Attribute name \"DIST_FROM_LEFT\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1092,
+              "message": "Too many instance attributes (10/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1116,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1118,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1120,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 1122,
+              "message": "Too many arguments (7/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 1122,
+              "message": "Too many positional arguments (7/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1178,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1190,
+              "message": "Access to a protected member _cachedRenderer of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-branches",
+              "line": 1212,
+              "message": "Too many branches (15/12)",
+              "message_id": "R0912"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1248,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1258,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "error",
+              "symbol": "too-many-function-args",
+              "line": 1271,
+              "message": "Too many positional arguments for method call",
+              "message_id": "E1121"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1258,
+              "message": "Unused argument 'x'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1279,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1294,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1319,
+              "message": "Unused argument 'event'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 1337,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "warning",
+              "symbol": "unnecessary-lambda",
+              "line": 1346,
+              "message": "Lambda may not be necessary",
+              "message_id": "W0108"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 1264,
+              "message": "Attribute '_on_stop_typing' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 1282,
+              "message": "Attribute '_on_stop_typing' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1434,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1436,
+              "message": "Access to a protected member _observers of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "arguments-renamed",
+              "line": 1451,
+              "message": "Parameter 'active' has been renamed to 'index' in overriding 'RadioButtons.set_active' method",
+              "message_id": "W0237"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1488,
+              "message": "Too many instance attributes (10/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "warning",
+              "symbol": "unbalanced-tuple-unpacking",
+              "line": 1518,
+              "message": "Possible unbalanced tuple unpacking with sequence defined at line 1508: left side has 6 labels, right side has 0 values",
+              "message_id": "W0632"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1548,
+              "message": "Access to a protected member _setattr_cm of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1551,
+              "message": "Access to a protected member _setattr_cm of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1596,
+              "message": "Attribute name \"horizOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1597,
+              "message": "Attribute name \"vertOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1560,
+              "message": "Too many instance attributes (8/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1682,
+              "message": "Attribute name \"horizOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1683,
+              "message": "Attribute name \"vertOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1654,
+              "message": "Too many instance attributes (12/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1677,
+              "message": "Argument name \"horizOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1677,
+              "message": "Argument name \"vertOn\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 1677,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 1677,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 1733,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "invalid-name",
+              "line": 1787,
+              "message": "Attribute name \"validButtons\" doesn't conform to snake_case naming style",
+              "message_id": "C0103"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1768,
+              "message": "Too many instance attributes (11/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 1770,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 1770,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 1779,
+              "message": "Consider using '{\"move\": ' ', \"clear\": 'escape', \"square\": 'shift', \"center\": 'control', ... }' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1820,
+              "message": "Access to a protected member _cm_set of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-argument",
+              "line": 1807,
+              "message": "Unused argument 'event'",
+              "message_id": "W0613"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 1864,
+              "message": "Access to a protected member _cachedRenderer of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 1991,
+              "message": "Too many instance attributes (20/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 2069,
+              "message": "Too many arguments (13/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 2069,
+              "message": "Too many positional arguments (13/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2077,
+              "message": "Consider using '{\"facecolor\": 'red', \"alpha\": 0.5}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2105,
+              "message": "Consider using '{\"color\": rectprops.get('facecolor', 'r')}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 2106,
+              "message": "Class 'Line2D' has no '_alias_map' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 2126,
+              "message": "Access to a protected member _interactive of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "unnecessary-comprehension",
+              "line": 2168,
+              "message": "Unnecessary use of a comprehension, use list(self._edge_handles.artists) instead.",
+              "message_id": "R1721"
+            },
+            {
+              "type": "warning",
+              "symbol": "protected-access",
+              "line": 2220,
+              "message": "Access to a protected member _line_props of a client class",
+              "message_id": "W0212"
+            },
+            {
+              "type": "refactor",
+              "symbol": "inconsistent-return-statements",
+              "line": 2224,
+              "message": "Either all return statements in a function should return an expression, or none of them should.",
+              "message_id": "R1710"
+            },
+            {
+              "type": "error",
+              "symbol": "access-member-before-definition",
+              "line": 2210,
+              "message": "Access to member '_direction' before its definition line 2217",
+              "message_id": "E0203"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 2363,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 2363,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 2464,
+              "message": "Too many arguments (7/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 2464,
+              "message": "Too many positional arguments (7/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 2469,
+              "message": "Class 'Line2D' has no '_alias_map' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 2475,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 2479,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 2489,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 2492,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 2506,
+              "message": "Too many instance attributes (19/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 2521,
+              "message": "Too many arguments (16/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 2521,
+              "message": "Too many positional arguments (16/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 2521,
+              "message": "Too many local variables (22/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2622,
+              "message": "Consider using '{\"facecolor\": 'red', \"edgecolor\": 'black', \"alpha\": 0.2, \"fill\": True, ... }' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2636,
+              "message": "Consider using '{\"color\": 'black', \"linestyle\": '-', \"linewidth\": 2, \"alpha\": 0.5}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2654,
+              "message": "Consider using '{\"markeredgecolor\": 'r'}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 2656,
+              "message": "Consider using '{\"markeredgecolor\": rectprops.get('edgecolor', 'r')}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "error",
+              "symbol": "no-member",
+              "line": 2657,
+              "message": "Class 'Line2D' has no '_alias_map' member",
+              "message_id": "E1101"
+            },
+            {
+              "type": "error",
+              "symbol": "possibly-used-before-assignment",
+              "line": 2747,
+              "message": "Possibly using variable 'spanx' before assignment",
+              "message_id": "E0606"
+            },
+            {
+              "type": "error",
+              "symbol": "possibly-used-before-assignment",
+              "line": 2748,
+              "message": "Possibly using variable 'spany' before assignment",
+              "message_id": "E0606"
+            },
+            {
+              "type": "refactor",
+              "symbol": "inconsistent-return-statements",
+              "line": 2717,
+              "message": "Either all return statements in a function should return an expression, or none of them should.",
+              "message_id": "R1710"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 2818,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "warning",
+              "symbol": "unused-variable",
+              "line": 2901,
+              "message": "Unused variable 'm_idx'",
+              "message_id": "W0612"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 2948,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-locals",
+              "line": 2995,
+              "message": "Too many local variables (16/15)",
+              "message_id": "R0914"
+            },
+            {
+              "type": "refactor",
+              "symbol": "no-else-return",
+              "line": 3015,
+              "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+              "message_id": "R1705"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 3061,
+              "message": "Too many arguments (6/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 3061,
+              "message": "Too many positional arguments (6/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 3066,
+              "message": "Consider using '{}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 3073,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 3080,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-instance-attributes",
+              "line": 3101,
+              "message": "Too many instance attributes (10/7)",
+              "message_id": "R0902"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-arguments",
+              "line": 3150,
+              "message": "Too many arguments (7/5)",
+              "message_id": "R0913"
+            },
+            {
+              "type": "refactor",
+              "symbol": "too-many-positional-arguments",
+              "line": 3150,
+              "message": "Too many positional arguments (7/5)",
+              "message_id": "R0917"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 3157,
+              "message": "Consider using '{\"clear\": 'escape', \"move_vertex\": 'control', \"move_all\": 'shift'}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 3168,
+              "message": "Consider using '{\"color\": 'k', \"linestyle\": '-', \"linewidth\": 2, \"alpha\": 0.5}' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "refactor",
+              "symbol": "use-dict-literal",
+              "line": 3174,
+              "message": "Consider using '{\"markeredgecolor\": 'k', \"markerfacecolor\": lineprops.get('color', 'k'), ... }' instead of a call to 'dict'.",
+              "message_id": "R1735"
+            },
+            {
+              "type": "convention",
+              "symbol": "consider-using-enumerate",
+              "line": 3277,
+              "message": "Consider using enumerate instead of iterating with range and len",
+              "message_id": "C0200"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 3223,
+              "message": "Attribute '_xs_at_press' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "warning",
+              "symbol": "attribute-defined-outside-init",
+              "line": 3223,
+              "message": "Attribute '_ys_at_press' defined outside __init__",
+              "message_id": "W0201"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 3385,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            },
+            {
+              "type": "convention",
+              "symbol": "missing-function-docstring",
+              "line": 3396,
+              "message": "Missing function or method docstring",
+              "message_id": "C0116"
+            }
+          ]
+        }
+      },
+      "flake8": {
+        "enabled": true,
+        "total_issues": 16,
+        "issues": [
+          {
+            "line": 522,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 523,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1039,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1219,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1234,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1239,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 1859,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2127,
+            "code": "E123",
+            "message": "closing bracket does not match indentation of opening bracket's line"
+          },
+          {
+            "line": 2437,
+            "code": "E123",
+            "message": "closing bracket does not match indentation of opening bracket's line"
+          },
+          {
+            "line": 2442,
+            "code": "E123",
+            "message": "closing bracket does not match indentation of opening bracket's line"
+          },
+          {
+            "line": 2771,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 2772,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 3192,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 3193,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 3305,
+            "code": "W504",
+            "message": "line break after binary operator"
+          },
+          {
+            "line": 3315,
+            "code": "W504",
+            "message": "line break after binary operator"
+          }
+        ]
+      },
+      "radon": {
+        "enabled": true,
+        "avg_mi": 0.0,
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/matplotlib__matplotlib/lib/matplotlib/widgets.py": [
+            {
+              "name": "_keypress",
+              "complexity": 16,
+              "lineno": 1212
+            },
+            {
+              "name": "_onmove",
+              "complexity": 15,
+              "lineno": 2760
+            },
+            {
+              "name": "_update",
+              "complexity": 12,
+              "lineno": 817
+            },
+            {
+              "name": "_onmove",
+              "complexity": 12,
+              "lineno": 3262
+            },
+            {
+              "name": "_value_in_bounds",
+              "complexity": 11,
+              "lineno": 486
+            },
+            {
+              "name": "_update",
+              "complexity": 11,
+              "lineno": 510
+            },
+            {
+              "name": "__init__",
+              "complexity": 10,
+              "lineno": 329
+            },
+            {
+              "name": "ignore",
+              "complexity": 10,
+              "lineno": 1837
+            },
+            {
+              "name": "_onmove",
+              "complexity": 10,
+              "lineno": 2244
+            },
+            {
+              "name": "_release",
+              "complexity": 10,
+              "lineno": 2717
+            },
+            {
+              "name": "_set_active_handle",
+              "complexity": 10,
+              "lineno": 2896
+            },
+            {
+              "name": "_release",
+              "complexity": 10,
+              "lineno": 3225
+            },
+            {
+              "name": "onmove",
+              "complexity": 9,
+              "lineno": 1733
+            },
+            {
+              "name": "_clicked",
+              "complexity": 8,
+              "lineno": 1438
+            },
+            {
+              "name": "onmove",
+              "complexity": 8,
+              "lineno": 1617
+            },
+            {
+              "name": "__init__",
+              "complexity": 8,
+              "lineno": 2521
+            },
+            {
+              "name": "Slider",
+              "complexity": 7,
+              "lineno": 310
+            },
+            {
+              "name": "_clicked",
+              "complexity": 7,
+              "lineno": 1035
+            },
+            {
+              "name": "__init__",
+              "complexity": 7,
+              "lineno": 1677
+            },
+            {
+              "name": "_update",
+              "complexity": 7,
+              "lineno": 1753
+            },
+            {
+              "name": "update_background",
+              "complexity": 7,
+              "lineno": 1807
+            },
+            {
+              "name": "on_key_press",
+              "complexity": 7,
+              "lineno": 1954
+            },
+            {
+              "name": "_press",
+              "complexity": 7,
+              "lineno": 2170
+            },
+            {
+              "name": "__init__",
+              "complexity": 6,
+              "lineno": 602
+            },
+            {
+              "name": "_click",
+              "complexity": 6,
+              "lineno": 1305
+            },
+            {
+              "name": "set_active",
+              "complexity": 6,
+              "lineno": 1451
+            },
+            {
+              "name": "MultiCursor",
+              "complexity": 6,
+              "lineno": 1654
+            },
+            {
+              "name": "update",
+              "complexity": 6,
+              "lineno": 1862
+            },
+            {
+              "name": "direction",
+              "complexity": 6,
+              "lineno": 2207
+            },
+            {
+              "name": "_press",
+              "complexity": 6,
+              "lineno": 2693
+            },
+            {
+              "name": "onmove",
+              "complexity": 6,
+              "lineno": 3396
+            },
+            {
+              "name": "_click",
+              "complexity": 5,
+              "lineno": 197
+            },
+            {
+              "name": "_release",
+              "complexity": 5,
+              "lineno": 203
+            },
+            {
+              "name": "_motion",
+              "complexity": 5,
+              "lineno": 210
+            },
+            {
+              "name": "__init__",
+              "complexity": 5,
+              "lineno": 239
+            },
+            {
+              "name": "set_val",
+              "complexity": 5,
+              "lineno": 887
+            },
+            {
+              "name": "_motion",
+              "complexity": 5,
+              "lineno": 1322
+            },
+            {
+              "name": "RadioButtons",
+              "complexity": 5,
+              "lineno": 1353
+            },
+            {
+              "name": "SubplotTool",
+              "complexity": 5,
+              "lineno": 1488
+            },
+            {
+              "name": "Cursor",
+              "complexity": 5,
+              "lineno": 1560
+            },
+            {
+              "name": "on_key_release",
+              "complexity": 5,
+              "lineno": 1972
+            },
+            {
+              "name": "SpanSelector",
+              "complexity": 5,
+              "lineno": 1991
+            },
+            {
+              "name": "new_axes",
+              "complexity": 5,
+              "lineno": 2131
+            },
+            {
+              "name": "_set_active_handle",
+              "complexity": 5,
+              "lineno": 2295
+            },
+            {
+              "name": "RectangleSelector",
+              "complexity": 5,
+              "lineno": 2506
+            },
+            {
+              "name": "PolygonSelector",
+              "complexity": 5,
+              "lineno": 3101
+            },
+            {
+              "name": "_remove_vertex",
+              "complexity": 5,
+              "lineno": 3190
+            },
+            {
+              "name": "_press",
+              "complexity": 5,
+              "lineno": 3213
+            },
+            {
+              "name": "_on_key_release",
+              "complexity": 5,
+              "lineno": 3310
+            },
+            {
+              "name": "_draw_polygon",
+              "complexity": 5,
+              "lineno": 3328
+            },
+            {
+              "name": "Lasso",
+              "complexity": 5,
+              "lineno": 3349
+            },
+            {
+              "name": "Button",
+              "complexity": 4,
+              "lineno": 135
+            },
+            {
+              "name": "SliderBase",
+              "complexity": 4,
+              "lineno": 232
+            },
+            {
+              "name": "_stepped_value",
+              "complexity": 4,
+              "lineno": 279
+            },
+            {
+              "name": "set_val",
+              "complexity": 4,
+              "lineno": 544
+            },
+            {
+              "name": "RangeSlider",
+              "complexity": 4,
+              "lineno": 587
+            },
+            {
+              "name": "_min_in_bounds",
+              "complexity": 4,
+              "lineno": 779
+            },
+            {
+              "name": "_max_in_bounds",
+              "complexity": 4,
+              "lineno": 790
+            },
+            {
+              "name": "CheckButtons",
+              "complexity": 4,
+              "lineno": 941
+            },
+            {
+              "name": "__init__",
+              "complexity": 4,
+              "lineno": 968
+            },
+            {
+              "name": "set_active",
+              "complexity": 4,
+              "lineno": 1044
+            },
+            {
+              "name": "TextBox",
+              "complexity": 4,
+              "lineno": 1092
+            },
+            {
+              "name": "_rendercursor",
+              "complexity": 4,
+              "lineno": 1181
+            },
+            {
+              "name": "begin_typing",
+              "complexity": 4,
+              "lineno": 1258
+            },
+            {
+              "name": "stop_typing",
+              "complexity": 4,
+              "lineno": 1279
+            },
+            {
+              "name": "__init__",
+              "complexity": 4,
+              "lineno": 1493
+            },
+            {
+              "name": "_on_reset",
+              "complexity": 4,
+              "lineno": 1543
+            },
+            {
+              "name": "clear",
+              "complexity": 4,
+              "lineno": 1723
+            },
+            {
+              "name": "_SelectorWidget",
+              "complexity": 4,
+              "lineno": 1768
+            },
+            {
+              "name": "__init__",
+              "complexity": 4,
+              "lineno": 1770
+            },
+            {
+              "name": "press",
+              "complexity": 4,
+              "lineno": 1902
+            },
+            {
+              "name": "__init__",
+              "complexity": 4,
+              "lineno": 2363
+            },
+            {
+              "name": "closest",
+              "complexity": 4,
+              "lineno": 2419
+            },
+            {
+              "name": "_on_key_press",
+              "complexity": 4,
+              "lineno": 3300
+            },
+            {
+              "name": "onrelease",
+              "complexity": 4,
+              "lineno": 3385
+            },
+            {
+              "name": "_update_val_from_pos",
+              "complexity": 3,
+              "lineno": 805
+            },
+            {
+              "name": "_release",
+              "complexity": 3,
+              "lineno": 1205
+            },
+            {
+              "name": "set_val",
+              "complexity": 3,
+              "lineno": 1248
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 1376
+            },
+            {
+              "name": "_on_slider_changed",
+              "complexity": 3,
+              "lineno": 1536
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 1588
+            },
+            {
+              "name": "clear",
+              "complexity": 3,
+              "lineno": 1608
+            },
+            {
+              "name": "_update",
+              "complexity": 3,
+              "lineno": 1642
+            },
+            {
+              "name": "release",
+              "complexity": 3,
+              "lineno": 1920
+            },
+            {
+              "name": "onmove",
+              "complexity": 3,
+              "lineno": 1935
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 2069
+            },
+            {
+              "name": "_setup_edge_handle",
+              "complexity": 3,
+              "lineno": 2158
+            },
+            {
+              "name": "_release",
+              "complexity": 3,
+              "lineno": 2224
+            },
+            {
+              "name": "_draw_shape",
+              "complexity": 3,
+              "lineno": 2285
+            },
+            {
+              "name": "ToolLineHandles",
+              "complexity": 3,
+              "lineno": 2347
+            },
+            {
+              "name": "positions",
+              "complexity": 3,
+              "lineno": 2380
+            },
+            {
+              "name": "set_data",
+              "complexity": 3,
+              "lineno": 2390
+            },
+            {
+              "name": "_draw_shape",
+              "complexity": 3,
+              "lineno": 2875
+            },
+            {
+              "name": "EllipseSelector",
+              "complexity": 3,
+              "lineno": 2956
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 3150
+            },
+            {
+              "name": "__init__",
+              "complexity": 3,
+              "lineno": 3370
+            },
+            {
+              "name": "LockDraw",
+              "complexity": 2,
+              "lineno": 24
+            },
+            {
+              "name": "__call__",
+              "complexity": 2,
+              "lineno": 37
+            },
+            {
+              "name": "release",
+              "complexity": 2,
+              "lineno": 43
+            },
+            {
+              "name": "available",
+              "complexity": 2,
+              "lineno": 49
+            },
+            {
+              "name": "Widget",
+              "complexity": 2,
+              "lineno": 62
+            },
+            {
+              "name": "AxesWidget",
+              "complexity": 2,
+              "lineno": 90
+            },
+            {
+              "name": "disconnect_events",
+              "complexity": 2,
+              "lineno": 129
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 159
+            },
+            {
+              "name": "reset",
+              "complexity": 2,
+              "lineno": 304
+            },
+            {
+              "name": "_format",
+              "complexity": 2,
+              "lineno": 535
+            },
+            {
+              "name": "_format",
+              "complexity": 2,
+              "lineno": 853
+            },
+            {
+              "name": "get_status",
+              "complexity": 2,
+              "lineno": 1073
+            },
+            {
+              "name": "position_cursor",
+              "complexity": 2,
+              "lineno": 1294
+            },
+            {
+              "name": "set_active",
+              "complexity": 2,
+              "lineno": 1802
+            },
+            {
+              "name": "_get_data",
+              "complexity": 2,
+              "lineno": 1878
+            },
+            {
+              "name": "_clean_event",
+              "complexity": 2,
+              "lineno": 1886
+            },
+            {
+              "name": "on_scroll",
+              "complexity": 2,
+              "lineno": 1946
+            },
+            {
+              "name": "set_visible",
+              "complexity": 2,
+              "lineno": 1984
+            },
+            {
+              "name": "extents",
+              "complexity": 2,
+              "lineno": 2326
+            },
+            {
+              "name": "extents",
+              "complexity": 2,
+              "lineno": 2337
+            },
+            {
+              "name": "set_visible",
+              "complexity": 2,
+              "lineno": 2404
+            },
+            {
+              "name": "set_animated",
+              "complexity": 2,
+              "lineno": 2409
+            },
+            {
+              "name": "remove",
+              "complexity": 2,
+              "lineno": 2414
+            },
+            {
+              "name": "ToolHandles",
+              "complexity": 2,
+              "lineno": 2448
+            },
+            {
+              "name": "set_data",
+              "complexity": 2,
+              "lineno": 2482
+            },
+            {
+              "name": "_rect_bbox",
+              "complexity": 2,
+              "lineno": 2817
+            },
+            {
+              "name": "geometry",
+              "complexity": 2,
+              "lineno": 2940
+            },
+            {
+              "name": "_draw_shape",
+              "complexity": 2,
+              "lineno": 2995
+            },
+            {
+              "name": "_rect_bbox",
+              "complexity": 2,
+              "lineno": 3014
+            },
+            {
+              "name": "LassoSelector",
+              "complexity": 2,
+              "lineno": 3027
+            },
+            {
+              "name": "__init__",
+              "complexity": 2,
+              "lineno": 3061
+            },
+            {
+              "name": "_release",
+              "complexity": 2,
+              "lineno": 3083
+            },
+            {
+              "name": "_onmove",
+              "complexity": 2,
+              "lineno": 3091
+            },
+            {
+              "name": "onmove",
+              "complexity": 2,
+              "lineno": 3250
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 34
+            },
+            {
+              "name": "isowner",
+              "complexity": 1,
+              "lineno": 53
+            },
+            {
+              "name": "locked",
+              "complexity": 1,
+              "lineno": 57
+            },
+            {
+              "name": "set_active",
+              "complexity": 1,
+              "lineno": 70
+            },
+            {
+              "name": "get_active",
+              "complexity": 1,
+              "lineno": 74
+            },
+            {
+              "name": "ignore",
+              "complexity": 1,
+              "lineno": 81
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 114
+            },
+            {
+              "name": "connect_event",
+              "complexity": 1,
+              "lineno": 119
+            },
+            {
+              "name": "on_clicked",
+              "complexity": 1,
+              "lineno": 219
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 227
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 293
+            },
+            {
+              "name": "on_changed",
+              "complexity": 1,
+              "lineno": 569
+            },
+            {
+              "name": "_value_in_bounds",
+              "complexity": 1,
+              "lineno": 801
+            },
+            {
+              "name": "set_min",
+              "complexity": 1,
+              "lineno": 867
+            },
+            {
+              "name": "set_max",
+              "complexity": 1,
+              "lineno": 877
+            },
+            {
+              "name": "on_changed",
+              "complexity": 1,
+              "lineno": 923
+            },
+            {
+              "name": "on_clicked",
+              "complexity": 1,
+              "lineno": 1079
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 1087
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 1122
+            },
+            {
+              "name": "text",
+              "complexity": 1,
+              "lineno": 1178
+            },
+            {
+              "name": "_resize",
+              "complexity": 1,
+              "lineno": 1319
+            },
+            {
+              "name": "on_text_change",
+              "complexity": 1,
+              "lineno": 1331
+            },
+            {
+              "name": "on_submit",
+              "complexity": 1,
+              "lineno": 1339
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 1348
+            },
+            {
+              "name": "on_clicked",
+              "complexity": 1,
+              "lineno": 1475
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 1483
+            },
+            {
+              "name": "connect",
+              "complexity": 1,
+              "lineno": 1712
+            },
+            {
+              "name": "disconnect",
+              "complexity": 1,
+              "lineno": 1718
+            },
+            {
+              "name": "connect_default_events",
+              "complexity": 1,
+              "lineno": 1827
+            },
+            {
+              "name": "_press",
+              "complexity": 1,
+              "lineno": 1917
+            },
+            {
+              "name": "_release",
+              "complexity": 1,
+              "lineno": 1932
+            },
+            {
+              "name": "_onmove",
+              "complexity": 1,
+              "lineno": 1943
+            },
+            {
+              "name": "_on_scroll",
+              "complexity": 1,
+              "lineno": 1951
+            },
+            {
+              "name": "_on_key_press",
+              "complexity": 1,
+              "lineno": 1969
+            },
+            {
+              "name": "_on_key_release",
+              "complexity": 1,
+              "lineno": 1981
+            },
+            {
+              "name": "direction",
+              "complexity": 1,
+              "lineno": 2202
+            },
+            {
+              "name": "_contains",
+              "complexity": 1,
+              "lineno": 2321
+            },
+            {
+              "name": "direction",
+              "complexity": 1,
+              "lineno": 2386
+            },
+            {
+              "name": "__init__",
+              "complexity": 1,
+              "lineno": 2464
+            },
+            {
+              "name": "x",
+              "complexity": 1,
+              "lineno": 2475
+            },
+            {
+              "name": "y",
+              "complexity": 1,
+              "lineno": 2479
+            },
+            {
+              "name": "set_visible",
+              "complexity": 1,
+              "lineno": 2489
+            },
+            {
+              "name": "set_animated",
+              "complexity": 1,
+              "lineno": 2492
+            },
+            {
+              "name": "closest",
+              "complexity": 1,
+              "lineno": 2495
+            },
+            {
+              "name": "corners",
+              "complexity": 1,
+              "lineno": 2831
+            },
+            {
+              "name": "edge_centers",
+              "complexity": 1,
+              "lineno": 2839
+            },
+            {
+              "name": "center",
+              "complexity": 1,
+              "lineno": 2849
+            },
+            {
+              "name": "extents",
+              "complexity": 1,
+              "lineno": 2855
+            },
+            {
+              "name": "extents",
+              "complexity": 1,
+              "lineno": 2863
+            },
+            {
+              "name": "_contains",
+              "complexity": 1,
+              "lineno": 2935
+            },
+            {
+              "name": "onpress",
+              "complexity": 1,
+              "lineno": 3073
+            },
+            {
+              "name": "_press",
+              "complexity": 1,
+              "lineno": 3076
+            },
+            {
+              "name": "onrelease",
+              "complexity": 1,
+              "lineno": 3080
+            },
+            {
+              "name": "_nverts",
+              "complexity": 1,
+              "lineno": 3187
+            },
+            {
+              "name": "verts",
+              "complexity": 1,
+              "lineno": 3344
+            }
+          ]
+        }
+      },
+      "mypy": {
+        "enabled": true,
+        "total_errors": 162,
+        "total_issues": 170,
+        "issues": [
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_pylab_helpers.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"figs\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_text_helpers.py",
+            "line_number": 8,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 114,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 178,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 182,
+            "column": 40,
+            "severity": "error",
+            "message": "\"type[JoinStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_enums.py",
+            "line_number": 183,
+            "column": 39,
+            "severity": "error",
+            "message": "\"type[CapStyle]\" has no attribute \"input_description\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/ticker.py",
+            "line_number": 248,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"locs\" (hint: \"locs: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 85,
+            "column": 25,
+            "severity": "error",
+            "message": "Argument 1 to \"update\" of \"MutableMapping\" has incompatible type \"dict[str, tuple[float, float, float]]\"; expected \"SupportsKeysAndGetItem[str, str]\"",
+            "error_code": "arg-type"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/colors.py",
+            "line_number": 418,
+            "column": 13,
+            "severity": "error",
+            "message": "\"dict[str, str]\" has no attribute \"cache\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 735,
+            "column": 30,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_polygons\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/path.py",
+            "line_number": 759,
+            "column": 27,
+            "severity": "error",
+            "message": "Need type annotation for \"_unit_regular_stars\"",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 931,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 936,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 941,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 946,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 951,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 956,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 961,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 966,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 971,
+            "column": 6,
+            "severity": "error",
+            "message": "\"Callable[[BboxBase], Any]\" has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1803,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 1804,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2149,
+            "column": 18,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/transforms.py",
+            "line_number": 2150,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 135,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"setuptools_scm\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 135,
+            "column": 1,
+            "severity": "note",
+            "message": "See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 542,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"_deprecated_map\" (hint: \"_deprecated_map: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 564,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot determine consistent method resolution order (MRO) for \"RcParams\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 564,
+            "column": 1,
+            "severity": "error",
+            "message": "Metaclass conflict: the metaclass of a derived class must be a (non-strict) subclass of the metaclasses of all its bases",
+            "error_code": "metaclass"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 860,
+            "column": 21,
+            "severity": "error",
+            "message": "Module has no attribute \"defaultParams\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/__init__.py",
+            "line_number": 1231,
+            "column": 1,
+            "severity": "error",
+            "message": "\"Callable[[Any, Any, KwArg(Any)], Any]\" has no attribute \"__test__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 130,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 203,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 244,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 348,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 380,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 462,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/scale.py",
+            "line_number": 487,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 57,
+            "column": 13,
+            "severity": "error",
+            "message": "String argument 1 \"DviState\" to enum.Enum(...) does not match variable name \"_dvistate\"",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 829,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dviread.py",
+            "line_number": 983,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 40,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/font_manager.py",
+            "line_number": 41,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"Timer\" already defined (possibly by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 98,
+            "column": 18,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"fset\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 350,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 360,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 370,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 385,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 400,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 430,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 440,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 593,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 594,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 596,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 602,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 603,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 605,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 611,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 612,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 614,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ViewsPositionsBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 620,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 621,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 627,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 628,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 702,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 703,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 705,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 706,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 829,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 830,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 831,
+            "column": 14,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Cursors\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 832,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolToggleBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 892,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 894,
+            "column": 13,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backend_tools.py",
+            "line_number": 932,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"str\", base class \"ToolBase\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/artist.py",
+            "line_number": 1277,
+            "column": 34,
+            "severity": "error",
+            "message": "Incompatible types in string interpolation (expression has type \"Number\", placeholder has type \"int | float\")",
+            "error_code": "str-format"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/style/core.py",
+            "line_number": 213,
+            "column": 1,
+            "severity": "error",
+            "message": "Need type annotation for \"available\" (hint: \"available: list[<type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 26,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"KERNING_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/_mathtext.py",
+            "line_number": 1534,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[_GlueSpec]\" has no attribute \"_named\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/category.py",
+            "line_number": 14,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 49,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_grey_arrayd\" (hint: \"_grey_arrayd: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/texmanager.py",
+            "line_number": 85,
+            "column": 6,
+            "severity": "error",
+            "message": "Unsupported decorated constructor type",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.rrule\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "note",
+            "message": "Hint: \"python3 -m pip install types-python-dateutil\"",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 177,
+            "column": 1,
+            "severity": "note",
+            "message": "(or run \"mypy --install-types\" to install all missing stub packages)",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 180,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.relativedelta\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.parser\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 181,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/dates.py",
+            "line_number": 182,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/mathtext.py",
+            "line_number": 28,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1224,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any, Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 1451,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"Callable[[Any], Any]\", base class \"Collection\" defined the type as \"Callable[[], Any]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/collections.py",
+            "line_number": 2021,
+            "column": 5,
+            "severity": "error",
+            "message": "\"Callable[[QuadMesh, VarArg(Any), KwArg(Any)], Any]\" has no attribute \"__signature__\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 1454,
+            "column": 26,
+            "severity": "error",
+            "message": "Item \"None\" of \"str | None\" has no attribute \"splitlines\"",
+            "error_code": "union-attr"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2236,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 2693,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/patches.py",
+            "line_number": 3128,
+            "column": 5,
+            "severity": "error",
+            "message": "Need type annotation for \"_style_list\" (hint: \"_style_list: dict[<type>, <type>] = ...\")",
+            "error_code": "var-annotated"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 10,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_TARGET_LIGHT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 403,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/textpath.py",
+            "line_number": 411,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1906,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil.tz\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axis.py",
+            "line_number": 1906,
+            "column": 1,
+            "severity": "error",
+            "message": "Library stubs not installed for \"dateutil\"",
+            "error_code": "import-untyped"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_FORCE_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_HINTING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_DEFAULT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 39,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.ft2font\" has no attribute \"LOAD_NO_AUTOHINT\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 44,
+            "column": 1,
+            "severity": "error",
+            "message": "Module \"matplotlib.backends._backend_agg\" has no attribute \"RendererAgg\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_agg.py",
+            "line_number": 553,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/contour.py",
+            "line_number": 1423,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"matplotlib._contour\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 34,
+            "column": 20,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 35,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 36,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"NEAREST\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 37,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BILINEAR\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 38,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"BICUBIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 39,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE16\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 40,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"SPLINE36\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 41,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HANNING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 42,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HAMMING\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 43,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"HERMITE\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 44,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"KAISER\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 45,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"QUADRIC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 46,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"CATROM\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 47,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"GAUSSIAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 48,
+            "column": 15,
+            "severity": "error",
+            "message": "Module has no attribute \"BESSEL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 49,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"MITCHELL\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 50,
+            "column": 13,
+            "severity": "error",
+            "message": "Module has no attribute \"SINC\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 51,
+            "column": 16,
+            "severity": "error",
+            "message": "Module has no attribute \"LANCZOS\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/image.py",
+            "line_number": 52,
+            "column": 17,
+            "severity": "error",
+            "message": "Module has no attribute \"BLACKMAN\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 357,
+            "column": 17,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"list[tuple[str | None, str | None, str | None, str | None]]\", base class \"NavigationToolbar2\" defined the type as \"tuple[tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str], tuple[str, str, str, str], tuple[str, str, str, str], tuple[None, None, None, None], tuple[str, str, str, str]]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg_core.py",
+            "line_number": 509,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAggCore]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/offsetbox.py",
+            "line_number": 216,
+            "column": 6,
+            "severity": "error",
+            "message": "overloaded function has no attribute \"setter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/backends/backend_webagg.py",
+            "line_number": 301,
+            "column": 20,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"type[FigureCanvasWebAgg]\", base class \"_Backend\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 2412,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"e\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axes/_axes.py",
+            "line_number": 3442,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 66,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 72,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/axes/_subplots.py",
+            "line_number": 77,
+            "column": 6,
+            "severity": "error",
+            "message": "Decorators on top of @property are not supported",
+            "error_code": "prop-decorator"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 52,
+            "column": 19,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"tuple[str, str, str]\", base class \"_AxesBase\" defined the type as \"tuple[str, str]\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "error",
+            "message": "All conditional function variants must have identical signatures",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "Original:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(Any, Any, Any, /, filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "Redefinition:",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 2774,
+            "column": 13,
+            "severity": "note",
+            "message": "def voxels(filled: Any, **kwargs: Any) -> Any",
+            "error_code": null
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3183,
+            "column": 9,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3194,
+            "column": 23,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/mpl_toolkits/mplot3d/axes3d.py",
+            "line_number": 3196,
+            "column": 19,
+            "severity": "error",
+            "message": "Assignment to variable \"err\" outside except: block",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 25,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 150,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1501,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1502,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"PolarAffine\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1503,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"InvertedPolarTransform\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1504,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaFormatter\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1505,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"RadialLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/polar.py",
+            "line_number": 1506,
+            "column": 1,
+            "severity": "error",
+            "message": "\"type[PolarAxes]\" has no attribute \"ThetaLocator\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/projections/geo.py",
+            "line_number": 232,
+            "column": 5,
+            "severity": "error",
+            "message": "Incompatible types in assignment (expression has type \"int\", base class \"Transform\" defined the type as \"None\")",
+            "error_code": "assignment"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2068,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2083,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[SubFigure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2304,
+            "column": 6,
+            "severity": "error",
+            "message": "Read-only property cannot override read-write property",
+            "error_code": "misc"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/figure.py",
+            "line_number": 2318,
+            "column": 16,
+            "severity": "error",
+            "message": "\"Callable[[Figure], Any]\" has no attribute \"fget\"",
+            "error_code": "attr-defined"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 1,
+            "severity": "error",
+            "message": "Cannot find implementation or library stub for module named \"dummy_threading\"",
+            "error_code": "import-not-found"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 32,
+            "column": 5,
+            "severity": "error",
+            "message": "Name \"threading\" already defined (by an import)",
+            "error_code": "no-redef"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2466,
+            "column": 30,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, Never]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "repos_temp_4/matplotlib__matplotlib/lib/matplotlib/pyplot.py",
+            "line_number": 2469,
+            "column": 22,
+            "severity": "error",
+            "message": "Invalid index type \"RcParams\" for \"type[dict[_KT, _VT]]\"; expected type \"dict[str, object]\"",
+            "error_code": "index"
+          },
+          {
+            "filename": "Found 162 errors in 36 files (checked 1 source file)",
+            "line_number": null,
+            "column": null,
+            "severity": "info",
+            "message": "Found 162 errors in 36 files (checked 1 source file)",
+            "error_code": null
+          }
+        ]
+      }
+    },
+    "modified_files": [
+      "/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_4/matplotlib__matplotlib/lib/matplotlib/widgets.py"
+    ]
+  },
+  "fuzzing": {
+    "tests_passed": true,
+    "fuzzing_passed": false,
+    "tests_generated": 3,
+    "combined_coverage": 100.0,
+    "baseline_coverage": 100.0,
+    "improvement": 0.0,
+    "passed": true,
+    "divergences_detected": false,
+    "divergence_count": 0,
+    "differential_testing_enabled": true,
+    "details": {
+      "patch_analysis": {
+        "modified_files": [
+          "lib/matplotlib/widgets.py"
+        ],
+        "primary_file": "lib/matplotlib/widgets.py",
+        "total_changed_lines": 6,
+        "module_path": "matplotlib.widgets"
+      },
+      "baseline_tests": {
+        "count": 34,
+        "count_after_filtering": 34,
+        "malformed_tests_filtered": 0,
+        "fail_to_pass": 2,
+        "pass_to_pass": 32,
+        "passed": true,
+        "returncode": 0,
+        "coverage": 100.0,
+        "covered_lines": 6
+      },
+      "fuzzing_tests": {
+        "count": 3,
+        "passed": false,
+        "returncode": 1,
+        "test_failures": [
+          {
+            "test_file": "test_fuzzing_generated.py",
+            "test_name": "test__setup_edge_handle_boundaries",
+            "extra_info": "- NameEr..."
+          }
+        ],
+        "stdout": " 424, 434-444, 450-451, 457-458, 464, 475-485, 491-494, 524-532, 543-544, 557-568, 576-579, 587-590, 602-606, 617, 625-630, 634-635, 639, 648-649, 656-660, 665-671, 679-683, 774-785, 787-795, 799-801, 806, 811, 820, 839-842, 845, 867, 887-903, 924-928, 933-934, 938-939, 943-944, 948-949, 953-954, 958-959, 963-964, 968-969, 973-977, 988, 999, 1010, 1017-1018, 1026-1028, 1034-1036, 1040, 1044, 1049, 1067-1078, 1084-1110, 1113-1118, 1148-1157, 1163-1169, 1172-1177, 1184-1187, 1191-1193, 1200-1203, 1207-1209, 1216-1219, 1223-1225, 1232-1235, 1239-1241, 1315, 1333, 1347, 1359-1366, 1379-1384, 1416-1432, 1438, 1458-1473, 1501, 1526, 1535, 1539, 1543, 1557-1559, 1568, 1578, 1588-1589, 1615-1639, 1675-1677, 1680-1684, 1687, 1693, 1696-1706, 1719-1730, 1732->exit, 1733->exit, 1734->exit, 1744-1745, 1749, 1752-1754, 1758, 1767, 1771, 1775, 1780, 1784, 1808, 1812-1813, 1819-1820, 1823-1827, 1830-1841, 1845-1852, 1870-1875, 1897, 1910-1913, 1925-1926, 1933-1935, 1945, 1952-1954, 1964-1970, 1980, 1990, 2001-2002, 2012-2015, 2028-2038, 2051-2057, 2070, 2082, 2088, 2092, 2096, 2100, 2104, 2108, 2112, 2116, 2120, 2127-2132, 2135, 2163-2167, 2171, 2176, 2178->exit, 2179->exit, 2184, 2188-2212, 2216, 2220-2231, 2256-2269, 2273-2284, 2295-2298, 2320-2329, 2333-2338, 2347-2352, 2356-2360, 2363-2366, 2368->exit, 2369->exit, 2370->exit, 2372->exit, 2379, 2383-2388, 2393-2398, 2403-2406, 2411, 2431-2443, 2447, 2450-2453, 2459-2465, 2486-2492, 2507-2515, 2521-2535, 2551-2558, 2564-2574, 2584-2594, 2605-2612, 2618-2630, 2639-2644, 2650-2656, 2677-2678, 2683-2686, 2708-2714, 2719-2727, 2737-2738, 2746-2747, 2753-2754, 2757, 2772-2780, 2783-2796, 2827-2854, 2873-2876, 2901-2905, 2924-2925, 2948-2959\nlib/matplotlib/tri/__init__.py                             8      8      0      0     0%   5-12\nlib/matplotlib/tri/triangulation.py                       88     88     42      0     0%   1-220\nlib/matplotlib/tri/tricontour.py                          55     55     16      0     0%   1-307\nlib/matplotlib/tri/trifinder.py                           26     26      2      0     0%   1-93\nlib/matplotlib/tri/triinterpolate.py                     539    539     84      0     0%   5-1579\nlib/matplotlib/tri/tripcolor.py                           56     56     24      0     0%   1-131\nlib/matplotlib/tri/triplot.py                             25     25      8      0     0%   1-82\nlib/matplotlib/tri/trirefine.py                           93     93     18      0     0%   5-307\nlib/matplotlib/tri/tritools.py                            77     77     12      0     0%   5-263\nlib/matplotlib/type1font.py                              189    189     91      0     0%   24-347\nlib/matplotlib/units.py                                   71     44     26      0    28%   62-69, 100-105, 117, 122, 132, 143-149, 167-173, 183-207\nlib/matplotlib/widgets.py                               1569   1321    654     13    12%   35, 39-41, 45-47, 51, 55, 59, 72, 76, 87, 112->exit, 115-117, 126-127, 131-132, 154->exit, 156->exit, 176-195, 198-201, 204-208, 211-217, 225, 229, 241-277, 281-291, 302, 306-307, 324->exit, 326->exit, 410-484, 488-508, 512-533, 537-542, 552-567, 584, 683-777, 781-788, 792-799, 803, 807-815, 819-851, 855-865, 875, 885, 895-921, 938, 963->exit, 965->exit, 984-1033, 1036-1042, 1060-1071, 1077, 1085, 1089, 1115->exit, 1117->exit, 1119->exit, 1140-1175, 1179, 1190-1203, 1206-1210, 1213-1246, 1249-1256, 1259-1276, 1280-1292, 1297-1303, 1306-1317, 1320, 1323-1329, 1337, 1346, 1350, 1391-1431, 1433->exit, 1435->exit, 1439-1449, 1457-1473, 1481, 1485, 1503-1534, 1537-1541, 1544-1557, 1590-1606, 1610-1615, 1619-1640, 1643-1651, 1680-1710, 1714-1716, 1720-1721, 1725-1731, 1734-1751, 1754-1765, 1772-1796, 1803-1805, 1811-1825, 1829-1835, 1839-1859, 1864-1876, 1880-1884, 1894-1900, 1904-1915, 1922-1930, 1937-1941, 1948-1949, 1956-1967, 1974-1979, 1986-1988, 2074-2115, 2125->exit, 2133-2156, 2160-2168, 2172-2199, 2204, 2209-2222, 2226-2242, 2248-2283, 2286-2293, 2298-2319, 2323, 2328-2334, 2339-2344, 2365-2377, 2382-2383, 2388, 2400-2402, 2406-2407, 2411-2412, 2416-2417, 2434-2445, 2465-2472, 2476, 2480, 2484-2487, 2490, 2493, 2497-2503, 2603-2683, 2697-2715, 2719-2758, 2763-2814, 2818-2828, 2833-2836, 2841-2846, 2851-2852, 2857-2860, 2865-2871, 2876-2894, 2899-2933, 2937, 2948-2953, 2996-3011, 3015-3024, 3063-3071, 3074, 3077-3078, 3081, 3084-3089, 3092-3098, 3157-3184, 3188, 3192-3211, 3216-3223, 3228-3248, 3256-3260, 3265-3298, 3304-3308, 3314-3326, 3330-3341, 3346, 3371-3383, 3386-3394, 3397-3414\n--------------------------------------------------------------------------------------------------\nTOTAL                                                  66362  63130  18158    153     4%\n\n4 files skipped due to complete coverage.\n\n=========================== short test summary info ============================\nFAILED test_fuzzing_generated.py::test__setup_edge_handle_boundaries - NameEr...\n============= 1 failed, 1 passed, 1 skipped, 4 warnings in 16.64s ==============\n",
+        "stderr": ""
+      },
+      "differential_testing": {
+        "enabled": true,
+        "divergences_detected": false,
+        "divergence_count": 0,
+        "differential_test_failures": 0,
+        "divergence_details": []
+      }
+    }
+  },
+  "rules": {
+    "total_rules": 9,
+    "passed_rules": 9,
+    "failed_rules": 0,
+    "findings_count": 0,
+    "high_severity_count": 0,
+    "medium_severity_count": 0,
+    "low_severity_count": 0,
+    "passed": true,
+    "rule_results": [
+      {
+        "rule_id": "rule_1",
+        "name": "Boundary and Intersection Probing",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "boundary_probes": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_2",
+        "name": "Predicate Influence",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "functions_checked": 0,
+          "files_changed": 1
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_3",
+        "name": "State Transition Tours",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "transitions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_4",
+        "name": "Definition\u2013Use Execution",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_5",
+        "name": "Resource Lifecycle Under Load",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "iterations": 30
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_6",
+        "name": "Robust Exception Paths",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_7",
+        "name": "Transaction Order and Parameter Contracts",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_8",
+        "name": "Structured Input and Conversion Validation",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0
+        },
+        "details": ""
+      },
+      {
+        "rule_id": "rule_9",
+        "name": "Concurrency and Interlock Order Checks",
+        "status": "passed",
+        "findings": [],
+        "metrics": {
+          "files_changed": 1,
+          "functions_checked": 0,
+          "workers": 4,
+          "iterations_per_worker": 5
+        },
+        "details": ""
+      }
+    ],
+    "findings_by_severity": {
+      "high": [],
+      "medium": [],
+      "low": []
+    },
+    "findings_by_taxonomy": {}
+  },
+  "overall_score": 75.394,
+  "verdict": "\u2713 GOOD",
+  "reason": "All checks passed",
+  "elapsed_seconds": 129.1891918182373
+}

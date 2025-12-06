@@ -1,0 +1,13 @@
+/var/spool/slurm/slurmd.spool/job5924740/slurm_script: line 28: /nfshomes/ihbas/miniconda3/etc/profile.d/conda.sh: No such file or directory
+
+CondaError: Run 'conda init' before 'conda activate'
+
+Traceback (most recent call last):
+  File "/fs/nexus-scratch/ihbas/verifier_harness/slurm_worker_integrated.py", line 97, in run
+    repo_path = patcher.clone_repository()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/fs/nexus-scratch/ihbas/verifier_harness/swebench_integration/patch_loader.py", line 70, in clone_repository
+    subprocess.run(
+  File "/fs/nexus-scratch/ihbas/miniconda3/envs/verifier_env/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'clone', '--depth', '1', 'https://github.com/scikit-learn/scikit-learn.git', '/fs/nexus-scratch/ihbas/verifier_harness/repos_temp/scikit-learn__scikit-learn']' returned non-zero exit status 128.

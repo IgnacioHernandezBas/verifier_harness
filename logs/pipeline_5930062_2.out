@@ -1,0 +1,138 @@
+==========================================
+Integrated Pipeline - SLURM Worker
+==========================================
+Job ID: 5930064
+Array Task ID: 2
+Node: cbcb30
+Started: Fri Dec  5 10:22:18 EST 2025
+
+Processing: pytest-dev__pytest-10081
+
+Available disk space: 85105 GB
+
+Loading instance: pytest-dev__pytest-10081
+Repo: pytest-dev/pytest
+
+[1/5] Setting up repository...
+[+] Cloning pytest-dev/pytest into /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest ...
+    → Captured original code: src/_pytest/unittest.py
+  ✓ Test patch applied
+
+[2/5] Building/loading container...
+  ✓ Container ready (built)
+
+[3/5] Installing dependencies...
+📦 Preparing package for testing in: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest
+   Setup files found: setup.py=True, pyproject.toml=True, setup.cfg=True
+   Copying pre-built C extensions from container...
+ℹ️  No C extensions found (pure Python package)
+📦 Installing pytest-cov to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest/.pip_packages...
+✅ pytest-cov installed successfully to .pip_packages/
+  ✓ Dependencies installed
+
+[4/5] Running analysis modules...
+  → Static analysis...
+    SQI: 65.5/100 ✅
+  → Dynamic fuzzing...
+DEBUG: File has 417 lines
+DEBUG: changed_functions: ['runtest']
+DEBUG: class_context: {'runtest': 'TestCaseFunction'}
+DEBUG: all_changed_lines: 4 lines
+    ⚠️  Filtered out 3 malformed test names from dataset:
+       - testing/test_unittest.py::test_setup_inheritance_skipping[test_setup_skip.py-1
+       - testing/test_unittest.py::test_setup_inheritance_skipping[test_setup_skip_class.py-1
+       - testing/test_unittest.py::test_setup_inheritance_skipping[test_setup_skip_module.py-1
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-10081.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -q --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered testing/test_unittest.py::test_pdb_teardown_skipped_for_classes[@unittest.skip] testing/test_unittest.py::test_simple_unittest testing/test_unittest.py::test_runTest_method testing/test_unittest.py::test_isclasscheck_issue53 testing/test_unittest.py::test_setup testing/test_unittest.py::test_setUpModule testing/test_unittest.py::test_setUpModule_failing_no_teardown testing/test_unittest.py::test_new_instances testing/test_unittest.py::test_function_item_obj_is_instance testing/test_unittest.py::test_teardown testing/test_unittest.py::test_teardown_issue1649 testing/test_unittest.py::test_unittest_skip_issue148 testing/test_unittest.py::test_method_and_teardown_failing_reporting testing/test_unittest.py::test_setup_failure_is_shown testing/test_unittest.py::test_setup_setUpClass testing/test_unittest.py::test_fixtures_setup_setUpClass_issue8394 testing/test_unittest.py::test_setup_class testing/test_unittest.py::test_testcase_adderrorandfailure_defers[Error] testing/test_unittest.py::test_testcase_adderrorandfailure_defers[Failure] testing/test_unittest.py::test_testcase_custom_exception_info[Error] testing/test_unittest.py::test_testcase_custom_exception_info[Failure] testing/test_unittest.py::test_testcase_totally_incompatible_exception_info testing/test_unittest.py::test_module_level_pytestmark testing/test_unittest.py::test_djangolike_testcase testing/test_unittest.py::test_unittest_not_shown_in_traceback testing/test_unittest.py::test_unorderable_types testing/test_unittest.py::test_unittest_typerror_traceback testing/test_unittest.py::test_unittest_expected_failure_for_failing_test_is_xfail[pytest] testing/test_unittest.py::test_unittest_expected_failure_for_failing_test_is_xfail[unittest] testing/test_unittest.py::test_unittest_expected_failure_for_passing_test_is_fail[pytest] testing/test_unittest.py::test_unittest_expected_failure_for_passing_test_is_fail[unittest] testing/test_unittest.py::test_unittest_setup_interaction[return] testing/test_unittest.py::test_unittest_setup_interaction[yield] testing/test_unittest.py::test_non_unittest_no_setupclass_support testing/test_unittest.py::test_no_teardown_if_setupclass_failed testing/test_unittest.py::test_cleanup_functions testing/test_unittest.py::test_issue333_result_clearing testing/test_unittest.py::test_unittest_raise_skip_issue748 testing/test_unittest.py::test_unittest_skip_issue1169 testing/test_unittest.py::test_class_method_containing_test_issue1558 testing/test_unittest.py::test_usefixtures_marker_on_unittest[builtins.object] testing/test_unittest.py::test_usefixtures_marker_on_unittest[unittest.TestCase] testing/test_unittest.py::test_testcase_handles_init_exceptions testing/test_unittest.py::test_error_message_with_parametrized_fixtures testing/test_unittest.py::test_BdbQuit testing/test_unittest.py::test_exit_outcome testing/test_unittest.py::test_trace testing/test_unittest.py::test_pdb_teardown_called testing/test_unittest.py::test_pdb_teardown_skipped_for_functions[@unittest.skip] testing/test_unittest.py::test_pdb_teardown_skipped_for_functions[@pytest.mark.skip] testing/test_unittest.py::test_pdb_teardown_skipped_for_classes[@pytest.mark.skip] testing/test_unittest.py::test_async_support testing/test_unittest.py::test_do_class_cleanups_on_success testing/test_unittest.py::test_do_class_cleanups_on_setupclass_failure testing/test_unittest.py::test_do_class_cleanups_on_teardownclass_failure testing/test_unittest.py::test_do_cleanups_on_success testing/test_unittest.py::test_do_cleanups_on_setup_failure testing/test_unittest.py::test_do_cleanups_on_teardown_failure testing/test_unittest.py::test_traceback_pruning testing/test_unittest.py::test_raising_unittest_skiptest_during_collection testing/test_unittest.py::test_plain_unittest_does_not_support_async
+
+⚠️  Coverage database not generated (.coverage file missing)
+
+⚠️  BASELINE TESTS FAILED (returncode=1)
+STDERR (first 2000 chars):
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/testbed/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/opt/miniconda3/envs/testbed/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/workspace/.pip_packages/pytest/__main__.py", line 9, in <module>
+    raise SystemExit(pytest.console_main())
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 201, in console_main
+    code = main()
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 156, in main
+    config = _prepareconfig(args, plugins)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 342, in _prepareconfig
+    config = pluginmanager.hook.pytest_cmdline_parse(
+  File "/workspace/.pip_packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+  File "/workspace/.pip_packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 167, in _multicall
+    raise exception
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+  File "/workspace/.pip_packages/_pytest/helpconfig.py", line 112, in pytest_cmdline_parse
+    config = yield
+  File "/workspace/.pip_packages/pluggy/_callers.py", line 121, in _multicall
+    res = hook_impl.function(*args)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1146, in pytest_cmdline_parse
+    self.parse(args)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1527, in parse
+    self._preparse(args, addopts=addopts)
+  File "/workspace/.pip_packages/_pytest/config/__init__.py", line 1431, in _preparse
+    self.hook.pytest_load_initial_conftests(
+  File "/workspace/.pip_packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, 
+
+STDOUT (first 2000 chars):
+
+DEBUG: Initializing test generator with repo_path=/fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest
+    ✓ Original code available for differential testing
+DEBUG: Generating tests for 1 functions
+DEBUG: Differential testing enabled (comparing original vs patched)
+  🔍 Class method detected: TestCaseFunction.runtest
+  📚 Pattern learner available, attempting pattern learning...
+    🔍 Learning patterns for TestCaseFunction...
+    ⚠️  No patterns found for TestCaseFunction
+ℹ️  No test patterns found for TestCaseFunction, trying signature extraction...
+  ⚠️  Pattern learning returned nothing
+  ℹ️  Falling back to existence check
+DEBUG: Generated 2 tests
+DEBUG: Generated differential tests for behavioral divergence detection
+DEBUG: Test file written to: /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest/test_fuzzing_generated.py
+📦 Installing hypothesis to /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest/.pip_packages...
+✅ Hypothesis installed successfully to .pip_packages/
+📝 Detected test framework: pytest
+ℹ️  Using existing C extensions (1 files)
+📊 Coverage collection enabled for: _pytest (with branch coverage)
+🧪 Running pytest tests in Singularity:
+  singularity exec --bind /fs/nexus-scratch/ihbas/verifier_harness/repos_temp_2/pytest-dev__pytest:/workspace --pwd /workspace --env PYTHONPATH=/workspace:/workspace/.pip_packages --env HYPOTHESIS_MAX_EXAMPLES=1000 /fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-10081.sif /opt/miniconda3/envs/testbed/bin/python -m pytest -v --cov=_pytest --cov-branch --cov-report=term-missing:skip-covered test_fuzzing_generated.py
+
+⚠️  Coverage database not generated (.coverage file missing)
+    Tests: FAIL, Fuzzing: 2 tests
+    Coverage: 0.0% ⚠️
+    ✅ No behavioral divergences detected (original vs patched behavior matches)
+  → Verification rules...
+🔍 Running rules in Singularity container...
+  Rules: all
+  Repo: pytest-dev__pytest
+✓ Rules executed successfully: 9 rule(s) ran
+    Rules: 9/9 passed
+    Findings: 0 (High: 0) ✅
+
+[5/5] Calculating verdict...
+
+============================================================
+VERDICT: ❌ REJECT
+Score: 24.6/100
+Time: 565.7s
+============================================================
+
+
+💾 Results saved to: results/pytest-dev__pytest-10081.json
+
+Finished: Fri Dec  5 10:31:54 EST 2025
+Exit code: 0
+Cleaning up: repos_temp_2
