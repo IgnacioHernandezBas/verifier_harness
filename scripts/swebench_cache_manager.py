@@ -7,28 +7,28 @@ Supports viewing, cleaning, and maintaining the cache.
 
 Usage:
     # View cache statistics
-    python swebench_cache_manager.py stats
+    python scripts/swebench_cache_manager.py stats
 
     # List all cached instances
-    python swebench_cache_manager.py list
+    python scripts/swebench_cache_manager.py list
 
     # Clean old entries (>30 days)
-    python swebench_cache_manager.py clean --days 30
+    python scripts/swebench_cache_manager.py clean --days 30
 
     # Clean by size limit
-    python swebench_cache_manager.py clean --max-size 50
+    python scripts/swebench_cache_manager.py clean --max-size 50
 
     # Remove specific instance
-    python swebench_cache_manager.py remove --instance_id "django__django-12345"
+    python scripts/swebench_cache_manager.py remove --instance_id "django__django-12345"
 
     # Clear entire cache
-    python swebench_cache_manager.py clear
+    python scripts/swebench_cache_manager.py clear
 
     # Verify cache integrity
-    python swebench_cache_manager.py verify
+    python scripts/swebench_cache_manager.py verify
 
     # Generate detailed report
-    python swebench_cache_manager.py report
+    python scripts/swebench_cache_manager.py report
 """
 
 import sys
@@ -37,8 +37,9 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from swebench_singularity import Config, CacheManager
 from swebench_singularity.utils import (

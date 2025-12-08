@@ -42,9 +42,9 @@ swebench_singularity/
 └── utils.py              # Shared utilities
 
 Scripts:
-├── run_swebench_instance.py   # Run single instance
-├── run_swebench_batch.py      # Run multiple instances in parallel
-└── swebench_cache_manager.py  # Manage cache
+├── scripts/run_swebench_instance.py   # Run single instance
+├── scripts/run_swebench_batch.py      # Run multiple instances in parallel
+└── scripts/swebench_cache_manager.py  # Manage cache
 
 Configuration:
 └── config/swebench_config.yaml # Configuration settings
@@ -60,9 +60,10 @@ Handles the mapping from SWE-bench instance IDs to Docker image names.
 - Example: `django__django-12345`, `pytest-dev__pytest-7490`
 
 **Docker Image Patterns** (tried in order):
-1. `aorwall/swe-bench-{repo}:{instance_id}`
-2. `swebench/{repo}:{instance_id}`
-3. `ghcr.io/swe-bench/{repo}:{instance_id}`
+1. `swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest`
+2. `ghcr.io/swe-bench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest`
+3. `aorwall/swe-bench-{repo}:{instance_id}`
+4. `swebench/{repo}:{instance_id}`
 
 #### 2. Singularity Builder
 
@@ -149,7 +150,7 @@ Executes tests in Singularity containers:
 
 3. Check Singularity availability:
    ```bash
-   python run_swebench_instance.py --instance_id "test" --build-only 2>&1 | grep -i singularity
+   python scripts/run_swebench_instance.py --instance_id "test" --build-only 2>&1 | grep -i singularity
    ```
 
 ## Configuration
@@ -163,6 +164,8 @@ The system is configured via `config/swebench_config.yaml`.
 docker:
   registry: "docker.io"
   image_patterns:
+    - "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
+    - "ghcr.io/swe-bench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
     - "aorwall/swe-bench-{repo}:{instance_id}"
     - "swebench/{repo}:{instance_id}"
   pull_timeout: 600
@@ -205,7 +208,7 @@ You can override configuration via:
 
 1. **Command-line arguments**:
    ```bash
-   python run_swebench_instance.py \
+   python scripts/run_swebench_instance.py \
        --instance_id "pytest-dev__pytest-7490" \
        --cache_dir "/custom/cache" \
        --timeout 600
@@ -214,12 +217,12 @@ You can override configuration via:
 2. **Environment variables**:
    ```bash
    export SINGULARITY_TMPDIR=/tmp/singularity
-   python run_swebench_instance.py --instance_id "..."
+   python scripts/run_swebench_instance.py --instance_id "..."
    ```
 
 3. **Custom config file**:
    ```bash
-   python run_swebench_instance.py \
+   python scripts/run_swebench_instance.py \
        --instance_id "..." \
        --config my_config.yaml
    ```
@@ -232,13 +235,13 @@ You can override configuration via:
 
 ```bash
 # Run a single instance
-python run_swebench_instance.py --instance_id "django__django-12345"
+python scripts/run_swebench_instance.py --instance_id "django__django-12345"
 ```
 
 #### With Custom Predictions
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "pytest-dev__pytest-7490" \
     --predictions_path "my_predictions.json"
 ```
@@ -246,7 +249,7 @@ python run_swebench_instance.py \
 #### Build Only (No Test Execution)
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "flask__flask-4992" \
     --build-only
 ```
@@ -254,7 +257,7 @@ python run_swebench_instance.py \
 #### Force Rebuild
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "requests__requests-3362" \
     --force-rebuild
 ```
@@ -262,7 +265,7 @@ python run_swebench_instance.py \
 #### Custom Timeout
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "sympy__sympy-20590" \
     --timeout 600
 ```
@@ -270,7 +273,7 @@ python run_swebench_instance.py \
 #### Verbose Logging
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "django__django-12345" \
     --verbose \
     --log-file run.log
@@ -289,14 +292,14 @@ flask__flask-4992
 EOF
 
 # Run batch
-python run_swebench_batch.py --instance_list instances.txt
+python scripts/run_swebench_batch.py --instance_list instances.txt
 ```
 
 #### Parallel Execution
 
 ```bash
 # Run with 10 parallel workers
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --workers 10
 ```
@@ -304,7 +307,7 @@ python run_swebench_batch.py \
 #### From Predictions File
 
 ```bash
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --predictions predictions.json \
     --output results.json
 ```
@@ -312,7 +315,7 @@ python run_swebench_batch.py \
 #### Filter by Repository
 
 ```bash
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --repo pytest \
     --output pytest_results.json
@@ -321,7 +324,7 @@ python run_swebench_batch.py \
 #### Limit Number of Instances
 
 ```bash
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --limit 10 \
     --skip 5
@@ -331,12 +334,12 @@ python run_swebench_batch.py \
 
 ```bash
 # First run (interrupted)
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --output results.json
 
 # Resume
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --output results.json \
     --resume results.json
@@ -345,7 +348,7 @@ python run_swebench_batch.py \
 #### Fail-Fast Mode
 
 ```bash
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --fail-fast
 ```
@@ -354,7 +357,7 @@ python run_swebench_batch.py \
 
 ```bash
 # Build all containers without running tests (good for pre-caching)
-python run_swebench_batch.py \
+python scripts/run_swebench_batch.py \
     --instance_list instances.txt \
     --build-only \
     --workers 20
@@ -365,7 +368,7 @@ python run_swebench_batch.py \
 #### View Cache Statistics
 
 ```bash
-python swebench_cache_manager.py stats
+python scripts/swebench_cache_manager.py stats
 ```
 
 Output:
@@ -386,60 +389,60 @@ Largest Entry: sympy__sympy-20590 (456.7 MB)
 
 ```bash
 # List all
-python swebench_cache_manager.py list
+python scripts/swebench_cache_manager.py list
 
 # Filter by repository
-python swebench_cache_manager.py list --repo pytest
+python scripts/swebench_cache_manager.py list --repo pytest
 
 # Sort by size
-python swebench_cache_manager.py list --sort size
+python scripts/swebench_cache_manager.py list --sort size
 
 # Sort by age
-python swebench_cache_manager.py list --sort age
+python scripts/swebench_cache_manager.py list --sort age
 ```
 
 #### Clean Cache
 
 ```bash
 # Remove entries older than 30 days
-python swebench_cache_manager.py clean --days 30
+python scripts/swebench_cache_manager.py clean --days 30
 
 # Clean to reduce size below 50 GB
-python swebench_cache_manager.py clean --max-size 50
+python scripts/swebench_cache_manager.py clean --max-size 50
 
 # Combine both
-python swebench_cache_manager.py clean --days 30 --max-size 50
+python scripts/swebench_cache_manager.py clean --days 30 --max-size 50
 
 # Skip confirmation
-python swebench_cache_manager.py clean --days 30 -y
+python scripts/swebench_cache_manager.py clean --days 30 -y
 ```
 
 #### Remove Specific Instance
 
 ```bash
-python swebench_cache_manager.py remove --instance_id "django__django-12345"
+python scripts/swebench_cache_manager.py remove --instance_id "django__django-12345"
 ```
 
 #### Clear Entire Cache
 
 ```bash
-python swebench_cache_manager.py clear
+python scripts/swebench_cache_manager.py clear
 ```
 
 #### Verify Cache Integrity
 
 ```bash
-python swebench_cache_manager.py verify
+python scripts/swebench_cache_manager.py verify
 ```
 
 #### Generate Report
 
 ```bash
 # Display report
-python swebench_cache_manager.py report
+python scripts/swebench_cache_manager.py report
 
 # Save to file
-python swebench_cache_manager.py report --output cache_report.txt
+python scripts/swebench_cache_manager.py report --output cache_report.txt
 ```
 
 ## Integration with Existing Pipeline
@@ -483,26 +486,28 @@ print(f"Tests: {result.passed_tests}/{result.total_tests}")
 
 ### SWE-bench Official Images
 
-The official SWE-bench Docker images follow this convention:
+The current SWE-bench releases publish images under the `swebench/sweb.eval` namespace.
 
-**Format**: `aorwall/swe-bench-{repo}:{instance_id}`
+**Format**: `swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest`
 
 **Examples**:
-- `aorwall/swe-bench-pytest:pytest-dev__pytest-7490`
-- `aorwall/swe-bench-django:django__django-12345`
-- `aorwall/swe-bench-flask:flask__flask-4992`
+- `swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5262:latest`
+- `swebench/sweb.eval.x86_64.django_1776_django-11001:latest`
+- `swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-10297:latest`
+
+Older mirrors (such as `aorwall/swe-bench-{repo}:{instance_id}`) are still listed as fallbacks in the configuration, but the official registry now lives under `swebench`.
 
 ### Repository Mapping
 
 The system maps full repository names to short names:
 
-| Full Name | Short Name | Docker Image |
-|-----------|------------|--------------|
-| `pytest-dev/pytest` | `pytest` | `aorwall/swe-bench-pytest` |
-| `django/django` | `django` | `aorwall/swe-bench-django` |
-| `pallets/flask` | `flask` | `aorwall/swe-bench-flask` |
-| `psf/requests` | `requests` | `aorwall/swe-bench-requests` |
-| `sympy/sympy` | `sympy` | `aorwall/swe-bench-sympy` |
+| Full Name | Short Name | Example Docker Image |
+|-----------|------------|----------------------|
+| `pytest-dev/pytest` | `pytest` | `swebench/sweb.eval.x86_64.pytest-dev_1776_pytest-5262:latest` |
+| `django/django` | `django` | `swebench/sweb.eval.x86_64.django_1776_django-11001:latest` |
+| `pallets/flask` | `flask` | `swebench/sweb.eval.x86_64.pallets_1776_flask-4992:latest` |
+| `psf/requests` | `requests` | `swebench/sweb.eval.x86_64.psf_1776_requests-3362:latest` |
+| `sympy/sympy` | `sympy` | `swebench/sweb.eval.x86_64.sympy_1776_sympy-20590:latest` |
 
 ### Custom Patterns
 
@@ -511,8 +516,8 @@ You can add custom patterns in `config/swebench_config.yaml`:
 ```yaml
 docker:
   image_patterns:
-    - "aorwall/swe-bench-{repo}:{instance_id}"
-    - "my-registry/swebench/{repo}:{version}"
+    - "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
+    - "aorwall/swe-bench-{repo}:{instance_id}"  # fallback
     - "ghcr.io/my-org/{repo}:{instance_id}"
 ```
 
@@ -544,7 +549,7 @@ which singularity
 4. Add custom image patterns in config
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "django__django-12345" \
     --verbose
 ```
@@ -584,10 +589,10 @@ singularity:
 
 ```bash
 # Clean old entries
-python swebench_cache_manager.py clean --days 7
+python scripts/swebench_cache_manager.py clean --days 7
 
 # Reduce cache size
-python swebench_cache_manager.py clean --max-size 20
+python scripts/swebench_cache_manager.py clean --max-size 20
 ```
 
 ### Debug Mode
@@ -595,7 +600,7 @@ python swebench_cache_manager.py clean --max-size 20
 Enable debug logging for detailed information:
 
 ```bash
-python run_swebench_instance.py \
+python scripts/run_swebench_instance.py \
     --instance_id "..." \
     --verbose \
     --log-file debug.log
@@ -618,12 +623,12 @@ Based on typical usage on Nexus cluster:
 
 1. **Pre-cache containers** before running tests:
    ```bash
-   python run_swebench_batch.py --instance_list all_instances.txt --build-only --workers 20
+   python scripts/run_swebench_batch.py --instance_list all_instances.txt --build-only --workers 20
    ```
 
 2. **Use parallel execution** for batch processing:
    ```bash
-   python run_swebench_batch.py --instance_list instances.txt --workers 10
+   python scripts/run_swebench_batch.py --instance_list instances.txt --workers 10
    ```
 
 3. **Organize cache by repository** for better management:
@@ -681,7 +686,7 @@ For issues or questions:
 
 1. Check this documentation
 2. Enable verbose logging: `--verbose`
-3. Check cache statistics: `python swebench_cache_manager.py stats`
+3. Check cache statistics: `python scripts/swebench_cache_manager.py stats`
 4. Verify Singularity: `singularity --version`
 5. Test with a known instance: `pytest-dev__pytest-7490`
 

@@ -5,7 +5,12 @@ Helper script to prepare and submit SLURM batch jobs for SWE-bench analysis.
 
 import argparse
 import subprocess
+import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 def create_instance_list(repo_filter=None, limit=10):
     """Create list of instance IDs to process."""
@@ -47,7 +52,7 @@ def main():
         print(f"  {i}. {iid}")
     
     # Write instance IDs to file
-    instance_file = Path("instance_ids.txt")
+    instance_file = REPO_ROOT / "instance_ids.txt"
     with open(instance_file, 'w') as f:
         for iid in instance_ids:
             f.write(f"{iid}\n")

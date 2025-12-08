@@ -17,9 +17,9 @@ Docker Hub images use organization name in the pattern:
 
 ### Solution
 Changed pattern from `{repo}_1776_{repo}` to `{org}_1776_{repo}` in:
-- `slurm_worker_integrated.py` (line 56)
-- `slurm_worker_analyze.py` (line 90)
-- `slurm_worker_build.py` (line 33)
+- `scripts/slurm/slurm_worker_integrated.py` (line 56)
+- `scripts/slurm/slurm_worker_analyze.py` (line 90)
+- `scripts/slurm/slurm_worker_build.py` (line 33)
 
 ### Verification
 All repos now resolve correctly:
@@ -88,22 +88,22 @@ If baseline tests fail after these fixes, check:
 Test each repo type:
 ```bash
 # Pytest repo
-python submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 1 --max-parallel 1
+python scripts/submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 1 --max-parallel 1
 
 # Django repo
-python submit_integrated_batch.py --repo "django/django" --limit 1 --max-parallel 1
+python scripts/submit_integrated_batch.py --repo "django/django" --limit 1 --max-parallel 1
 
 # Sklearn (regression test)
-python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 1 --max-parallel 1
+python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 1 --max-parallel 1
 ```
 
 ---
 
 ## Files Modified
 
-1. `slurm_worker_integrated.py` - Fixed Docker image pattern (line 56)
-2. `slurm_worker_analyze.py` - Fixed Docker image pattern (line 90)
-3. `slurm_worker_build.py` - Fixed Docker image pattern (line 33)
+1. `scripts/slurm/slurm_worker_integrated.py` - Fixed Docker image pattern (line 56)
+2. `scripts/slurm/slurm_worker_analyze.py` - Fixed Docker image pattern (line 90)
+3. `scripts/slurm/slurm_worker_build.py` - Fixed Docker image pattern (line 33)
 4. `verifier/dynamic_analyzers/test_patch_singularity.py` - Added framework detection and Django support (lines 485-687)
 
 ---
@@ -152,9 +152,9 @@ Added fallback logic in `swebench_integration/patch_loader.py` (lines 82-103):
 3. ✅ **Git clone failures** - Shallow fetch has proper fallback
 
 ### Files Modified
-1. `slurm_worker_integrated.py` - Docker image pattern (line 56)
-2. `slurm_worker_analyze.py` - Docker image pattern (line 90)
-3. `slurm_worker_build.py` - Docker image pattern (line 33)
+1. `scripts/slurm/slurm_worker_integrated.py` - Docker image pattern (line 56)
+2. `scripts/slurm/slurm_worker_analyze.py` - Docker image pattern (line 90)
+3. `scripts/slurm/slurm_worker_build.py` - Docker image pattern (line 33)
 4. `verifier/dynamic_analyzers/test_patch_singularity.py` - Framework detection (lines 485-687)
 5. `swebench_integration/patch_loader.py` - Git fetch fallback (lines 82-103)
 
@@ -170,9 +170,9 @@ find . -name "__pycache__" -type d -rm -rf
 
 **Testing:** Run small batches first to verify:
 ```bash
-python submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 1
-python submit_integrated_batch.py --repo "django/django" --limit 1
-python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 1
+python scripts/submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 1
+python scripts/submit_integrated_batch.py --repo "django/django" --limit 1
+python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 1
 ```
 
 ### Expected Baseline Test Pass Rates

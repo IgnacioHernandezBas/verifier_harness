@@ -38,7 +38,7 @@ from swebench_singularity import Config, SingularityBuilder
 config = Config()
 # ... configure paths ...
 config.set("docker.image_patterns", [
-    "swebench/sweb.eval.x86_64.{repo}_1776_{repo}-{version}:latest",
+    "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest",
 ])
 
 builder = SingularityBuilder(config)
@@ -81,7 +81,7 @@ subprocess.run(install_cmd, check=True)
 
 ### Step 4: Generate and Run Hypothesis Tests
 ```python
-from run_hypothesis_tests import generate_and_run_hypothesis_tests
+from scripts.run_hypothesis_tests import generate_and_run_hypothesis_tests
 
 result = generate_and_run_hypothesis_tests(
     container_path=str(container_path),
@@ -144,7 +144,7 @@ else:
 if patch_analysis and patch_analysis.changed_functions:
     print("🧬 Generating and running Hypothesis tests...")
     
-    from run_hypothesis_tests import generate_and_run_hypothesis_tests
+    from scripts.run_hypothesis_tests import generate_and_run_hypothesis_tests
     
     test_result = generate_and_run_hypothesis_tests(
         container_path=str(CONTAINER_IMAGE_PATH),

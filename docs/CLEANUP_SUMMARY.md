@@ -167,7 +167,7 @@ fuzzing_results/
 
 **Solution:** Created two setup scripts:
 
-#### `setup_fuzzing.sh` - Full Environment Setup
+#### `scripts/setup_fuzzing.sh` - Full Environment Setup
 Automated bash script that:
 1. ✓ Checks Python version (3.9+ required)
 2. ✓ Detects container runtime (Singularity/Podman/Docker)
@@ -180,7 +180,7 @@ Automated bash script that:
 
 **Usage:**
 ```bash
-./setup_fuzzing.sh
+./scripts/setup_fuzzing.sh
 ```
 
 #### `quick_start.py` - Quick Verification Script
@@ -213,7 +213,7 @@ verifier_harness/
 ├── IMPLEMENTATION_SUMMARY.md          # Technical architecture
 ├── CLEANUP_SUMMARY.md                 # This file
 │
-├── setup_fuzzing.sh                   # NEW: Automated setup script
+├── scripts/setup_fuzzing.sh                   # NEW: Automated setup script
 ├── quick_start.py                     # NEW: Quick verification script
 ├── requirements.txt                   # FIXED: Clean dependencies
 ├── environment_linux.yml              # Conda environment
@@ -337,7 +337,7 @@ All files moved to `archive/` directory:
 
 ```bash
 # Run automated setup script
-./setup_fuzzing.sh
+./scripts/setup_fuzzing.sh
 
 # Activate environment
 conda activate verifier_env
@@ -360,7 +360,7 @@ conda activate verifier_env
 python test_singularity_build.py
 
 # 3. Test single instance
-python eval_cli.py --instance-id matplotlib__matplotlib-23314
+python scripts/eval_cli.py --instance-id matplotlib__matplotlib-23314
 
 # 4. Run batch fuzzing (on HPC cluster)
 sbatch slurm_jobs/run_fuzzing_single.slurm
@@ -418,10 +418,10 @@ pip install -r requirements.txt
 ```
 
 ### Permission Denied
-**Problem:** `Permission denied: setup_fuzzing.sh`
+**Problem:** `Permission denied: scripts/setup_fuzzing.sh`
 **Solution:** Make executable:
 ```bash
-chmod +x setup_fuzzing.sh
+chmod +x scripts/setup_fuzzing.sh
 chmod +x quick_start.py
 ```
 
@@ -447,7 +447,7 @@ chmod +x quick_start.py
 
 ## Questions?
 
-- **Setup issues:** Run `./setup_fuzzing.sh` first
+- **Setup issues:** Run `./scripts/setup_fuzzing.sh` first
 - **Quick verification:** Run `python quick_start.py --list`
 - **Full documentation:** See `COMPLETE_FUZZING_DOCUMENTATION.md`
 - **Architecture:** See `IMPLEMENTATION_SUMMARY.md`

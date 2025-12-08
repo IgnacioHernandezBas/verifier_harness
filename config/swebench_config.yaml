@@ -3,7 +3,7 @@
 # Docker Registry Settings
 docker:
   # Primary registry for SWE-bench images
-  # Official SWE-bench uses: aorwall/swe-bench-<repo>
+  # Official SWE-bench images follow the swebench/sweb.eval naming
   registry: "docker.io"
 
   # Image naming patterns (in priority order)
@@ -11,10 +11,10 @@ docker:
   # {instance_id} = full instance ID (e.g., "django__django-12345")
   # {version} = version extracted from instance_id (e.g., "12345")
   image_patterns:
+    - "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
+    - "ghcr.io/swe-bench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
     - "aorwall/swe-bench-{repo}:{instance_id}"
     - "swebench/{repo}:{instance_id}"
-    - "ghcr.io/swe-bench/{repo}:{instance_id}"
-    - "aorwall/swe-bench-{repo}:{version}"
 
   # Timeout for pulling Docker images (seconds)
   pull_timeout: 600

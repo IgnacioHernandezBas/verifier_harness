@@ -198,10 +198,10 @@ Edit the `#SBATCH` directives at the top of the scripts:
 
 ### Customizing Evaluation Parameters
 
-Edit the `python eval_cli.py` command:
+Edit the `python scripts/eval_cli.py` command:
 
 ```bash
-python eval_cli.py \
+python scripts/eval_cli.py \
     --predictions "$PREDICTIONS_FILE" \
     --dataset "princeton-nlp/SWE-bench_Verified" \  # Change dataset
     --output "results/fuzzing_${SLURM_JOB_ID}.json" \
@@ -404,10 +404,10 @@ Add to SLURM script:
 
 ```bash
 # Reduce timeout for faster feedback (if tests are simple)
-python eval_cli.py ... --timeout 60  # 60 seconds
+python scripts/eval_cli.py ... --timeout 60  # 60 seconds
 
 # Increase for complex tests
-python eval_cli.py ... --timeout 300  # 5 minutes
+python scripts/eval_cli.py ... --timeout 300  # 5 minutes
 ```
 
 ### 3. Batch Size
@@ -424,7 +424,7 @@ NUM_CHUNKS=5   # 5 larger chunks
 
 ```bash
 # For faster evaluation, skip static checks
-python eval_cli.py ... --no-static
+python scripts/eval_cli.py ... --no-static
 ```
 
 ---

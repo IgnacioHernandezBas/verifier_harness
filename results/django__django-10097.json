@@ -2672,11 +2672,33 @@
           "django/core/validators.py"
         ],
         "primary_file": "django/core/validators.py",
+        "file_path": "django/core/validators.py",
         "total_changed_lines": 1,
-        "module_path": "django.core.validators"
+        "all_changed_lines": [
+          97
+        ],
+        "module_path": "django.core.validators",
+        "functions": [
+          "URLValidator"
+        ],
+        "classes": [],
+        "changed_lines": {
+          "URLValidator": [
+            97
+          ]
+        },
+        "class_context": {},
+        "change_types": {
+          "conditionals": [],
+          "loops": [],
+          "exceptions": [],
+          "operations": []
+        }
       },
       "baseline_tests": {
         "count": 1870,
+        "count_after_filtering": 1870,
+        "malformed_tests_filtered": 0,
         "fail_to_pass": 438,
         "pass_to_pass": 1432,
         "passed": false,
@@ -2688,15 +2710,9 @@
         "count": 1,
         "passed": false,
         "returncode": 1,
-        "test_failures": [
-          {
-            "test_file": "test_fuzzing_generated.py",
-            "test_name": "test_URLValidator_properties",
-            "extra_info": "- hypothesis.e..."
-          }
-        ],
-        "stdout": "ils/lru_cache.py                                                        1      1      0      0     0%   1\ndjango/utils/module_loading.py                                                  47     47     14      0     0%   1-98\ndjango/utils/numberformat.py                                                    42     42     20      0     0%   1-66\ndjango/utils/regex_helper.py                                                   185    185    114      0     0%   11-333\ndjango/utils/safestring.py                                                      33     33     12      0     0%   8-86\ndjango/utils/six.py                                                            450    450    140      0     0%   23-882\ndjango/utils/termcolors.py                                                      56     56     40      0     0%   5-215\ndjango/utils/text.py                                                           208    208     84      0     0%   1-433\ndjango/utils/timesince.py                                                       41     41     24      0     0%   1-91\ndjango/utils/timezone.py                                                        94     94     32      0     0%   5-279\ndjango/utils/translation/__init__.py                                           135     81     24      3    36%   52-58, 68, 75, 83, 91, 95, 104-105, 111, 114-132, 134->exit, 135->exit, 140, 152, 156, 160, 165-166, 169-173, 176-181, 185, 189, 193, 198-202, 207-218, 222, 226, 230, 234-235, 239, 243-261, 268\ndjango/utils/translation/template.py                                           155    155     98      0     0%   1-227\ndjango/utils/translation/trans_null.py                                          32     32      4      0     0%   5-67\ndjango/utils/translation/trans_real.py                                         255    255    110      0     0%   2-516\ndjango/utils/tree.py                                                            50     50     10      0     0%   6-122\ndjango/utils/version.py                                                         54     17     16      3    60%   32->39, 35-37, 55, 64-68, 88-89, 98-104\ndjango/utils/xmlutils.py                                                        20     20      6      0     0%   5-34\ndjango/views/__init__.py                                                         2      2      0      0     0%   1-3\ndjango/views/csrf.py                                                            18     18      2      0     0%   1-154\ndjango/views/debug.py                                                          285    285    116      0     0%   1-520\ndjango/views/decorators/cache.py                                                20     20      0      0     0%   1-47\ndjango/views/decorators/clickjacking.py                                         21     21      4      0     0%   1-53\ndjango/views/decorators/csrf.py                                                 27     27      0      0     0%   1-56\ndjango/views/decorators/debug.py                                                21     21      4      0     0%   1-78\ndjango/views/decorators/gzip.py                                                  4      4      0      0     0%   1-5\ndjango/views/decorators/http.py                                                 51     51     14      0     0%   5-121\ndjango/views/decorators/vary.py                                                 16     16      0      0     0%   1-41\ndjango/views/defaults.py                                                        55     55     10      0     0%   1-118\ndjango/views/generic/__init__.py                                                 8      8      0      0     0%   1-22\ndjango/views/generic/base.py                                                   105    105     28      0     0%   1-208\ndjango/views/generic/dates.py                                                  325    325     58      0     0%   1-720\ndjango/views/generic/detail.py                                                  79     79     30      0     0%   1-164\ndjango/views/generic/edit.py                                                   114    114     26      0     0%   1-241\ndjango/views/generic/list.py                                                    99     99     30      0     0%   1-194\ndjango/views/i18n.py                                                           106    106     50      0     0%   1-308\ndjango/views/static.py                                                          60     60     22      0     0%   5-135\n------------------------------------------------------------------------------------------------------------------------\nTOTAL                                                                        56593  56215  19826     19     1%\n\n116 files skipped due to complete coverage.\n\n=========================== short test summary info ============================\nFAILED test_fuzzing_generated.py::test_URLValidator_properties - hypothesis.e...\n============================== 1 failed in 31.51s ==============================\n",
-        "stderr": ""
+        "test_failures": [],
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"/opt/miniconda3/envs/testbed/lib/python3.5/runpy.py\", line 183, in _run_module_as_main\n    mod_name, mod_spec, code = _get_module_details(mod_name, _Error)\n  File \"/opt/miniconda3/envs/testbed/lib/python3.5/runpy.py\", line 142, in _get_module_details\n    return _get_module_details(pkg_main_name, error)\n  File \"/opt/miniconda3/envs/testbed/lib/python3.5/runpy.py\", line 109, in _get_module_details\n    __import__(pkg_name)\n  File \"/workspace/.pip_packages/pytest/__init__.py\", line 3, in <module>\n    from . import collect\n  File \"/workspace/.pip_packages/pytest/collect.py\", line 8, in <module>\n    from _pytest.deprecated import PYTEST_COLLECT_MODULE\n  File \"/workspace/.pip_packages/_pytest/deprecated.py\", line 11, in <module>\n    from _pytest.warning_types import PytestDeprecationWarning\n  File \"/workspace/.pip_packages/_pytest/warning_types.py\", line 7, in <module>\n    from _pytest.compat import final\n  File \"/workspace/.pip_packages/_pytest/compat.py\", line 57, in <module>\n    import importlib_metadata  # noqa: F401\nImportError: No module named 'importlib_metadata'\n"
       },
       "differential_testing": {
         "enabled": true,
@@ -2727,5 +2743,5 @@
   "overall_score": 36.248999999999995,
   "verdict": "\u274c REJECT",
   "reason": "Failed: Tests",
-  "elapsed_seconds": 183.22920179367065
+  "elapsed_seconds": 118.56672191619873
 }

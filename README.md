@@ -17,17 +17,17 @@ A unified verification system that evaluates AI-generated code patches using:
 
 ```bash
 # Automated setup (recommended)
-./setup_fuzzing.sh
+./scripts/setup_fuzzing.sh
 
-# Verify installation
-python quick_start.py --list
+# Verify installation (build container only)
+python scripts/run_swebench_instance.py --instance_id matplotlib__matplotlib-23314 --build-only
 
-# Test single instance
-python quick_start.py --instance-id matplotlib__matplotlib-23314
+# Test single instance end-to-end
+python scripts/run_swebench_instance.py --instance_id matplotlib__matplotlib-23314
 
 # Run full evaluation
 conda activate verifier_env
-python eval_cli.py --instance-id matplotlib__matplotlib-23314
+python scripts/submit_integrated_batch.py --limit 10 --max-parallel 3 --dry-run
 ```
 
 ## What This Does
@@ -44,33 +44,25 @@ Takes an AI-generated patch and runs it through:
 
 ```text
 verifier_harness/
-├── setup_fuzzing.sh                   # Automated setup script
-├── quick_start.py                     # Quick verification tool
+├── docs/                             # All guides & reports
+│   ├── PIPELINE_OVERVIEW.md         # System overview
+│   ├── CLEANUP_SUMMARY.md           # Recent repo cleanup notes
+│   └── ...                          # Cluster + fuzzing guides
 │
-├── verifier/                          # Core verification modules
-│   ├── static_analyzers/             # Static code analysis
-│   │   ├── code_quality.py          # Pylint, Flake8, Radon, Mypy, Bandit
-│   │   └── syntax_structure.py      # AST analysis
-│   ├── dynamic_analyzers/            # Dynamic fuzzing
-│   │   ├── patch_analyzer.py        # Parse diffs, extract changes
-│   │   ├── test_generator.py        # Generate Hypothesis tests
-│   │   ├── singularity_executor.py  # Execute in containers
-│   │   └── coverage_analyzer.py     # Change-aware coverage
-│   └── utils/                        # Utilities
+├── scripts/                          # Operational entry points
+│   ├── setup_fuzzing.sh             # Automated environment setup
+│   ├── eval_cli.py                  # CLI interface
+│   ├── submit_integrated_batch.py   # Integrated SLURM submission
+│   ├── run_swebench_instance.py     # Single-instance runner
+│   ├── swebench_cache_manager.py    # Cache maintenance
+│   └── slurm/                       # SLURM worker + helper scripts
+│       └── slurm_integrated_pipeline.sh
 │
-├── swebench_integration/             # SWE-bench integration
-│   ├── dataset_loader.py            # Load datasets
-│   ├── patch_loader.py              # Apply patches
-│   ├── patch_runner.py              # Run evaluations
-│   └── results_aggregator.py        # Aggregate results
-│
-├── slurm_jobs/                       # HPC batch scripts
-│   ├── run_fuzzing_array.slurm     # Parallel array job
-│   └── run_fuzzing_single.slurm    # Single job
-│
-├── evaluation_pipeline.py            # Main orchestrator
-├── eval_cli.py                       # CLI interface
-└── tests/                            # Unit tests
+├── verifier/                        # Core verification modules
+├── swebench_integration/            # SWE-bench dataset utilities
+├── slurm_jobs/                      # Predefined SLURM job specs
+├── evaluation_pipeline.py           # Main orchestrator
+└── tests/                           # Unit tests
 ```
 
 ## Performance
@@ -94,7 +86,7 @@ verifier_harness/
 ```bash
 git clone https://github.com/IgnacioHernandezBas/verifier_harness.git
 cd verifier_harness
-./setup_fuzzing.sh
+./scripts/setup_fuzzing.sh
 ```
 
 **Option 2: Manual**
@@ -115,7 +107,7 @@ python test_singularity_build.py
 ### Single Instance
 ```bash
 # Test specific SWE-bench instance
-python eval_cli.py --instance-id matplotlib__matplotlib-23314
+python scripts/eval_cli.py --instance-id matplotlib__matplotlib-23314
 ```
 
 ### Batch Processing (HPC)
@@ -129,11 +121,11 @@ sbatch slurm_jobs/run_fuzzing_array.slurm
 
 ### Quick Verification
 ```bash
-# List available instances
-python quick_start.py --list
+# Smoke-test with verbose logs
+python scripts/run_swebench_instance.py --instance_id django__django-11001 --verbose
 
-# Test setup
-python quick_start.py --instance-id django__django-11001
+# Check batch submission without running jobs
+python scripts/submit_integrated_batch.py --repo "django/django" --limit 5 --dry-run
 ```
 
 ## Supported Repositories
@@ -151,11 +143,11 @@ See `REPOSITORY_COMPATIBILITY.md` for details.
 | File | Purpose |
 |------|---------|
 | `README.md` | This file - quick start guide |
-| `COMPLETE_FUZZING_DOCUMENTATION.md` | Comprehensive fuzzing guide |
-| `IMPLEMENTATION_SUMMARY.md` | Technical architecture |
-| `CLEANUP_SUMMARY.md` | Recent cleanup changes |
-| `SINGULARITY_USAGE.md` | Container operations |
-| `SLURM_USAGE.md` | HPC batch job guide |
+| `docs/FUZZING_IMPROVEMENTS_IMPLEMENTATION.md` | Comprehensive fuzzing guide |
+| `docs/IMPLEMENTATION_SUMMARY.md` | Technical architecture |
+| `docs/CLEANUP_SUMMARY.md` | Recent cleanup changes |
+| `docs/SINGULARITY_USAGE.md` | Container operations |
+| `docs/SLURM_USAGE.md` | HPC batch job guide |
 
 ## Troubleshooting
 
@@ -177,14 +169,9 @@ pip install -r requirements.txt
 
 ## Contributing
 
-See `IMPLEMENTATION_SUMMARY.md` for technical details and architecture.
+See `docs/IMPLEMENTATION_SUMMARY.md` for technical details and architecture.
 
 ## Recent Changes
 
-Repository was recently cleaned up to remove redundant files and improve organization. See `CLEANUP_SUMMARY.md` for details.
-
-
-
-
-
+Repository was recently cleaned up to remove redundant files and improve organization. See `docs/CLEANUP_SUMMARY.md` for details.
 

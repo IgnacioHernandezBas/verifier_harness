@@ -12,7 +12,7 @@
 # NOTE: No GPU needed for this pipeline (only static analysis, fuzzing, rules)
 
 # Array job: Each task processes one instance
-# Submit with: sbatch --array=1-10%3 slurm_integrated_pipeline.sh
+# Submit with: sbatch --array=1-10%3 scripts/slurm/slurm_integrated_pipeline.sh
 # This runs 10 instances, max 3 parallel
 
 echo "=========================================="
@@ -28,8 +28,21 @@ echo ""
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 conda activate verifier_env
 
-# Set working directory
-cd /fs/nexus-scratch/ihbas/verifier_harness
+# Resolve directories. When running under SLURM, the script is copied to a
+# temporary location, so rely on SLURM_SUBMIT_DIR when available.
+if [ -n "$SLURM_SUBMIT_DIR" ]; then
+    REPO_ROOT="$SLURM_SUBMIT_DIR"
+else
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+fi
+
+cd "$REPO_ROOT" || {
+    echo "ERROR: Unable to cd into repository root: $REPO_ROOT"
+    exit 1
+}
+
+WORKER_SCRIPT="$REPO_ROOT/scripts/slurm/slurm_worker_integrated.py"
 
 # Create output directories
 mkdir -p logs results
@@ -52,13 +65,13 @@ echo "Available disk space: ${AVAILABLE_GB} GB"
 if [ "$AVAILABLE_GB" -lt 5 ]; then
     echo "WARNING: Low disk space (< 5 GB). Consider running cleanup."
     # Optionally: trigger cleanup here
-    # python slurm_cleanup_cache.py --keep-recent 10
+    # python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
 fi
 
 echo ""
 
 # Run the integrated pipeline for this instance
-python slurm_worker_integrated.py \
+python "$WORKER_SCRIPT" \
     --instance-id "$INSTANCE_ID" \
     --output "results/${INSTANCE_ID}.json" \
     --enable-static \

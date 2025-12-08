@@ -489,6 +489,67 @@ def install_pytest_cov_in_singularity(
     }
 
 
+def ensure_pytest_available(
+    repo_path: Path,
+    image_path: Path | str,
+) -> None:
+    """
+    Ensure pytest is importable inside the container.
+
+    For repos like Django that don't vendor pytest, install it into .pip_packages.
+    """
+    repo_path = repo_path.resolve()
+    image_path = Path(image_path)
+
+    # If the repo provides pytest locally (e.g., pytest project), skip installation.
+    has_local_pytest = (
+        (repo_path / "src" / "pytest").exists()
+        or (repo_path / "pytest").exists()
+    )
+    if has_local_pytest:
+        return
+
+    # Quick check: can we import pytest already?
+    check_cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        "--pwd", "/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/python",
+        "-c",
+        "import pytest; print(pytest.__version__)",
+    ]
+    check_proc = subprocess.run(check_cmd, capture_output=True, text=True, timeout=10)
+    if check_proc.returncode == 0:
+        return
+
+    packages_dir = repo_path / ".pip_packages"
+    packages_dir.mkdir(exist_ok=True)
+
+    print("📦 Installing pytest into .pip_packages/ ...")
+    install_cmd = [
+        "singularity",
+        "exec",
+        "--bind", f"{str(repo_path)}:/workspace",
+        str(image_path),
+        "/opt/miniconda3/envs/testbed/bin/pip",
+        "install",
+        "--target", "/workspace/.pip_packages",
+        "--no-cache-dir",
+        "--quiet",
+        "--no-deps",
+        "pytest",
+    ]
+    install_proc = subprocess.run(install_cmd, capture_output=True, text=True, timeout=120)
+    if install_proc.returncode == 0:
+        print("✅ pytest installed for fuzzing tests")
+    else:
+        print("⚠️  Failed to install pytest automatically")
+        if install_proc.stderr:
+            print(f"   stderr: {install_proc.stderr[:200]}")
+
+
 def run_tests_in_singularity(
     repo_path: Path,
     tests: List[str],
@@ -497,6 +558,7 @@ def run_tests_in_singularity(
     collect_coverage: bool = False,
     coverage_source: Optional[str] = None,
     verbose: bool = False,
+    test_framework_hint: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Run tests inside a Singularity container over the given repo.
@@ -521,6 +583,9 @@ def run_tests_in_singularity(
     coverage_source : str, optional
         Source directory to measure coverage for (default: /workspace).
         Can be a specific module path like 'sklearn' or 'django'.
+    test_framework_hint : str, optional
+        Force running tests with 'pytest' or 'django' runner even if auto-detection
+        would pick the other option.
 
     Returns
     -------
@@ -564,6 +629,15 @@ def run_tests_in_singularity(
         return test_str  # fallback to original if parsing fails
 
     test_framework = detect_test_framework(tests)
+    if test_framework_hint:
+        normalized_hint = test_framework_hint.lower()
+        if normalized_hint in {"pytest", "django"}:
+            if normalized_hint != test_framework:
+                print(
+                    f"ℹ️  Overriding detected test framework "
+                    f"({test_framework}) with hint: {normalized_hint}"
+                )
+            test_framework = normalized_hint
     print(f"📝 Detected test framework: {test_framework}")
 
     # Check if C extensions already exist (from install_package_in_singularity)
@@ -719,6 +793,8 @@ def run_tests_in_singularity(
         # If no specific tests are given, run full suite
         test_args = tests or []
 
+        ensure_pytest_available(repo_path, image_path)
+
         # No special handling needed for matplotlib test paths - they work as-is
 
         # Build pytest arguments
@@ -744,6 +820,9 @@ def run_tests_in_singularity(
 
             coverage_file = repo_path / ".coverage.json"
             cov_source = coverage_source or "/workspace"
+
+            # Explicitly load pytest-cov plugin since we disable auto-loading
+            pytest_args.extend(["-p", "pytest_cov"])
 
             pytest_args.extend([
                 f"--cov={cov_source}",

@@ -266,7 +266,7 @@ If Docker is installed and configured on your system:
 docker login
 
 # The system will automatically use your credentials
-python run_swebench_instance.py pytest-dev__pytest-7490
+python scripts/run_swebench_instance.py pytest-dev__pytest-7490
 ```
 
 The builder will:
@@ -289,7 +289,7 @@ export SINGULARITY_DOCKER_USERNAME="your-username"
 export SINGULARITY_DOCKER_PASSWORD="your-password"
 
 # Now run your scripts
-python run_swebench_instance.py pytest-dev__pytest-7490
+python scripts/run_swebench_instance.py pytest-dev__pytest-7490
 ```
 
 Or add to your `~/.bashrc` or job script:
@@ -436,13 +436,15 @@ repo_mapping:
 
 docker:
   image_patterns:
+    - "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
+    - "ghcr.io/swe-bench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest"
     - "aorwall/swe-bench-{repo}:{instance_id}"
     - "my-registry/{repo}:{instance_id}"
 ```
 
 ## See Also
 
-- **Main Documentation**: `Documentation/SWEBENCH_SINGULARITY_RUNNER.md`
+- **Main Documentation**: `docs/SWEBENCH_SINGULARITY_RUNNER.md`
 - **Quick Start**: `SWEBENCH_SINGULARITY_QUICKSTART.md`
 - **Configuration**: `config/swebench_config.yaml`
-- **CLI Scripts**: `run_swebench_instance.py`, `run_swebench_batch.py`
+- **CLI Scripts**: `scripts/run_swebench_instance.py`, `scripts/run_swebench_batch.py`

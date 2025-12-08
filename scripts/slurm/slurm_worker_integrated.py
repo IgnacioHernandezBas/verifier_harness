@@ -14,8 +14,9 @@ import traceback
 import os
 
 # Add project root to path
-PROJECT_ROOT = Path(__file__).parent
-sys.path.append(str(PROJECT_ROOT))
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from swebench_integration import DatasetLoader, PatchLoader
 from swebench_singularity import Config, SingularityBuilder, DockerImageResolver
@@ -195,7 +196,13 @@ class IntegratedPipelineWorker:
                 results['static'] = self._run_static(repo_path, sample['patch'])
 
             if self.config['enable_fuzzing']:
-                results['fuzzing'] = self._run_fuzzing(repo_path, sample, container_path, original_code_map)
+                results['fuzzing'] = self._run_fuzzing(
+                    repo_path,
+                    sample,
+                    container_path,
+                    original_code_map,
+                    instance_id=instance_id,
+                )
 
             if self.config['enable_rules']:
                 results['rules'] = self._run_rules(repo_path, sample['patch'], container_path)
@@ -489,7 +496,14 @@ class IntegratedPipelineWorker:
             'divergence_details': divergences[:10],  # Limit to first 10 for brevity
         }
 
-    def _run_fuzzing(self, repo_path: str, sample: dict, container_path: str, original_code_map: Dict[str, str] = None) -> dict:
+    def _run_fuzzing(
+        self,
+        repo_path: str,
+        sample: dict,
+        container_path: str,
+        original_code_map: Dict[str, str] = None,
+        instance_id: str = "unknown_instance",
+    ) -> dict:
         """Run dynamic fuzzing."""
         print("  → Dynamic fuzzing...")
 
@@ -544,28 +558,62 @@ class IntegratedPipelineWorker:
         except:
             f2p, p2p = [], []
 
-        all_tests = f2p + p2p
+        all_tests = [t for t in (f2p + p2p) if isinstance(t, str)]
 
-        # Filter out malformed test names (e.g., unclosed brackets from dataset errors)
-        # This handles dataset issues like 'test_stem[png-w/' which should be 'test_stem[png-w/ line collection]'
+        # Determine if this suite looks like Django/unittest (majority of entries in
+        # the "test_name (module.Class)" format) to avoid mis-detecting as pytest.
+        django_like = sum(
+            1 for t in all_tests
+            if '(' in t and ')' in t and '::' not in t
+        )
+        pytest_like = sum(
+            1 for t in all_tests
+            if '::' in t or t.endswith('.py')
+        )
+        prefer_django = django_like > 0 and django_like >= pytest_like
+
+        # Filter out malformed pytest test names (e.g., unclosed brackets from dataset errors).
+        # When we are confident it's a Django suite, keep the list untouched except for stripping.
         filtered_tests = []
         malformed_tests = []
-        for test_name in all_tests:
-            # Check for common malformations:
-            # 1. Unclosed brackets (opening '[' without closing ']')
-            if '[' in test_name and not test_name.endswith(']'):
-                # Count brackets
-                open_count = test_name.count('[')
-                close_count = test_name.count(']')
-                if open_count > close_count:
-                    malformed_tests.append(test_name)
+
+        if prefer_django:
+            filtered_tests = [t.strip() for t in all_tests if t.strip()]
+        else:
+            for test_name in all_tests:
+                if not isinstance(test_name, str):
                     continue
-            filtered_tests.append(test_name)
+                test_name = test_name.strip()
+                if not test_name:
+                    continue
+
+                # Keep Django/unittest style entries (they look like "test Foo (module.Class)")
+                if '(' in test_name and ')' in test_name:
+                    filtered_tests.append(test_name)
+                    continue
+
+                # For pytest parameterized cases, only filter when the bracket is unbalanced
+                if '[' in test_name:
+                    open_count = test_name.count('[')
+                    close_count = test_name.count(']')
+                    if open_count > close_count:
+                        malformed_tests.append(test_name)
+                        continue
+
+                filtered_tests.append(test_name)
+
+        if not filtered_tests and all_tests:
+            print("    ⚠️  No tests left after filtering; falling back to unfiltered list")
+            filtered_tests = [t.strip() for t in all_tests if isinstance(t, str)]
 
         if malformed_tests:
             print(f"    ⚠️  Filtered out {len(malformed_tests)} malformed test names from dataset:")
             for t in malformed_tests[:5]:  # Show first 5
                 print(f"       - {t}")
+
+        framework_hint = 'django' if prefer_django else None
+        if framework_hint == 'django':
+            print(f"    ℹ️  Detected Django-style baseline tests ({django_like} entries)")
 
         test_result = test_patch_singularity.run_tests_in_singularity(
             repo_path=Path(repo_path),
@@ -573,6 +621,7 @@ class IntegratedPipelineWorker:
             image_path=str(container_path),
             collect_coverage=True,
             coverage_source=coverage_source,
+            test_framework_hint=framework_hint,
         )
 
         tests_passed = (test_result['returncode'] == 0)
@@ -630,9 +679,18 @@ class IntegratedPipelineWorker:
         if not repo_dir.exists():
             raise FileNotFoundError(f"Repository directory doesn't exist: {repo_dir}")
 
+        archive_path = None
         test_file = repo_dir / "test_fuzzing_generated.py"
         test_file.write_text(test_code, encoding='utf-8')
         print(f"DEBUG: Test file written to: {test_file}")
+
+        # Archive generated tests so we can inspect them later outside the container
+        archive_dir = PROJECT_ROOT / "fuzzing_results"
+        archive_dir.mkdir(exist_ok=True)
+        safe_instance_id = instance_id.replace('/', '__')
+        archive_path = archive_dir / f"{safe_instance_id}_test_fuzzing_generated.py"
+        archive_path.write_text(test_code, encoding='utf-8')
+        print(f"DEBUG: Archived fuzzing tests at: {archive_path}")
 
         test_patch_singularity.install_hypothesis_in_singularity(
             repo_path=Path(repo_path),
@@ -748,6 +806,7 @@ class IntegratedPipelineWorker:
                     # Increased from 5000 to 20000 to capture full tracebacks with -vv --tb=short
                     'stdout': fuzzing_result.get('stdout', '')[-20000:] if fuzzing_result.get('stdout') else '',  # Last 20000 chars
                     'stderr': fuzzing_result.get('stderr', '')[-20000:] if fuzzing_result.get('stderr') else '',  # Last 20000 chars
+                    'generated_test_file': str(archive_path) if archive_path else None,
                 },
                 'differential_testing': {
                     'enabled': original_code is not None,

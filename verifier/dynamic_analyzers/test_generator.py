@@ -10,7 +10,7 @@ This module generates targeted, executable pytest tests focusing on:
 """
 
 import ast
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 from .patch_analyzer import PatchAnalysis
 from .test_pattern_learner import TestPatternLearner, ClassTestPatterns
@@ -151,6 +151,24 @@ class HypothesisTestGenerator:
                     test_lines.extend(diff_tests)
 
         return '\n'.join(test_lines)
+
+    def _prepare_callable(self, func_name: str, class_name: Optional[str], indent: str = "        ") -> Tuple[List[str], str]:
+        """
+        Prepare setup lines and call target for invoking a function or class method.
+
+        Returns:
+            (setup_lines, call_target)
+        """
+        if class_name:
+            setup_lines = [
+                f"{indent}instance = {class_name}()",
+                f"{indent}method = getattr(instance, '{func_name}')",
+            ]
+            call_target = "method"
+        else:
+            setup_lines = []
+            call_target = func_name
+        return setup_lines, call_target
 
     def _extract_function_signatures(self, code: str) -> Dict[str, Dict[str, Any]]:
         """Extract function signatures for more intelligent test generation"""
@@ -333,16 +351,21 @@ class HypothesisTestGenerator:
                 for _ in range(min(param_count, 3))
             ])
 
+        arg_list = [f'arg{i}' for i in range(min(param_count, 3))]
+        call_args = ", ".join(arg_list)
+        setup_lines, call_target = self._prepare_callable(func_name, class_name)
+        call_expr = f"{call_target}({call_args})" if call_args else f"{call_target}()"
         return [
             f"@given({strategies})" if strategies else "",
             f"@settings(max_examples=1000, deadline=2000)",
-            f"def test_{func_name}_boundaries({', '.join([f'arg{i}' for i in range(min(param_count, 3))])}):" if param_count > 0 else f"def test_{func_name}_boundaries():",
+            f"def test_{func_name}_boundaries({', '.join(arg_list)}):" if param_count > 0 else f"def test_{func_name}_boundaries():",
             f'    """Test boundary conditions for {func_name}"""',
             f"    try:",
             f"        # Try calling with various boundary values",
-            f"        result = {func_name}({', '.join([f'arg{i}' for i in range(min(param_count, 3))])})" if param_count > 0 else f"        result = {func_name}()",
+            *setup_lines,
+            f"        result = {call_expr}",
             f"        # If function returns, it should be deterministic",
-            f"        result2 = {func_name}({', '.join([f'arg{i}' for i in range(min(param_count, 3))])})" if param_count > 0 else f"        result2 = {func_name}()",
+            f"        result2 = {call_expr}",
             f"        assert result == result2, 'Function should be deterministic'",
             f"    except (ValueError, TypeError, AttributeError, ZeroDivisionError, KeyError, IndexError):",
             f"        pass  # Expected for invalid inputs",
@@ -352,45 +375,68 @@ class HypothesisTestGenerator:
     def _generate_loop_tests(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate tests for loop edge cases"""
         param_count = func_sig.get('param_count', 1)
+        setup_lines, call_target = self._prepare_callable(func_name, class_name)
+        call_items = f"{call_target}(items)" if param_count > 0 else f"{call_target}()"
+        call_single = f"{call_target}([items[0]])" if param_count > 0 else f"{call_target}()"
+        call_empty = f"{call_target}([])" if param_count > 0 else f"{call_target}()"
 
-        return [
+        lines = [
             f"@given(st.lists(st.integers(), min_size=0, max_size=100))",
             f"@settings(max_examples=1000, deadline=2000)",
             f"def test_{func_name}_loops(items):",
             f'    """Test loop edge cases for {func_name}"""',
             f"    try:",
             f"        # Test with empty list",
-            f"        {func_name}([])" if param_count > 0 else f"        {func_name}()",
+        ]
+        lines.extend(setup_lines)
+        lines.append(f"        {call_empty}")
+        lines.extend([
             f"        # Test with single item",
             f"        if items:",
-            f"            {func_name}([items[0]])" if param_count > 0 else f"            {func_name}()",
+            f"            {call_single}",
             f"        # Test with full list",
-            f"        {func_name}(items)" if param_count > 0 else f"        {func_name}()",
+            f"        {call_items}",
             f"    except (ValueError, TypeError, IndexError, AttributeError, ZeroDivisionError):",
             f"        pass  # Expected for invalid inputs",
             f"",
-        ]
+        ])
+        return lines
 
     def _generate_exception_tests(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate tests that should trigger exceptions"""
         param_count = func_sig.get('param_count', 1)
+        setup_lines, call_target = self._prepare_callable(func_name, class_name)
 
-        return [
+        lines = [
             f"def test_{func_name}_exceptions():",
             f'    """Test exception handling for {func_name}"""',
             f"    # Test with None",
             f"    try:",
-            f"        result = {func_name}(None)" if param_count > 0 else f"        result = {func_name}()",
+        ]
+        lines.extend(setup_lines)
+        call_none = f"{call_target}(None)" if param_count > 0 else f"{call_target}()"
+        lines.extend([
+            f"        result = {call_none}",
             f"    except (ValueError, TypeError, AttributeError):",
             f"        pass  # Expected exception",
             f"    ",
             f"    # Test with invalid types",
             f"    try:",
-            f"        result = {func_name}('invalid', -1, [])" if param_count >= 2 else f"        result = {func_name}('invalid')" if param_count > 0 else f"        result = {func_name}()",
+        ])
+        lines.extend(setup_lines)
+        if param_count >= 2:
+            call_invalid = f"{call_target}('invalid', -1, [])"
+        elif param_count > 0:
+            call_invalid = f"{call_target}('invalid')"
+        else:
+            call_invalid = f"{call_target}()"
+        lines.extend([
+            f"        result = {call_invalid}",
             f"    except (ValueError, TypeError, AttributeError, IndexError):",
             f"        pass  # Expected exception",
             f"",
-        ]
+        ])
+        return lines
 
     def _generate_property_test(self, func_name: str, func_sig: Dict, class_name: str = None) -> List[str]:
         """Generate general property-based test for standalone function or class method"""

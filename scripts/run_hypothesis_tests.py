@@ -147,7 +147,7 @@ if __name__ == "__main__":
     import sys
     
     if len(sys.argv) < 4:
-        print("Usage: run_hypothesis_tests.py <container> <repo_path> <test_file>")
+        print("Usage: scripts/run_hypothesis_tests.py <container> <repo_path> <test_file>")
         sys.exit(1)
     
     container = sys.argv[1]

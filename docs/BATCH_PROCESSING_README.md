@@ -24,31 +24,31 @@ jupyter notebook fuzzing_pipeline_hpc_FIXED.ipynb
 **Phase 1: Build all containers first**
 ```bash
 # Build containers for 20 scikit-learn instances, max 10 parallel
-./submit_batch.py --repo "scikit-learn/scikit-learn" --limit 20 --mode build --max-parallel 10
+./scripts/submit_batch.py --repo "scikit-learn/scikit-learn" --limit 20 --mode build --max-parallel 10
 ```
 
 **Phase 2: Run analysis using cached containers**
 ```bash
 # Analyze using pre-built containers, max 5 parallel (more CPU intensive)
-./submit_batch.py --repo "scikit-learn/scikit-learn" --limit 20 --mode analyze --max-parallel 5
+./scripts/submit_batch.py --repo "scikit-learn/scikit-learn" --limit 20 --mode analyze --max-parallel 5
 ```
 
 #### Option B: All-in-One (Single Phase)
 
 ```bash
 # Build + analyze in one go (slower initial run, but simpler)
-./submit_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --mode analyze --max-parallel 3
+./scripts/submit_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --mode analyze --max-parallel 3
 ```
 
 ## Files Created
 
 ```
 verifier_harness/
-├── slurm_batch_build_containers.sh  # SLURM script for container building
+├── scripts/slurm/slurm_batch_build_containers.sh  # SLURM script for container building
 ├── slurm_batch_analyze.sh           # SLURM script for full analysis
-├── slurm_worker_build.py            # Python worker: build one container
-├── slurm_worker_analyze.py          # Python worker: analyze one instance
-├── submit_batch.py                  # Helper to submit jobs
+├── scripts/slurm/slurm_worker_build.py            # Python worker: build one container
+├── scripts/slurm/slurm_worker_analyze.py          # Python worker: analyze one instance
+├── scripts/submit_batch.py                  # Helper to submit jobs
 ├── instance_ids.txt                 # Auto-generated list of instances
 ├── logs/                            # Job logs (build_*, analyze_*)
 ├── results/                         # JSON results per instance
@@ -59,19 +59,19 @@ verifier_harness/
 
 ### Example 1: Test on 5 pytest instances
 ```bash
-./submit_batch.py --repo "pytest-dev/pytest" --limit 5 --mode analyze --max-parallel 2
+./scripts/submit_batch.py --repo "pytest-dev/pytest" --limit 5 --mode analyze --max-parallel 2
 ```
 
 ### Example 2: Process entire test set (no filter)
 ```bash
-./submit_batch.py --limit 100 --mode build --max-parallel 20
+./scripts/submit_batch.py --limit 100 --mode build --max-parallel 20
 # Wait for builds to complete, then:
-./submit_batch.py --limit 100 --mode analyze --max-parallel 10
+./scripts/submit_batch.py --limit 100 --mode analyze --max-parallel 10
 ```
 
 ### Example 3: Dry run (see what would happen)
 ```bash
-./submit_batch.py --repo "django/django" --limit 10 --dry-run
+./scripts/submit_batch.py --repo "django/django" --limit 10 --dry-run
 ```
 
 ## Monitoring Jobs
@@ -116,11 +116,11 @@ cat results/scikit-learn__scikit-learn-10297.json
 ### 1. Pre-build Containers
 Build all containers first using many parallel jobs (network-bound):
 ```bash
-./submit_batch.py --limit 50 --mode build --max-parallel 20
+./scripts/submit_batch.py --limit 50 --mode build --max-parallel 20
 ```
 Then analyze with fewer parallel jobs (CPU-bound):
 ```bash
-./submit_batch.py --limit 50 --mode analyze --max-parallel 5
+./scripts/submit_batch.py --limit 50 --mode analyze --max-parallel 5
 ```
 
 ### 2. Shared Cache
@@ -149,7 +149,7 @@ Increase memory allocation:
 ```
 
 ### Container Build Timeout
-Edit `slurm_worker_build.py` and increase:
+Edit `scripts/slurm/slurm_worker_build.py` and increase:
 ```python
 config.set("singularity.build_timeout", 7200)  # 2 hours
 ```
@@ -170,7 +170,7 @@ If you see auth errors, check the image pattern is correct in the script.
 Build first, then auto-start analysis when builds complete:
 ```bash
 # Submit build job
-BUILD_JOB=$(sbatch --parsable --array=1-10 slurm_batch_build_containers.sh)
+BUILD_JOB=$(sbatch --parsable --array=1-10 scripts/slurm/slurm_batch_build_containers.sh)
 
 # Submit analysis job that waits for builds
 sbatch --dependency=afterok:$BUILD_JOB --array=1-10 slurm_batch_analyze.sh

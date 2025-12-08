@@ -11,9 +11,13 @@ import time
 import ast
 from pathlib import Path
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 def main():
     if len(sys.argv) < 3:
-        print("Usage: slurm_worker_analyze.py <instance_id> <results_dir>")
+        print("Usage: scripts/slurm/slurm_worker_analyze.py <instance_id> <results_dir>")
         sys.exit(1)
     
     instance_id_filter = sys.argv[1]

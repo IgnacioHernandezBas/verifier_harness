@@ -52,7 +52,7 @@ CONTAINER_IMAGE_PATH = build_result.sif_path
 
 **Old:** Manual image specification
 **New:** Automatic resolution from multiple sources:
-- `aorwall/swe-bench-{repo}:{instance_id}`
+- `swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest`
 - `swebench/{repo}:{instance_id}`
 - `ghcr.io/swe-bench/{repo}:{instance_id}`
 

@@ -18,7 +18,8 @@ export SINGULARITY_DOCKER_USERNAME="nacheitor12"
 export SINGULARITY_DOCKER_PASSWORD="wN/^4Me%,!5zz_q"
 
 # Setup paths
-export WORKDIR="/fs/nexus-scratch/ihbas/verifier_harness"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export WORKDIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 export CACHE_DIR="/fs/nexus-scratch/ihbas/.cache/swebench_singularity"
 export TMP_DIR="/fs/nexus-scratch/ihbas/.tmp/singularity_build"
 
@@ -38,7 +39,7 @@ echo "========================================"
 
 # Run the build script
 cd "$WORKDIR"
-python3 slurm_worker_build.py "$INSTANCE_ID"
+python3 "$SCRIPT_DIR/slurm_worker_build.py" "$INSTANCE_ID"
 
 exit_code=$?
 echo "Exit code: $exit_code"

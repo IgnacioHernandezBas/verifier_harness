@@ -64,7 +64,7 @@ echo "Output: results/fuzzing_results_${SLURM_JOB_ID}.json"
 echo ""
 
 # Run evaluation
-python eval_cli.py \
+python scripts/eval_cli.py \
     --predictions "$PREDICTIONS_FILE" \
     --dataset "princeton-nlp/SWE-bench_Verified" \
     --output "results/fuzzing_results_${SLURM_JOB_ID}.json" \

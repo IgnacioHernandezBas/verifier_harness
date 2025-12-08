@@ -22,9 +22,10 @@ class Config:
         "docker": {
             "registry": "docker.io",
             "image_patterns": [
+                "swebench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest",
+                "ghcr.io/swe-bench/sweb.eval.x86_64.{org}_1776_{repo}-{version}:latest",
                 "aorwall/swe-bench-{repo}:{instance_id}",
                 "swebench/{repo}:{instance_id}",
-                "ghcr.io/swe-bench/{repo}:{instance_id}",
             ],
             "pull_timeout": 600,
             "max_retries": 3,

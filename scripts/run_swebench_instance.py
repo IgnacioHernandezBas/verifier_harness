@@ -7,25 +7,25 @@ Handles Docker image fetching, conversion, caching, and test execution.
 
 Usage:
     # Run a single instance
-    python run_swebench_instance.py --instance_id "django__django-12345"
+    python scripts/run_swebench_instance.py --instance_id "django__django-12345"
 
     # Run with custom predictions/patch
-    python run_swebench_instance.py \\
+    python scripts/run_swebench_instance.py \\
         --instance_id "pytest-dev__pytest-7490" \\
         --predictions_path "my_patch.diff"
 
     # Force rebuild container
-    python run_swebench_instance.py \\
+    python scripts/run_swebench_instance.py \\
         --instance_id "flask__flask-4992" \\
         --force-rebuild
 
     # Custom cache directory
-    python run_swebench_instance.py \\
+    python scripts/run_swebench_instance.py \\
         --instance_id "requests__requests-3362" \\
         --cache_dir "/custom/cache/path"
 
     # Just build container without running tests
-    python run_swebench_instance.py \\
+    python scripts/run_swebench_instance.py \\
         --instance_id "sympy__sympy-20590" \\
         --build-only
 """
@@ -33,11 +33,23 @@ Usage:
 import sys
 import argparse
 import logging
+import os
 from pathlib import Path
 from typing import Optional
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+DEFAULT_DOCKER_CREDS = {
+    "APPTAINER_DOCKER_USERNAME": "nacheitor12",
+    "APPTAINER_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
+    "SINGULARITY_DOCKER_USERNAME": "nacheitor12",
+    "SINGULARITY_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
+}
+
+for key, value in DEFAULT_DOCKER_CREDS.items():
+    os.environ.setdefault(key, value)
 
 from swebench_singularity import (
     Config,

@@ -108,7 +108,7 @@ echo "✓ Processing $CHUNK_FILE ($CHUNK_SIZE predictions)"
 echo ""
 
 # Run evaluation on this chunk
-python eval_cli.py \
+python scripts/eval_cli.py \
     --predictions "$CHUNK_FILE" \
     --dataset "princeton-nlp/SWE-bench_Verified" \
     --output "results/fuzzing_${SLURM_ARRAY_JOB_ID}_task${TASK_ID}.json" \

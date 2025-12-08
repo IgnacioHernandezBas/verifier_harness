@@ -4,13 +4,13 @@ Command-line interface for patch evaluation with dynamic fuzzing.
 
 Usage:
     # Evaluate a single patch
-    python eval_cli.py --patch-file patch.diff --code-file patched_code.py
+    python scripts/eval_cli.py --patch-file patch.diff --code-file patched_code.py
 
     # Evaluate SWE-bench predictions
-    python eval_cli.py --predictions predictions.json --dataset SWE-bench_Verified
+    python scripts/eval_cli.py --predictions predictions.json --dataset SWE-bench_Verified
 
     # Batch evaluation
-    python eval_cli.py --batch patches/ --output results.json
+    python scripts/eval_cli.py --batch patches/ --output results.json
 """
 
 import argparse
@@ -19,9 +19,10 @@ import sys
 from pathlib import Path
 from typing import Dict, Any, List
 
-# Add project root to path
-PROJECT_ROOT = Path(__file__).resolve().parent
-sys.path.append(str(PROJECT_ROOT))
+# Ensure repository root is on sys.path
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from evaluation_pipeline import EvaluationPipeline
 from swebench_integration.dataset_loader import DatasetLoader
@@ -139,19 +140,19 @@ def main():
         epilog="""
 Examples:
   # Evaluate a single patch
-  python eval_cli.py --patch patch.diff --code patched_code.py
+  python scripts/eval_cli.py --patch patch.diff --code patched_code.py
 
   # Evaluate SWE-bench predictions
-  python eval_cli.py --predictions preds.json --dataset SWE-bench_Verified
+  python scripts/eval_cli.py --predictions preds.json --dataset SWE-bench_Verified
 
   # Batch evaluation
-  python eval_cli.py --batch patches/ --output results.json
+  python scripts/eval_cli.py --batch patches/ --output results.json
 
   # Skip static analysis
-  python eval_cli.py --patch patch.diff --code code.py --no-static
+  python scripts/eval_cli.py --patch patch.diff --code code.py --no-static
 
   # Skip fuzzing
-  python eval_cli.py --patch patch.diff --code code.py --no-fuzzing
+  python scripts/eval_cli.py --patch patch.diff --code code.py --no-fuzzing
         """
     )
 

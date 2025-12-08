@@ -12,6 +12,10 @@ from pathlib import Path
 from typing import List, Dict
 import json
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
 
 def get_disk_space() -> float:
     """Get available disk space in GB."""
@@ -58,7 +62,6 @@ def load_instances(repo_filter: str = None, limit: int = None, instance_file: Pa
         return instance_ids
 
     # Load from dataset
-    sys.path.insert(0, str(Path(__file__).parent))
     from swebench_integration import DatasetLoader
 
     print(f"Loading instances from SWE-bench (repo={repo_filter}, limit={limit})...")
@@ -135,7 +138,7 @@ def check_storage_capacity(instance_ids: List[str]) -> tuple[bool, str]:
             f"   Available: {available_gb:.1f} GB, Need: {required_gb:.1f} GB\n"
             f"   Consider:\n"
             f"   1. Reducing batch size (--limit)\n"
-            f"   2. Cleaning up cache: python slurm_cleanup_cache.py --keep-recent 10\n"
+            f"   2. Cleaning up cache: python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10\n"
             f"   3. Processing in smaller batches"
         )
         return False, message
@@ -161,7 +164,7 @@ def submit_batch(
     """Submit SLURM batch job."""
 
     # Write instance IDs to file
-    instance_file = Path("instance_ids.txt")
+    instance_file = REPO_ROOT / "instance_ids.txt"
     with open(instance_file, 'w') as f:
         for iid in instance_ids:
             f.write(f"{iid}\n")
@@ -176,10 +179,10 @@ def submit_batch(
 
     # Prepare SLURM submission
     array_spec = f"1-{len(instance_ids)}%{max_parallel}"
-    script = "slurm_integrated_pipeline.sh"
+    script = REPO_ROOT / "scripts/slurm/slurm_integrated_pipeline.sh"
 
     # Build sbatch command
-    cmd = ["sbatch", f"--array={array_spec}", script]
+    cmd = ["sbatch", f"--array={array_spec}", str(script)]
 
     print(f"\n" + "="*70)
     print("SLURM Job Configuration")
@@ -216,14 +219,14 @@ def submit_batch(
         print(f"View this array:  squeue -j {job_id}")
         print(f"Watch logs:       tail -f logs/pipeline_*.out")
         print(f"Check results:    ls -lh results/")
-        print(f"Cache status:     python slurm_cleanup_cache.py --status")
+        print(f"Cache status:     python scripts/slurm/slurm_cleanup_cache.py --status")
 
         print(f"\n" + "="*70)
         print("Cleanup Commands (if running low on space)")
         print("="*70)
-        print(f"Keep 10 recent:   python slurm_cleanup_cache.py --keep-recent 10")
-        print(f"Remove old (30d): python slurm_cleanup_cache.py --cleanup-age 30")
-        print(f"Free to 15 GB:    python slurm_cleanup_cache.py --free-space 15")
+        print(f"Keep 10 recent:   python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10")
+        print(f"Remove old (30d): python scripts/slurm/slurm_cleanup_cache.py --cleanup-age 30")
+        print(f"Free to 15 GB:    python scripts/slurm/slurm_cleanup_cache.py --free-space 15")
 
     else:
         print(f"✗ Job submission failed:")
@@ -241,16 +244,16 @@ def main():
         epilog="""
 Examples:
   # Test 10 scikit-learn instances
-  python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
+  python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 
   # Process multiple repos, 50 instances total
-  python submit_integrated_batch.py --limit 50 --max-parallel 5
+  python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 
   # Use instance list from file
-  python submit_integrated_batch.py --instance-file my_instances.txt --max-parallel 4
+  python scripts/submit_integrated_batch.py --instance-file my_instances.txt --max-parallel 4
 
   # Check storage before submitting
-  python submit_integrated_batch.py --repo "django/django" --limit 20 --dry-run
+  python scripts/submit_integrated_batch.py --repo "django/django" --limit 20 --dry-run
         """
     )
 

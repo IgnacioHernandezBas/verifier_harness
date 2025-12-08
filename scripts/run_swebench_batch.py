@@ -7,25 +7,25 @@ Supports parallel execution, batch processing, and progress tracking.
 
 Usage:
     # Run multiple instances from list
-    python run_swebench_batch.py --instance_list instances.txt
+    python scripts/run_swebench_batch.py --instance_list instances.txt
 
     # Run with predictions file
-    python run_swebench_batch.py \\
+    python scripts/run_swebench_batch.py \\
         --predictions predictions.json \\
         --output results.json
 
     # Parallel execution with 10 workers
-    python run_swebench_batch.py \\
+    python scripts/run_swebench_batch.py \\
         --instance_list instances.txt \\
         --workers 10
 
     # Filter by repository
-    python run_swebench_batch.py \\
+    python scripts/run_swebench_batch.py \\
         --instance_list instances.txt \\
         --repo pytest
 
     # Resume from previous run
-    python run_swebench_batch.py \\
+    python scripts/run_swebench_batch.py \\
         --instance_list instances.txt \\
         --resume results_partial.json
 """
@@ -34,13 +34,25 @@ import sys
 import argparse
 import logging
 import json
+import os
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+DEFAULT_DOCKER_CREDS = {
+    "APPTAINER_DOCKER_USERNAME": 'nacheitor12',
+    "APPTAINER_DOCKER_PASSWORD": 'wN/^4Me%,!5zz_q',
+    "SINGULARITY_DOCKER_USERNAME": 'nacheitor12',
+    "SINGULARITY_DOCKER_PASSWORD": 'wN/^4Me%,!5zz_q',
+}
+
+for key, value in DEFAULT_DOCKER_CREDS.items():
+    os.environ.setdefault(key, value)
 
 from swebench_singularity import (
     Config,

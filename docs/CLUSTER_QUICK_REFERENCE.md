@@ -6,16 +6,16 @@
 
 ```bash
 # Basic: 10 instances from one repo
-python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
+python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 
 # Multi-repo: 50 instances
-python submit_integrated_batch.py --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 
 # Custom list
-python submit_integrated_batch.py --instance-file my_instances.txt --max-parallel 3
+python scripts/submit_integrated_batch.py --instance-file my_instances.txt --max-parallel 3
 
 # Dry run (check first!)
-python submit_integrated_batch.py --limit 20 --dry-run
+python scripts/submit_integrated_batch.py --limit 20 --dry-run
 ```
 
 ---
@@ -43,19 +43,19 @@ jq -r '.verdict' results/*.json | sort | uniq -c
 
 ```bash
 # Check status
-python slurm_cleanup_cache.py --status
+python scripts/slurm/slurm_cleanup_cache.py --status
 
 # Keep 10 most recent containers
-python slurm_cleanup_cache.py --keep-recent 10
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
 
 # Remove containers older than 30 days
-python slurm_cleanup_cache.py --cleanup-age 30
+python scripts/slurm/slurm_cleanup_cache.py --cleanup-age 30
 
 # Free up to 15 GB
-python slurm_cleanup_cache.py --free-space 15
+python scripts/slurm/slurm_cleanup_cache.py --free-space 15
 
 # Dry run first!
-python slurm_cleanup_cache.py --keep-recent 10 --dry-run
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10 --dry-run
 ```
 
 ---
@@ -64,16 +64,16 @@ python slurm_cleanup_cache.py --keep-recent 10 --dry-run
 
 ```bash
 # All modules (default)
-python submit_integrated_batch.py --limit 20 --max-parallel 3
+python scripts/submit_integrated_batch.py --limit 20 --max-parallel 3
 
 # Static only (fast: ~1 min/instance)
-python submit_integrated_batch.py --limit 50 --disable-fuzzing --disable-rules --max-parallel 10
+python scripts/submit_integrated_batch.py --limit 50 --disable-fuzzing --disable-rules --max-parallel 10
 
 # Fuzzing + Rules only
-python submit_integrated_batch.py --limit 20 --disable-static --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 20 --disable-static --max-parallel 5
 
 # Rules only (very fast: ~30 sec/instance)
-python submit_integrated_batch.py --limit 100 --disable-static --disable-fuzzing --max-parallel 15
+python scripts/submit_integrated_batch.py --limit 100 --disable-static --disable-fuzzing --max-parallel 15
 ```
 
 ---
@@ -111,7 +111,7 @@ scancel <JOB_ID>_<ARRAY_TASK_ID>
 ### Workflow 1: Quick test (5 instances)
 
 ```bash
-python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
+python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 ```
 
 ---
@@ -120,13 +120,13 @@ python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 
 
 ```bash
 # Check first
-python submit_integrated_batch.py --limit 20 --dry-run
+python scripts/submit_integrated_batch.py --limit 20 --dry-run
 
 # Submit
-python submit_integrated_batch.py --limit 20 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 20 --max-parallel 5
 
 # Monitor storage
-watch -n 300 'python slurm_cleanup_cache.py --status'
+watch -n 300 'python scripts/slurm/slurm_cleanup_cache.py --status'
 ```
 
 ---
@@ -135,14 +135,14 @@ watch -n 300 'python slurm_cleanup_cache.py --status'
 
 ```bash
 # Batch 1
-python submit_integrated_batch.py --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 # Wait for completion...
 
 # Cleanup
-python slurm_cleanup_cache.py --keep-recent 5
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 5
 
 # Batch 2
-python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 ```
 
 ---
@@ -160,7 +160,7 @@ python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 
 ## Resource Allocation
 
-Default (in `slurm_integrated_pipeline.sh`):
+Default (in `scripts/slurm/slurm_integrated_pipeline.sh`):
 ```bash
 --time=04:00:00          # 4 hours
 --mem=16G                # 16 GB RAM
@@ -176,10 +176,10 @@ Default (in `slurm_integrated_pipeline.sh`):
 
 ```bash
 # Immediate cleanup (keep only 3 most recent)
-python slurm_cleanup_cache.py --keep-recent 3
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 3
 
 # Check results
-python slurm_cleanup_cache.py --status
+python scripts/slurm/slurm_cleanup_cache.py --status
 ```
 
 ---
@@ -192,7 +192,7 @@ tail -30 logs/pipeline_<JOB_ID>_<TASK_ID>.err
 
 # Cancel and resubmit
 scancel <JOB_ID>
-python submit_integrated_batch.py <original args>
+python scripts/submit_integrated_batch.py <original args>
 ```
 
 ---
@@ -218,10 +218,10 @@ verifier_harness/
 ├── results/                       # JSON results
 │   └── <instance_id>.json
 ├── instance_ids.txt               # Generated instance list
-├── slurm_integrated_pipeline.sh   # Main SLURM script
-├── slurm_worker_integrated.py     # Worker script
-├── submit_integrated_batch.py     # Submission helper
-└── slurm_cleanup_cache.py         # Storage management
+├── scripts/slurm/slurm_integrated_pipeline.sh   # Main SLURM script
+├── scripts/slurm/slurm_worker_integrated.py     # Worker script
+├── scripts/submit_integrated_batch.py     # Submission helper
+└── scripts/slurm/slurm_cleanup_cache.py         # Storage management
 ```
 
 **Container Cache:**
@@ -256,10 +256,10 @@ verifier_harness/
 
 ```bash
 # Submission help
-python submit_integrated_batch.py --help
+python scripts/submit_integrated_batch.py --help
 
 # Cleanup help
-python slurm_cleanup_cache.py --help
+python scripts/slurm/slurm_cleanup_cache.py --help
 
 # Full documentation
 cat CLUSTER_USAGE_GUIDE.md

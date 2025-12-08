@@ -31,7 +31,7 @@ This guide helps you run the integrated pipeline (Static + Fuzzing + Rules) on h
 ### 1. Single Repository (10 instances)
 
 ```bash
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --repo "scikit-learn/scikit-learn" \
     --limit 10 \
     --max-parallel 3
@@ -48,7 +48,7 @@ python submit_integrated_batch.py \
 ### 2. Multiple Repositories (50 instances)
 
 ```bash
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --limit 50 \
     --max-parallel 5
 ```
@@ -71,7 +71,7 @@ django__django-11019
 EOF
 
 # Submit
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --instance-file my_instances.txt \
     --max-parallel 3
 ```
@@ -81,7 +81,7 @@ python submit_integrated_batch.py \
 ### 4. Dry Run (Check Before Submitting)
 
 ```bash
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --repo "django/django" \
     --limit 20 \
     --dry-run
@@ -96,7 +96,7 @@ Shows what will happen **without** actually submitting jobs.
 ### Check Current Status
 
 ```bash
-python slurm_cleanup_cache.py --status
+python scripts/slurm/slurm_cleanup_cache.py --status
 ```
 
 **Output:**
@@ -127,10 +127,10 @@ Most Recently Accessed:
 
 ```bash
 # Keep only 10 most recently used containers
-python slurm_cleanup_cache.py --keep-recent 10
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
 
 # With dry-run to preview
-python slurm_cleanup_cache.py --keep-recent 10 --dry-run
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10 --dry-run
 ```
 
 **Use when:** Processing many repos sequentially, need to limit cache size.
@@ -141,10 +141,10 @@ python slurm_cleanup_cache.py --keep-recent 10 --dry-run
 
 ```bash
 # Remove containers not accessed in 30 days
-python slurm_cleanup_cache.py --cleanup-age 30
+python scripts/slurm/slurm_cleanup_cache.py --cleanup-age 30
 
 # More aggressive: 7 days
-python slurm_cleanup_cache.py --cleanup-age 7
+python scripts/slurm/slurm_cleanup_cache.py --cleanup-age 7
 ```
 
 **Use when:** Have old containers from previous experiments.
@@ -155,7 +155,7 @@ python slurm_cleanup_cache.py --cleanup-age 7
 
 ```bash
 # Free up space until 15 GB is available
-python slurm_cleanup_cache.py --free-space 15
+python scripts/slurm/slurm_cleanup_cache.py --free-space 15
 ```
 
 **Use when:** Need a specific amount of free space for upcoming batch.
@@ -168,7 +168,7 @@ python slurm_cleanup_cache.py --free-space 15
 
 ```bash
 # Static only (fast, ~1 minute per instance)
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --repo "pytest-dev/pytest" \
     --limit 20 \
     --disable-fuzzing \
@@ -176,7 +176,7 @@ python submit_integrated_batch.py \
     --max-parallel 10
 
 # Fuzzing + Rules only (skip static)
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --limit 30 \
     --disable-static \
     --max-parallel 5
@@ -192,7 +192,7 @@ python submit_integrated_batch.py \
 
 ### Adjust Resource Allocation
 
-Edit `slurm_integrated_pipeline.sh`:
+Edit `scripts/slurm/slurm_integrated_pipeline.sh`:
 
 ```bash
 #SBATCH --time=04:00:00      # 4 hours (adjust if needed)
@@ -287,16 +287,16 @@ scancel -u $USER
 
 ```bash
 # Step 1: Check storage and get instance breakdown
-python submit_integrated_batch.py --limit 100 --dry-run
+python scripts/submit_integrated_batch.py --limit 100 --dry-run
 
 # Step 2: If storage OK, submit with conservative parallelism
-python submit_integrated_batch.py --limit 100 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 100 --max-parallel 5
 
 # Step 3: Monitor storage during execution
-watch -n 300 'python slurm_cleanup_cache.py --status'
+watch -n 300 'python scripts/slurm/slurm_cleanup_cache.py --status'
 
 # Step 4: If space runs low, cleanup old containers
-python slurm_cleanup_cache.py --free-space 15
+python scripts/slurm/slurm_cleanup_cache.py --free-space 15
 ```
 
 ---
@@ -307,12 +307,12 @@ python slurm_cleanup_cache.py --free-space 15
 
 ```bash
 # Step 1: Get instance count
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --repo "scikit-learn/scikit-learn" \
     --dry-run
 
 # Step 2: Submit with higher parallelism (same repo, container reused)
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --repo "scikit-learn/scikit-learn" \
     --max-parallel 8
 ```
@@ -327,7 +327,7 @@ python submit_integrated_batch.py \
 
 ```bash
 # Phase 1: Static analysis only (fast)
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --limit 200 \
     --disable-fuzzing \
     --disable-rules \
@@ -335,7 +335,7 @@ python submit_integrated_batch.py \
 
 # Phase 2: Full analysis on high-scoring patches
 # (Manually create list from Phase 1 results)
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --instance-file high_scoring.txt \
     --max-parallel 5
 ```
@@ -349,17 +349,17 @@ python submit_integrated_batch.py \
 **Solution:**
 ```bash
 # Immediate cleanup
-python slurm_cleanup_cache.py --keep-recent 5
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 5
 
 # Check what was freed
-python slurm_cleanup_cache.py --status
+python scripts/slurm/slurm_cleanup_cache.py --status
 ```
 
 ---
 
 ### Issue: Jobs timing out (4 hours not enough)
 
-**Solution:** Edit `slurm_integrated_pipeline.sh`:
+**Solution:** Edit `scripts/slurm/slurm_integrated_pipeline.sh`:
 ```bash
 #SBATCH --time=08:00:00  # Increase to 8 hours
 ```
@@ -378,7 +378,7 @@ Then resubmit.
 wc -l instance_ids.txt
 
 # Resubmit with correct array spec
-sbatch --array=1-<LINE_COUNT>%5 slurm_integrated_pipeline.sh
+sbatch --array=1-<LINE_COUNT>%5 scripts/slurm/slurm_integrated_pipeline.sh
 ```
 
 ---
@@ -388,14 +388,14 @@ sbatch --array=1-<LINE_COUNT>%5 slurm_integrated_pipeline.sh
 **Solution - Staged Batches:**
 ```bash
 # Batch 1: First 100
-python submit_integrated_batch.py --limit 100 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 100 --max-parallel 5
 # Wait for completion, then cleanup
-python slurm_cleanup_cache.py --keep-recent 3
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 3
 
 # Batch 2: Next 100 (skip first 100)
-python submit_integrated_batch.py --skip 100 --limit 100 --max-parallel 5
+python scripts/submit_integrated_batch.py --skip 100 --limit 100 --max-parallel 5
 # Cleanup again
-python slurm_cleanup_cache.py --keep-recent 3
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 3
 
 # Repeat...
 ```
@@ -439,7 +439,7 @@ python slurm_cleanup_cache.py --keep-recent 3
 
 1. **Always dry-run first** - Understand what will happen
    ```bash
-   python submit_integrated_batch.py <args> --dry-run
+   python scripts/submit_integrated_batch.py <args> --dry-run
    ```
 
 2. **Monitor storage during execution**
@@ -453,7 +453,7 @@ python slurm_cleanup_cache.py --keep-recent 3
 
 5. **Cleanup between batches** - Keep only recent containers
    ```bash
-   python slurm_cleanup_cache.py --keep-recent 10
+   python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
    ```
 
 6. **Check logs early** - Catch issues before 50 jobs fail
@@ -469,7 +469,7 @@ python slurm_cleanup_cache.py --keep-recent 3
 
 ```bash
 # 1. Submit batch
-python submit_integrated_batch.py --repo "your/repo" --limit 20 --max-parallel 3
+python scripts/submit_integrated_batch.py --repo "your/repo" --limit 20 --max-parallel 3
 
 # 2. Monitor
 squeue -u $USER
@@ -480,7 +480,7 @@ ls -lh results/
 jq -r '.verdict' results/*.json | sort | uniq -c
 
 # 4. Cleanup if needed
-python slurm_cleanup_cache.py --keep-recent 10
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
 ```
 
 ### Storage is your main constraint:

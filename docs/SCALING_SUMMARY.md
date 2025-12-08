@@ -37,10 +37,10 @@ python batch_integrated_pipeline.py --repo "scikit-learn/scikit-learn" --limit 2
 ## ✅ Approach 2: SLURM Cluster (Recommended for Large Scale) 🚀
 
 **Files created:**
-- `slurm_integrated_pipeline.sh` - Main SLURM batch script
-- `slurm_worker_integrated.py` - Worker for single instance
-- `submit_integrated_batch.py` - Smart submission helper
-- `slurm_cleanup_cache.py` - Storage management
+- `scripts/slurm/slurm_integrated_pipeline.sh` - Main SLURM batch script
+- `scripts/slurm/slurm_worker_integrated.py` - Worker for single instance
+- `scripts/submit_integrated_batch.py` - Smart submission helper
+- `scripts/slurm/slurm_cleanup_cache.py` - Storage management
 
 **When to use:**
 - Need to process many instances (20-100+)
@@ -51,13 +51,13 @@ python batch_integrated_pipeline.py --repo "scikit-learn/scikit-learn" --limit 2
 **How to use:**
 ```bash
 # Quick start
-python submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
+python scripts/submit_integrated_batch.py --repo "scikit-learn/scikit-learn" --limit 10 --max-parallel 3
 
 # Check before running
-python submit_integrated_batch.py --limit 50 --dry-run
+python scripts/submit_integrated_batch.py --limit 50 --dry-run
 
 # Multi-repo batch
-python submit_integrated_batch.py --limit 100 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 100 --max-parallel 5
 ```
 
 **Pros:**
@@ -127,21 +127,21 @@ Maximum containers: ~19 (before running out)
 **2. Smart Cleanup** (automated in submission script)
 ```bash
 # Automatic warning when space is low
-python submit_integrated_batch.py --limit 50  # checks storage first
+python scripts/submit_integrated_batch.py --limit 50  # checks storage first
 
 # Manual cleanup between batches
-python slurm_cleanup_cache.py --keep-recent 10
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10
 ```
 
 **3. Staged Batches**
 ```bash
 # Process in chunks with cleanup between
-python submit_integrated_batch.py --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 # Wait for completion, then cleanup
-python slurm_cleanup_cache.py --keep-recent 5
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 5
 
 # Next batch
-python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 ```
 
 ---
@@ -152,7 +152,7 @@ python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 
 ```bash
 # Test with 5 instances
-python submit_integrated_batch.py --limit 5 --max-parallel 2
+python scripts/submit_integrated_batch.py --limit 5 --max-parallel 2
 
 # Monitor
 squeue -u $USER
@@ -171,13 +171,13 @@ ls results/
 
 ```bash
 # Check storage first
-python submit_integrated_batch.py --limit 20 --dry-run
+python scripts/submit_integrated_batch.py --limit 20 --dry-run
 
 # Submit if OK
-python submit_integrated_batch.py --limit 20 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 20 --max-parallel 5
 
 # Monitor storage
-watch -n 300 'python slurm_cleanup_cache.py --status'
+watch -n 300 'python scripts/slurm/slurm_cleanup_cache.py --status'
 ```
 
 **Expected time:** ~16 hours (20 instances, 5 parallel)
@@ -191,14 +191,14 @@ watch -n 300 'python slurm_cleanup_cache.py --status'
 
 ```bash
 # Batch 1: First 50
-python submit_integrated_batch.py --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 # Wait for completion (~40 hours)
 
 # Cleanup (keep only 5 most recent)
-python slurm_cleanup_cache.py --keep-recent 5
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 5
 
 # Batch 2: Next 50
-python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 
 # Repeat as needed...
 ```
@@ -211,7 +211,7 @@ python submit_integrated_batch.py --skip 50 --limit 50 --max-parallel 5
 
 ### Static Only (Super Fast)
 ```bash
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --limit 100 \
     --disable-fuzzing \
     --disable-rules \
@@ -221,7 +221,7 @@ python submit_integrated_batch.py \
 
 ### Fuzzing + Rules (Skip Static)
 ```bash
-python submit_integrated_batch.py \
+python scripts/submit_integrated_batch.py \
     --limit 50 \
     --disable-static \
     --max-parallel 5
@@ -235,27 +235,27 @@ python submit_integrated_batch.py \
 ### Submit Jobs
 ```bash
 # Single repo
-python submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 10 --max-parallel 3
+python scripts/submit_integrated_batch.py --repo "pytest-dev/pytest" --limit 10 --max-parallel 3
 
 # Multi-repo
-python submit_integrated_batch.py --limit 50 --max-parallel 5
+python scripts/submit_integrated_batch.py --limit 50 --max-parallel 5
 
 # Dry run first!
-python submit_integrated_batch.py --limit 20 --dry-run
+python scripts/submit_integrated_batch.py --limit 20 --dry-run
 ```
 
 ### Monitor
 ```bash
 squeue -u $USER                           # View jobs
 tail -f logs/pipeline_*.out               # Watch logs
-python slurm_cleanup_cache.py --status    # Check storage
+python scripts/slurm/slurm_cleanup_cache.py --status    # Check storage
 ```
 
 ### Manage Storage
 ```bash
-python slurm_cleanup_cache.py --keep-recent 10     # Keep 10 newest
-python slurm_cleanup_cache.py --free-space 15      # Free to 15 GB
-python slurm_cleanup_cache.py --cleanup-age 30     # Remove old (30d)
+python scripts/slurm/slurm_cleanup_cache.py --keep-recent 10     # Keep 10 newest
+python scripts/slurm/slurm_cleanup_cache.py --free-space 15      # Free to 15 GB
+python scripts/slurm/slurm_cleanup_cache.py --cleanup-age 30     # Remove old (30d)
 ```
 
 ### Check Results
@@ -313,7 +313,7 @@ jq -r '.verdict' results/*.json | sort | uniq -c  # Count verdicts
 
 1. **Test with 5 instances** to verify everything works:
    ```bash
-   python submit_integrated_batch.py --limit 5 --max-parallel 2
+   python scripts/submit_integrated_batch.py --limit 5 --max-parallel 2
    ```
 
 2. **Scale up gradually** to 20, then 50, then 100+

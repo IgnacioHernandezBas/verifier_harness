@@ -10,6 +10,12 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=8G
 
+# Resolve directories
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+cd "$REPO_ROOT"
+
 # Create logs directory if needed
 mkdir -p logs
 
