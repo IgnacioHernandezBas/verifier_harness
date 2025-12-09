@@ -1,0 +1,148 @@
+{
+  "patch_id": "quixbugs__reverse_linked_list",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248387.7657533,
+  "static_result": {
+    "sqi_score": 0.8125,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/reverse_linked_list.py"
+      ],
+      "sqi": {
+        "SQI": 81.25,
+        "classification": "Good",
+        "components": {
+          "pylint": 62.5,
+          "radon": 100.0,
+          "flake8": 100.0,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/reverse_linked_list.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 1,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 10,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/reverse_linked_list.py": [
+            {
+              "name": "reverse_linked_list",
+              "complexity": 2,
+              "lineno": 1
+            }
+          ]
+        },
+        "mi_avg": 100.0
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 26,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/reverse_linked_list.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 6,
+        "avg_func_length": 6.0,
+        "error": null,
+        "changed_functions": [
+          "reverse_linked_list"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 0,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "error": "Could not infer strategy"
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 16,
+      "total_covered_lines": 16,
+      "changed_lines": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ]
+    },
+    "changed_functions": [],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": []
+    }
+  },
+  "execution_time": 0.929152250289917
+}

@@ -77,6 +77,26 @@ def load_instances(repo_filter: str = None, limit: int = None, instance_file: Pa
     return instance_ids
 
 
+def load_quixbugs_programs(limit: int = None, instance_file: Path = None) -> List[str]:
+    """
+    Load QuixBugs program names either from a file or by scanning bug_patches.
+    """
+    if instance_file and instance_file.exists():
+        print(f"Loading QuixBugs programs from: {instance_file}")
+        with open(instance_file) as f:
+            programs = [line.strip() for line in f if line.strip()]
+        return programs[:limit] if limit else programs
+
+    patch_dir = REPO_ROOT / "QuixBugs" / "bug_patches"
+    if not patch_dir.exists():
+        raise FileNotFoundError(f"QuixBugs patch directory not found: {patch_dir}")
+
+    programs = sorted(p.stem for p in patch_dir.glob("*.patch"))
+    if limit:
+        programs = programs[:limit]
+    return programs
+
+
 def group_instances_by_repo(instance_ids: List[str]) -> Dict[str, List[str]]:
     """Group instances by repository."""
     repo_groups = {}
@@ -159,12 +179,19 @@ def submit_batch(
     enable_static: bool,
     enable_fuzzing: bool,
     enable_rules: bool,
-    dry_run: bool = False
+    dataset: str,
+    dry_run: bool = False,
+    quixbugs_mode: str = "regression",
+    quixbugs_max_examples: int = 100,
+    quixbugs_timeout: int = 2
 ) -> int:
     """Submit SLURM batch job."""
 
     # Write instance IDs to file
-    instance_file = REPO_ROOT / "instance_ids.txt"
+    instance_filename = f"instance_ids_{dataset}.txt"
+    if dataset == 'swebench':
+        instance_filename = "instance_ids.txt"
+    instance_file = REPO_ROOT / instance_filename
     with open(instance_file, 'w') as f:
         for iid in instance_ids:
             f.write(f"{iid}\n")
@@ -172,17 +199,38 @@ def submit_batch(
     print(f"\n✓ Wrote {len(instance_ids)} instance IDs to: {instance_file}")
 
     # Show repo breakdown
-    repo_groups = group_instances_by_repo(instance_ids)
-    print(f"\nInstances by repository:")
-    for repo, instances in sorted(repo_groups.items(), key=lambda x: len(x[1]), reverse=True):
-        print(f"  {repo}: {len(instances)} instances")
+    if dataset == 'swebench':
+        repo_groups = group_instances_by_repo(instance_ids)
+        print(f"\nInstances by repository:")
+        for repo, instances in sorted(repo_groups.items(), key=lambda x: len(x[1]), reverse=True):
+            print(f"  {repo}: {len(instances)} instances")
+    else:
+        print(f"\nQuixBugs programs selected ({len(instance_ids)} total):")
+        preview = ', '.join(instance_ids[:10])
+        print(f"  {preview}" + (" ..." if len(instance_ids) > 10 else ""))
 
     # Prepare SLURM submission
     array_spec = f"1-{len(instance_ids)}%{max_parallel}"
     script = REPO_ROOT / "scripts/slurm/slurm_integrated_pipeline.sh"
 
     # Build sbatch command
-    cmd = ["sbatch", f"--array={array_spec}", str(script)]
+    env_vars = [
+        "ALL",
+        f"PIPELINE_DATASET={dataset}",
+        f"PIPELINE_INSTANCE_FILE={instance_filename}",
+        f"PIPELINE_ENABLE_STATIC={'1' if enable_static else '0'}",
+        f"PIPELINE_ENABLE_FUZZING={'1' if enable_fuzzing else '0'}",
+        f"PIPELINE_ENABLE_RULES={'1' if enable_rules else '0'}",
+    ]
+
+    if dataset == 'quixbugs':
+        env_vars.extend([
+            f"PIPELINE_QUIX_MODE={quixbugs_mode}",
+            f"PIPELINE_QUIX_MAX_EXAMPLES={quixbugs_max_examples}",
+            f"PIPELINE_QUIX_TIMEOUT={quixbugs_timeout}",
+        ])
+
+    cmd = ["sbatch", f"--array={array_spec}", f"--export={','.join(env_vars)}", str(script)]
 
     print(f"\n" + "="*70)
     print("SLURM Job Configuration")
@@ -259,6 +307,13 @@ Examples:
 
     # Input options
     parser.add_argument(
+        '--dataset',
+        choices=['swebench', 'quixbugs'],
+        default='swebench',
+        help='Dataset to process (default: swebench)'
+    )
+
+    parser.add_argument(
         '--repo',
         help='Filter by repository (e.g., "scikit-learn/scikit-learn")'
     )
@@ -315,19 +370,46 @@ Examples:
         help='Skip storage capacity check'
     )
 
+    parser.add_argument(
+        '--quixbugs-mode',
+        choices=['fix', 'regression'],
+        default='regression',
+        help='Patch mode when dataset=quixbugs (default: regression)'
+    )
+
+    parser.add_argument(
+        '--quixbugs-max-examples',
+        type=int,
+        default=100,
+        help='Hypothesis examples per fuzz run for QuixBugs'
+    )
+
+    parser.add_argument(
+        '--quixbugs-timeout',
+        type=int,
+        default=2,
+        help='Timeout in seconds per execution for QuixBugs'
+    )
+
     args = parser.parse_args()
 
     print("="*70)
     print("Integrated Pipeline - Smart Batch Submission")
     print("="*70)
 
-    # Load instances
+    # Load instances/programs
     try:
-        instance_ids = load_instances(
-            repo_filter=args.repo,
-            limit=args.limit,
-            instance_file=args.instance_file
-        )
+        if args.dataset == 'quixbugs':
+            instance_ids = load_quixbugs_programs(
+                limit=args.limit,
+                instance_file=args.instance_file
+            )
+        else:
+            instance_ids = load_instances(
+                repo_filter=args.repo,
+                limit=args.limit,
+                instance_file=args.instance_file
+            )
     except Exception as e:
         print(f"✗ Error loading instances: {e}")
         return 1
@@ -339,7 +421,9 @@ Examples:
     print(f"✓ Loaded {len(instance_ids)} instances")
 
     # Check storage capacity
-    if not args.skip_storage_check:
+    if args.dataset == 'quixbugs':
+        print("\nℹ️  QuixBugs dataset selected - skipping storage check (no containers).")
+    elif not args.skip_storage_check:
         can_proceed, message = check_storage_capacity(instance_ids)
         print(message)
 
@@ -356,7 +440,11 @@ Examples:
         enable_static=not args.disable_static,
         enable_fuzzing=not args.disable_fuzzing,
         enable_rules=not args.disable_rules,
-        dry_run=args.dry_run
+        dataset=args.dataset,
+        dry_run=args.dry_run,
+        quixbugs_mode=args.quixbugs_mode,
+        quixbugs_max_examples=args.quixbugs_max_examples,
+        quixbugs_timeout=args.quixbugs_timeout
     )
 
 

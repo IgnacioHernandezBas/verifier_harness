@@ -1,0 +1,2904 @@
+{
+  "patch_id": "quixbugs__lis",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248345.895236,
+  "static_result": {
+    "sqi_score": 0.8056,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lis.py"
+      ],
+      "sqi": {
+        "SQI": 80.56,
+        "classification": "Good",
+        "components": {
+          "pylint": 72.7,
+          "radon": 83.34,
+          "flake8": 89.19,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lis.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 20,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 8,
+          "code": "E501",
+          "message": "line too long (81 > 79 characters)"
+        },
+        {
+          "line": 20,
+          "code": "E303",
+          "message": "too many blank lines (3)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lis.py": [
+            {
+              "name": "lis",
+              "complexity": 7,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 83.34
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 37,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lis.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 10,
+        "avg_func_length": 14.0,
+        "error": null,
+        "changed_functions": [
+          "lis"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "program_name": "lis",
+      "test_cases_run": 100,
+      "differences_found": 0,
+      "results": [
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            10,
+            20,
+            11,
+            32,
+            22,
+            48,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5,
+            1,
+            3,
+            4,
+            7
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4,
+            2,
+            1
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3227
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -73
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18393
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18393,
+            -119,
+            -12197
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -22193
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -5366,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            3073781671326029747347577085295501129,
+            -43,
+            16006,
+            87,
+            -7808,
+            26,
+            44,
+            80,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -5366,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            3073781671326029747347577085295501129,
+            -43,
+            16006,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -279,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            3073781671326029747347577085295501129,
+            -43,
+            16006,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -279,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            -279,
+            -43,
+            16006,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -279,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            -279,
+            -43,
+            87,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -279,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            -279,
+            250,
+            87,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            124
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2879,
+            -279,
+            31150,
+            250,
+            1920015972,
+            -279,
+            -55,
+            -279,
+            250,
+            87,
+            87,
+            -7808,
+            26,
+            44,
+            87,
+            -20214,
+            6268,
+            87
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -44,
+            -7700,
+            -1000,
+            -5718,
+            21347,
+            -73461991658647286920871462363454961062
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -44,
+            -7700,
+            -1000,
+            21347,
+            21347,
+            -73461991658647286920871462363454961062
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -1000,
+            -7700,
+            -1000,
+            21347,
+            21347,
+            -73461991658647286920871462363454961062
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -1000,
+            -7700
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -7700,
+            -7700
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -43,
+            -7700
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7700,
+            -7700
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            59,
+            250,
+            -897330673
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            59,
+            -897330673,
+            -897330673
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -897330673,
+            -897330673,
+            -897330673
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -897330673,
+            -897330673
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -631,
+            83794818,
+            -12,
+            7519,
+            11571,
+            -17,
+            -97,
+            -22372,
+            -5157,
+            -191,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -631,
+            83794818,
+            -12,
+            7519,
+            11571,
+            -17,
+            -97,
+            -22372,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -631,
+            83794818,
+            -12,
+            7519,
+            11571,
+            -17,
+            14537,
+            -22372,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -631,
+            83794818,
+            14537,
+            7519,
+            11571,
+            -17,
+            14537,
+            -22372,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -631,
+            83794818,
+            14537,
+            7519,
+            11571,
+            -17,
+            14537,
+            -17,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -17,
+            83794818,
+            14537,
+            7519,
+            11571,
+            -17,
+            14537,
+            -17,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5157,
+            83794818,
+            14537,
+            7519,
+            11571,
+            -17,
+            14537,
+            -17,
+            -5157,
+            14537,
+            14537
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            -7,
+            2874,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            9455,
+            1000,
+            15738,
+            -24667,
+            529,
+            -8,
+            23042,
+            -15783,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            -7,
+            2874,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            9455,
+            1000,
+            2874,
+            -24667,
+            529,
+            -8,
+            23042,
+            -15783,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            2874,
+            2874,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            9455,
+            1000,
+            2874,
+            -24667,
+            529,
+            -8,
+            23042,
+            -15783,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            2874,
+            2874,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            1000,
+            1000,
+            2874,
+            -24667,
+            529,
+            -8,
+            23042,
+            -15783,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            2874,
+            -24667,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            1000,
+            1000,
+            2874,
+            -24667,
+            529,
+            -8,
+            23042,
+            -15783,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18037,
+            2874,
+            -24667,
+            1000,
+            -27047,
+            34,
+            5705,
+            -16018,
+            1000,
+            1000,
+            2874,
+            -24667,
+            529,
+            -8,
+            23042,
+            -16018,
+            23630
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 17 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -16921,
+            6308,
+            21891,
+            23833,
+            -113,
+            100,
+            -14758,
+            -32430,
+            -1254
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            6308,
+            21891,
+            23833,
+            -113,
+            100,
+            -14758,
+            -32430,
+            -1254
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            6308,
+            -113,
+            23833,
+            -113,
+            100,
+            -14758,
+            -32430,
+            -1254
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            6308,
+            -113,
+            23833,
+            -113,
+            100,
+            -14758,
+            -113,
+            -1254
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 10 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            6308,
+            -113,
+            23833
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            6308,
+            -113,
+            -113
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20312,
+            -113,
+            20312,
+            -113,
+            -113
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1000,
+            60025671025776384323614660165786295878,
+            127,
+            -26702,
+            7727347310772926446,
+            8779,
+            -28484,
+            1545852815,
+            -18
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -28484,
+            60025671025776384323614660165786295878,
+            127,
+            -26702,
+            7727347310772926446,
+            8779,
+            -28484,
+            1545852815,
+            -18
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -28484,
+            1545852815,
+            127,
+            -26702,
+            7727347310772926446,
+            8779,
+            -28484,
+            1545852815,
+            -18
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            15,
+            -30163,
+            -1872
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            -95,
+            -30163,
+            -1872
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            -95,
+            -30163,
+            -95
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            9491,
+            -30163,
+            -95
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            -30896,
+            -30163,
+            -95
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -118535980770735592994267888599815933367,
+            500,
+            -30896,
+            -30896,
+            -30163,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9716,
+            -95,
+            9491,
+            -95,
+            500,
+            -30896,
+            -30896,
+            -30163,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -59,
+            -29287224089232488913871125526227372945,
+            427172759430188405,
+            533454388,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            114,
+            100,
+            18353
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            -29287224089232488913871125526227372945,
+            427172759430188405,
+            533454388,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            114,
+            100,
+            18353
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            -29287224089232488913871125526227372945,
+            427172759430188405,
+            533454388,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            114,
+            100,
+            -29531
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            427172759430188405,
+            427172759430188405,
+            533454388,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            114,
+            100,
+            -29531
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            427172759430188405,
+            427172759430188405,
+            533454388,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            -29531,
+            100,
+            -29531
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            427172759430188405,
+            427172759430188405,
+            100,
+            -10086,
+            1,
+            9517,
+            -29531,
+            -31222,
+            -29531,
+            100,
+            -29531
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 12 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18353,
+            427172759430188405,
+            427172759430188405,
+            100
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            21504,
+            -25408,
+            -26857,
+            -8971236128813370660
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            21504,
+            -25408,
+            -26857,
+            -26
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            21504,
+            -25408,
+            21504,
+            -26
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -26,
+            -25408,
+            21504,
+            -26
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -26,
+            -25408,
+            -26,
+            -26
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -26,
+            -25408,
+            -26,
+            -25408
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            243,
+            39,
+            500,
+            2584209342033248167,
+            4693
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            500,
+            39,
+            500,
+            2584209342033248167,
+            4693
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            2584209342033248167,
+            39,
+            500,
+            2584209342033248167,
+            4693
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            2584209342033248167,
+            20601,
+            500,
+            2584209342033248167,
+            4693
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            2584209342033248167,
+            20601,
+            500,
+            2584209342033248167,
+            2584209342033248167
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20601,
+            2584209342033248167,
+            2584209342033248167,
+            500,
+            2584209342033248167,
+            2584209342033248167
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            500,
+            2584209342033248167,
+            2584209342033248167,
+            500,
+            2584209342033248167,
+            2584209342033248167
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8900,
+            13879,
+            57,
+            -550860271,
+            32401
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            57,
+            13879,
+            57,
+            -550860271,
+            32401
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            57,
+            57,
+            57,
+            -550860271,
+            32401
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            57,
+            -550860271,
+            57,
+            -550860271,
+            32401
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            57
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -58295354549733114965147417910292029667
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            19695,
+            -8,
+            -28290
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            19695,
+            -8
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12,
+            8707524796285385999,
+            -121
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8707524796285385999,
+            8707524796285385999,
+            -121
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8707524796285385999,
+            8707524796285385999,
+            8707524796285385999
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8707524796285385999,
+            8707524796285385999
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1738320720,
+            125,
+            8918907461866805407,
+            -7366,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -106,
+            125,
+            8918907461866805407,
+            -7366,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -106,
+            125,
+            8918907461866805407,
+            8918907461866805407,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -106,
+            125,
+            8918907461866805407,
+            -106,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            125,
+            125,
+            8918907461866805407,
+            -106,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8918907461866805407,
+            125,
+            8918907461866805407,
+            -106,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8918907461866805407,
+            125,
+            8918907461866805407,
+            -106
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "lis() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": []
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 14,
+      "total_covered_lines": 14,
+      "changed_lines": [
+        14,
+        18,
+        19,
+        21,
+        22,
+        25,
+        26,
+        28,
+        29,
+        31,
+        32,
+        34,
+        35,
+        36
+      ]
+    },
+    "changed_functions": [
+      "lis"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 14,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.9250645637512207
+}

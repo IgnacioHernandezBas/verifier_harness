@@ -1,0 +1,3008 @@
+{
+  "patch_id": "quixbugs__shunting_yard",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248393.9808702,
+  "static_result": {
+    "sqi_score": 0.852,
+    "sqi_classification": "Excellent",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/shunting_yard.py"
+      ],
+      "sqi": {
+        "SQI": 85.2,
+        "classification": "Excellent",
+        "components": {
+          "pylint": 76.9,
+          "radon": 89.52,
+          "flake8": 95.83,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/shunting_yard.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 25,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 30,
+          "code": "E501",
+          "message": "line too long (108 > 79 characters)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/shunting_yard.py": [
+            {
+              "name": "shunting_yard",
+              "complexity": 6,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 89.52
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 48,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/shunting_yard.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 10,
+        "avg_func_length": 20.0,
+        "error": null,
+        "changed_functions": [
+          "shunting_yard"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "program_name": "shunting_yard",
+      "test_cases_run": 100,
+      "differences_found": 0,
+      "results": [
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            522,
+            30653,
+            -19331,
+            250,
+            -20445
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            10,
+            "-",
+            5,
+            "-",
+            2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4,
+            "+",
+            9,
+            "*",
+            9,
+            "-",
+            10,
+            "+",
+            13
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            34,
+            "-",
+            12,
+            "/",
+            5
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -19065
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -31076
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6212,
+            -31889,
+            -1988055371,
+            -29
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29,
+            -31889,
+            -1988055371,
+            -29
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1988055371,
+            -31889,
+            -1988055371,
+            -29
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1988055371,
+            -1988055371,
+            -1988055371,
+            -29
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1988055371,
+            -1988055371,
+            -1988055371,
+            -1988055371
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -22496,
+            -17029,
+            76
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -22496,
+            -22496,
+            76
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            76,
+            -22496,
+            76
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            76,
+            -22496,
+            -22496
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            29197,
+            30397,
+            -17,
+            46,
+            17344,
+            -8334031435037538672,
+            -12749,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            29197,
+            30397,
+            -17,
+            46,
+            17344,
+            17344,
+            -12749,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            29197,
+            30397,
+            -17,
+            46,
+            2821,
+            17344,
+            -12749,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            29197,
+            30397,
+            46,
+            46,
+            2821,
+            17344,
+            -12749,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            29197,
+            30397,
+            46,
+            46,
+            2821,
+            17344,
+            17344,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            72087097442109226648734751769505915604,
+            30397,
+            46,
+            46,
+            2821,
+            17344,
+            17344,
+            -105,
+            2821,
+            96,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            72087097442109226648734751769505915604,
+            491035160,
+            72087097442109226648734751769505915604,
+            30397,
+            46,
+            46,
+            2821,
+            17344,
+            17344,
+            -105,
+            2821,
+            46,
+            10101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286,
+            -11849,
+            -6636563484449458590,
+            -706357355,
+            51285531927007398263227348847487248341,
+            120,
+            125,
+            22,
+            -110,
+            -119
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286,
+            -11849,
+            22,
+            -706357355,
+            51285531927007398263227348847487248341,
+            120,
+            125,
+            22,
+            -110,
+            -119
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286,
+            -11849,
+            22,
+            -706357355,
+            51285531927007398263227348847487248341,
+            120,
+            -11849,
+            22,
+            -110,
+            -119
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286,
+            -11849,
+            22,
+            -706357355,
+            51285531927007398263227348847487248341,
+            120,
+            -11849,
+            22,
+            -110,
+            -11849
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286,
+            -11849,
+            22,
+            -706357355,
+            51285531927007398263227348847487248341,
+            -6170,
+            -11849,
+            22,
+            -110,
+            -11849
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -26286
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6170,
+            -6170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -109609500,
+            -103,
+            -59
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -109609500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1703544833,
+            21991,
+            113,
+            -773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1703544833,
+            21991,
+            -773,
+            -773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1703544833,
+            21991,
+            -773,
+            21991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            21991,
+            21991,
+            -773,
+            21991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            21991,
+            21991,
+            -773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            21991,
+            -773,
+            -773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            21991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -98,
+            -5218,
+            44,
+            -14636,
+            37346496824319473,
+            108,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            10176,
+            -6500,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -98,
+            -5218,
+            44,
+            -14636,
+            37346496824319473,
+            108,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            10176,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -98,
+            -5218,
+            44,
+            -14636,
+            37346496824319473,
+            -2040594307,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            10176,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -59,
+            -5218,
+            44,
+            -14636,
+            37346496824319473,
+            -2040594307,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            10176,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -59,
+            44,
+            44,
+            -14636,
+            37346496824319473,
+            -2040594307,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            10176,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -59,
+            44,
+            44,
+            -14636,
+            37346496824319473,
+            -2040594307,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            655636896,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655636896,
+            -59,
+            44,
+            44,
+            -14636,
+            37346496824319473,
+            -59,
+            -117,
+            -26409,
+            -113,
+            -59,
+            -33,
+            655636896,
+            -5218,
+            32495,
+            20841,
+            -2040594307,
+            10625,
+            2610,
+            -52
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            1938241255303471338,
+            -17032,
+            23889,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            20939,
+            -93
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            1938241255303471338,
+            -17032,
+            23889,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            20939,
+            1938241255303471338
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            1938241255303471338,
+            -17032,
+            -17032,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            20939,
+            1938241255303471338
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            1938241255303471338,
+            -17032,
+            -17032,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            -3217412900467726468,
+            1938241255303471338
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            1938241255303471338,
+            -17032,
+            -17032,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            -3217412900467726468,
+            -3217412900467726468
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            -3217412900467726468,
+            -17032,
+            -17032,
+            -3217412900467726468,
+            -574082703951392148,
+            24629356018906950923517239362198773550,
+            -3217412900467726468,
+            -3217412900467726468
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -944369839,
+            -3217412900467726468,
+            -17032,
+            -17032,
+            -3217412900467726468,
+            -574082703951392148,
+            -944369839,
+            -3217412900467726468,
+            -3217412900467726468
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 9 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -119,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            100,
+            -2871,
+            132447382407506815229825161477493985823,
+            -1973994936,
+            -6296,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -1973994936,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            100,
+            -2871,
+            132447382407506815229825161477493985823,
+            -1973994936,
+            -6296,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -1973994936,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            100,
+            -2871,
+            132447382407506815229825161477493985823,
+            -1973994936,
+            27,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -1973994936,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            100,
+            -2871,
+            100,
+            -1973994936,
+            27,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -1973994936,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            -20813,
+            -2871,
+            100,
+            -1973994936,
+            27,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5644,
+            27,
+            -47357577924476089377435101377488884088,
+            -6612916554279644186,
+            -1973994936,
+            -31063,
+            21491,
+            -20813,
+            -27585,
+            -3798,
+            -20813,
+            -2871,
+            100,
+            -1973994936,
+            -47357577924476089377435101377488884088,
+            -2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3783250898649260558,
+            25726
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3783250898649260558,
+            -3783250898649260558
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3783250898649260558
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5482,
+            -21896,
+            -5485,
+            -1000,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            21044,
+            -9118,
+            -56,
+            500,
+            -72,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5482,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            21044,
+            -9118,
+            -56,
+            500,
+            -72,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5482,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            -21896,
+            -9118,
+            -56,
+            500,
+            -72,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5485,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            -21896,
+            -9118,
+            -56,
+            500,
+            -72,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5485,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            -21896,
+            -9118,
+            -8,
+            500,
+            -72,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5485,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            -39,
+            -1407,
+            2389,
+            29660,
+            -21896,
+            -9118,
+            -8,
+            500,
+            33,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30510,
+            -5485,
+            -21896,
+            -5485,
+            29660,
+            120,
+            -8,
+            33,
+            18986,
+            -1407,
+            2389,
+            29660,
+            -21896,
+            -9118,
+            -8,
+            500,
+            33,
+            18986,
+            19961
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -330,
+            -9025471475646756699
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -330,
+            -330
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            36,
+            -111,
+            -6324
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6324,
+            -111,
+            -6324
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6324,
+            -6324,
+            -6324
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6324,
+            -6324
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6324
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29222,
+            -22291,
+            8068,
+            20604,
+            500,
+            950356223
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291,
+            8068,
+            20604,
+            500,
+            950356223
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291,
+            8068,
+            -22291,
+            500,
+            950356223
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291,
+            500,
+            -22291,
+            500,
+            950356223
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291,
+            500,
+            -22291,
+            500,
+            -22291
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291,
+            -22291,
+            -22291,
+            500,
+            -22291
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20604,
+            -22291
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            659242780,
+            -3976922136312710391,
+            -5758210318976669238,
+            -28900,
+            -4141,
+            30474,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            659242780,
+            -3976922136312710391,
+            -5758210318976669238,
+            659242780,
+            -4141,
+            30474,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            659242780,
+            -3976922136312710391,
+            -5758210318976669238,
+            659242780,
+            -4141,
+            -5758210318976669238,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            500,
+            -3976922136312710391,
+            -5758210318976669238,
+            659242780,
+            -4141,
+            -5758210318976669238,
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            500,
+            -3976922136312710391,
+            -5758210318976669238,
+            659242780,
+            -4141,
+            -5758210318976669238,
+            -5758210318976669238
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            500,
+            -3976922136312710391,
+            -5758210318976669238,
+            659242780,
+            -5758210318976669238,
+            -5758210318976669238,
+            -5758210318976669238
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            500
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'int' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -61,
+            -108,
+            -30277,
+            6
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -61,
+            -61,
+            -30277,
+            6
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -61,
+            -61
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5858,
+            -77,
+            -1672715746,
+            -28492,
+            9,
+            -55,
+            -26,
+            -30099,
+            15763,
+            7437563235696976591,
+            -576462664,
+            25801,
+            -30616,
+            -1000,
+            15469,
+            1000,
+            47,
+            -6894945661796003162,
+            28237,
+            29639182580328337989518730344398635764
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5858,
+            -77,
+            -1672715746,
+            -28492,
+            7437563235696976591,
+            -55,
+            -26,
+            -30099,
+            15763,
+            7437563235696976591,
+            -576462664,
+            25801,
+            -30616,
+            -1000,
+            15469,
+            1000,
+            47,
+            -6894945661796003162,
+            28237,
+            29639182580328337989518730344398635764
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5858,
+            -77,
+            -30099,
+            -28492,
+            7437563235696976591,
+            -55,
+            -26,
+            -30099,
+            15763,
+            7437563235696976591,
+            -576462664,
+            25801,
+            -30616,
+            -1000,
+            15469,
+            1000,
+            47,
+            -6894945661796003162,
+            28237,
+            29639182580328337989518730344398635764
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "shunting_yard() takes 1 positional argument but 20 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": []
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 25,
+      "total_covered_lines": 25,
+      "changed_lines": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    "changed_functions": [],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": []
+    }
+  },
+  "execution_time": 1.1829817295074463
+}

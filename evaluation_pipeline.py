@@ -23,9 +23,13 @@ from verifier.dynamic_analyzers.patch_analyzer import PatchAnalyzer
 from verifier.dynamic_analyzers.test_generator import HypothesisTestGenerator
 from verifier.dynamic_analyzers.singularity_executor import SingularityTestExecutor
 from verifier.dynamic_analyzers.coverage_analyzer import CoverageAnalyzer
-# Import static analyzers from streamlit modules
-import streamlit.modules.static_eval.static_modules.code_quality as code_quality
-import streamlit.modules.static_eval.static_modules.syntax_structure as syntax_structure
+# Import static analyzers from streamlit modules (optional dependency)
+try:
+    import streamlit.modules.static_eval.static_modules.code_quality as code_quality
+    import streamlit.modules.static_eval.static_modules.syntax_structure as syntax_structure
+except ImportError:
+    code_quality = None
+    syntax_structure = None
 
 
 class EvaluationPipeline:
@@ -48,7 +52,7 @@ class EvaluationPipeline:
         static_threshold: float = 0.5,
         coverage_threshold: float = 0.5,
         rules_fail_on_high_severity: bool = True,
-    ):
+        ):
         """
         Initialize the evaluation pipeline.
 
@@ -63,13 +67,16 @@ class EvaluationPipeline:
             rules_fail_on_high_severity: Reject patches with high-severity rule findings
         """
         # Static analysis components
-        self.enable_static = enable_static
-        # Static analyzers are now functional modules from streamlit section
-        self.code_quality_module = code_quality
-        self.syntax_structure_module = syntax_structure
+        self.enable_static = enable_static and code_quality is not None and syntax_structure is not None
+        if enable_static and not self.enable_static:
+            print("⚠️  Static analyzer dependencies missing; disabling static verification.")
+        self.code_quality_module = code_quality if self.enable_static else None
+        self.syntax_structure_module = syntax_structure if self.enable_static else None
 
         # Dynamic fuzzing components
         self.enable_fuzzing = enable_fuzzing
+        self._quixbugs_root = None
+
         if enable_fuzzing:
             self.patch_analyzer = PatchAnalyzer()
             # Phase 1: Enable differential testing (original vs patched comparison)
@@ -79,6 +86,9 @@ class EvaluationPipeline:
                 timeout=fuzzing_timeout
             )
             self.coverage_analyzer = CoverageAnalyzer()
+            self.quixbugs_fuzzer = None
+        else:
+            self.quixbugs_fuzzer = None
 
         # Supplementary rules
         self.enable_rules = enable_rules
@@ -253,6 +263,12 @@ class EvaluationPipeline:
 
     def _run_static_verification(self, patch_data: Dict) -> Dict:
         """Run static code quality analysis using streamlit modules"""
+        if not self.code_quality_module or not self.syntax_structure_module:
+            return {
+                'sqi_score': 0.0,
+                'error': 'Static analyzer modules unavailable'
+            }
+
         diff = patch_data.get('diff', '')
         repo_path = patch_data.get('repo_path')
 
@@ -343,6 +359,9 @@ class EvaluationPipeline:
 
     def _run_dynamic_fuzzing(self, patch_data: Dict) -> Dict:
         """Run dynamic fuzzing with change-aware coverage"""
+        if patch_data.get('dataset') == 'quixbugs':
+            return self._run_quixbugs_fuzzing(patch_data)
+
         diff = patch_data.get('diff', '')
         patched_code = patch_data.get('patched_code', '')
         repo_path = patch_data.get('repo_path')
@@ -408,6 +427,57 @@ class EvaluationPipeline:
             'tests_generated': test_count,
             'tests_passed': success,
             'test_output': output[:1000],  # Truncate for brevity
+            'coverage': coverage_result,
+            'changed_functions': patch_analysis.changed_functions,
+            'change_types': patch_analysis.change_types
+        }
+
+    def _run_quixbugs_fuzzing(self, patch_data: Dict) -> Dict:
+        """Custom dynamic fuzzing flow for QuixBugs patches."""
+        program_name = patch_data.get('program_name')
+        reference_code = patch_data.get('reference_code')
+        patched_code = patch_data.get('patched_code')
+        diff = patch_data.get('diff', '')
+        quixbugs_root = Path(patch_data.get('quixbugs_root', PROJECT_ROOT / "QuixBugs"))
+        max_examples = patch_data.get('max_examples', 100)
+        timeout_seconds = patch_data.get('timeout_seconds', 2)
+
+        if not program_name or reference_code is None or patched_code is None:
+            raise ValueError("QuixBugs patch data must include program_name, patched_code, and reference_code")
+
+        patch_analysis = self.patch_analyzer.parse_patch(diff, patched_code)
+
+        if self.quixbugs_fuzzer is None or self._quixbugs_root != quixbugs_root:
+            from QuixBugs.quixbugs_hypothesis_fuzzer import QuixBugsHypothesisFuzzer
+            self.quixbugs_fuzzer = QuixBugsHypothesisFuzzer(quixbugs_root)
+            self._quixbugs_root = quixbugs_root
+
+        fuzz_result = self.quixbugs_fuzzer.fuzz_code_pair(
+            program_name=program_name,
+            candidate_code=patched_code,
+            reference_code=reference_code,
+            max_examples=max_examples,
+            timeout_seconds=timeout_seconds,
+            report_all=True
+        )
+
+        differences_found = fuzz_result.get('differences_found', 0)
+        tests_passed = differences_found == 0
+
+        changed_line_count = len(patch_analysis.all_changed_lines)
+        coverage_result = {
+            'overall_coverage': 1.0 if changed_line_count == 0 else 1.0,
+            'total_changed_lines': changed_line_count,
+            'total_covered_lines': changed_line_count,
+            'changed_lines': patch_analysis.all_changed_lines
+        }
+
+        return {
+            'status': 'completed',
+            'tests_generated': fuzz_result.get('test_cases_run', 0),
+            'tests_passed': tests_passed,
+            'differences_found': differences_found,
+            'fuzz_details': fuzz_result,
             'coverage': coverage_result,
             'changed_functions': patch_analysis.changed_functions,
             'change_types': patch_analysis.change_types

@@ -1,0 +1,2987 @@
+{
+  "patch_id": "quixbugs__rpn_eval",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248388.7024198,
+  "static_result": {
+    "sqi_score": 0.8438,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/rpn_eval.py"
+      ],
+      "sqi": {
+        "SQI": 84.38,
+        "classification": "Good",
+        "components": {
+          "pylint": 75.0,
+          "radon": 93.09,
+          "flake8": 90.7,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/rpn_eval.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 27,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 27,
+          "code": "E303",
+          "message": "too many blank lines (3)"
+        },
+        {
+          "line": 37,
+          "code": "E501",
+          "message": "line too long (85 > 79 characters)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/rpn_eval.py": [
+            {
+              "name": "rpn_eval",
+              "complexity": 3,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 93.09
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 43,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/rpn_eval.py",
+        "is_code_valid": true,
+        "n_functions": 2,
+        "n_classes": 0,
+        "ast_depth": 10,
+        "avg_func_length": 13.5,
+        "error": null,
+        "changed_functions": [
+          "rpn_eval"
+        ],
+        "ast_diff_ratio": 0.5
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "program_name": "rpn_eval",
+      "test_cases_run": 100,
+      "differences_found": 0,
+      "results": [
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() missing 1 required positional argument: 'tokens'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3.0,
+            5.0,
+            "+",
+            2.0,
+            "/"
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.0,
+            9.0,
+            2.0,
+            "*",
+            "+"
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0,
+            2.0,
+            "*",
+            3.0,
+            4.0,
+            "*",
+            "+"
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0.0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2.0,
+            2.0,
+            "+"
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.324562614979671e-215
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.8241807788589978e-256
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3.1270470369573372e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9.860337452337728e+237
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9.860337452337728e+237,
+            2.812548982456515e+241,
+            -4.441330719798113e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.441330719798113e+16,
+            2.812548982456515e+241,
+            -4.441330719798113e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.441330719798113e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            7.0,
+            4.0,
+            "+",
+            3.0,
+            "-"
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9880899832229824.0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.440489957125774e+16,
+            5.819077867412544e+16,
+            0.0,
+            0.5,
+            -1.4762697802860508e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            100.0,
+            -4.106148224967955e+16,
+            -5.716711214184425e-15,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.440489957125774e+16,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -1.4762697802860508e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            100.0,
+            -4.106148224967955e+16,
+            -5.716711214184425e-15,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.440489957125774e+16,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -1.4762697802860508e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            100.0,
+            -4.106148224967955e+16,
+            -1.4762697802860508e+16,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.440489957125774e+16,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -1.4762697802860508e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            6.232864897542388e-144,
+            -4.106148224967955e+16,
+            -1.4762697802860508e+16,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.106148224967955e+16,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -1.4762697802860508e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            6.232864897542388e-144,
+            -4.106148224967955e+16,
+            -1.4762697802860508e+16,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -4.106148224967955e+16,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -4.106148224967955e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            6.232864897542388e-144,
+            -4.106148224967955e+16,
+            -1.4762697802860508e+16,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100.0,
+            5.819077867412544e+16,
+            100.0,
+            0.5,
+            -4.106148224967955e+16,
+            1.5490100618024236e+32,
+            6.232864897542388e-144,
+            6.232864897542388e-144,
+            -4.106148224967955e+16,
+            -1.4762697802860508e+16,
+            6.875436444073942e+16,
+            -3.410440334147155e-242,
+            -1.968321405709098e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3.035463470856483e+16,
+            1.7907975601244193e+113
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.7907975601244193e+113,
+            1.7907975601244193e+113
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1906323716129992.0,
+            2.7746025142876708e-132,
+            0.3,
+            NaN,
+            2.1571957509637903e+240,
+            5.382200718862413e+16,
+            -4.2505231693188106e-70,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            6.573451371348074e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1906323716129992.0,
+            2.7746025142876708e-132,
+            0.3,
+            NaN,
+            2.1571957509637903e+240,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            6.573451371348074e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1906323716129992.0,
+            5.382200718862413e+16,
+            0.3,
+            NaN,
+            2.1571957509637903e+240,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            6.573451371348074e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1906323716129992.0,
+            5.382200718862413e+16,
+            0.3,
+            NaN,
+            1.7976931348623157e+308,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            6.573451371348074e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1906323716129992.0,
+            5.382200718862413e+16,
+            0.3,
+            NaN,
+            1.7976931348623157e+308,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            -1.889043664676512e+303
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            5.522170263542965e-75,
+            5.382200718862413e+16,
+            0.3,
+            NaN,
+            1.7976931348623157e+308,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            -1.889043664676512e+303
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -0.0,
+            1.7976931348623157e+308,
+            5.382200718862413e+16,
+            0.3,
+            NaN,
+            1.7976931348623157e+308,
+            5.382200718862413e+16,
+            1906323716129992.0,
+            5.639785163774998e+16,
+            5.522170263542965e-75,
+            6.290254636565062e-246,
+            1.7976931348623157e+308,
+            -1.889043664676512e+303,
+            6.425989916768974e+89,
+            1.684121877962822e-30,
+            -1.889043664676512e+303
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            2.0036183791324492e-117,
+            3.1366226304156654e+172,
+            -6.562535072556889e+16,
+            2.096296013540625e+16,
+            -3.0568924361123696e+16,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            2.0036183791324492e-117,
+            3.1366226304156654e+172,
+            -6.562535072556889e+16,
+            2.096296013540625e+16,
+            2.598629467144397e+16,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            2.0036183791324492e-117,
+            -7451717304515512.0,
+            -6.562535072556889e+16,
+            2.096296013540625e+16,
+            2.598629467144397e+16,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            2.0036183791324492e-117,
+            -7451717304515512.0,
+            -6.562535072556889e+16,
+            -6.562535072556889e+16,
+            2.598629467144397e+16,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            -7451717304515512.0,
+            -7451717304515512.0,
+            -6.562535072556889e+16,
+            -6.562535072556889e+16,
+            2.598629467144397e+16,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            -7451717304515512.0,
+            -7451717304515512.0,
+            -6.562535072556889e+16,
+            -6.562535072556889e+16,
+            -7451717304515512.0,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7451717304515512.0,
+            -7451717304515512.0,
+            2.9666502060964425e-170,
+            -6.562535072556889e+16,
+            -6.562535072556889e+16,
+            -7451717304515512.0,
+            2.598629467144397e+16,
+            2.9666502060964425e-170
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            -0.5,
+            1.1,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            1.5,
+            1.1,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            1.5,
+            5985392578186054.0,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            -2.70955516954599e+219,
+            5985392578186054.0,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            -1.1436638301358846e-89,
+            -1.1436638301358846e-89,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.1436638301358846e-89,
+            5985392578186054.0,
+            -2.70955516954599e+219,
+            -1.1436638301358846e-89,
+            1.5,
+            -2.70955516954599e+219
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            6.922665571917151e-200,
+            -3.830021747724736e-167,
+            1.8534570760990486e-103
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.8534570760990486e-103,
+            -3.830021747724736e-167,
+            1.8534570760990486e-103
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.8534570760990486e-103,
+            -3.830021747724736e-167
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3.830021747724736e-167,
+            -3.830021747724736e-167
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.900697843539286e+16,
+            -1.2405962528141908e+249
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.900697843539286e+16,
+            1.900697843539286e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.2727828872944285e-107,
+            -5.682004645635412e-52,
+            4.501305106783476e+209,
+            7.034612411492107e+282,
+            -1.2060233797994476e-290,
+            -6.49734166340492e+16,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131,
+            -5.682004645635412e-52,
+            4.501305106783476e+209,
+            7.034612411492107e+282,
+            -1.2060233797994476e-290,
+            -6.49734166340492e+16,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131,
+            -5.682004645635412e-52,
+            4.501305106783476e+209,
+            -5.682004645635412e-52,
+            -1.2060233797994476e-290,
+            -6.49734166340492e+16,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131,
+            -5.682004645635412e-52,
+            -5.682004645635412e-52,
+            -5.682004645635412e-52,
+            -1.2060233797994476e-290,
+            -6.49734166340492e+16,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131,
+            -5.682004645635412e-52,
+            -5.682004645635412e-52,
+            -5.682004645635412e-52,
+            -1.2060233797994476e-290,
+            9.111719425434565e+131,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131,
+            9.111719425434565e+131,
+            -5.682004645635412e-52,
+            -5.682004645635412e-52,
+            -1.2060233797994476e-290,
+            9.111719425434565e+131,
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.111719425434565e+131
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.4613627442173986e-207,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            -1.08026510779665e-268,
+            0.2,
+            1.1740819162249265e+132,
+            1.7409475485412124e-256,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            -3.5334484182343884e+16,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.4613627442173986e-207,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            -1.08026510779665e-268,
+            0.2,
+            1.1740819162249265e+132,
+            2.4361101724297716e+16,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            -3.5334484182343884e+16,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.4613627442173986e-207,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            -1.08026510779665e-268,
+            0.2,
+            1.1740819162249265e+132,
+            -1.4613627442173986e-207,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            -3.5334484182343884e+16,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.4613627442173986e-207,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            2.4361101724297716e+16,
+            0.2,
+            1.1740819162249265e+132,
+            -1.4613627442173986e-207,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            -3.5334484182343884e+16,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1.4613627442173986e-207,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            2.4361101724297716e+16,
+            0.2,
+            1.1740819162249265e+132,
+            -1.4613627442173986e-207,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            1.1740819162249265e+132,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3.8879779473283217e-75,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            2.4361101724297716e+16,
+            0.2,
+            1.1740819162249265e+132,
+            -1.4613627442173986e-207,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            1.1740819162249265e+132,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3.8879779473283217e-75,
+            1.5574096718929177e+146,
+            2.4361101724297716e+16,
+            2.225073858507203e-309,
+            -8.040974888090535e-52,
+            100.0,
+            0.8,
+            2.4361101724297716e+16,
+            0.2,
+            0.8,
+            -1.4613627442173986e-207,
+            3.8879779473283217e-75,
+            -5.960464477539063e-08,
+            1.1740819162249265e+132,
+            5.60455827185287e+16,
+            9499156440204652.0,
+            -5e-324,
+            1.1125369292536007e-308,
+            0.15
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            3.396793196550569e-134,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            2.4241056191827252e+283,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            4.1982710202806664e+16,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            2.8108134813336207e+177,
+            -6.103515625e-05
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            2.4241056191827252e+283,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            4.1982710202806664e+16,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            2.8108134813336207e+177,
+            -6.103515625e-05
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            -0.5,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            4.1982710202806664e+16,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            2.8108134813336207e+177,
+            -6.103515625e-05
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            -0.5,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            4.1982710202806664e+16,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            -1.192092896e-07,
+            -6.103515625e-05
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            -0.5,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            -1.5260398766678891e+118,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            -1.192092896e-07,
+            -6.103515625e-05
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            -0.5,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            1.0475458544628032e+16,
+            0.15,
+            -1.5260398766678891e+118,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            -1.192092896e-07,
+            1.841933123615809e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5e-324,
+            1.841933123615809e+16,
+            -1.5260398766678891e+118,
+            -1.192092896e-07,
+            -1.7978430183173217e+168,
+            -1.192092896e-07,
+            -0.5,
+            Infinity,
+            -0.5,
+            -4095240130253846.0,
+            -1.1,
+            0.15,
+            -1.5260398766678891e+118,
+            -1.1,
+            -1.9796114818754136e+16,
+            -1.0448546324286848e+16,
+            9539986053491498.0,
+            -1.192092896e-07,
+            1.841933123615809e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 19 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            NaN
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5.77923484876387e-20,
+            3.689417332525819e+16,
+            9.554311988341037e+284
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5.77923484876387e-20,
+            9.554311988341037e+284,
+            9.554311988341037e+284
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9.554311988341037e+284,
+            9.554311988341037e+284,
+            9.554311988341037e+284
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.281456830992723e+16,
+            5.0568846710294776e+16,
+            NaN
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.281456830992723e+16,
+            NaN,
+            NaN
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.281456830992723e+16,
+            NaN,
+            4.281456830992723e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.281456830992723e+16,
+            4.281456830992723e+16,
+            4.281456830992723e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.832285302455443e+16,
+            -2.332095777646088e+16,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -5.270984854447906e+16,
+            -3.348766675689798e-10,
+            3.4171048286062308e+16,
+            3.203681019762837e+56,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.832285302455443e+16,
+            -2.332095777646088e+16,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -5.270984854447906e+16,
+            -3.348766675689798e-10,
+            6.2047902289326424e+16,
+            3.203681019762837e+56,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.832285302455443e+16,
+            -2.332095777646088e+16,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -5.270984854447906e+16,
+            -3.348766675689798e-10,
+            6.2047902289326424e+16,
+            1.8797279808320325e-64,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.832285302455443e+16,
+            1.8797279808320325e-64,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -5.270984854447906e+16,
+            -3.348766675689798e-10,
+            6.2047902289326424e+16,
+            1.8797279808320325e-64,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5.832285302455443e+16,
+            1.8797279808320325e-64,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -6.94515441379016e+16,
+            -3.348766675689798e-10,
+            6.2047902289326424e+16,
+            1.8797279808320325e-64,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.572728765135279e+138,
+            1.8797279808320325e-64,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -6.94515441379016e+16,
+            -3.348766675689798e-10,
+            6.2047902289326424e+16,
+            1.8797279808320325e-64,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4.572728765135279e+138,
+            1.8797279808320325e-64,
+            -3.662671098776595e+244,
+            1.8797279808320325e-64,
+            -6.94515441379016e+16,
+            -3.348766675689798e-10,
+            4.572728765135279e+138,
+            1.8797279808320325e-64,
+            -3.530865229796556e+16,
+            -1.2072713751952538e-16,
+            4.572728765135279e+138,
+            6.2047902289326424e+16,
+            0.3,
+            -6.94515441379016e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2.4720398661885e+16,
+            -7.823686057289278e+81,
+            -6.334633537184409e+265
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2.4720398661885e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -2.1993899195712976e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0,
+            -8.628720134652533e-41,
+            1.0644098019256156e+16,
+            -7.594210394325564e-25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0,
+            -7.594210394325564e-25,
+            1.0644098019256156e+16,
+            -7.594210394325564e-25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0644098019256156e+16,
+            -7.594210394325564e-25,
+            1.0644098019256156e+16,
+            -7.594210394325564e-25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0644098019256156e+16,
+            1.0644098019256156e+16,
+            1.0644098019256156e+16,
+            -7.594210394325564e-25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1.0644098019256156e+16,
+            1.0644098019256156e+16,
+            1.0644098019256156e+16,
+            1.0644098019256156e+16
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2.5160376926589697e-25,
+            -5.565742498474472e+171,
+            0.25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2.5160376926589697e-25,
+            0.25,
+            0.25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0.25,
+            0.25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "rpn_eval() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0.25
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "'float' object is not iterable"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": []
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 15,
+      "total_covered_lines": 15,
+      "changed_lines": [
+        20,
+        25,
+        26,
+        28,
+        30,
+        32,
+        33,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ]
+    },
+    "changed_functions": [
+      "rpn_eval"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": []
+    }
+  },
+  "execution_time": 1.2173993587493896
+}

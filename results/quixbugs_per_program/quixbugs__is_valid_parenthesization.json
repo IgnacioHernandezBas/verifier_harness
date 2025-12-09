@@ -1,0 +1,1669 @@
+{
+  "patch_id": "quixbugs__is_valid_parenthesization",
+  "verdict": "REJECT",
+  "reason": "Generated fuzzing tests failed",
+  "timestamp": 1765248245.4025762,
+  "static_result": {
+    "sqi_score": 0.8107,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/is_valid_parenthesization.py"
+      ],
+      "sqi": {
+        "SQI": 81.07,
+        "classification": "Good",
+        "components": {
+          "pylint": 70.0,
+          "radon": 84.29,
+          "flake8": 100.0,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/is_valid_parenthesization.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 15,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/is_valid_parenthesization.py": [
+            {
+              "name": "is_valid_parenthesization",
+              "complexity": 4,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 84.29
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 31,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/is_valid_parenthesization.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 7,
+        "avg_func_length": 10.0,
+        "error": null,
+        "changed_functions": [
+          "is_valid_parenthesization"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": false,
+    "differences_found": 1,
+    "fuzz_details": {
+      "program_name": "is_valid_parenthesization",
+      "test_cases_run": 100,
+      "differences_found": 1,
+      "results": [
+        {
+          "inputs": [
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": true
+          },
+          "correct": {
+            "success": true,
+            "output": true
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "(("
+          ],
+          "buggy": {
+            "success": true,
+            "output": true
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=True, correct=False"
+        },
+        {
+          "inputs": [
+            "\u00d4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "((()()))()"
+          ],
+          "buggy": {
+            "success": true,
+            "output": true
+          },
+          "correct": {
+            "success": true,
+            "output": true
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "o\u00ed\ubfaf)-\u00eb\u009d\u00d4\u00f1\u0013\u001f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udbdb\udeeaC\udac9\uddc3\u00e6\u00d5\u0096\u00d0\u001eq\udad7\udef0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00d7\u00c6\u00d8|\ube74\u0083\u00f0\u001f\u0088E"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            ")()("
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud858\udcb0N\uda2d\udec4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00e4\u0015\u0085"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "error:"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\b\u00c7\u00bbm\u0003\u00af\u00f4\ud943\uddce\u0015W\u00ba\u00e1"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00b7\u00cc\u16c9\u0019\u00ba\u0081\u00c4\u00e9"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00dbP\ud8f2\udded(\u0080\u00d6\u00fa\u00a7\u008a\ud997\udc6a\u00fd\u00af\u00e1\u00f8\u00cfU\u00b8\u00fc\fL"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00b4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00e5\u0095\ud9b8\udf21\u0010\u001etXtp\u00ca\ud99d\udea4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00d3\udb2e\udef9"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "M\ud8a0\ude34\u0087\u00e9\u00f7\u00ca\ud814\ude49\u00c7\u008a2(\u00e84|"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\uda06\ude67\udb83\udde6\u00e0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "n\u008f\u00c0\u00d5\u00c9\\\ud92b\udfb3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "h%\uda90\udd84"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00f9\u00c1\u001c"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "."
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udaa5\ude49\ud83a\udcfa\u00a8\ud9a2\udc92$\u00e6\ud984\udc92"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00d5"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "j"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udbc8\uddb0\u00c2\ud956\udeb9\u00d4\udab7\udd3a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "+f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            ".D"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u0019\u0094_"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "a\u00b0\ud981\udf97"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "v\u00c3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00bd\u0087\u00b2\u00b8\u00d8"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u0089\ud8e9\ude93\udaa3\udf83\u00da\u0099\u00a3\u8121\u0012+\u009e\u009c"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "PW\u00b4\u0014`\udb97\udc2d"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u008d\udae5\uded3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udac2\udff6\udae7\udfc0\u00d5.\u00d3\uda0f\ude08\u00821\u001b\r\u008c\ud921\udd26\u00a0\u00f0\udb42\ude5d\u001fK\u007f\u00cc\u0090\u0085\ud9ca\udf5f\u00dd\u00cc"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u2717"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "1\ud8c9\udf90\u000fJQ\u0090Jb\u00b1!"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "GI;\u001cC\u0081n}%\u001e\u00b4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00f5"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "Q\u0085\u00bb\u009a\ud8cf\udd445\f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "u\u00df"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u0005\u00bc"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u0016\udb3f\ude3ba?\ud110\ud955\udffc\ud8d5\udfa4\u00c4j\u007fQ\ud9bd\ude4d\u00be"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00e5\u0088\uda96\udf81\u00a7\u00d5\u00cd/\u00fb\u00caG\u0097"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u001a'\u007f\u001bG\u00c2"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00db}t"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\\\u00ba\u00fan\u00f2\uda3f\udeac"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00a2\u00a8\u00d7\u009er"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "!\ud94f\udcda\u00c0X\u000b\u00db\u00da\u0018[?-g\u00b5\r"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "ep"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "Scunthorpe"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "M\u00c8\u00fa\u0089\udac9\uddf9\u001aX"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u0004\u000f\u4ee0\ud9a0\uddfb\udaed\uddb8\u00e2\u00bd\udba3\udd42\u000e\u00b8gh\ud9fe\udfa5P\u00f4\u0083l"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud9d4\udcb0\t-\u00b3\u3fbb\udb55\udef5\u00d0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ua57c"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "K"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud93f\uded9\u001f\u00cb\udbbe\udffcD"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud9a1\udd26\ud927\udf174\u00a2\u00c0."
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u009f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\uda69\ude32\uce73\udbaf\udf44"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud887\udeebE\u00d7\u00ce_\u0013"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00dc\u00c7\udbf3\udeb5\uda0a\udc0f\ud9dc\udf0b\u00fb\u00afA6\udba0\udee0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00bc\u0001>\u00d7\u00d6\ud8cc\udd20"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udbc3\udc35z\ud896\udc0a\u00dc\u0018"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "-"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "e\u008d"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00fe\u00de\u009d"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\uda13\udc7f\u0003\u0015LP\u00a3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ce\u00c4\u0010\u00e3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "r\u00eb"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ee\ud9f0\udcbca\u001a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00b9\b\u0098*\ud950\udfa6\ud9c8\ude54;"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud865\ude82"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00f12\u001c\udb88\udf9a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\uda3b\ude0e1"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "Z\uda25\udfe1\u00d7\u00b7\ud8a9\udf97\u0097*\ud959\udf6a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "R\uda00\udce9;&\ua10e\u00e9{"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud99c\udd8d\udb0d\udc8c\u00d1\u007fp"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "D"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00c9\ud95e\ude23\ud940\udc0dH\u00d4k\u00b4\udb8e\udefcI"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "0\udaa0\udc031\u00f1\u00f3\u0012c"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ad\udab5\udd63\u00ae"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u008e"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00aa"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud8b0\udec5\u00c2\u00e8@"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00d5\u15c0\u00fe"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u008e\ni\u0085"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ee\ud83d\udc41\ud8a6\udc1c\udbb0\udd66"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00caxz."
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ee\u00a7\u001b\ud942\uddb6r\u0085\u00eb"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "BO\uda51\udee9\u00d2"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "h]/\u0090\r\u00adg"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud9a9\udd93"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00ea\uda25\udfb7\u00ad9\uda85\ude57\u10b8\u00bc\uda5e\udf95N\u00b7\u00f9\u0087\u00fba\u00a7\u00d1\u00dbD\uda8b\ude33L\b\u00a7\u00cd\u00d9"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udb01\udd1e\u00c9\u008f\udbeb\uddbb\u00f6\ud93f\ude7a\u00e8\u00e8"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "NIL"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "x\u00aa\u0013\uda5b\ude8af\ud914\ude12"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud9bb\ude6c\u0092\uda4e\ude20\u00b8"
+          ],
+          "buggy": {
+            "success": true,
+            "output": false
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": [
+        {
+          "inputs": [
+            "(("
+          ],
+          "buggy": {
+            "success": true,
+            "output": true
+          },
+          "correct": {
+            "success": true,
+            "output": false
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=True, correct=False"
+        }
+      ]
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 14,
+      "total_covered_lines": 14,
+      "changed_lines": [
+        12,
+        13,
+        16,
+        17,
+        18,
+        20,
+        21,
+        23,
+        24,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    "changed_functions": [
+      "is_valid_parenthesization"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": []
+    }
+  },
+  "execution_time": 1.0822126865386963
+}

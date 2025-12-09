@@ -1,0 +1,1893 @@
+{
+  "patch_id": "quixbugs__lcs_length",
+  "verdict": "REJECT",
+  "reason": "Generated fuzzing tests failed",
+  "timestamp": 1765248250.0905395,
+  "static_result": {
+    "sqi_score": 0.6065,
+    "sqi_classification": "Fair",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lcs_length.py"
+      ],
+      "sqi": {
+        "SQI": 60.65,
+        "classification": "Fair",
+        "components": {
+          "pylint": 33.3,
+          "radon": 79.89,
+          "flake8": 93.55,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lcs_length.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 1,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "convention",
+            "symbol": "import-outside-toplevel",
+            "line": 2,
+            "message": "Import outside toplevel (collections.Counter)",
+            "message_id": "C0415"
+          },
+          {
+            "type": "convention",
+            "symbol": "consider-using-enumerate",
+            "line": 6,
+            "message": "Consider using enumerate instead of iterating with range and len",
+            "message_id": "C0200"
+          },
+          {
+            "type": "convention",
+            "symbol": "consider-using-enumerate",
+            "line": 7,
+            "message": "Consider using enumerate instead of iterating with range and len",
+            "message_id": "C0200"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 15,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 15,
+          "code": "E303",
+          "message": "too many blank lines (3)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lcs_length.py": [
+            {
+              "name": "lcs_length",
+              "complexity": 5,
+              "lineno": 1
+            }
+          ]
+        },
+        "mi_avg": 79.89
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 31,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/lcs_length.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 11,
+        "avg_func_length": 10.0,
+        "error": null,
+        "changed_functions": [
+          "lcs_length"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": false,
+    "differences_found": 6,
+    "fuzz_details": {
+      "program_name": "lcs_length",
+      "test_cases_run": 100,
+      "differences_found": 6,
+      "results": [
+        {
+          "inputs": [
+            "",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\udbd6\udcb7\u00fe\u008a\\\u00b7\udbda\udc5f\u0086\u00ab\udb19\udcca\uda2a\udc82"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00f5\u0080\u0087\u00a5\u00a8",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00f5\u0080\u0087\u00a5\u00a8",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "fun",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\udae2\ude33\ud88e\udc77z\u0083;"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\ud969\udc93\u008d\u00c1\u0007"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00bdx\u000e\u00b6d\u00c7Q\ud8c5\udeaa\ud945\ude58",
+            "#\u0095\u00aa\u000e\u0099"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "#\u0095\u00aa\u000e\u0099",
+            "#\u0095\u00aa\u000e\u0099"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 5
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=5"
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "num_statements",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "/h&\uda16\udf64\u00d4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "2\u00eef\ud99e\udf20\u00d6",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\u00a0",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u00fb\ud84f\udf08\u0098\u00ac"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            ".\u00f0J\u0087\u00e5\ueaa1"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u0099*"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\udaeb\uddb4\u008b\u00b5\u009f\ud8ba\ude78y\u0082",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 4
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=4"
+        },
+        {
+          "inputs": [
+            "witch",
+            "\ud9ce\udf59\u001a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u008aW\ud8a7\udd36tv\u00a6\b\r2\ud890\udf03YV\u0085\ud981\udd83\u008cQ\u00afN\ud826\udfbb\"tr\u00c4\ud8c8\udee5\ud989\udca5\u00df\udaae\udf25\u00cc\u0085"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\udaa0\udda7<\u00d5F\u0097\u00f5\ud998\ude6d\uda1f\udd5c\u008e"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u00ff\ud8f4\udd7e;\ud942\udc70\u00b3=\ud942\udefe\ud825\ude35\u00ae\uda3e\udfab"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "|t\ud9dc\udcd9"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "1e100"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "--timeout"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\n\u008e\u008f\u0084\uda32\udfeb\u00fb\u00de\u0085\ud9df\ude2b",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "j\u00af\ud8ed\udc1f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\udbe5\uddf7\u008bN\udbdd\udee3s\fW\u0095\ud865\udea4\u00d2\u0090\u00d1c\u0088"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "true"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u00e1\u0099#\ud975\ude0d\udb52\udc17\ud852\udf16\u001ee\n\u00ae\u00c6Bx_"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\u008f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\ud994\udc0c\udae5\udf82\u00a2>\ud991\udc64m\u0093"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u0011\u00f4\ud9fd\udce5\ud9cb\udc1e&\u0083\u0015[\udb24\udd01"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u00e7\u00e2\u00e3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u009b\u00b9"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\ud994\udfe4"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u00e6"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 2
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=2"
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "Dy\u00e6\u00b6\u00b6\ud946\uded2\u00bf"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u0007\udb18\udde8\u00bc\u00df\u00a8"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u00b3"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "E"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "R"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "(\ud813\uddff\ud901\uddd0\u0005\u00c0\u00a8\u008dS\u00d0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u0007\u000e\ud9ac\udc33\ud9a0\udd74\u00be\u001b\udb81\udf59\u00aa\ud9f7\udedf\u00a1&"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "|T\u00a2\u00d6B:\u0095\u0085u\u0086d\u00a6,2\u00f8"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 1
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "high"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "\u00d1\ud8be\udced:\uda3b\udc99\udb57\uddb5"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "Z\u00d7o\udb14\udcaa\u00eas)Al\u00c1P\ud838\udeb1\u0081c\b"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "~\u00ad\udb13\udf49\ud8fa\udd69q"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\ud93b\udec6\u0084{\ud867\ude9a\u009f\u00c0\u000b\u00eb<\u00e2\u00b5\u00b6\u00f9\u00ec\u00f8\u0084\uda3a\ude4c\u0087\udb39\udfcd\u0017I\u00e4x"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "C"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "6)\udb8f\uddf1K"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "pw\ud837\udcdd\u00ac\u00c6\\\u000b\u00c3\u00da\u00c7\udb42\udc48\ud8bf\ude51\u00f2\u0097\u00bb\u009d\u001b\u00aa\uda2d\udde1"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "U\uda24\udd70\u00ef)p\u00af:\uda30\udc97\u009dB",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            ""
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\udbde\udd52"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u000b\u0006\u00ce}"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u0010\ud8b3\udfd2\u00dd\u00bf\u00a9\udbab\udc3b\udbba\udff7u~"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\ud88b\udfc9q\u0099%"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "J"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\uda87\udc4f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u00fb\u0082"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "Pp?\u00ca\u00b4\udbf7\udedb\u009a"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "witch",
+            "\u00b0\u00f8\uda09\uded3 "
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "N6"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u009d'xa\udaa0\udd8elD\ud9f2\udf52"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\udbc7\udd76\u00b6%\u00a2\uda51\udc3f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "",
+            "\u0019\ud8cd\udc21\u000f \u00bd\u001bH\u0097\u0084\u00a7\u00f6v\u00f3E\u00ee\u00f4\udab3\udeb2]U\u0014mw\u001f"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "\ud80f\udef0E\u00e3\u00f5\u00c8\u00ad\u00ae",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u00dfk\u00c5\u00ac\udb02\udee0"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "meow",
+            "\u00e3D\uaaa1\uaf74\udb7a\ude5f\u0a61\u0093"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            "fun",
+            "\u00ca\udab2\uddfb\u001f\u00ff\udbe8\udfa1"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": [
+        {
+          "inputs": [
+            "fun",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "fun",
+            "function"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "cyborg",
+            "cyber"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 3
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=3"
+        },
+        {
+          "inputs": [
+            "#\u0095\u00aa\u000e\u0099",
+            "#\u0095\u00aa\u000e\u0099"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 5
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=5"
+        },
+        {
+          "inputs": [
+            "meow",
+            "homeowner"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 4
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=4"
+        },
+        {
+          "inputs": [
+            "witch",
+            "sandwich"
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1
+          },
+          "correct": {
+            "success": true,
+            "output": 2
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=1, correct=2"
+        }
+      ]
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 21,
+      "total_covered_lines": 21,
+      "changed_lines": [
+        9,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "changed_functions": [
+      "lcs_length"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 9,
+          "type": "operation"
+        },
+        {
+          "line": 9,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.1328694820404053
+}

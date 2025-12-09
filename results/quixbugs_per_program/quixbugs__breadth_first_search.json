@@ -1,0 +1,170 @@
+{
+  "patch_id": "quixbugs__breadth_first_search",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248121.0479317,
+  "static_result": {
+    "sqi_score": 0.8178,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/breadth_first_search.py"
+      ],
+      "sqi": {
+        "SQI": 81.78,
+        "classification": "Good",
+        "components": {
+          "pylint": 71.4,
+          "radon": 94.9,
+          "flake8": 82.35,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/breadth_first_search.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 4,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "refactor",
+            "symbol": "no-else-return",
+            "line": 14,
+            "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+            "message_id": "R1705"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 24,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 4,
+          "code": "E302",
+          "message": "expected 2 blank lines, found 1"
+        },
+        {
+          "line": 17,
+          "code": "E501",
+          "message": "line too long (83 > 79 characters)"
+        },
+        {
+          "line": 24,
+          "code": "E303",
+          "message": "too many blank lines (3)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/breadth_first_search.py": [
+            {
+              "name": "breadth_first_search",
+              "complexity": 5,
+              "lineno": 4
+            }
+          ]
+        },
+        "mi_avg": 94.9
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 34,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/breadth_first_search.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 10,
+        "avg_func_length": 16.0,
+        "error": null,
+        "changed_functions": [
+          "breadth_first_search"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 0,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "error": "Could not infer strategy"
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 8,
+      "total_covered_lines": 8,
+      "changed_lines": [
+        11,
+        24,
+        25,
+        28,
+        29,
+        30,
+        32,
+        33
+      ]
+    },
+    "changed_functions": [
+      "breadth_first_search"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [
+        {
+          "line": 11,
+          "type": "loop"
+        }
+      ],
+      "exceptions": [],
+      "operations": []
+    }
+  },
+  "execution_time": 1.900935411453247
+}

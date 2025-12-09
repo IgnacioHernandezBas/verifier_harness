@@ -1,0 +1,2815 @@
+{
+  "patch_id": "quixbugs__sieve",
+  "verdict": "REJECT",
+  "reason": "Generated fuzzing tests failed",
+  "timestamp": 1765248395.1707845,
+  "static_result": {
+    "sqi_score": 0.6737000000000001,
+    "sqi_classification": "Fair",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/sieve.py"
+      ],
+      "sqi": {
+        "SQI": 67.37,
+        "classification": "Fair",
+        "components": {
+          "pylint": 42.9,
+          "radon": 90.75,
+          "flake8": 88.24,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/sieve.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 1,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "redefined-builtin",
+            "line": 1,
+            "message": "Redefining built-in 'max'",
+            "message_id": "W0622"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 8,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 8,
+          "code": "E305",
+          "message": "expected 2 blank lines after class or function definition, found 1"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/sieve.py": [
+            {
+              "name": "sieve",
+              "complexity": 4,
+              "lineno": 1
+            }
+          ]
+        },
+        "mi_avg": 90.75
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 17,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/sieve.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 9,
+        "avg_func_length": 5.0,
+        "error": null,
+        "changed_functions": [
+          "sieve"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 86,
+    "tests_passed": false,
+    "differences_found": 43,
+    "fuzz_details": {
+      "program_name": "sieve",
+      "test_cases_run": 86,
+      "differences_found": 43,
+      "results": [
+        {
+          "inputs": [
+            0
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            7
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            28
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            20
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            1
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -30
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -7
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -24
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            2
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2]"
+        },
+        {
+          "inputs": [
+            16
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            -2
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            7
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            24
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            -27
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            14
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            21
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            -4
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -32
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -31
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            18
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17]"
+        },
+        {
+          "inputs": [
+            -3
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            29
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"
+        },
+        {
+          "inputs": [
+            3
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            -37
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -17
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            35
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            15
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            12
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11]"
+        },
+        {
+          "inputs": [
+            -16
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -18
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            13
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            11
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11]"
+        },
+        {
+          "inputs": [
+            31
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            -15
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5]"
+        },
+        {
+          "inputs": [
+            8
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            9
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            34
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            20
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            -21
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            6
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5]"
+        },
+        {
+          "inputs": [
+            -26
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -10
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            38
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            17
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17]"
+        },
+        {
+          "inputs": [
+            -40
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            23
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            -8
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            19
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            -13
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -5
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            36
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            39
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            -14
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            37
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            22
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            4
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            -34
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            10
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            -23
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            27
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            -9
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -36
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -38
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -35
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -39
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -28
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -25
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            25
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            40
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            -19
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            32
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            2
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2]"
+        },
+        {
+          "inputs": [
+            33
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            -33
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -22
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -20
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -11
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -6
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": []
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"
+        }
+      ],
+      "differences": [
+        {
+          "inputs": [
+            4
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            7
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            28
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            20
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            2
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2]"
+        },
+        {
+          "inputs": [
+            16
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            7
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            24
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            14
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            21
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            18
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17]"
+        },
+        {
+          "inputs": [
+            29
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"
+        },
+        {
+          "inputs": [
+            3
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            35
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            15
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            12
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11]"
+        },
+        {
+          "inputs": [
+            13
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13]"
+        },
+        {
+          "inputs": [
+            11
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11]"
+        },
+        {
+          "inputs": [
+            31
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            5
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5]"
+        },
+        {
+          "inputs": [
+            8
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            9
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            34
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            20
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            6
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5]"
+        },
+        {
+          "inputs": [
+            38
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            17
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17]"
+        },
+        {
+          "inputs": [
+            23
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            19
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            26
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            36
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            39
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            37
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            22
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19]"
+        },
+        {
+          "inputs": [
+            4
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3]"
+        },
+        {
+          "inputs": [
+            10
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7]"
+        },
+        {
+          "inputs": [
+            27
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            25
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23]"
+        },
+        {
+          "inputs": [
+            40
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31,
+              37
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]"
+        },
+        {
+          "inputs": [
+            32
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            2
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2]"
+        },
+        {
+          "inputs": [
+            33
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29,
+              31
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]"
+        },
+        {
+          "inputs": [
+            30
+          ],
+          "buggy": {
+            "success": true,
+            "output": []
+          },
+          "correct": {
+            "success": true,
+            "output": [
+              2,
+              3,
+              5,
+              7,
+              11,
+              13,
+              17,
+              19,
+              23,
+              29
+            ]
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=[], correct=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"
+        }
+      ]
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 7,
+      "total_covered_lines": 7,
+      "changed_lines": [
+        4,
+        9,
+        10,
+        12,
+        13,
+        15,
+        16
+      ]
+    },
+    "changed_functions": [
+      "sieve"
+    ],
+    "change_types": {
+      "conditionals": [
+        {
+          "line": 4,
+          "type": "if_statement"
+        }
+      ],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 4,
+          "type": "operation"
+        },
+        {
+          "line": 4,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.219099521636963
+}

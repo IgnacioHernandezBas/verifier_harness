@@ -1,0 +1,2844 @@
+{
+  "patch_id": "quixbugs__mergesort",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248378.6198428,
+  "static_result": {
+    "sqi_score": 0.8464,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/mergesort.py"
+      ],
+      "sqi": {
+        "SQI": 84.64,
+        "classification": "Good",
+        "components": {
+          "pylint": 80.0,
+          "radon": 81.88,
+          "flake8": 94.44,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/mergesort.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "refactor",
+            "symbol": "no-else-return",
+            "line": 17,
+            "message": "Unnecessary \"else\" after \"return\", remove the \"else\" and de-indent the code inside it",
+            "message_id": "R1705"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 27,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 27,
+          "code": "E303",
+          "message": "too many blank lines (3)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/mergesort.py": [
+            {
+              "name": "mergesort",
+              "complexity": 2,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 81.88
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 36,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/mergesort.py",
+        "is_code_valid": true,
+        "n_functions": 2,
+        "n_classes": 0,
+        "ast_depth": 9,
+        "avg_func_length": 16.5,
+        "error": null,
+        "changed_functions": [
+          "mergesort",
+          "merge"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "program_name": "mergesort",
+      "test_cases_run": 100,
+      "differences_found": 0,
+      "results": [
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1,
+            2,
+            6,
+            72,
+            7,
+            33,
+            4
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            569,
+            29376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5,
+            4,
+            3,
+            1,
+            2
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -73
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30575
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            3,
+            1,
+            4,
+            1,
+            5,
+            9,
+            2,
+            6,
+            5,
+            3,
+            5,
+            8,
+            9,
+            7,
+            9,
+            3
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            5,
+            4,
+            3,
+            2,
+            1
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() missing 1 required positional argument: 'arr'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            17174646172864256503910388048067946371
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -70,
+            -3837819388318793583,
+            69,
+            -17001,
+            49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            49,
+            -3837819388318793583,
+            69,
+            -17001,
+            49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            49,
+            -3837819388318793583,
+            69,
+            49,
+            49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            49,
+            -3837819388318793583,
+            69,
+            49,
+            -3837819388318793583
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            49,
+            -3837819388318793583,
+            69,
+            69,
+            -3837819388318793583
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            49,
+            -3837819388318793583,
+            -3837819388318793583,
+            69,
+            -3837819388318793583
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            21963,
+            -26217,
+            7863071312944253208,
+            250,
+            -26602,
+            -21,
+            8974
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -68,
+            -18412,
+            -49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -68,
+            -49,
+            -49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -49,
+            -49,
+            -49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -49,
+            -49
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12234,
+            4916,
+            -84,
+            62,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            -67286235,
+            6987,
+            31676,
+            -7335314583270921831,
+            -32766
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12234,
+            31676,
+            -84,
+            62,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            -67286235,
+            6987,
+            31676,
+            -7335314583270921831,
+            -32766
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12234,
+            31676,
+            -84,
+            -32766,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            -67286235,
+            6987,
+            31676,
+            -7335314583270921831,
+            -32766
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12234,
+            31676,
+            -84,
+            -32766,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            -67286235,
+            6987,
+            31676,
+            -7335314583270921831,
+            -19465
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -12234,
+            31676,
+            -84,
+            -32766,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            6987,
+            6987,
+            31676,
+            -7335314583270921831,
+            -19465
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -32766,
+            31676,
+            -84,
+            -32766,
+            15541,
+            -19465,
+            15,
+            3256,
+            11756,
+            6987,
+            6987,
+            31676,
+            -7335314583270921831,
+            -19465
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8,
+            9861,
+            15059,
+            -20597,
+            23936,
+            250,
+            -16192
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8,
+            9861,
+            8,
+            -20597,
+            23936,
+            250,
+            -16192
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            8,
+            9861,
+            8,
+            -20597,
+            23936,
+            250,
+            250
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            250,
+            9861,
+            8,
+            -20597,
+            23936,
+            250,
+            250
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            250,
+            9861,
+            8,
+            -20597,
+            23936,
+            -20597,
+            250
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29012,
+            120
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29012,
+            -29012
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -29012
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            1000,
+            -988,
+            37,
+            -6421,
+            28858
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            1000,
+            -988,
+            37,
+            -6421,
+            -988
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            1000,
+            -6421,
+            37,
+            -6421,
+            -988
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            1000,
+            -6421,
+            37,
+            -26,
+            -988
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -6421,
+            -6421,
+            37,
+            -26,
+            -988
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -6421,
+            -6421,
+            37,
+            -26,
+            -6421
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -26,
+            -6421,
+            -6421,
+            37,
+            -6421,
+            -6421
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -41,
+            104,
+            -5292,
+            41,
+            -14859,
+            1565930035
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -41,
+            1565930035,
+            -5292,
+            41,
+            -14859,
+            1565930035
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -41,
+            1565930035,
+            -14859,
+            41,
+            -14859,
+            1565930035
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -14859,
+            1565930035,
+            -14859,
+            41,
+            -14859,
+            1565930035
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -14859,
+            1565930035,
+            -14859,
+            41,
+            -14859,
+            41
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -9810,
+            -14859,
+            -14859,
+            -14859,
+            41,
+            -14859,
+            41
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30869,
+            1297937736,
+            79,
+            3417,
+            -11930
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30869,
+            3417,
+            79,
+            3417,
+            -11930
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30869,
+            3417,
+            30869,
+            3417,
+            -11930
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30869,
+            3417
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            30869,
+            30869
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1111647727,
+            -29899,
+            105,
+            -105,
+            5784379675987570332,
+            -1662544623,
+            -28887,
+            43,
+            22574,
+            25394,
+            -1185
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1111647727,
+            -29899,
+            105,
+            -105,
+            5784379675987570332,
+            -1662544623,
+            -28887,
+            -1662544623,
+            22574,
+            25394,
+            -1185
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1111647727,
+            -29899,
+            105,
+            -105,
+            5784379675987570332,
+            -1662544623,
+            -28887,
+            -1662544623,
+            22574,
+            -105,
+            -1185
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1111647727,
+            -29899,
+            105,
+            -105,
+            5784379675987570332,
+            -1662544623,
+            -28887,
+            -1662544623,
+            22574,
+            22574,
+            -1185
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 11 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1111647727,
+            -29899,
+            105,
+            -105,
+            5784379675987570332,
+            -1662544623
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1498269216,
+            -13943,
+            8067,
+            127090641721190526538592362501217111027,
+            20
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1498269216,
+            -13943,
+            8067,
+            -13943,
+            20
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20,
+            -13943,
+            8067,
+            -13943,
+            20
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            20,
+            -13943,
+            20,
+            -13943,
+            20
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            6459,
+            28711,
+            -30761,
+            101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            6459,
+            -30761,
+            -30761,
+            101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -30761,
+            -30761,
+            -30761,
+            101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -30761,
+            101,
+            -30761,
+            101
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -30761,
+            -30761,
+            -30761,
+            -30761
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3267429023681089389,
+            -1000,
+            15183,
+            114,
+            20073,
+            55
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -3267429023681089389,
+            -1000,
+            15183,
+            114,
+            20073,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            114,
+            -1000,
+            15183,
+            114,
+            20073,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            114,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1000,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -2490,
+            2318,
+            -1000,
+            9095356335211788775,
+            16781,
+            18886,
+            -105
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -2490,
+            2318,
+            -1000,
+            9095356335211788775,
+            16781,
+            18886,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -2490,
+            -1000,
+            -1000,
+            9095356335211788775,
+            16781,
+            18886,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -1000,
+            -1000,
+            -1000,
+            9095356335211788775,
+            16781,
+            18886,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -1000,
+            -1000,
+            -1000,
+            9095356335211788775,
+            16781,
+            -1000,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -23,
+            -1000,
+            16781,
+            -1000,
+            9095356335211788775,
+            16781,
+            -1000,
+            -1000
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -51,
+            -16474,
+            250,
+            -13993,
+            16859,
+            29484,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            57,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -51,
+            -16474,
+            250,
+            -13993,
+            16859,
+            -13993,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            57,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -16474,
+            -16474,
+            250,
+            -13993,
+            16859,
+            -13993,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            57,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -16474,
+            -16474,
+            250,
+            -13993,
+            -14495,
+            -13993,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            57,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -16474,
+            -16474,
+            250,
+            -13993,
+            -14495,
+            -13993,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            250,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -16474,
+            -16474,
+            250,
+            -13993,
+            15376,
+            -13993,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            250,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -16474,
+            -16474,
+            250,
+            -13993,
+            15376,
+            -14495,
+            -31342,
+            5792110213769688931,
+            -3428,
+            3830,
+            250,
+            18265,
+            -14495,
+            -29,
+            15376
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 15 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            3659848192371395183,
+            -55,
+            -37,
+            92,
+            -445674334
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            3659848192371395183,
+            -55,
+            92,
+            92,
+            -445674334
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            92,
+            -55,
+            92,
+            92,
+            -445674334
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            92,
+            -55,
+            -55,
+            92,
+            -445674334
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            92,
+            -55,
+            -55,
+            92,
+            -55
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -145717154737804181212226783108126881022,
+            92,
+            -55,
+            92,
+            92,
+            -55
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            107,
+            -55,
+            92,
+            -55,
+            92,
+            92,
+            -55
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            16800,
+            12,
+            -4184169438132779430,
+            250,
+            -27773,
+            -79,
+            -17607
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -27773,
+            12,
+            -4184169438132779430,
+            250,
+            -27773,
+            -79,
+            -17607
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -27773,
+            12,
+            -27773,
+            250,
+            -27773,
+            -79,
+            -17607
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -27773,
+            -27773,
+            -27773,
+            250,
+            -27773,
+            -79,
+            -17607
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -27773,
+            -27773,
+            -27773,
+            250,
+            -27773,
+            -79,
+            -27773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -27773,
+            -27773,
+            -27773,
+            -27773,
+            -27773,
+            -79,
+            -27773
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            41,
+            75,
+            -21791,
+            -24575,
+            -655612864
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "mergesort() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": []
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 8,
+      "total_covered_lines": 8,
+      "changed_lines": [
+        17,
+        25,
+        26,
+        28,
+        31,
+        32,
+        34,
+        35
+      ]
+    },
+    "changed_functions": [
+      "mergesort"
+    ],
+    "change_types": {
+      "conditionals": [
+        {
+          "line": 17,
+          "type": "if_statement"
+        }
+      ],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 17,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.264833688735962
+}

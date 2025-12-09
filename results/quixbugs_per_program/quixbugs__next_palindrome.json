@@ -1,0 +1,2823 @@
+{
+  "patch_id": "quixbugs__next_palindrome",
+  "verdict": "ACCEPT",
+  "reason": "Passed all checks (coverage: 100.0%)",
+  "timestamp": 1765248380.8531806,
+  "static_result": {
+    "sqi_score": 0.8419,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/next_palindrome.py"
+      ],
+      "sqi": {
+        "SQI": 84.19,
+        "classification": "Good",
+        "components": {
+          "pylint": 80.0,
+          "radon": 84.03,
+          "flake8": 87.88,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/next_palindrome.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 1,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 17,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 17,
+          "code": "E305",
+          "message": "expected 2 blank lines after class or function definition, found 1"
+        },
+        {
+          "line": 19,
+          "code": "E501",
+          "message": "line too long (90 > 79 characters)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/next_palindrome.py": [
+            {
+              "name": "next_palindrome",
+              "complexity": 5,
+              "lineno": 1
+            }
+          ]
+        },
+        "mi_avg": 84.03
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 33,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/next_palindrome.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 8,
+        "avg_func_length": 14.0,
+        "error": null,
+        "changed_functions": [
+          "next_palindrome"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": true,
+    "differences_found": 0,
+    "fuzz_details": {
+      "program_name": "next_palindrome",
+      "test_cases_run": 100,
+      "differences_found": 0,
+      "results": [
+        {
+          "inputs": [],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() missing 1 required positional argument: 'digit_list'"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() missing 1 required positional argument: 'digit_list'"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            9,
+            9,
+            9
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4,
+            7,
+            2,
+            5,
+            5,
+            2,
+            7,
+            4
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1,
+            4,
+            9,
+            4,
+            1
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            0
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            786
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            786,
+            1000,
+            -380
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1,
+            3,
+            1
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            4,
+            7,
+            2,
+            5,
+            2,
+            7,
+            4
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            546
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -778
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -109,
+            216,
+            -85
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -85,
+            216,
+            -85
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -85,
+            -85,
+            -85
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            74,
+            -991,
+            -516
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            -991,
+            -991,
+            -516
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            -991,
+            -991,
+            -991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            -991,
+            -991,
+            542
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            -991,
+            542,
+            542
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            542,
+            -991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -991,
+            -991
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            830,
+            374,
+            388,
+            810
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            830,
+            810,
+            388,
+            810
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            810,
+            810,
+            388,
+            810
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            810,
+            810,
+            810,
+            810
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            -809,
+            -329,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            -809,
+            645,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            -809,
+            595,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            595,
+            595,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            595,
+            645,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            645,
+            645,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            595,
+            645,
+            645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            684,
+            278,
+            771,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            889,
+            116,
+            -693,
+            -28
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            684,
+            278,
+            771,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            889,
+            116,
+            -693,
+            684
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            684,
+            278,
+            771,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            116,
+            116,
+            -693,
+            684
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            3,
+            278,
+            771,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            116,
+            116,
+            -693,
+            684
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            3,
+            278,
+            383,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            116,
+            116,
+            -693,
+            684
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            3,
+            278,
+            383,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            116,
+            116,
+            -693,
+            3
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            655,
+            3,
+            278,
+            383,
+            -280,
+            383,
+            3,
+            -140,
+            -228,
+            116,
+            116,
+            -693,
+            278
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 13 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -328,
+            336
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            336,
+            336
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            10,
+            -628,
+            19,
+            955,
+            -108,
+            -692,
+            -541,
+            -148,
+            -824,
+            310,
+            -481,
+            243,
+            -150,
+            279
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            10,
+            -628,
+            19,
+            955,
+            127,
+            -692,
+            -541,
+            -148,
+            -824,
+            310,
+            -481,
+            243,
+            -150,
+            279
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            10,
+            -628,
+            19,
+            955,
+            127,
+            -692,
+            -541,
+            310,
+            -824,
+            310,
+            -481,
+            243,
+            -150,
+            279
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            10,
+            -628,
+            19,
+            310,
+            127,
+            -692,
+            -541,
+            310,
+            -824,
+            310,
+            -481,
+            243,
+            -150,
+            279
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            243,
+            -628,
+            19,
+            310,
+            127,
+            -692,
+            -541,
+            310,
+            -824,
+            310,
+            -481,
+            243,
+            -150,
+            279
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 18 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            663,
+            591,
+            127,
+            243,
+            -628,
+            19,
+            310,
+            127,
+            -692,
+            -541,
+            310,
+            -824,
+            310,
+            -481,
+            243
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            909,
+            -628,
+            591,
+            127,
+            243,
+            -628,
+            19,
+            310,
+            127,
+            -692,
+            -541,
+            310,
+            -824,
+            310,
+            -481,
+            243
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 16 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 16 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            965,
+            747,
+            -737,
+            -1
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            965,
+            747,
+            -737,
+            -737
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            965
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -734,
+            484,
+            -201,
+            -856,
+            -639
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -734,
+            484,
+            -201,
+            -856,
+            -201
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -734,
+            484,
+            -201,
+            -856,
+            484
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -734
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            897,
+            473,
+            282
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            897,
+            473,
+            897
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            897,
+            897,
+            897
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            -431,
+            -668,
+            158,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            -431,
+            43,
+            158,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            158,
+            43,
+            158,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            71,
+            43,
+            158,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            71,
+            43,
+            -913,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -913,
+            71,
+            71,
+            43,
+            71,
+            43
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 6 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -245,
+            243,
+            883,
+            -671,
+            256,
+            184,
+            876,
+            528
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -245,
+            -671,
+            883,
+            -671,
+            256,
+            184,
+            876,
+            528
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            528,
+            -671,
+            883,
+            -671,
+            256,
+            184,
+            876,
+            528
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            528,
+            -671,
+            883,
+            -671,
+            256,
+            184,
+            876,
+            -671
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            528,
+            -671,
+            883,
+            -671,
+            528,
+            184,
+            876,
+            -671
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            528,
+            -671,
+            883,
+            -671,
+            528,
+            184,
+            876,
+            528
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            528,
+            -671,
+            883,
+            -671,
+            -671,
+            184,
+            876,
+            528
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 8 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            367,
+            90,
+            1000,
+            -401,
+            -445
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            367,
+            90,
+            367,
+            -401,
+            -445
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 5 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            367,
+            90,
+            367
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            367,
+            367,
+            367
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            861,
+            -606,
+            49,
+            -61,
+            731,
+            -838,
+            989,
+            -631,
+            -240
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            861,
+            -606,
+            49,
+            -61,
+            731,
+            -838,
+            989,
+            -838,
+            -240
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            -240,
+            -606,
+            49,
+            -61,
+            731,
+            -838,
+            989,
+            -838,
+            -240
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            -240,
+            -606,
+            49,
+            -645,
+            731,
+            -838,
+            989,
+            -838,
+            -240
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            -240,
+            -606,
+            49,
+            -645,
+            731,
+            -240,
+            989,
+            -838,
+            -240
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            -645,
+            414,
+            -736,
+            -240,
+            -606,
+            49,
+            -645,
+            731,
+            -240,
+            989,
+            -838,
+            -645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            746,
+            144,
+            731,
+            414,
+            -736,
+            -240,
+            -606,
+            49,
+            -645,
+            731,
+            -240,
+            989,
+            -838,
+            -645
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 14 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -439
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            95
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            100
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 2 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "object of type 'int' has no len()"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            890,
+            -350,
+            -306,
+            -594
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            890,
+            -350,
+            -306,
+            -306
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            890,
+            890,
+            -306,
+            -306
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -306,
+            890,
+            -306,
+            -306
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 4 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            31,
+            -49,
+            -685
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            31,
+            31,
+            -685
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            31,
+            -685,
+            -685
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -685,
+            -685,
+            -685
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 3 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -286,
+            585,
+            -714,
+            -698,
+            -526,
+            924,
+            -430
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -286,
+            -430,
+            -714,
+            -698,
+            -526,
+            924,
+            -430
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -714,
+            -430,
+            -714,
+            -698,
+            -526,
+            924,
+            -430
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -714,
+            -430,
+            -714,
+            -698,
+            -526,
+            924,
+            924
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -714,
+            -430,
+            -526,
+            -698,
+            -526,
+            924,
+            924
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -714,
+            -430,
+            -526,
+            -698,
+            -526,
+            924,
+            -698
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "TypeError",
+              "message": "next_palindrome() takes 1 positional argument but 7 were given"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": []
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 19,
+      "total_covered_lines": 19,
+      "changed_lines": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    "changed_functions": [
+      "next_palindrome"
+    ],
+    "change_types": {
+      "conditionals": [],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 15,
+          "type": "operation"
+        },
+        {
+          "line": 15,
+          "type": "operation"
+        },
+        {
+          "line": 15,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.1025209426879883
+}

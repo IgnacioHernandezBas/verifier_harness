@@ -1,0 +1,4167 @@
+{
+  "patch_id": "quixbugs__knapsack",
+  "verdict": "REJECT",
+  "reason": "Generated fuzzing tests failed",
+  "timestamp": 1765248247.8043911,
+  "static_result": {
+    "sqi_score": 0.755,
+    "sqi_classification": "Good",
+    "code_quality": {
+      "modified_files": [
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/knapsack.py"
+      ],
+      "sqi": {
+        "SQI": 75.5,
+        "classification": "Good",
+        "components": {
+          "pylint": 63.6,
+          "radon": 87.77,
+          "flake8": 78.38,
+          "mypy": 100.0,
+          "bandit": 100.0
+        },
+        "weights_used": {
+          "pylint": 0.5,
+          "flake8": 0.15,
+          "radon": 0.25,
+          "mypy": 0.05,
+          "bandit": 0.05
+        }
+      },
+      "active_checks": {
+        "pylint": true,
+        "flake8": true,
+        "radon": true,
+        "mypy": true,
+        "bandit": true
+      },
+      "pylint": {
+        "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/knapsack.py": [
+          {
+            "type": "convention",
+            "symbol": "missing-module-docstring",
+            "line": 1,
+            "message": "Missing module docstring",
+            "message_id": "C0114"
+          },
+          {
+            "type": "convention",
+            "symbol": "missing-function-docstring",
+            "line": 2,
+            "message": "Missing function or method docstring",
+            "message_id": "C0116"
+          },
+          {
+            "type": "convention",
+            "symbol": "import-outside-toplevel",
+            "line": 3,
+            "message": "Import outside toplevel (collections.defaultdict)",
+            "message_id": "C0415"
+          },
+          {
+            "type": "warning",
+            "symbol": "pointless-string-statement",
+            "line": 20,
+            "message": "String statement has no effect",
+            "message_id": "W0105"
+          }
+        ]
+      },
+      "flake8": [
+        {
+          "line": 20,
+          "code": "E305",
+          "message": "expected 2 blank lines after class or function definition, found 1"
+        },
+        {
+          "line": 24,
+          "code": "E501",
+          "message": "line too long (127 > 79 characters)"
+        },
+        {
+          "line": 25,
+          "code": "E501",
+          "message": "line too long (126 > 79 characters)"
+        },
+        {
+          "line": 32,
+          "code": "E501",
+          "message": "line too long (82 > 79 characters)"
+        }
+      ],
+      "radon": {
+        "complexity": {
+          "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/knapsack.py": [
+            {
+              "name": "knapsack",
+              "complexity": 4,
+              "lineno": 2
+            }
+          ]
+        },
+        "mi_avg": 87.77
+      },
+      "mypy": [
+        {
+          "filename": "Success",
+          "line_number": null,
+          "column": null,
+          "severity": "info",
+          "message": "no issues found in 1 source file",
+          "error_code": null
+        }
+      ],
+      "bandit": [],
+      "meta": {
+        "total_loc": 37,
+        "n_files": 1
+      }
+    },
+    "syntax_structure": [
+      {
+        "path": "/fs/nexus-scratch/ihbas/verifier_harness/QuixBugs/python_programs/knapsack.py",
+        "is_code_valid": true,
+        "n_functions": 1,
+        "n_classes": 0,
+        "ast_depth": 12,
+        "avg_func_length": 16.0,
+        "error": null,
+        "changed_functions": [
+          "knapsack"
+        ],
+        "ast_diff_ratio": 1.0
+      }
+    ]
+  },
+  "fuzzing_result": {
+    "status": "completed",
+    "tests_generated": 100,
+    "tests_passed": false,
+    "differences_found": 9,
+    "fuzz_details": {
+      "program_name": "knapsack",
+      "test_cases_run": 100,
+      "differences_found": 9,
+      "results": [
+        {
+          "inputs": [
+            0,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 91
+          },
+          "correct": {
+            "success": true,
+            "output": 91
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 30
+          },
+          "correct": {
+            "success": true,
+            "output": 45
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=30, correct=45"
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 91
+          },
+          "correct": {
+            "success": true,
+            "output": 91
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 102
+          },
+          "correct": {
+            "success": true,
+            "output": 107
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=102, correct=107"
+        },
+        {
+          "inputs": [
+            40,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            748,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            748,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 188
+          },
+          "correct": {
+            "success": true,
+            "output": 188
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 60
+          },
+          "correct": {
+            "success": true,
+            "output": 60
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 9
+          },
+          "correct": {
+            "success": true,
+            "output": 9
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 19
+          },
+          "correct": {
+            "success": true,
+            "output": 19
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 1458
+          },
+          "correct": {
+            "success": true,
+            "output": 1458
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 91
+          },
+          "correct": {
+            "success": true,
+            "output": 91
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 188
+          },
+          "correct": {
+            "success": true,
+            "output": 188
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 76
+          },
+          "correct": {
+            "success": true,
+            "output": 78
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=76, correct=78"
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 31
+          },
+          "correct": {
+            "success": true,
+            "output": 31
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 47
+          },
+          "correct": {
+            "success": true,
+            "output": 51
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=47, correct=51"
+        },
+        {
+          "inputs": [
+            750,
+            [
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 47
+          },
+          "correct": {
+            "success": true,
+            "output": 49
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=47, correct=49"
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 11
+          },
+          "correct": {
+            "success": true,
+            "output": 11
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 192
+          },
+          "correct": {
+            "success": true,
+            "output": 192
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -1269,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1089,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 91
+          },
+          "correct": {
+            "success": true,
+            "output": 91
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 20
+          },
+          "correct": {
+            "success": true,
+            "output": 30
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=20, correct=30"
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 55
+          },
+          "correct": {
+            "success": true,
+            "output": 55
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 188
+          },
+          "correct": {
+            "success": true,
+            "output": 188
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 6
+          },
+          "correct": {
+            "success": true,
+            "output": 6
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            233,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 31
+          },
+          "correct": {
+            "success": true,
+            "output": 31
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 82
+          },
+          "correct": {
+            "success": true,
+            "output": 85
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=82, correct=85"
+        },
+        {
+          "inputs": [
+            455,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 31
+          },
+          "correct": {
+            "success": true,
+            "output": 31
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            []
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 20
+          },
+          "correct": {
+            "success": true,
+            "output": 20
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            621,
+            [
+              [
+                60,
+                10
+              ],
+              [
+                50,
+                8
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                20,
+                4
+              ],
+              [
+                8,
+                3
+              ],
+              [
+                3,
+                2
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 31
+          },
+          "correct": {
+            "success": true,
+            "output": 31
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            551,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 91
+          },
+          "correct": {
+            "success": true,
+            "output": 91
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            -605,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 0
+          },
+          "correct": {
+            "success": true,
+            "output": 0
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1167,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 188
+          },
+          "correct": {
+            "success": true,
+            "output": 188
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            120,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 229
+          },
+          "correct": {
+            "success": true,
+            "output": 240
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=229, correct=240"
+        },
+        {
+          "inputs": [
+            100,
+            [
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            183,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 348
+          },
+          "correct": {
+            "success": true,
+            "output": 350
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=348, correct=350"
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            1318,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 60
+          },
+          "correct": {
+            "success": true,
+            "output": 60
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            750,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              [],
+              []
+            ]
+          ],
+          "buggy": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "correct": {
+            "success": false,
+            "output": {
+              "type": "ValueError",
+              "message": "not enough values to unpack (expected 2, got 0)"
+            }
+          },
+          "different": false,
+          "reason": ""
+        }
+      ],
+      "differences": [
+        {
+          "inputs": [
+            50,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 30
+          },
+          "correct": {
+            "success": true,
+            "output": 45
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=30, correct=45"
+        },
+        {
+          "inputs": [
+            50,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 102
+          },
+          "correct": {
+            "success": true,
+            "output": 107
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=102, correct=107"
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 76
+          },
+          "correct": {
+            "success": true,
+            "output": 78
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=76, correct=78"
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                12,
+                24
+              ],
+              [
+                7,
+                13
+              ],
+              [
+                11,
+                23
+              ],
+              [
+                8,
+                15
+              ],
+              [
+                9,
+                16
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 47
+          },
+          "correct": {
+            "success": true,
+            "output": 51
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=47, correct=51"
+        },
+        {
+          "inputs": [
+            26,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 47
+          },
+          "correct": {
+            "success": true,
+            "output": 49
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=47, correct=49"
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                30,
+                10
+              ],
+              [
+                50,
+                5
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                40,
+                25
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 20
+          },
+          "correct": {
+            "success": true,
+            "output": 30
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=20, correct=30"
+        },
+        {
+          "inputs": [
+            40,
+            [
+              [
+                31,
+                70
+              ],
+              [
+                10,
+                20
+              ],
+              [
+                20,
+                39
+              ],
+              [
+                19,
+                37
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                6,
+                10
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 82
+          },
+          "correct": {
+            "success": true,
+            "output": 85
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=82, correct=85"
+        },
+        {
+          "inputs": [
+            120,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 229
+          },
+          "correct": {
+            "success": true,
+            "output": 240
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=229, correct=240"
+        },
+        {
+          "inputs": [
+            183,
+            [
+              [
+                70,
+                135
+              ],
+              [
+                73,
+                139
+              ],
+              [
+                77,
+                149
+              ],
+              [
+                80,
+                150
+              ],
+              [
+                82,
+                156
+              ],
+              [
+                87,
+                163
+              ],
+              [
+                90,
+                173
+              ],
+              [
+                94,
+                184
+              ],
+              [
+                98,
+                192
+              ],
+              [
+                106,
+                201
+              ],
+              [
+                110,
+                210
+              ],
+              [
+                113,
+                214
+              ],
+              [
+                115,
+                221
+              ],
+              [
+                118,
+                229
+              ],
+              [
+                120,
+                240
+              ]
+            ]
+          ],
+          "buggy": {
+            "success": true,
+            "output": 348
+          },
+          "correct": {
+            "success": true,
+            "output": 350
+          },
+          "different": true,
+          "reason": "Different outputs: buggy=348, correct=350"
+        }
+      ]
+    },
+    "coverage": {
+      "overall_coverage": 1.0,
+      "total_changed_lines": 19,
+      "total_covered_lines": 19,
+      "changed_lines": [
+        12,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37
+      ]
+    },
+    "changed_functions": [
+      "knapsack"
+    ],
+    "change_types": {
+      "conditionals": [
+        {
+          "line": 12,
+          "type": "if_statement"
+        }
+      ],
+      "loops": [],
+      "exceptions": [],
+      "operations": [
+        {
+          "line": 12,
+          "type": "operation"
+        }
+      ]
+    }
+  },
+  "execution_time": 1.1819431781768799
+}

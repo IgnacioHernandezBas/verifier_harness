@@ -24,6 +24,16 @@ echo "Node: $SLURM_NODELIST"
 echo "Started: $(date)"
 echo ""
 
+# Dataset-specific configuration (exported via sbatch)
+PIPELINE_DATASET="${PIPELINE_DATASET:-swebench}"
+PIPELINE_INSTANCE_FILE="${PIPELINE_INSTANCE_FILE:-instance_ids.txt}"
+PIPELINE_ENABLE_STATIC="${PIPELINE_ENABLE_STATIC:-1}"
+PIPELINE_ENABLE_FUZZING="${PIPELINE_ENABLE_FUZZING:-1}"
+PIPELINE_ENABLE_RULES="${PIPELINE_ENABLE_RULES:-1}"
+PIPELINE_QUIX_MODE="${PIPELINE_QUIX_MODE:-regression}"
+PIPELINE_QUIX_MAX_EXAMPLES="${PIPELINE_QUIX_MAX_EXAMPLES:-100}"
+PIPELINE_QUIX_TIMEOUT="${PIPELINE_QUIX_TIMEOUT:-2}"
+
 # Load conda environment
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 conda activate verifier_env
@@ -48,7 +58,7 @@ WORKER_SCRIPT="$REPO_ROOT/scripts/slurm/slurm_worker_integrated.py"
 mkdir -p logs results
 
 # Read instance ID from file (line number = array task ID)
-INSTANCE_ID=$(sed -n "${SLURM_ARRAY_TASK_ID}p" instance_ids.txt)
+INSTANCE_ID=$(sed -n "${SLURM_ARRAY_TASK_ID}p" "${PIPELINE_INSTANCE_FILE}")
 
 if [ -z "$INSTANCE_ID" ]; then
     echo "ERROR: Could not read instance ID for task $SLURM_ARRAY_TASK_ID"
@@ -70,14 +80,47 @@ fi
 
 echo ""
 
-# Run the integrated pipeline for this instance
-python "$WORKER_SCRIPT" \
-    --instance-id "$INSTANCE_ID" \
-    --output "results/${INSTANCE_ID}.json" \
-    --enable-static \
-    --enable-fuzzing \
-    --enable-rules \
-    --verbose
+if [ "$PIPELINE_DATASET" = "quixbugs" ]; then
+    echo "Dataset: QuixBugs"
+    OUTPUT_PATH="results/quixbugs__${INSTANCE_ID}_${PIPELINE_QUIX_MODE}.json"
+    CMD=(python "QuixBugs/run_patches_through_pipeline.py"
+        --mode "$PIPELINE_QUIX_MODE"
+        --programs "$INSTANCE_ID"
+        --limit 1
+        --max-examples "$PIPELINE_QUIX_MAX_EXAMPLES"
+        --timeout "$PIPELINE_QUIX_TIMEOUT"
+        --output "$OUTPUT_PATH"
+        --per-program-dir "results/quixbugs_per_program")
+
+    if [ "$PIPELINE_ENABLE_STATIC" -ne 1 ]; then
+        CMD+=(--disable-static)
+    fi
+    if [ "$PIPELINE_ENABLE_RULES" -ne 1 ]; then
+        CMD+=(--disable-rules)
+    fi
+
+    echo "Executing: ${CMD[*]}"
+    "${CMD[@]}"
+else
+    echo "Dataset: SWE-bench"
+    CMD=(python "$WORKER_SCRIPT"
+        --instance-id "$INSTANCE_ID"
+        --output "results/${INSTANCE_ID}.json"
+        --verbose)
+
+    if [ "$PIPELINE_ENABLE_STATIC" -eq 1 ]; then
+        CMD+=(--enable-static)
+    fi
+    if [ "$PIPELINE_ENABLE_FUZZING" -eq 1 ]; then
+        CMD+=(--enable-fuzzing)
+    fi
+    if [ "$PIPELINE_ENABLE_RULES" -eq 1 ]; then
+        CMD+=(--enable-rules)
+    fi
+
+    echo "Executing: ${CMD[*]}"
+    "${CMD[@]}"
+fi
 
 EXIT_CODE=$?
 
