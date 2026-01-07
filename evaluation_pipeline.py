@@ -23,6 +23,16 @@ from verifier.dynamic_analyzers.patch_analyzer import PatchAnalyzer
 from verifier.dynamic_analyzers.test_generator import HypothesisTestGenerator
 from verifier.dynamic_analyzers.singularity_executor import SingularityTestExecutor
 from verifier.dynamic_analyzers.coverage_analyzer import CoverageAnalyzer
+# Import Podman executor for SWE-bench tests (optional - requires compute node)
+try:
+    from verifier.dynamic_analyzers.podman_executor import (
+        PodmanTestExecutor,
+        IntegratedTestRunner,
+        TestType
+    )
+    PODMAN_AVAILABLE = True
+except ImportError:
+    PODMAN_AVAILABLE = False
 # Import static analyzers from streamlit modules (optional dependency)
 try:
     import streamlit.modules.static_eval.static_modules.code_quality as code_quality
