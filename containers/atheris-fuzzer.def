@@ -1,0 +1,41 @@
+Bootstrap: docker
+From: python:3.11-slim
+
+%labels
+    Author ihbas
+    Version 1.0
+    Description Atheris coverage-guided fuzzing container for patch verification
+
+%post
+    # Update and install build dependencies
+    apt-get update && apt-get install -y \
+        build-essential \
+        clang \
+        llvm \
+        git \
+        && rm -rf /var/lib/apt/lists/*
+
+    # Set clang as the default compiler (required for Atheris)
+    export CC=clang
+    export CXX=clang++
+
+    # Install Python packages
+    pip install --no-cache-dir \
+        atheris \
+        coverage \
+        pytest \
+        hypothesis
+
+    # Verify Atheris installation
+    python -c "import atheris; print('Atheris installed successfully')"
+
+%environment
+    export CC=clang
+    export CXX=clang++
+    export PYTHONUNBUFFERED=1
+
+%runscript
+    exec python "$@"
+
+%test
+    python -c "import atheris; print('Atheris test passed')"

@@ -1,0 +1,26 @@
+==================================
+Extract and Fuzz Test
+==================================
+Job ID: 6020177
+Node: clip10
+
+✗ Container not found: /fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache/astropy__astropy-6938.sif
+
+Available containers:
+matplotlib
+scikit-learn
+
+You may need to build the container first using your Singularity runner
+
+Running extraction test...
+================================================================================
+Fuzzing: astropy__astropy-6938
+================================================================================
+
+File: astropy/io/fits/fitsrec.py
+
+Extracting code from Singularity...
+✗ Extraction failed: Failed to extract astropy/io/fits/fitsrec.py: FATAL:   While checking container encryption: could not open image /fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache/astropy__astropy-6938.sif: failed to retrieve path for /fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache/astropy__astropy-6938.sif: lstat /fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache/astropy__astropy-6938.sif: no such file or directory
+
+
+Finished: Thu Jan  8 16:50:37 EST 2026

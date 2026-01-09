@@ -1,0 +1,22 @@
+==================================
+Extract and Fuzz with Podman
+==================================
+Job ID: 6020183
+Node: clip10
+
+================================================================================
+Fuzzing: astropy__astropy-6938
+================================================================================
+
+File: astropy/io/fits/fitsrec.py
+Docker image: docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-6938:latest
+
+Extracting code using Podman (following your working script)...
+✗ Extraction failed: Podman failed: time="2026-01-08T16:56:08-05:00" level=warning msg="Failed to get rootless runtime dir for DefaultAPIAddress: lstat /scratch0/ihbas/runtime: no such file or directory"
+time="2026-01-08T16:56:08-05:00" level=error msg="cannot find UID/GID for user ihbas: no subuid ranges found for user \"ihbas\" in /etc/subuid - check rootless mode in man pages."
+time="2026-01-08T16:56:08-05:00" level=warning msg="Using rootless single mapping into the namespace. This might break some images. Check /etc/subuid and /etc/subgid for adding sub*ids if not using a network user"
+time="2026-01-08T16:56:08-05:00" level=warning msg="Failed to get rootless runtime dir for DefaultAPIAddress: lstat /scratch0/ihbas/runtime: no such file or directory"
+Error: runc: runc create failed: mkdir /run/runc: permission denied: OCI permission denied
+
+
+Finished: Thu Jan  8 16:56:08 EST 2026
