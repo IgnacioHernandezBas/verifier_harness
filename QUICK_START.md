@@ -66,6 +66,24 @@ ls -lh results/astropy__astropy-12907.json
 cat results/astropy__astropy-12907.json | python -m json.tool | less
 ```
 
+## 💾 Verificar el caché de imágenes
+
+```bash
+# Ver estado del caché
+bash check_cache.sh
+
+# Esto muestra:
+# - Tamaño total del caché
+# - Imágenes por repositorio
+# - Imágenes más recientes
+# - Espacio en disco disponible
+```
+
+**⚠️ Nota importante sobre tiempos:**
+- **Primera ejecución:** ~10-15 minutos (descarga y construye imagen Docker)
+- **Siguientes ejecuciones:** Instantáneo (usa caché local)
+- Cada instancia tiene su propia imagen (ver `IMAGES_EXPLAINED.md` para detalles)
+
 ## 🎯 Siguiente paso: Batch de múltiples instancias
 
 Una vez que confirmes que funciona, ejecuta un batch más grande:
@@ -100,10 +118,14 @@ scancel <JOB_ID>
 | `submit_quick_test.sh` | Primera vez / Prueba rápida | Ejecuta 1 instancia de prueba |
 | `quick_slurm_test.sh` | Primera vez / Prueba rápida | Ejecuta 1 instancia (SLURM directo) |
 | `check_job_status.sh` | Monitoreo | Ver status de jobs y resultados |
+| `check_cache.sh` | Monitoreo | Ver estado del caché de imágenes |
 | `scripts/monitor_job.sh` | Monitoreo | Ver logs en tiempo real |
 | `scripts/setup_fuzzing.sh` | Setup inicial (1 vez) | Configura el entorno |
 | `scripts/submit_integrated_batch.py` | Producción | Batch de múltiples instancias |
 | `scripts/slurm/slurm_integrated_pipeline.sh` | Producción | Pipeline principal SLURM |
+
+📖 **Documentación adicional:**
+- `IMAGES_EXPLAINED.md` - Cómo funcionan las imágenes Docker/Singularity y el caché
 
 ## 💡 Troubleshooting
 
