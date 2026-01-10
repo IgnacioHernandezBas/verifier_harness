@@ -36,17 +36,30 @@ import logging
 import os
 from pathlib import Path
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+# Load credentials from environment variables
 DEFAULT_DOCKER_CREDS = {
-    "APPTAINER_DOCKER_USERNAME": "nacheitor12",
-    "APPTAINER_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
-    "SINGULARITY_DOCKER_USERNAME": "nacheitor12",
-    "SINGULARITY_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
+    "APPTAINER_DOCKER_USERNAME": os.getenv("APPTAINER_DOCKER_USERNAME"),
+    "APPTAINER_DOCKER_PASSWORD": os.getenv("APPTAINER_DOCKER_PASSWORD"),
+    "SINGULARITY_DOCKER_USERNAME": os.getenv("APPTAINER_DOCKER_USERNAME"),
+    "SINGULARITY_DOCKER_PASSWORD": os.getenv("APPTAINER_DOCKER_PASSWORD"),
 }
+
+# Validate credentials are loaded
+if not all(DEFAULT_DOCKER_CREDS.values()):
+    raise ValueError(
+        "Docker credentials not found in environment variables.\n"
+        "Please create a .env file from .env.template and add your credentials.\n"
+        "See .env.template for the required format."
+    )
 
 for key, value in DEFAULT_DOCKER_CREDS.items():
     os.environ.setdefault(key, value)
