@@ -36,17 +36,15 @@ import logging
 import os
 from pathlib import Path
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-DEFAULT_DOCKER_CREDS = {
-    "APPTAINER_DOCKER_USERNAME": "nacheitor12",
-    "APPTAINER_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
-    "SINGULARITY_DOCKER_USERNAME": "nacheitor12",
-    "SINGULARITY_DOCKER_PASSWORD": "wN/^4Me%,!5zz_q",
-}
 
 for key, value in DEFAULT_DOCKER_CREDS.items():
     os.environ.setdefault(key, value)
