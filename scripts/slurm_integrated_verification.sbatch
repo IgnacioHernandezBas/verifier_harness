@@ -71,7 +71,19 @@ mkdir -p "${OUTPUT_DIR}"
 mkdir -p "${HARNESS_DIR}/logs"
 
 # Setup Podman storage on scratch0 (required for rootless containers)
+# Override XDG directories to use /scratch0 instead of home directory
+export XDG_RUNTIME_DIR=/scratch0/ihbas/podman_runtime
+export XDG_CONFIG_HOME=/scratch0/ihbas/podman_config
+export XDG_DATA_HOME=/scratch0/ihbas/podman_data
 export CONTAINERS_STORAGE_CONF=/scratch0/ihbas/containers_storage.conf
+
+# Create all necessary directories
+mkdir -p "${XDG_RUNTIME_DIR}"
+mkdir -p "${XDG_CONFIG_HOME}"
+mkdir -p "${XDG_DATA_HOME}"
+mkdir -p /scratch0/ihbas/podman_runroot
+mkdir -p /scratch0/ihbas/podman_graphroot
+
 cat > "${CONTAINERS_STORAGE_CONF}" << 'EOF'
 [storage]
 driver = "overlay"
@@ -81,9 +93,6 @@ graphroot = "/scratch0/ihbas/podman_graphroot"
 [storage.options.overlay]
 mount_program = "/usr/bin/fuse-overlayfs"
 EOF
-
-mkdir -p /scratch0/ihbas/podman_runroot
-mkdir -p /scratch0/ihbas/podman_graphroot
 
 # Run podman system migrate to initialize storage
 echo "Initializing Podman storage..."
