@@ -23,9 +23,8 @@ from typing import Dict, Any, Optional, List
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from verifier.dynamic_analyzers.podman_executor import (
-    PodmanTestExecutor,
-    IntegratedTestRunner,
+from verifier.dynamic_analyzers.swebench_singularity_executor import (
+    SingularitySWEBenchExecutor,
     TestType
 )
 from verifier.dynamic_analyzers.patch_analyzer import PatchAnalyzer
@@ -72,12 +71,7 @@ class IntegratedVerifier:
 
         # Initialize components
         if enable_swebench or enable_fuzzing or enable_invariance:
-            self.podman_executor = PodmanTestExecutor(
-                scratch_dir=scratch_dir,
-                timeout=timeout
-            )
-            self.integrated_runner = IntegratedTestRunner(
-                experiment_logs_dir=str(self.experiment_dir),
+            self.singularity_executor = SingularitySWEBenchExecutor(
                 scratch_dir=scratch_dir,
                 timeout=timeout
             )
@@ -220,7 +214,7 @@ class TestInvariance:
         if self.enable_swebench and patch_data['eval_script']:
             print("\n[Phase 2] SWE-bench Tests...")
             try:
-                swebench_result = self.podman_executor.run_swebench_tests(
+                swebench_result = self.singularity_executor.run_swebench_tests(
                     instance_id=instance_id,
                     patch_diff=patch_data['diff'],
                     eval_script_path=patch_data['eval_script']
@@ -247,7 +241,7 @@ class TestInvariance:
 
             if fuzzing_tests:
                 try:
-                    fuzzing_result = self.podman_executor.run_custom_tests(
+                    fuzzing_result = self.singularity_executor.run_custom_tests(
                         instance_id=instance_id,
                         patch_diff=patch_data['diff'],
                         test_code=fuzzing_tests,
@@ -277,7 +271,7 @@ class TestInvariance:
 
             if invariance_tests:
                 try:
-                    invariance_result = self.podman_executor.run_custom_tests(
+                    invariance_result = self.singularity_executor.run_custom_tests(
                         instance_id=instance_id,
                         patch_diff=patch_data['diff'],
                         test_code=invariance_tests,

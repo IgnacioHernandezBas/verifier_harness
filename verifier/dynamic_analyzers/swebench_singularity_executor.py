@@ -1,28 +1,34 @@
 """
-Podman-based Test Executor for SWE-bench Evaluation
+SWE-bench Test Executor using Singularity containers.
 
-This module integrates the verified SWE-bench test execution methodology
-into the verifier harness. It supports:
-1. Running official SWE-bench tests (from eval.sh)
-2. Running custom tests (fuzzing, invariance)
-3. Executing in isolated Docker/Podman containers
+This module provides an executor that:
+1. Converts SWE-bench Docker images to Singularity .sif files
+2. Runs tests inside Singularity containers (no Podman needed)
+3. Works on HPC systems with rootless container requirements
 
-The execution follows the exact SWE-bench methodology:
-- Apply code patch
-- Apply test patches from eval.sh
-- Run tests
-- Check exit code (0 = PASS, non-zero = FAIL)
+This replaces podman_executor.py for environments where Podman has UID/GID issues.
 """
 
 import subprocess
 import tempfile
 import shutil
 import json
+import time
 import os
 from pathlib import Path
-from typing import Dict, Any, Optional, Tuple, List
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from enum import Enum
+import sys
+
+# Add project root to path for imports
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from swebench_singularity.singularity_builder import SingularityBuilder, BuildResult
+from swebench_singularity.docker_resolver import DockerImageResolver, DockerImage
+from swebench_singularity.instance_runner import InstanceRunner
+from swebench_singularity.config import Config, get_config
 
 
 class TestType(Enum):
@@ -54,71 +60,106 @@ class ExecutionResult:
         }
 
 
-class PodmanTestExecutor:
+class SingularitySWEBenchExecutor:
     """
-    Execute tests in Podman containers using SWE-bench methodology.
+    Execute SWE-bench tests in Singularity containers.
 
-    This executor can run:
-    1. Official SWE-bench tests (using eval.sh from experiment logs)
-    2. Custom fuzzing tests
-    3. Invariance/property-based tests
-
-    All tests run inside the official SWE-bench Docker images.
+    This executor replaces PodmanTestExecutor and uses the existing
+    swebench_singularity infrastructure to avoid Podman UID/GID issues.
     """
 
     def __init__(
         self,
         scratch_dir: str = "/scratch0/ihbas",
         timeout: int = 300,
-        enable_coverage: bool = True
+        enable_coverage: bool = True,
+        config: Optional[Config] = None,
+        auto_cleanup: bool = True
     ):
         """
-        Initialize the Podman executor.
+        Initialize the Singularity executor.
 
         Args:
-            scratch_dir: Local scratch directory for container operations
+            scratch_dir: Local scratch directory for operations
             timeout: Default timeout for test execution (seconds)
             enable_coverage: Whether to collect coverage data
+            config: Optional Singularity config (will create default if not provided)
+            auto_cleanup: Whether to automatically clean cache before builds (default: True)
         """
         self.scratch_dir = Path(scratch_dir)
         self.timeout = timeout
         self.enable_coverage = enable_coverage
+        self.auto_cleanup = auto_cleanup
 
-        # Verify scratch directory exists (needed for Podman)
+        # Verify scratch directory exists
         if not self.scratch_dir.exists():
             raise RuntimeError(
                 f"Scratch directory {scratch_dir} not found. "
                 "This executor requires local storage (not NFS)."
             )
 
-    def _get_podman_env(self) -> Dict[str, str]:
+        # Initialize Singularity infrastructure
+        if config is None:
+            # Create config with scratch-based directories
+            config = self._create_scratch_config()
+
+        self.config = config
+        self.builder = SingularityBuilder(config)
+        self.resolver = DockerImageResolver(config)
+
+    def _create_scratch_config(self) -> Config:
+        """Create configuration using scratch directories."""
+        config = get_config()
+
+        # Override cache directories to use scratch
+        cache_base = self.scratch_dir / "singularity_cache"
+
+        # Use task-specific temp directory to avoid parallel job conflicts
+        # This prevents race conditions when multiple jobs run on same node
+        task_id = os.environ.get('SLURM_ARRAY_TASK_ID', str(os.getpid()))
+
+        # Shared locations (reused across tasks)
+        config.set("singularity.cache_dir", str(cache_base / "images"))
+
+        # Task-isolated locations (per-job to avoid conflicts)
+        config.set("singularity.tmp_dir", str(cache_base / "tmp" / f"task_{task_id}"))
+        config.set("singularity.cache_internal_dir", str(cache_base / "internal" / f"task_{task_id}"))
+
+        # Ensure directories exist
+        for key in ["singularity.cache_dir", "singularity.tmp_dir", "singularity.cache_internal_dir"]:
+            Path(config.get(key)).mkdir(parents=True, exist_ok=True)
+
+        return config
+
+    def _cleanup_cache(self, aggressive: bool = False) -> None:
         """
-        Get environment variables for Podman execution.
+        Clean up Singularity cache to free disk space.
 
-        This ensures Podman uses local scratch storage instead of home directory,
-        which is critical for rootless operation on compute nodes.
+        Only cleans THIS task's directories to avoid interfering with parallel jobs.
 
-        Returns:
-            Dictionary of environment variables for subprocess calls
+        Args:
+            aggressive: If True, remove all cache. If False, only remove tmp files.
         """
-        env = os.environ.copy()
+        # Clean only this task's tmp directory (safe for parallel execution)
+        tmp_dir = Path(self.config.get("singularity.tmp_dir"))
+        if tmp_dir.exists():
+            try:
+                shutil.rmtree(tmp_dir, ignore_errors=True)
+                tmp_dir.mkdir(parents=True, exist_ok=True)
+                print(f"  Cleaned task tmp cache: {tmp_dir}")
+            except Exception as e:
+                print(f"  Warning: Failed to clean tmp cache: {e}")
 
-        # Check if environment is already configured (from SLURM script)
-        # If not, configure it now
-        if 'XDG_RUNTIME_DIR' not in env or not env['XDG_RUNTIME_DIR'].startswith('/scratch'):
-            # Setup Podman directories on scratch
-            scratch_base = self.scratch_dir
-            env['XDG_RUNTIME_DIR'] = str(scratch_base / "podman_runtime")
-            env['XDG_CONFIG_HOME'] = str(scratch_base / "podman_config")
-            env['XDG_DATA_HOME'] = str(scratch_base / "podman_data")
-            env['CONTAINERS_STORAGE_CONF'] = str(scratch_base / "containers_storage.conf")
-
-            # Create directories if they don't exist
-            Path(env['XDG_RUNTIME_DIR']).mkdir(parents=True, exist_ok=True)
-            Path(env['XDG_CONFIG_HOME']).mkdir(parents=True, exist_ok=True)
-            Path(env['XDG_DATA_HOME']).mkdir(parents=True, exist_ok=True)
-
-        return env
+        # Clean this task's internal cache if aggressive mode
+        if aggressive:
+            internal_dir = Path(self.config.get("singularity.cache_internal_dir"))
+            if internal_dir.exists():
+                try:
+                    shutil.rmtree(internal_dir, ignore_errors=True)
+                    internal_dir.mkdir(parents=True, exist_ok=True)
+                    print(f"  Cleaned task internal cache: {internal_dir}")
+                except Exception as e:
+                    print(f"  Warning: Failed to clean internal cache: {e}")
 
     def get_docker_image(self, instance_id: str) -> str:
         """
@@ -130,10 +171,42 @@ class PodmanTestExecutor:
         Returns:
             Docker image name
         """
-        org = instance_id.split('__')[0]
-        rest = instance_id.split('__')[1]
+        parts = instance_id.split('__')
+        if len(parts) != 2:
+            raise ValueError(f"Invalid instance ID format: {instance_id}")
+
+        org = parts[0]
+        rest = parts[1]
         repo_and_num = rest.replace('__', '_')
         return f"docker.io/swebench/sweb.eval.x86_64.{org}_1776_{repo_and_num}:latest"
+
+    def _build_sif_for_instance(self, instance_id: str) -> Optional[Path]:
+        """
+        Build or retrieve cached Singularity .sif file for instance.
+
+        Args:
+            instance_id: SWE-bench instance ID
+
+        Returns:
+            Path to .sif file if successful, None otherwise
+        """
+        try:
+            # Clean cache before building to ensure sufficient disk space
+            if self.auto_cleanup:
+                self._cleanup_cache(aggressive=False)
+
+            # Use the SingularityBuilder to convert Docker -> .sif
+            result = self.builder.build_instance(instance_id, force_rebuild=False)
+
+            if result.success:
+                return result.sif_path
+            else:
+                print(f"  Error building .sif: {result.error_message}")
+                return None
+
+        except Exception as e:
+            print(f"  Error in _build_sif_for_instance: {e}")
+            return None
 
     def run_swebench_tests(
         self,
@@ -145,12 +218,6 @@ class PodmanTestExecutor:
         """
         Run official SWE-bench tests for an instance.
 
-        This follows the exact SWE-bench evaluation methodology:
-        1. Apply the code patch
-        2. Apply test patches from eval.sh
-        3. Run the test command from eval.sh
-        4. Return exit code (0 = PASS)
-
         Args:
             instance_id: SWE-bench instance ID
             patch_diff: The code patch to apply (unified diff format)
@@ -160,14 +227,22 @@ class PodmanTestExecutor:
         Returns:
             ExecutionResult with test outcome
         """
-        import time
         start_time = time.time()
 
-        docker_image = self.get_docker_image(instance_id)
+        # Build/get .sif file
+        sif_path = self._build_sif_for_instance(instance_id)
+        if not sif_path:
+            return ExecutionResult(
+                success=False,
+                exit_code=-1,
+                test_output="",
+                error="Failed to build Singularity image",
+                execution_time=time.time() - start_time
+            )
 
         # Setup directories
         if output_dir is None:
-            output_dir = self.scratch_dir / "podman_results" / instance_id
+            output_dir = self.scratch_dir / "swebench_results" / instance_id
         output_dir.mkdir(parents=True, exist_ok=True)
 
         patch_dir = self.scratch_dir / "patches" / instance_id
@@ -178,181 +253,26 @@ class PodmanTestExecutor:
             shutil.copy(eval_script_path, patch_dir / "eval.sh")
             (patch_dir / "patch.diff").write_text(patch_diff)
 
-            # Pull the Docker image
-            pull_result = subprocess.run(
-                ["podman", "pull", docker_image],
-                capture_output=True,
-                text=True,
-                timeout=300,
-                env=self._get_podman_env()
-            )
-
-            if pull_result.returncode != 0:
-                return ExecutionResult(
-                    success=False,
-                    exit_code=-1,
-                    test_output="",
-                    error=f"Failed to pull image: {pull_result.stderr}",
-                    execution_time=time.time() - start_time
-                )
-
-            # Build the container command
+            # Build the container script
             container_script = self._build_swebench_test_script()
 
-            # Run the container
-            run_result = subprocess.run(
-                [
-                    "podman", "run", "--rm",
-                    "-v", f"{patch_dir}:/patch:ro",
-                    "-v", f"{output_dir}:/output",
-                    "--workdir", "/testbed",
-                    docker_image,
-                    "/bin/bash", "-c", container_script
-                ],
-                capture_output=True,
-                text=True,
-                timeout=self.timeout,
-                env=self._get_podman_env()
+            # Run in Singularity
+            result = self._run_singularity_command(
+                sif_path=sif_path,
+                command=container_script,
+                bind_paths={
+                    str(patch_dir): "/patch:ro",
+                    str(output_dir): "/output"
+                },
+                workdir="/testbed"
             )
 
-            # Read test output
+            # Read outputs
             test_output_file = output_dir / "test_output.txt"
-            test_output = ""
-            if test_output_file.exists():
-                test_output = test_output_file.read_text()
+            test_output = test_output_file.read_text() if test_output_file.exists() else ""
 
-            # Read exit code
             exit_code_file = output_dir / "exit_code.txt"
-            exit_code = run_result.returncode
-            if exit_code_file.exists():
-                try:
-                    exit_code = int(exit_code_file.read_text().strip())
-                except ValueError:
-                    pass
-
-            # Read coverage if enabled
-            coverage_data = None
-            if self.enable_coverage:
-                coverage_file = output_dir / "coverage.json"
-                if coverage_file.exists():
-                    coverage_data = json.loads(coverage_file.read_text())
-
-            return ExecutionResult(
-                success=(exit_code == 0),
-                exit_code=exit_code,
-                test_output=test_output,
-                coverage_data=coverage_data,
-                execution_time=time.time() - start_time
-            )
-
-        except subprocess.TimeoutExpired:
-            return ExecutionResult(
-                success=False,
-                exit_code=-1,
-                test_output="",
-                error=f"Timeout after {self.timeout}s",
-                execution_time=time.time() - start_time
-            )
-        except Exception as e:
-            return ExecutionResult(
-                success=False,
-                exit_code=-1,
-                test_output="",
-                error=str(e),
-                execution_time=time.time() - start_time
-            )
-        finally:
-            # Cleanup patch directory
-            if patch_dir.exists():
-                shutil.rmtree(patch_dir, ignore_errors=True)
-
-    def run_custom_tests(
-        self,
-        instance_id: str,
-        patch_diff: str,
-        test_code: str,
-        test_type: TestType = TestType.CUSTOM,
-        output_dir: Optional[Path] = None
-    ) -> ExecutionResult:
-        """
-        Run custom tests (fuzzing, invariance, etc.) in the SWE-bench container.
-
-        Args:
-            instance_id: SWE-bench instance ID
-            patch_diff: The code patch to apply
-            test_code: Python test code to execute
-            test_type: Type of test being run
-            output_dir: Directory to store outputs
-
-        Returns:
-            ExecutionResult with test outcome
-        """
-        import time
-        start_time = time.time()
-
-        docker_image = self.get_docker_image(instance_id)
-
-        # Setup directories
-        if output_dir is None:
-            output_dir = self.scratch_dir / "podman_results" / instance_id / test_type.value
-        output_dir.mkdir(parents=True, exist_ok=True)
-
-        patch_dir = self.scratch_dir / "patches" / instance_id
-        patch_dir.mkdir(parents=True, exist_ok=True)
-
-        try:
-            # Write patch and test code to scratch
-            (patch_dir / "patch.diff").write_text(patch_diff)
-            (patch_dir / "custom_tests.py").write_text(test_code)
-
-            # Pull the Docker image
-            pull_result = subprocess.run(
-                ["podman", "pull", docker_image],
-                capture_output=True,
-                text=True,
-                timeout=300,
-                env=self._get_podman_env()
-            )
-
-            if pull_result.returncode != 0:
-                return ExecutionResult(
-                    success=False,
-                    exit_code=-1,
-                    test_output="",
-                    error=f"Failed to pull image: {pull_result.stderr}",
-                    execution_time=time.time() - start_time
-                )
-
-            # Build the container command for custom tests
-            container_script = self._build_custom_test_script(
-                enable_coverage=self.enable_coverage
-            )
-
-            # Run the container
-            run_result = subprocess.run(
-                [
-                    "podman", "run", "--rm",
-                    "-v", f"{patch_dir}:/patch:ro",
-                    "-v", f"{output_dir}:/output",
-                    "--workdir", "/testbed",
-                    docker_image,
-                    "/bin/bash", "-c", container_script
-                ],
-                capture_output=True,
-                text=True,
-                timeout=self.timeout,
-                env=self._get_podman_env()
-            )
-
-            # Read test output
-            test_output_file = output_dir / "test_output.txt"
-            test_output = ""
-            if test_output_file.exists():
-                test_output = test_output_file.read_text()
-
-            # Read exit code
-            exit_code_file = output_dir / "exit_code.txt"
-            exit_code = run_result.returncode
+            exit_code = result.returncode
             if exit_code_file.exists():
                 try:
                     exit_code = int(exit_code_file.read_text().strip())
@@ -398,6 +318,169 @@ class PodmanTestExecutor:
             if patch_dir.exists():
                 shutil.rmtree(patch_dir, ignore_errors=True)
 
+    def run_custom_tests(
+        self,
+        instance_id: str,
+        patch_diff: str,
+        test_code: str,
+        test_type: TestType = TestType.CUSTOM,
+        output_dir: Optional[Path] = None
+    ) -> ExecutionResult:
+        """
+        Run custom tests (fuzzing, invariance, etc.) in Singularity container.
+
+        Args:
+            instance_id: SWE-bench instance ID
+            patch_diff: The code patch to apply
+            test_code: Python test code to execute
+            test_type: Type of test being run
+            output_dir: Directory to store outputs
+
+        Returns:
+            ExecutionResult with test outcome
+        """
+        start_time = time.time()
+
+        # Build/get .sif file
+        sif_path = self._build_sif_for_instance(instance_id)
+        if not sif_path:
+            return ExecutionResult(
+                success=False,
+                exit_code=-1,
+                test_output="",
+                error="Failed to build Singularity image",
+                execution_time=time.time() - start_time
+            )
+
+        # Setup directories
+        if output_dir is None:
+            output_dir = self.scratch_dir / "swebench_results" / instance_id / test_type.value
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        patch_dir = self.scratch_dir / "patches" / instance_id
+        patch_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            # Write patch and test code
+            (patch_dir / "patch.diff").write_text(patch_diff)
+            (patch_dir / "custom_tests.py").write_text(test_code)
+
+            # Build the container script for custom tests
+            container_script = self._build_custom_test_script(
+                enable_coverage=self.enable_coverage
+            )
+
+            # Run in Singularity
+            result = self._run_singularity_command(
+                sif_path=sif_path,
+                command=container_script,
+                bind_paths={
+                    str(patch_dir): "/patch:ro",
+                    str(output_dir): "/output"
+                },
+                workdir="/testbed"
+            )
+
+            # Read outputs
+            test_output_file = output_dir / "test_output.txt"
+            test_output = test_output_file.read_text() if test_output_file.exists() else ""
+
+            exit_code_file = output_dir / "exit_code.txt"
+            exit_code = result.returncode
+            if exit_code_file.exists():
+                try:
+                    exit_code = int(exit_code_file.read_text().strip())
+                except ValueError:
+                    pass
+
+            # Read coverage if enabled
+            coverage_data = None
+            if self.enable_coverage:
+                coverage_file = output_dir / "coverage.json"
+                if coverage_file.exists():
+                    try:
+                        coverage_data = json.loads(coverage_file.read_text())
+                    except json.JSONDecodeError:
+                        pass
+
+            return ExecutionResult(
+                success=(exit_code == 0),
+                exit_code=exit_code,
+                test_output=test_output,
+                coverage_data=coverage_data,
+                execution_time=time.time() - start_time
+            )
+
+        except subprocess.TimeoutExpired:
+            return ExecutionResult(
+                success=False,
+                exit_code=-1,
+                test_output="",
+                error=f"Timeout after {self.timeout}s",
+                execution_time=time.time() - start_time
+            )
+        except Exception as e:
+            return ExecutionResult(
+                success=False,
+                exit_code=-1,
+                test_output="",
+                error=str(e),
+                execution_time=time.time() - start_time
+            )
+        finally:
+            # Cleanup patch directory
+            if patch_dir.exists():
+                shutil.rmtree(patch_dir, ignore_errors=True)
+
+    def _run_singularity_command(
+        self,
+        sif_path: Path,
+        command: str,
+        bind_paths: Dict[str, str],
+        workdir: str = "/workspace",
+        env_vars: Optional[Dict[str, str]] = None
+    ) -> subprocess.CompletedProcess:
+        """
+        Run a command in Singularity container.
+
+        Args:
+            sif_path: Path to .sif file
+            command: Shell command to execute
+            bind_paths: Dict mapping host_path -> container_path
+            workdir: Working directory in container
+            env_vars: Environment variables to set
+
+        Returns:
+            CompletedProcess result
+        """
+        cmd = ["singularity", "exec", "--writable-tmpfs"]
+
+        # Add bind mounts
+        for host_path, container_path in bind_paths.items():
+            cmd.extend(["--bind", f"{host_path}:{container_path}"])
+
+        # Add environment variables
+        if env_vars:
+            for key, value in env_vars.items():
+                cmd.extend(["--env", f"{key}={value}"])
+
+        # Add working directory
+        cmd.extend(["--pwd", workdir])
+
+        # Add image and command
+        cmd.append(str(sif_path))
+        cmd.extend(["/bin/bash", "-c", command])
+
+        # Execute
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=self.timeout
+        )
+
+        return result
+
     def _build_swebench_test_script(self) -> str:
         """Build the bash script for running SWE-bench tests inside container"""
         return r'''
@@ -423,7 +506,7 @@ if [ -f /patch/eval.sh ]; then
 
     # Apply inline git patches
     sed -n "/git apply -v - <<'EOF_/,/^EOF_/p" /patch/eval.sh | \
-        sed "1d;\$d" | git apply -v >> /output/patch.log 2>&1 || true
+        sed "1d;$d" | git apply -v >> /output/patch.log 2>&1 || true
 
     # Extract and run the test command (between >>>>> markers)
     test_cmd=$(sed -n "/>>>>> Start Test Output/,/>>>>> End Test Output/p" /patch/eval.sh | \
@@ -489,126 +572,3 @@ echo "$exit_code" > /output/exit_code.txt
 
 exit $exit_code
 '''
-
-
-class IntegratedTestRunner:
-    """
-    High-level interface for running all test types on a patch.
-
-    Combines:
-    1. SWE-bench official tests
-    2. Fuzzing tests
-    3. Invariance tests
-    """
-
-    def __init__(
-        self,
-        experiment_logs_dir: str,
-        scratch_dir: str = "/scratch0/ihbas",
-        timeout: int = 300
-    ):
-        """
-        Initialize the integrated test runner.
-
-        Args:
-            experiment_logs_dir: Path to SWE-bench experiment logs
-            scratch_dir: Local scratch directory for Podman
-            timeout: Test timeout in seconds
-        """
-        self.experiment_logs_dir = Path(experiment_logs_dir)
-        self.executor = PodmanTestExecutor(
-            scratch_dir=scratch_dir,
-            timeout=timeout
-        )
-
-    def run_all_tests(
-        self,
-        instance_id: str,
-        patch_diff: str,
-        fuzzing_tests: Optional[str] = None,
-        invariance_tests: Optional[str] = None
-    ) -> Dict[str, Any]:
-        """
-        Run all available tests on a patch.
-
-        Args:
-            instance_id: SWE-bench instance ID
-            patch_diff: The code patch to evaluate
-            fuzzing_tests: Optional fuzzing test code
-            invariance_tests: Optional invariance test code
-
-        Returns:
-            Combined results from all test types
-        """
-        results = {
-            'instance_id': instance_id,
-            'swebench': None,
-            'fuzzing': None,
-            'invariance': None,
-            'overall_verdict': 'UNKNOWN'
-        }
-
-        # 1. Run SWE-bench official tests
-        eval_script = self.experiment_logs_dir / instance_id / "eval.sh"
-        if eval_script.exists():
-            swebench_result = self.executor.run_swebench_tests(
-                instance_id=instance_id,
-                patch_diff=patch_diff,
-                eval_script_path=eval_script
-            )
-            results['swebench'] = swebench_result.to_dict()
-
-        # 2. Run fuzzing tests if provided
-        if fuzzing_tests:
-            fuzzing_result = self.executor.run_custom_tests(
-                instance_id=instance_id,
-                patch_diff=patch_diff,
-                test_code=fuzzing_tests,
-                test_type=TestType.FUZZING
-            )
-            results['fuzzing'] = fuzzing_result.to_dict()
-
-        # 3. Run invariance tests if provided
-        if invariance_tests:
-            invariance_result = self.executor.run_custom_tests(
-                instance_id=instance_id,
-                patch_diff=patch_diff,
-                test_code=invariance_tests,
-                test_type=TestType.INVARIANCE
-            )
-            results['invariance'] = invariance_result.to_dict()
-
-        # Determine overall verdict
-        results['overall_verdict'] = self._compute_verdict(results)
-
-        return results
-
-    def _compute_verdict(self, results: Dict) -> str:
-        """
-        Compute overall verdict from all test results.
-
-        Priority:
-        1. SWE-bench tests must pass
-        2. Fuzzing tests (if run) should pass
-        3. Invariance tests (if run) should pass
-        """
-        # SWE-bench is the primary indicator
-        if results['swebench']:
-            if not results['swebench']['success']:
-                return 'FAIL'
-
-        # Check fuzzing results
-        if results['fuzzing']:
-            if not results['fuzzing']['success']:
-                return 'FAIL_FUZZING'
-
-        # Check invariance results
-        if results['invariance']:
-            if not results['invariance']['success']:
-                return 'FAIL_INVARIANCE'
-
-        # All passed
-        if results['swebench'] and results['swebench']['success']:
-            return 'PASS'
-
-        return 'UNKNOWN'
