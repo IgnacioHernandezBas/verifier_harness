@@ -217,6 +217,36 @@ def install_package_in_singularity(
         )
         so_count = len(count_result.stdout.strip().split('\n')) if count_result.stdout.strip() else 0
 
+        # For astropy, also copy generated Python files like _erfa/core.py and version.py
+        # Check if this is an astropy repo
+        is_astropy = (repo_path / "astropy" / "_erfa").exists()
+        if is_astropy:
+            print(f"   Detected astropy, copying generated Python files...")
+            astropy_files_cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                str(image_path),
+                "bash", "-c",
+                "if [ -f /testbed/astropy/_erfa/core.py ]; then "
+                "cp /testbed/astropy/_erfa/core.py /workspace/astropy/_erfa/ 2>/dev/null || true; "
+                "fi; "
+                "if [ -f /testbed/astropy/version.py ]; then "
+                "cp /testbed/astropy/version.py /workspace/astropy/ 2>/dev/null || true; "
+                "fi; "
+                "if [ -f /testbed/astropy/cython_version.py ]; then "
+                "cp /testbed/astropy/cython_version.py /workspace/astropy/ 2>/dev/null || true; "
+                "fi"
+            ]
+            astropy_files_proc = subprocess.run(astropy_files_cmd, capture_output=True, text=True, timeout=60)
+            core_exists = (repo_path / "astropy" / "_erfa" / "core.py").exists()
+            version_exists = (repo_path / "astropy" / "version.py").exists()
+            if astropy_files_proc.returncode == 0:
+                if core_exists:
+                    print(f"✅ Successfully copied astropy _erfa/core.py")
+                if version_exists:
+                    print(f"✅ Successfully copied astropy version.py")
+
         # For matplotlib, also copy data files (mpl-data directory) and _version.py
         # Check if this is a matplotlib repo
         is_matplotlib = (repo_path / "lib" / "matplotlib").exists()
@@ -662,6 +692,36 @@ def run_tests_in_singularity(
         copy_proc = subprocess.run(copy_cmd, capture_output=True, text=True, timeout=60)
         if copy_proc.returncode == 0:
             print("✓ C extensions copied")
+
+            # For astropy, also copy generated Python files if needed
+            if (repo_path / "astropy" / "_erfa").exists():
+                core_py_path = repo_path / "astropy" / "_erfa" / "core.py"
+                version_py_path = repo_path / "astropy" / "version.py"
+                needs_copy = not core_py_path.exists() or not version_py_path.exists()
+
+                if needs_copy:
+                    print("   Copying astropy generated files...")
+                    astropy_cmd = [
+                        "singularity",
+                        "exec",
+                        "--bind", f"{str(repo_path)}:/workspace",
+                        str(image_path),
+                        "bash", "-c",
+                        "if [ -f /testbed/astropy/_erfa/core.py ]; then "
+                        "cp /testbed/astropy/_erfa/core.py /workspace/astropy/_erfa/ 2>/dev/null || true; "
+                        "fi; "
+                        "if [ -f /testbed/astropy/version.py ]; then "
+                        "cp /testbed/astropy/version.py /workspace/astropy/ 2>/dev/null || true; "
+                        "fi; "
+                        "if [ -f /testbed/astropy/cython_version.py ]; then "
+                        "cp /testbed/astropy/cython_version.py /workspace/astropy/ 2>/dev/null || true; "
+                        "fi"
+                    ]
+                    subprocess.run(astropy_cmd, capture_output=True, text=True, timeout=30)
+                    if core_py_path.exists():
+                        print("   ✓ astropy core.py copied")
+                    if version_py_path.exists():
+                        print("   ✓ astropy version.py copied")
         else:
             print("ℹ️  Could not copy C extensions (may not be needed)")
     else:

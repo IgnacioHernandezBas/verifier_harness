@@ -25,14 +25,14 @@ docker:
 
 # Singularity Settings
 singularity:
-  # Cache directory for .sif files
-  cache_dir: "/fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache"
+  # Cache directory for .sif files (where your 20 cached containers are)
+  cache_dir: "/fs/nexus-scratch/ihbas/.cache/swebench_singularity"
 
   # Temporary directory for builds
-  tmp_dir: "/fs/nexus-scratch/ihbas/.singularity_tmp"
+  tmp_dir: "/fs/nexus-scratch/ihbas/.tmp/singularity_build"
 
   # Cache directory for Singularity's internal cache
-  cache_internal_dir: "/fs/nexus-scratch/ihbas/.singularity_cache"
+  cache_internal_dir: "/fs/nexus-scratch/ihbas/.singularity/cache"
 
   # Build timeout (seconds) - Docker image conversion can take time
   build_timeout: 1800  # 30 minutes
