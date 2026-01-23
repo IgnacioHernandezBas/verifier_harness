@@ -1,0 +1,184 @@
+{
+  "instance_id": "astropy__astropy-7746",
+  "extraction_model": "manual",
+  "extraction_timestamp": "2026-01-21T00:00:00Z",
+  "extraction_notes": "Symbols extracted from: (1) explicit mentions in issue, (2) stack trace, (3) inferred from code context. Gold patch NOT consulted during extraction.",
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "WCS transformation methods must return empty arrays when given empty input",
+      "given": "Empty lists or arrays (size 0) are passed as coordinate input to WCS transformation methods",
+      "when": "Methods like wcs_pix2world([], [], 0) or all_pix2world with empty arrays are called",
+      "then": "The methods return empty arrays of the same shape without raising exceptions",
+      "confidence": "high",
+      "target_symbols": [
+        "wcs_pix2world",
+        "_array_converter",
+        "_return_list_of_arrays",
+        "_return_single_array"
+      ],
+      "confidence_factors": {
+        "requirement_specificity": "explicit",
+        "diff_grounded": true,
+        "observability": "high"
+      },
+      "evidence": {
+        "spans": [
+          "The following should not fail but instead should return empty lists/arrays",
+          "wcs.wcs_pix2world([], [], 0)",
+          "~/Dropbox/Code/Astropy/astropy/astropy/wcs/wcs.py in _array_converter",
+          "-> 1269             return _return_list_of_arrays(axes, origin)"
+        ]
+      },
+      "grounding": {
+        "is_grounded": true,
+        "strength": "weak",
+        "matched_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "unmatched_symbols": [
+          "wcs_pix2world"
+        ],
+        "patch_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "match_ratio": 0.75
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "WCS transformations must not raise InconsistentAxisTypesError for empty input",
+      "given": "Empty lists are passed as coordinate arrays to WCS transformation methods",
+      "when": "The WCS transformation processes the empty input arrays through _array_converter",
+      "then": "No InconsistentAxisTypesError is raised",
+      "confidence": "high",
+      "target_symbols": [
+        "wcs_pix2world",
+        "_array_converter",
+        "_return_list_of_arrays"
+      ],
+      "confidence_factors": {
+        "requirement_specificity": "explicit",
+        "diff_grounded": true,
+        "observability": "high"
+      },
+      "evidence": {
+        "spans": [
+          "InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2646",
+          "The following should not fail",
+          "~/Dropbox/Code/Astropy/astropy/astropy/wcs/wcs.py in _array_converter",
+          "-> 1269             return _return_list_of_arrays(axes, origin)"
+        ]
+      },
+      "grounding": {
+        "is_grounded": true,
+        "strength": "weak",
+        "matched_symbols": [
+          "_return_list_of_arrays",
+          "_array_converter"
+        ],
+        "unmatched_symbols": [
+          "wcs_pix2world"
+        ],
+        "patch_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "match_ratio": 0.6666666666666666
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "WCS all_pix2world must handle (0, N) shaped arrays correctly",
+      "given": "An array with shape (0, N) is passed to all_pix2world",
+      "when": "all_pix2world(np.zeros((0, 2)), 0) is called",
+      "then": "The same empty array with shape (0, N) is returned",
+      "confidence": "high",
+      "target_symbols": [
+        "all_pix2world",
+        "_array_converter",
+        "_return_single_array"
+      ],
+      "confidence_factors": {
+        "requirement_specificity": "explicit",
+        "diff_grounded": true,
+        "observability": "high"
+      },
+      "evidence": {
+        "spans": [
+          "inp = np.zeros((0, 2))",
+          "assert_array_equal(inp, w.all_pix2world(inp, 0))"
+        ]
+      },
+      "grounding": {
+        "is_grounded": true,
+        "strength": "weak",
+        "matched_symbols": [
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "unmatched_symbols": [
+          "all_pix2world"
+        ],
+        "patch_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "match_ratio": 0.6666666666666666
+      }
+    },
+    {
+      "claim_id": "C4",
+      "claim_type": "return",
+      "claim_text": "WCS all_world2pix must return empty arrays when given empty input",
+      "given": "Empty coordinate arrays are passed to all_world2pix",
+      "when": "all_world2pix is called with empty lists or 0-sized arrays",
+      "then": "Empty arrays matching the input shape are returned",
+      "confidence": "high",
+      "target_symbols": [
+        "all_world2pix",
+        "_array_converter",
+        "_return_list_of_arrays",
+        "_return_single_array"
+      ],
+      "confidence_factors": {
+        "requirement_specificity": "explicit",
+        "diff_grounded": true,
+        "observability": "high"
+      },
+      "evidence": {
+        "spans": [
+          "assert_array_equal(inp, w.all_world2pix(inp, 0))",
+          "result = w.all_world2pix([], [1], 0)"
+        ]
+      },
+      "grounding": {
+        "is_grounded": true,
+        "strength": "weak",
+        "matched_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "unmatched_symbols": [
+          "all_world2pix"
+        ],
+        "patch_symbols": [
+          "_return_list_of_arrays",
+          "_return_single_array",
+          "_array_converter"
+        ],
+        "match_ratio": 0.75
+      }
+    }
+  ]
+}
