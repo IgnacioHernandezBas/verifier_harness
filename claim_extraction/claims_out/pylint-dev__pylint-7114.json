@@ -1,0 +1,182 @@
+{
+  "instance_id": "pylint-dev__pylint-7114",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 3,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Running pylint a should not raise an exception if a/a.py is present.",
+      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and all files are empty.",
+      "when": "expand_modules is called with ['a'] as files_or_modules",
+      "then": "No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.",
+      "target_symbols": [
+        "expand_modules"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Running `pylint a` if `a/a.py` is present fails while searching for an `__init__.py` file."
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "expand_modules"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "expand_modules",
+            "path": "pylint/lint/expand_modules.py",
+            "line": null,
+            "snippet": "...expand_modules..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Running `pylint a` if `a/a.py` is present fails while searching for an `__init__"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "Running pylint -E r a should not raise an exception if a/a.py is present.",
+      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`.",
+      "when": "expand_modules is called with ['r', 'a'] as files_or_modules",
+      "then": "No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.",
+      "target_symbols": [
+        "expand_modules"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Running `pylint -E r a` will run fine, but `pylint -E r a` will fail. Not just for module a, but for module r as well."
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "expand_modules"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "expand_modules",
+            "path": "pylint/lint/expand_modules.py",
+            "line": null,
+            "snippet": "...expand_modules..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "Running `pylint -E r a` will run fine, but `pylint -E r a` will fail. Not just f"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 3,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.5,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-27T20:28:12.907844",
+    "llm": {
+      "backend": "vllm",
+      "endpoint": "http://127.0.0.1:8000/v1",
+      "model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
+      "temperature": 0.1,
+      "max_tokens": 2048,
+      "timeout_s": 120
+    },
+    "extraction": {
+      "min_claim_score": 2,
+      "check_eligibility": true,
+      "require_grounding": true,
+      "max_claims_per_issue": 6
+    }
+  },
+  "eligibility": {
+    "total_instances": 5,
+    "eligible": 5,
+    "ineligible": 0,
+    "eligibility_rate": 1.0
+  },
+  "totals": {
+    "total_raw_claims": 7,
+    "total_grounded_claims": 7,
+    "total_final_claims": 7,
+    "avg_final_claims_per_eligible_instance": 1.4,
+    "grounding_rate": 1.0
+  },
+  "by_grounding": {
+    "strong": 0,
+    "weak_file": 7,
+    "weak_ref": 0
+  },
+  "quality_metrics": {
+    "avg_specificity_rate": 0.5,
+    "avg_evidence_verified_rate": 1.0,
+    "avg_claim_score": 4.9
+  },
+  "instances": [
+    {
+      "instance_id": "astropy__astropy-7746",
+      "repo": "astropy/astropy",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "psf__requests-2148",
+      "repo": "psf/requests",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "pylint-dev__pylint-5859",
+      "repo": "pylint-dev/pylint",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 4.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "pylint-dev__pylint-6506",
+      "repo": "pylint-dev/pylint",
+      "eligible": true,
+      "final_claims": 2,
+      "grounding_rate": 1.0,
+      "avg_score": 6.0,
+      "specificity_rate": 0.5
+    },
+    {
+      "instance_id": "pylint-dev__pylint-7114",
+      "repo": "pylint-dev/pylint",
+      "eligible": true,
+      "final_claims": 2,
+      "grounding_rate": 1.0,
+      "avg_score": 4.5,
+      "specificity_rate": 1.0
+    }
+  ],
+  "errors": []
+}

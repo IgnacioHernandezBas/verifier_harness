@@ -1,0 +1,137 @@
+{
+  "instance_id": "pylint-dev__pylint-5859",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 3,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "The _fixme_pattern should match note tags that are entirely punctuation.",
+      "given": "The --notes option is set to 'YES,???'",
+      "when": "The _fixme_pattern is compiled with the given notes",
+      "then": "The _fixme_pattern should match lines starting with '# ???:'",
+      "target_symbols": [
+        "_fixme_pattern"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "If a note tag specified with the `--notes` option is entirely punctuation, pylint won't report a fixme warning (W0511).",
+          "pylint test.py --notes=\"YES,???\"] will return a fixme warning (W0511) for the first line, but not the second.",
+          "Expected behavior"
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_fixme_pattern"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_fixme_pattern",
+            "path": "pylint/checkers/misc.py",
+            "line": null,
+            "snippet": "..._fixme_pattern..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "If a note tag specified with the `--notes` option is entirely punctuation, pylin"
+          },
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "94%",
+            "span": "pylint test.py --notes=\"YES,???\"] will return a fixme warning (W0511) for the fi"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Expected behavior"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "-1: no_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 3,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  }
+}

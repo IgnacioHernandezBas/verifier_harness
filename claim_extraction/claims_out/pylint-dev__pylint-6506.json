@@ -1,0 +1,196 @@
+{
+  "instance_id": "pylint-dev__pylint-6506",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "has_stacktrace",
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Should raise _UnrecognizedOptionError without printing a traceback when an unrecognized option is passed.",
+      "given": "An unrecognized option is passed to pylint.",
+      "when": "_config_initialization is called with an unrecognized option.",
+      "then": "_UnrecognizedOptionError is raised without printing a traceback.",
+      "target_symbols": [
+        "_config_initialization"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The traceback I don't think is expected & not user-friendly."
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_config_initialization"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_config_initialization",
+            "path": "pylint/config/config_initialization.py",
+            "line": null,
+            "snippet": "..._config_initialization..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The traceback I don't think is expected & not user-friendly."
+          },
+          {
+            "source": "stacktrace",
+            "type": "function_match",
+            "stacktrace_func": "_config_initialization",
+            "symbol": "_config_initialization"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue, stacktrace)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "Should return a usage tip when an unrecognized option is passed.",
+      "given": "An unrecognized option is passed to pylint.",
+      "when": "_config_initialization is called with an unrecognized option.",
+      "then": "A usage tip is printed.",
+      "target_symbols": [
+        "_config_initialization"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "A usage tip, for example:"
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_config_initialization"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_config_initialization",
+            "path": "pylint/config/config_initialization.py",
+            "line": null,
+            "snippet": "..._config_initialization..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "A usage tip, for example:"
+          },
+          {
+            "source": "stacktrace",
+            "type": "function_match",
+            "stacktrace_func": "_config_initialization",
+            "symbol": "_config_initialization"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue, stacktrace)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.5,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  }
+}

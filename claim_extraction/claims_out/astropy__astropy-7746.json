@@ -1,0 +1,143 @@
+{
+  "instance_id": "astropy__astropy-7746",
+  "repo": "astropy/astropy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 8,
+    "reasons": [
+      "mentions_exception:ValueError",
+      "has_stacktrace",
+      "behavior_keyword:should return",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "The function should return empty lists when passed empty lists as input.",
+      "given": "An instance of WCS is created with a valid FITS file.",
+      "when": "wcs.wcs_pix2world([], [], 0) is called",
+      "then": "The function returns empty lists.",
+      "target_symbols": [
+        "wcs_pix2world",
+        "_array_converter",
+        "_return_list_of_arrays"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The following should not fail but instead should return empty lists/arrays:"
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_array_converter",
+          "_return_list_of_arrays",
+          "wcs_pix2world"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_return_list_of_arrays",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "..._return_list_of_arrays..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "_array_converter",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "..._array_converter..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "wcs_pix2world",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "...wcs_pix2world..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The following should not fail but instead should return empty lists/arrays:"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 8,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  }
+}
