@@ -21,6 +21,16 @@ Requirements:
 - If you cannot reliably call the real function due to unknown fixtures, write a "contract test":
   - import the module
   - assert that the target symbol exists (hasattr)
-  - and assert the described exception behavior with a minimal call if possible
+  - and assert the described exception/no-exception behavior with a minimal call if possible
 - Prefer testing observable outcomes: no exception raised, exception raised, return value, invariants.
 - Keep runtime fast and deterministic.
+- IMPORTANT: Avoid exact equality asserts for complex library outputs (e.g., numpy arrays, astropy objects).
+  Prefer structural assertions: type checks, length checks, emptiness checks (len==0 or array.size==0),
+  and invariants explicitly stated in the claim.
+- Do NOT assert exact equality on returned containers for complex libs (avoid `== ([], [])`, `== []` etc. when outputs may be numpy arrays).
+- If claim says "returns empty lists/empty output", accept empty numpy arrays or empty sequences as equivalent.
+- You may define tiny local helpers inside the test file (e.g., `_is_empty(x)` checking `len(x)==0` or `x.size==0`) to make assertions robust.
+- If "Given" references external artifacts (e.g., FITS file) but files are not available, build a minimal valid object
+  in-code (e.g., WCS(naxis=2) + set ctype/crpix/cdelt/crval) rather than using default constructors.
+
+

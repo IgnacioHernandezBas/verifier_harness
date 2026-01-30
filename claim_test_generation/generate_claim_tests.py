@@ -12,15 +12,20 @@ from .claim_test_generator import VLLMClient, generate_pytest_for_claim
 
 
 def parse_args() -> argparse.Namespace:
+    default_endpoint = os.getenv("CLAIM_LLM_ENDPOINT", "http://127.0.0.1:8000/v1")
+    default_model = os.getenv("CLAIM_LLM_MODEL", "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ")
+    default_api_key = os.getenv("CLAIM_LLM_API_KEY")
+
     ap = argparse.ArgumentParser(description="Generate pytest tests from grounded claims.")
     ap.add_argument("--claims_dir", required=True, help="Directory containing claim JSON files.")
     ap.add_argument("--out_dir", required=True, help="Directory for generated tests.")
-    ap.add_argument("--endpoint", default="http://127.0.0.1:8000/v1")
-    ap.add_argument("--model", default="Qwen/Qwen2.5-Coder-32B-Instruct-AWQ")
+    ap.add_argument("--endpoint", default=default_endpoint, help="LLM HTTP endpoint.")
+    ap.add_argument("--model", default=default_model, help="LLM model identifier.")
     ap.add_argument("--temperature", type=float, default=0.1)
     ap.add_argument("--max_tokens", type=int, default=2048)
     ap.add_argument("--timeout_s", type=int, default=120)
     ap.add_argument("--max_claims_per_instance", type=int, default=6)
+    ap.add_argument("--api_key", default=default_api_key, help="Bearer token (defaults to CLAIM_LLM_API_KEY).")
     ap.add_argument("--dry_run", action="store_true", help="List work without hitting the LLM.")
     return ap.parse_args()
 
@@ -77,6 +82,7 @@ def main() -> None:
         temperature=args.temperature,
         max_tokens=args.max_tokens,
         timeout_s=args.timeout_s,
+        api_key=args.api_key,
     )
 
     for json_path in iter_claim_files(claims_dir):
@@ -95,6 +101,10 @@ def main() -> None:
         limited_claims = claims[: args.max_claims_per_instance]
         summary["total_claims"] += len(limited_claims)
 
+        instance_dir = out_dir / instance_id
+        if not args.dry_run:
+            instance_dir.mkdir(parents=True, exist_ok=True)
+
         for claim in limited_claims:
             claim_id = claim.get("claim_id") or "c1"
             if args.dry_run:
@@ -111,7 +121,7 @@ def main() -> None:
 
             claim_slug = _sanitize(claim_id)
             instance_slug = _sanitize(instance_id)
-            file_path = out_dir / f"{instance_slug}__test_claim_{claim_slug}.py"
+            file_path = instance_dir / f"{instance_slug}__test_claim_{claim_slug}.py"
             file_path.write_text(code, encoding="utf-8")
             summary["written"] += 1
 

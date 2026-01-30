@@ -1,0 +1,63 @@
+{
+  "instance_id": "pylint-dev__pylint-7114",
+  "repo": "pylint-dev/pylint",
+  "base_commit": "397c1703e8ae6349d33f7b99f45b2ccaf581e666",
+  "timestamp": "2026-01-30T15:56:14.335292+00:00",
+  "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+  "tests": [
+    {
+      "test_path": "claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py",
+      "bug": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: Failed: expand_modules raised an exception: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1\n1 failed in 2.15s\n",
+        "stderr": "",
+        "duration_s": 8.847167015075684
+      },
+      "gold": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: Failed: expand_modules raised an exception: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1\n1 failed in 2.19s\n",
+        "stderr": "",
+        "duration_s": 9.339038848876953
+      },
+      "classification": {
+        "label": "OVERCONSTRAINED",
+        "reason": "Claim-test fails on both variants."
+      }
+    },
+    {
+      "test_path": "claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py",
+      "bug": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py:23: Failed: expand_modules raised an exception: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py::test_claim_c2\n1 failed in 1.41s\n",
+        "stderr": "",
+        "duration_s": 8.53248929977417
+      },
+      "gold": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py:23: Failed: expand_modules raised an exception: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py::test_claim_c2\n1 failed in 1.38s\n",
+        "stderr": "",
+        "duration_s": 8.225227355957031
+      },
+      "classification": {
+        "label": "OVERCONSTRAINED",
+        "reason": "Claim-test fails on both variants."
+      }
+    }
+  ],
+  "summary": {
+    "total_claim_tests": 2,
+    "label_counts": {
+      "OVERCONSTRAINED": 2
+    },
+    "valid": 0,
+    "cvr": 0.0
+  },
+  "success": true,
+  "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/pylint/pylint-dev__pylint-7114.sif",
+  "bug_repo_path": "/fs/nexus-scratch/ihbas/tmp/claim_verify_pylint-dev__pylint-7114_v_2c2228/bug/pylint-dev__pylint",
+  "gold_repo_path": "/fs/nexus-scratch/ihbas/tmp/claim_verify_pylint-dev__pylint-7114_v_2c2228/gold/pylint-dev__pylint"
+}

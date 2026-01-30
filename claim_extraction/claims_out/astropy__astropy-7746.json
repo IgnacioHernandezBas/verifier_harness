@@ -18,10 +18,10 @@
     {
       "claim_id": "C1",
       "claim_type": "return",
-      "claim_text": "The function should return empty lists when passed empty lists as input.",
-      "given": "An instance of WCS is created with a valid FITS file.",
+      "claim_text": "The function should return empty lists/arrays when passed empty lists/arrays.",
+      "given": "A WCS object is created with a valid FITS file.",
       "when": "wcs.wcs_pix2world([], [], 0) is called",
-      "then": "The function returns empty lists.",
+      "then": "returns empty outputs (empty sequences OR arrays with size==0)",
       "target_symbols": [
         "wcs_pix2world",
         "_array_converter",
@@ -86,8 +86,10 @@
         "+1: high_confidence"
       ],
       "specificity": {
-        "is_specific": true,
-        "issues": [],
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
         "has_symbols": true,
         "has_observable": true
       }
@@ -128,7 +130,7 @@
       "medium": 0,
       "low": 0
     },
-    "specificity_rate": 1.0,
+    "specificity_rate": 0.0,
     "evidence_verified_rate": 1.0,
     "avg_score": 5.0,
     "parse_details": {

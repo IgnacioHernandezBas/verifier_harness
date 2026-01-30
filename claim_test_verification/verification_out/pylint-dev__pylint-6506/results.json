@@ -1,0 +1,63 @@
+{
+  "instance_id": "pylint-dev__pylint-6506",
+  "repo": "pylint-dev/pylint",
+  "base_commit": "0a4204fd7555cfedd43f43017c94d24ef48244a5",
+  "timestamp": "2026-01-30T15:53:23.034372+00:00",
+  "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+  "tests": [
+    {
+      "test_path": "claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py",
+      "bug": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py:14: TypeError: _config_initialization() missing 1 required positional argument: 'args_list'\n=============================== warnings summary ===============================\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6\n  /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html\n    import pkg_resources\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1\n1 failed, 1 warning in 2.47s\n",
+        "stderr": "",
+        "duration_s": 9.929392099380493
+      },
+      "gold": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py:14: TypeError: _config_initialization() missing 1 required positional argument: 'args_list'\n=============================== warnings summary ===============================\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6\n  /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html\n    import pkg_resources\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1\n1 failed, 1 warning in 2.54s\n",
+        "stderr": "",
+        "duration_s": 9.628103494644165
+      },
+      "classification": {
+        "label": "OVERCONSTRAINED",
+        "reason": "Claim-test fails on both variants."
+      }
+    },
+    {
+      "test_path": "claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py",
+      "bug": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py:14: TypeError: _config_initialization() missing 1 required positional argument: 'args_list'\n=============================== warnings summary ===============================\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6\n  /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html\n    import pkg_resources\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py::test_claim_c2\n1 failed, 1 warning in 1.82s\n",
+        "stderr": "",
+        "duration_s": 8.213592290878296
+      },
+      "gold": {
+        "status": "FAIL",
+        "returncode": 1,
+        "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py:14: TypeError: _config_initialization() missing 1 required positional argument: 'args_list'\n=============================== warnings summary ===============================\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6\n  /opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html\n    import pkg_resources\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py::test_claim_c2\n1 failed, 1 warning in 1.66s\n",
+        "stderr": "",
+        "duration_s": 8.33890986442566
+      },
+      "classification": {
+        "label": "OVERCONSTRAINED",
+        "reason": "Claim-test fails on both variants."
+      }
+    }
+  ],
+  "summary": {
+    "total_claim_tests": 2,
+    "label_counts": {
+      "OVERCONSTRAINED": 2
+    },
+    "valid": 0,
+    "cvr": 0.0
+  },
+  "success": true,
+  "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/pylint/pylint-dev__pylint-6506.sif",
+  "bug_repo_path": "/fs/nexus-scratch/ihbas/tmp/claim_verify_pylint-dev__pylint-6506_mysi7ue2/bug/pylint-dev__pylint",
+  "gold_repo_path": "/fs/nexus-scratch/ihbas/tmp/claim_verify_pylint-dev__pylint-6506_mysi7ue2/gold/pylint-dev__pylint"
+}

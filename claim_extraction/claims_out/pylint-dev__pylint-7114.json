@@ -75,7 +75,7 @@
       "claim_id": "C2",
       "claim_type": "exception",
       "claim_text": "Running pylint -E r a should not raise an exception if a/a.py is present.",
-      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`.",
+      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`, and all files are empty.",
       "when": "expand_modules is called with ['r', 'a'] as files_or_modules",
       "then": "No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.",
       "target_symbols": [

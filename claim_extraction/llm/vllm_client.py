@@ -5,7 +5,8 @@ from typing import Optional, List
 from claim_extraction.llm.base import LLMClient, LLMResponse
 
 class VLLMClient(LLMClient):
-    def __init__(self, endpoint: str, model: str, timeout_s: int = 120, api_key: str = "EMPTY"):
+    def __init__(self, endpoint: str, model: str, timeout_s: int = 120,
+                 api_key: Optional[str] = None):
         self.endpoint = endpoint.rstrip("/")
         self.model = model
         self.timeout_s = timeout_s

@@ -21,14 +21,61 @@ mkdir -p "${LOG_DIR}"
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 
 MODEL="Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
-PORT=8000
+PORT="${CLAIM_LLM_PORT:-8000}"
+
+is_port_free() {
+  python - "$1" <<'PY'
+import socket, sys
+port = int(sys.argv[1])
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    try:
+        sock.bind(("127.0.0.1", port))
+    except OSError:
+        raise SystemExit(1)
+raise SystemExit(0)
+PY
+}
+
+find_free_port() {
+  python <<'PY'
+import socket
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    sock.bind(("127.0.0.1", 0))
+    print(sock.getsockname()[1])
+PY
+}
+
+if ! is_port_free "${PORT}"; then
+  if [[ -n "${CLAIM_LLM_FORCE_PORT:-}" ]]; then
+    echo "ERROR: Port ${PORT} is already in use and CLAIM_LLM_FORCE_PORT is set. Exiting." >&2
+    exit 1
+  fi
+  NEW_PORT="$(find_free_port)"
+  echo "Port ${PORT} is busy. Switching to free port ${NEW_PORT}." >&2
+  PORT="${NEW_PORT}"
+fi
+
 ENDPOINT="http://127.0.0.1:${PORT}/v1"
+VLLM_EXTRA_ARGS=()
+if [[ -n "${VLLM_API_KEY:-}" && -n "${CLAIM_LLM_API_KEY:-}" && "${VLLM_API_KEY}" != "${CLAIM_LLM_API_KEY}" ]]; then
+  echo "WARNING: CLAIM_LLM_API_KEY differs from VLLM_API_KEY; using VLLM_API_KEY." >&2
+fi
+SERVER_API_KEY="${VLLM_API_KEY:-${CLAIM_LLM_API_KEY:-}}"
+if [[ -n "${SERVER_API_KEY}" ]]; then
+  export VLLM_API_KEY="${SERVER_API_KEY}"
+  export CLAIM_LLM_API_KEY="${SERVER_API_KEY}"
+  VLLM_EXTRA_ARGS+=(--api-key "${SERVER_API_KEY}")
+fi
 
 module load cuda/12.6.3 2>/dev/null || true
 
 echo "Node: $(hostname -s)"
 echo "Starting vLLM server: ${MODEL}"
 echo "Endpoint: ${ENDPOINT}"
+if [[ -n "${SERVER_API_KEY}" ]]; then
+  echo "vLLM authentication enabled (token length: ${#SERVER_API_KEY})"
+fi
 
 PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
   --model "${MODEL}" \
@@ -36,34 +83,48 @@ PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.a
   --port ${PORT} \
   --gpu-memory-utilization 0.90 \
   --max-model-len 8192 \
+  "${VLLM_EXTRA_ARGS[@]}" \
   > "${LOG_DIR}/vllm_${SLURM_JOB_ID}.log" 2>&1 &
 
 VLLM_PID=$!
 echo "vLLM PID: ${VLLM_PID}"
 
 echo "Waiting for vLLM readiness..."
+CURL_ARGS=(-s -f)
+if [[ -n "${SERVER_API_KEY}" ]]; then
+  CURL_ARGS+=(-H "Authorization: Bearer ${SERVER_API_KEY}")
+fi
 for i in {1..90}; do
-  if curl -s "${ENDPOINT}/models" >/dev/null 2>&1; then
+  if curl "${CURL_ARGS[@]}" "${ENDPOINT}/models" >/dev/null 2>&1; then
     echo "vLLM is ready."
     break
   fi
   sleep 2
 done
 
-if ! curl -s "${ENDPOINT}/models" >/dev/null 2>&1; then
+if ! curl "${CURL_ARGS[@]}" "${ENDPOINT}/models" >/dev/null 2>&1; then
   echo "ERROR: vLLM did not become ready in time. Tail of log:"
   tail -n 120 "${LOG_DIR}/vllm_${SLURM_JOB_ID}.log" || true
   kill ${VLLM_PID} || true
   exit 1
 fi
 
+export CLAIM_LLM_BACKEND="vllm"
+export CLAIM_LLM_ENDPOINT="${ENDPOINT}"
+export CLAIM_LLM_MODEL="${MODEL}"
+
 echo "Running claim test generation..."
 TEST_OUT_DIR="${ROOT_DIR}/claim_test_generation/tests_out"
 mkdir -p "${TEST_OUT_DIR}"
-conda run -n verifier_env python -m claim_test_generation.generate_claim_tests \
-  --claims_dir claim_extraction/claims_out \
-  --out_dir "${TEST_OUT_DIR}" \
+GEN_ARGS=(
+  --claims_dir claim_extraction/claims_out
+  --out_dir "${TEST_OUT_DIR}"
   --endpoint "${ENDPOINT}"
+)
+if [[ -n "${SERVER_API_KEY}" ]]; then
+  GEN_ARGS+=(--api_key "${SERVER_API_KEY}")
+fi
+conda run -n verifier_env python -m claim_test_generation.generate_claim_tests "${GEN_ARGS[@]}"
 
 echo "Claim test generation finished."
 

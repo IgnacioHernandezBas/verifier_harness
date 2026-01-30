@@ -44,6 +44,15 @@ CLAIM TYPES
 - invariant
 - state_change
 
+IMPORTANT NORMALIZATION RULES
+- Do NOT narrow or over-specify the expected behavior beyond what the issue states.
+  If the issue says "empty lists/arrays" or provides multiple acceptable forms, the claim MUST preserve that flexibility.
+- For outputs involving scientific/python array ecosystems (numpy/astropy/pandas), avoid exact container-type claims like
+  "returns []" unless the issue explicitly requires that exact type.
+  Prefer semantic emptiness: "returns empty outputs (empty sequences OR arrays with size==0)".
+- When evidence uses “X/Y” wording (e.g., lists/arrays), reflect that directly in `then` and `claim_text`.
+
+
 =====================
 OUTPUT FORMAT
 =====================

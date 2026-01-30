@@ -16,6 +16,7 @@ def apply_env_overrides(cfg: Dict[str, Any]) -> Dict[str, Any]:
     backend = os.getenv("CLAIM_LLM_BACKEND")
     endpoint = os.getenv("CLAIM_LLM_ENDPOINT")
     model = os.getenv("CLAIM_LLM_MODEL")
+    api_key = os.getenv("CLAIM_LLM_API_KEY")
 
     if backend:
         llm["backend"] = backend
@@ -23,4 +24,6 @@ def apply_env_overrides(cfg: Dict[str, Any]) -> Dict[str, Any]:
         llm["endpoint"] = endpoint
     if model:
         llm["model"] = model
+    if api_key:
+        llm["api_key"] = api_key
     return cfg

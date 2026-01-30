@@ -80,12 +80,14 @@ class VLLMClient:
         temperature: float = 0.1,
         max_tokens: int = 2048,
         timeout_s: int = 120,
+        api_key: Optional[str] = None,
     ) -> None:
         self.endpoint = endpoint.rstrip("/")
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.timeout_s = timeout_s
+        self.api_key = api_key
 
     def chat(self, messages: List[Dict[str, str]]) -> str:
         url = f"{self.endpoint}/chat/completions"
@@ -95,7 +97,10 @@ class VLLMClient:
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
         }
-        resp = requests.post(url, json=payload, timeout=self.timeout_s)
+        headers = {"Content-Type": "application/json"}
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
+        resp = requests.post(url, json=payload, headers=headers, timeout=self.timeout_s)
         resp.raise_for_status()
         data = resp.json()
         return data["choices"][0]["message"]["content"]

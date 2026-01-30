@@ -16,52 +16,67 @@
     {
       "claim_id": "C1",
       "claim_type": "exception",
-      "claim_text": "When a socket error occurs during the read operation, a requests.exceptions.ConnectionError should be raised instead of a raw socket.error.",
-      "given": "A socket error occurs during the read operation in the _safe_read method of httplib.",
-      "when": "self._fp.read(amt) is called in the _safe_read method of httplib, which internally calls self._sock.recv(left) and raises a socket.error.",
+      "claim_text": "When a socket error occurs, a requests.exceptions.ConnectionError should be raised instead of a raw socket.error.",
+      "given": "A socket error occurs during the read operation in the response content streaming.",
+      "when": "self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method",
       "then": "A requests.exceptions.ConnectionError is raised.",
       "target_symbols": [
-        "generate"
+        "iter_content",
+        "stream"
       ],
       "confidence": "high",
       "evidence": {
         "spans": [
-          "socket.error: [Errno 104] Connection reset by peer"
+          "socket.error: [Errno 104] Connection reset by peer",
+          "I just noticed a case where I had a socket reset on me, and was raised to me as a raw socket error as opposed to something like a requests.exceptions.ConnectionError:"
         ]
       },
       "grounding": {
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "generate"
+          "iter_content",
+          "stream"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
           {
             "type": "file_reference",
-            "symbol": "generate",
+            "symbol": "stream",
             "path": "requests/models.py",
             "line": null,
-            "snippet": "...generate..."
+            "snippet": "...stream..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "iter_content",
+            "path": "requests/models.py",
+            "line": null,
+            "snippet": "...iter_content..."
           }
         ]
       },
       "evidence_verification": {
-        "score": 2,
+        "score": 3,
         "matches": [
           {
             "source": "issue",
             "type": "direct",
             "span": "socket.error: [Errno 104] Connection reset by peer"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "I just noticed a case where I had a socket reset on me, and was raised to me as "
           }
         ],
         "verified": true
       },
-      "computed_score": 5,
+      "computed_score": 6,
       "score_factors": [
         "+1: weak_file",
-        "+2: evidence_verified (issue)",
+        "+3: evidence_verified (issue)",
         "+1: has_observable",
         "+1: high_confidence"
       ],
@@ -112,7 +127,7 @@
     },
     "specificity_rate": 0.0,
     "evidence_verified_rate": 1.0,
-    "avg_score": 5.0,
+    "avg_score": 6.0,
     "parse_details": {
       "attempts": [
         {
