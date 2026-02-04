@@ -1,8 +1,9 @@
+# Chosen strategy: unit
+# Key observable(s) asserted: No exception raised, returns empty outputs
+# Inputs/fixtures used: Minimal WCS object
+
 import pytest
 from astropy.wcs import WCS
-
-def _is_empty(x):
-    return len(x) == 0 if isinstance(x, list) else x.size == 0
 
 def test_claim_c1():
     # Given: A WCS object is created with a valid FITS file.
@@ -16,5 +17,5 @@ def test_claim_c1():
     result = wcs.wcs_pix2world([], [], 0)
 
     # Then: returns empty outputs (empty sequences OR arrays with size==0)
-    assert _is_empty(result[0])
-    assert _is_empty(result[1])
+    assert isinstance(result, tuple)
+    assert all(len(r) == 0 for r in result)

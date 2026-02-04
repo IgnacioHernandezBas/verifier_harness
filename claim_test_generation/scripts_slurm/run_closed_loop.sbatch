@@ -1,28 +1,36 @@
 #!/bin/bash
-#SBATCH --job-name=claim_extractor
-#SBATCH --partition=cml-furongh
-#SBATCH --qos=cml-high
-#SBATCH --account=cml-furongh
+#SBATCH --job-name=claim-loop
+#SBATCH --partition=scavenger
+#SBATCH --qos=scavenger
+#SBATCH --account=scavenger
 #SBATCH --gres=gpu:rtxa6000:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=64G
-#SBATCH --time=01:00:00
-#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/claim_extraction/scripts_slurm/logs/claims_%j.out
-#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/claim_extraction/scripts_slurm/logs/claims_%j.err
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=96G
+#SBATCH --time=02:00:00
+#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/scripts_slurm/logs/loop_%j.out
+#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/scripts_slurm/logs/loop_%j.err
 
 set -euo pipefail
 
-# ensure relative paths resolve no matter where Slurm copies the script
 ROOT_DIR="${SLURM_SUBMIT_DIR:-/fs/nexus-scratch/ihbas/verifier_harness}"
 cd "${ROOT_DIR}"
 
-LOG_DIR="${ROOT_DIR}/claim_extraction/scripts_slurm/logs"
+LOG_DIR="${ROOT_DIR}/claim_test_generation/scripts_slurm/logs"
 mkdir -p "${LOG_DIR}"
 
-# --- Conda init (avoid sourcing .bashrc)
+INSTANCE_ID="${INSTANCE_ID:-}"
+CLAIM_ID="${CLAIM_ID:-C1}"
+MAX_ATTEMPTS="${MAX_ATTEMPTS:-3}"
+TIMEOUT_S="${TIMEOUT_S:-300}"
+
+if [[ -z "${INSTANCE_ID}" ]]; then
+  echo "ERROR: INSTANCE_ID environment variable is required (use sbatch --export=INSTANCE_ID=...)." >&2
+  exit 2
+fi
+
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 
-MODEL="Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
+MODEL="${CLAIM_LLM_MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"
 PORT="${CLAIM_LLM_PORT:-8000}"
 
 is_port_free() {
@@ -50,11 +58,11 @@ PY
 
 if ! is_port_free "${PORT}"; then
   if [[ -n "${CLAIM_LLM_FORCE_PORT:-}" ]]; then
-    echo "ERROR: Port ${PORT} is already in use and CLAIM_LLM_FORCE_PORT is set. Exiting." >&2
+    echo "ERROR: Port ${PORT} busy and CLAIM_LLM_FORCE_PORT set. Exiting." >&2
     exit 1
   fi
   NEW_PORT="$(find_free_port)"
-  echo "Port ${PORT} is busy. Switching to free port ${NEW_PORT}." >&2
+  echo "Port ${PORT} in use. Switching to ${NEW_PORT}." >&2
   PORT="${NEW_PORT}"
 fi
 
@@ -70,17 +78,12 @@ if [[ -n "${SERVER_API_KEY}" ]]; then
   VLLM_EXTRA_ARGS+=(--api-key "${SERVER_API_KEY}")
 fi
 
-# Optional CUDA module (safe if not present)
 module load cuda/12.6.3 2>/dev/null || true
 
 echo "Node: $(hostname -s)"
 echo "Starting vLLM server: ${MODEL}"
 echo "Endpoint: ${ENDPOINT}"
-if [[ -n "${SERVER_API_KEY}" ]]; then
-  echo "vLLM authentication enabled (token length: ${#SERVER_API_KEY})"
-fi
 
-# Start vLLM server (unbuffered logs)
 PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
   --model "${MODEL}" \
   --host 127.0.0.1 \
@@ -88,12 +91,11 @@ PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.a
   --gpu-memory-utilization 0.90 \
   --max-model-len 8192 \
   "${VLLM_EXTRA_ARGS[@]}" \
-  > "${LOG_DIR}/vllm_${SLURM_JOB_ID}.log" 2>&1 &
+  > "${LOG_DIR}/vllm_loop_${SLURM_JOB_ID}.log" 2>&1 &
 
 VLLM_PID=$!
 echo "vLLM PID: ${VLLM_PID}"
 
-# Wait until server is ready
 echo "Waiting for vLLM readiness..."
 CURL_ARGS=(-s -f)
 if [[ -n "${SERVER_API_KEY}" ]]; then
@@ -101,38 +103,47 @@ if [[ -n "${SERVER_API_KEY}" ]]; then
 fi
 for i in {1..90}; do
   if curl "${CURL_ARGS[@]}" "${ENDPOINT}/models" >/dev/null 2>&1; then
-    echo "vLLM is ready."
+    echo "vLLM ready."
     break
   fi
   sleep 2
 done
 
-# Hard fail if still not ready
 if ! curl "${CURL_ARGS[@]}" "${ENDPOINT}/models" >/dev/null 2>&1; then
-  echo "ERROR: vLLM did not become ready in time. Tail of vLLM log:"
-  tail -n 120 "${LOG_DIR}/vllm_${SLURM_JOB_ID}.log" || true
+  echo "ERROR: vLLM did not start. Tail log:"
+  tail -n 120 "${LOG_DIR}/vllm_loop_${SLURM_JOB_ID}.log" || true
   kill ${VLLM_PID} || true
   exit 1
 fi
 
-# Export variables expected by your LLM config overrides
 export CLAIM_LLM_BACKEND="vllm"
 export CLAIM_LLM_ENDPOINT="${ENDPOINT}"
 export CLAIM_LLM_MODEL="${MODEL}"
 
-# Run the claim extractor (CPU-side)
-echo "Running claim extraction..."
-conda run -n verifier_env python -m claim_extraction.cli \
-  --config claim_extraction/configs/claim_extraction_v2_2.yaml \
-  --input claim_extraction/instances.json \
-  --out claim_extraction/claims_out/ \
-  --limit 50
+CLOSED_LOOP_ARGS=(
+  --instance_id "${INSTANCE_ID}"
+  --claim_id "${CLAIM_ID}"
+  --max_attempts "${MAX_ATTEMPTS}"
+  --timeout_s "${TIMEOUT_S}"
+  --endpoint "${ENDPOINT}"
+)
+if [[ -n "${SERVER_API_KEY}" ]]; then
+  CLOSED_LOOP_ARGS+=(--api_key "${SERVER_API_KEY}")
+fi
 
-echo "Claim extraction finished."
+echo "Running closed-loop verifier for ${INSTANCE_ID}:${CLAIM_ID}"
+set +e
+conda run -n verifier_env python -m claim_test_generation.run_closed_loop "${CLOSED_LOOP_ARGS[@]}"
+EXIT_CODE=$?
+set -e
 
-# Cleanup
 echo "Stopping vLLM..."
 kill ${VLLM_PID} || true
 wait ${VLLM_PID} || true
 
-echo "Done."
+if [[ ${EXIT_CODE} -ne 0 ]]; then
+  echo "Closed-loop exited with status ${EXIT_CODE}"
+  exit ${EXIT_CODE}
+fi
+
+echo "Closed-loop completed successfully."

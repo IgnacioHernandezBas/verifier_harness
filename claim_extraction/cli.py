@@ -116,6 +116,7 @@ def main():
     args = ap.parse_args()
 
     cfg = load_config(args.config)
+    template_name = cfg.get("prompt_template", "claim_prompt_v2_1.jinja")
 
     # CLI overrides -> config
     cfg.setdefault("extraction", {})
@@ -141,7 +142,7 @@ def main():
     if args.dry_run:
         # write first prompt to inspect
         from jinja2 import TemplateNotFound
-        tmpl = prompt_env.get_template("claim_prompt_v2_1.jinja")
+        tmpl = prompt_env.get_template(template_name)
         if instances:
             inst = instances[0]
             ps = inst.get("problem_statement", "") or ""
@@ -166,7 +167,7 @@ def main():
                 cfg=cfg,
                 llm=llm,
                 prompt_env=prompt_env,
-                template_name="claim_prompt_v2_1.jinja",
+                template_name=template_name,
                 touched_files_text=inst.get("touched_files_text"),
             )
             res = res_obj.to_dict()

@@ -111,8 +111,11 @@ def generate_pytest_for_claim(
     repo: str,
     instance_id: str,
     client: VLLMClient,
+    extra_messages: Optional[List[Dict[str, str]]] = None,
 ) -> str:
     messages = build_testgen_messages(claim, repo=repo, instance_id=instance_id)
+    if extra_messages:
+        messages.extend(extra_messages)
     raw = client.chat(messages)
     code = extract_pytest_code(raw)
     claim_id = claim.get("claim_id") or "C1"

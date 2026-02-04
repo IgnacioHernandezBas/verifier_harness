@@ -66,3 +66,32 @@ For end-to-end runs on the UMD cluster:
 
 The all-in-one helper (`start_vllm_claim_extractor.sbatch`) runs both the vLLM
 server and the extractor steps on the same GPU node, ideal for small batches.
+
+## Schema versions (v2.1 vs v2.2)
+
+- **v2.1** (default): `claim_extraction/configs/claim_extraction.yaml` keeps the
+  original zero-shot pipeline and uses `claim_prompt_v2_1.jinja`. Use this when
+  you need the exact legacy behavior (no new fields in the JSON output).
+- **v2.2**: `claim_extraction/configs/claim_extraction_v2_2.yaml` switches the
+  schema version to 2.2, sets `claim_prompt_v2_2.jinja`, and enables a
+  deterministic `issue_context` bundle plus per-claim `issue_context_refs`.
+
+Run v2.2 by pointing the CLI to the new config, e.g.:
+
+```bash
+python -m claim_extraction.cli \
+  --config claim_extraction/configs/claim_extraction_v2_2.yaml \
+  --input claim_extraction/instances.json \
+  --out claim_extraction/claims_out_v2_2
+```
+
+When using v2.2 each instance JSON gains:
+
+- `schema_version: "2.2"`
+- `issue_context`: a single per-instance object that captures fenced code
+  blocks, CLI commands, expected output snippets, stack traces, and inline code
+  references parsed directly from the problem statement.
+- `issue_context_refs` inside each claim, providing arrays of IDs that reference
+  the relevant `issue_context` entries (`cli_command_ids`,
+  `expected_output_block_ids`, `code_block_ids`, `traceback_ids`). Claims only
+  store these pointers—there is no duplication of large blocks in each claim.

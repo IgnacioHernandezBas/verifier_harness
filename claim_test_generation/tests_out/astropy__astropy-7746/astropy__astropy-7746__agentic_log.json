@@ -1,0 +1,296 @@
+{
+  "instance_id": "astropy__astropy-7746",
+  "claim_id": "C1",
+  "success": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "plan": {
+        "instance_id": "astropy__astropy-7746",
+        "claim_id": "C1",
+        "repo": "astropy/astropy",
+        "primary_module": "astropy.wcs.wcs",
+        "target_symbols": [
+          "wcs_pix2world",
+          "_array_converter",
+          "_return_list_of_arrays"
+        ],
+        "strategy": "Import astropy.wcs.wcs and exercise wcs_pix2world, _array_converter, _return_list_of_arrays using parameters implied by the claim text.",
+        "expected_inputs": "Inputs:\n- context: A WCS object is created with a valid FITS file.\n- action: wcs.wcs_pix2world([], [], 0) is called\n- expectation: returns empty outputs (empty sequences OR arrays with size==0)",
+        "claim_summary": "The function should return empty lists/arrays when passed empty lists/arrays. | GIVEN: A WCS object is created with a valid FITS file. | WHEN: wcs.wcs_pix2world([], [], 0) is called | THEN: returns empty outputs (empty sequences OR arrays with size==0)"
+      },
+      "guardrail": {
+        "ok": true,
+        "reason": "import_warning",
+        "context": {
+          "warning": "Failed to import astropy.wcs.wcs: ModuleNotFoundError(\"No module named 'astropy'\"). Proceeding without module context."
+        }
+      },
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+      "generated_code": "# Chosen strategy: unit\n# Key observable(s) asserted: No exception raised, returns empty outputs (empty sequences OR arrays with size==0)\n# Inputs/fixtures used: Minimal WCS object\n\nimport pytest\nfrom astropy.wcs import WCS\n\ndef test_claim_c1():\n    # Given: A WCS object is created with a valid FITS file.\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = [\"RA---TAN\", \"DEC--TAN\"]\n    wcs.wcs.crpix = [1, 1]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: wcs.wcs_pix2world([], [], 0) is called\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: returns empty outputs (empty sequences OR arrays with size==0)\n    assert isinstance(result, tuple)\n    assert all(len(r) == 0 for r in result)\n",
+      "verification_result": {
+        "instance_id": "astropy__astropy-7746",
+        "repo": "astropy/astropy",
+        "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+        "timestamp": "2026-01-30T22:45:23.937978+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+        "tests": [
+          {
+            "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+            "bug": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/astropy/wcs/wcs.py:1353: astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.15 seconds\n",
+              "stderr": "",
+              "duration_s": 2.2625060081481934
+            },
+            "gold": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: assert False\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.09 seconds\n",
+              "stderr": "",
+              "duration_s": 1.6834166049957275
+            },
+            "classification": {
+              "label": "OVERCONSTRAINED",
+              "reason": "Claim-test fails on both variants."
+            }
+          }
+        ],
+        "summary": {
+          "total_claim_tests": 1,
+          "label_counts": {
+            "OVERCONSTRAINED": 1
+          },
+          "valid": 0,
+          "cvr": 0.0
+        },
+        "success": true,
+        "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
+        "bug_repo_path": "/tmp/claim_verify_astropy__astropy-7746_4ubb7_2a/bug/astropy__astropy",
+        "gold_repo_path": "/tmp/claim_verify_astropy__astropy-7746_4ubb7_2a/gold/astropy__astropy"
+      },
+      "failure_classification": {
+        "label": "other",
+        "details": "Both variants returned FAIL."
+      }
+    },
+    {
+      "attempt": 2,
+      "plan": {
+        "instance_id": "astropy__astropy-7746",
+        "claim_id": "C1",
+        "repo": "astropy/astropy",
+        "primary_module": "astropy.wcs.wcs",
+        "target_symbols": [
+          "wcs_pix2world",
+          "_array_converter",
+          "_return_list_of_arrays"
+        ],
+        "strategy": "Import astropy.wcs.wcs and exercise wcs_pix2world, _array_converter, _return_list_of_arrays using parameters implied by the claim text.",
+        "expected_inputs": "Inputs:\n- context: A WCS object is created with a valid FITS file.\n- action: wcs.wcs_pix2world([], [], 0) is called\n- expectation: returns empty outputs (empty sequences OR arrays with size==0)",
+        "claim_summary": "The function should return empty lists/arrays when passed empty lists/arrays. | GIVEN: A WCS object is created with a valid FITS file. | WHEN: wcs.wcs_pix2world([], [], 0) is called | THEN: returns empty outputs (empty sequences OR arrays with size==0)"
+      },
+      "guardrail": {
+        "ok": true,
+        "reason": "import_warning",
+        "context": {
+          "warning": "Failed to import astropy.wcs.wcs: ModuleNotFoundError(\"No module named 'astropy'\"). Proceeding without module context."
+        }
+      },
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+      "generated_code": "# Chosen strategy: unit\n# Key observable(s) asserted: No exception raised, returns empty outputs\n# Inputs/fixtures used: Minimal WCS object\n\nimport pytest\nfrom astropy.wcs import WCS\n\ndef test_claim_c1():\n    # Given: A WCS object is created with a valid FITS file.\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = [\"RA---TAN\", \"DEC--TAN\"]\n    wcs.wcs.crpix = [1, 1]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: wcs.wcs_pix2world([], [], 0) is called\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: returns empty outputs (empty sequences OR arrays with size==0)\n    assert isinstance(result, tuple)\n    assert len(result) == 2\n    assert all(len(arr) == 0 for arr in result)\n",
+      "verification_result": {
+        "instance_id": "astropy__astropy-7746",
+        "repo": "astropy/astropy",
+        "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+        "timestamp": "2026-01-30T22:45:44.779593+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+        "tests": [
+          {
+            "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+            "bug": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/astropy/wcs/wcs.py:1353: astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.15 seconds\n",
+              "stderr": "",
+              "duration_s": 1.749666452407837
+            },
+            "gold": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: assert False\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.09 seconds\n",
+              "stderr": "",
+              "duration_s": 1.7472381591796875
+            },
+            "classification": {
+              "label": "OVERCONSTRAINED",
+              "reason": "Claim-test fails on both variants."
+            }
+          }
+        ],
+        "summary": {
+          "total_claim_tests": 1,
+          "label_counts": {
+            "OVERCONSTRAINED": 1
+          },
+          "valid": 0,
+          "cvr": 0.0
+        },
+        "success": true,
+        "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
+        "bug_repo_path": "/tmp/claim_verify_astropy__astropy-7746_zezj7mmg/bug/astropy__astropy",
+        "gold_repo_path": "/tmp/claim_verify_astropy__astropy-7746_zezj7mmg/gold/astropy__astropy"
+      },
+      "failure_classification": {
+        "label": "other",
+        "details": "Both variants returned FAIL."
+      }
+    },
+    {
+      "attempt": 3,
+      "plan": {
+        "instance_id": "astropy__astropy-7746",
+        "claim_id": "C1",
+        "repo": "astropy/astropy",
+        "primary_module": "astropy.wcs.wcs",
+        "target_symbols": [
+          "wcs_pix2world",
+          "_array_converter",
+          "_return_list_of_arrays"
+        ],
+        "strategy": "Import astropy.wcs.wcs and exercise wcs_pix2world, _array_converter, _return_list_of_arrays using parameters implied by the claim text.",
+        "expected_inputs": "Inputs:\n- context: A WCS object is created with a valid FITS file.\n- action: wcs.wcs_pix2world([], [], 0) is called\n- expectation: returns empty outputs (empty sequences OR arrays with size==0)",
+        "claim_summary": "The function should return empty lists/arrays when passed empty lists/arrays. | GIVEN: A WCS object is created with a valid FITS file. | WHEN: wcs.wcs_pix2world([], [], 0) is called | THEN: returns empty outputs (empty sequences OR arrays with size==0)"
+      },
+      "guardrail": {
+        "ok": true,
+        "reason": "import_warning",
+        "context": {
+          "warning": "Failed to import astropy.wcs.wcs: ModuleNotFoundError(\"No module named 'astropy'\"). Proceeding without module context."
+        }
+      },
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+      "generated_code": "# Chosen strategy: unit\n# Key observable(s) asserted: No exception raised, returns empty outputs\n# Inputs/fixtures used: Minimal WCS object\n\nimport pytest\nfrom astropy.wcs import WCS\n\ndef test_claim_c1():\n    # Given: A WCS object is created with a minimal valid FITS file representation\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = [\"RA---TAN\", \"DEC--TAN\"]\n    wcs.wcs.crpix = [1, 1]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: wcs.wcs_pix2world([], [], 0) is called\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: returns empty outputs (empty sequences OR arrays with size==0)\n    assert isinstance(result, tuple)\n    assert len(result) == 2\n    assert all(len(arr) == 0 for arr in result)\n",
+      "verification_result": {
+        "instance_id": "astropy__astropy-7746",
+        "repo": "astropy/astropy",
+        "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+        "timestamp": "2026-01-30T22:46:05.140909+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+        "tests": [
+          {
+            "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+            "bug": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/astropy/wcs/wcs.py:1353: astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.15 seconds\n",
+              "stderr": "",
+              "duration_s": 1.7394673824310303
+            },
+            "gold": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: assert False\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.09 seconds\n",
+              "stderr": "",
+              "duration_s": 1.7154171466827393
+            },
+            "classification": {
+              "label": "OVERCONSTRAINED",
+              "reason": "Claim-test fails on both variants."
+            }
+          }
+        ],
+        "summary": {
+          "total_claim_tests": 1,
+          "label_counts": {
+            "OVERCONSTRAINED": 1
+          },
+          "valid": 0,
+          "cvr": 0.0
+        },
+        "success": true,
+        "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
+        "bug_repo_path": "/tmp/claim_verify_astropy__astropy-7746_x1gakxq3/bug/astropy__astropy",
+        "gold_repo_path": "/tmp/claim_verify_astropy__astropy-7746_x1gakxq3/gold/astropy__astropy"
+      },
+      "failure_classification": {
+        "label": "other",
+        "details": "Both variants returned FAIL."
+      }
+    },
+    {
+      "attempt": 4,
+      "plan": {
+        "instance_id": "astropy__astropy-7746",
+        "claim_id": "C1",
+        "repo": "astropy/astropy",
+        "primary_module": "astropy.wcs.wcs",
+        "target_symbols": [
+          "wcs_pix2world",
+          "_array_converter",
+          "_return_list_of_arrays"
+        ],
+        "strategy": "Import astropy.wcs.wcs and exercise wcs_pix2world, _array_converter, _return_list_of_arrays using parameters implied by the claim text.",
+        "expected_inputs": "Inputs:\n- context: A WCS object is created with a valid FITS file.\n- action: wcs.wcs_pix2world([], [], 0) is called\n- expectation: returns empty outputs (empty sequences OR arrays with size==0)",
+        "claim_summary": "The function should return empty lists/arrays when passed empty lists/arrays. | GIVEN: A WCS object is created with a valid FITS file. | WHEN: wcs.wcs_pix2world([], [], 0) is called | THEN: returns empty outputs (empty sequences OR arrays with size==0)"
+      },
+      "guardrail": {
+        "ok": true,
+        "reason": "import_warning",
+        "context": {
+          "warning": "Failed to import astropy.wcs.wcs: ModuleNotFoundError(\"No module named 'astropy'\"). Proceeding without module context."
+        }
+      },
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+      "generated_code": "# Chosen strategy: unit\n# Key observable(s) asserted: No exception raised, returns empty outputs\n# Inputs/fixtures used: Minimal WCS object\n\nimport pytest\nfrom astropy.wcs import WCS\n\ndef test_claim_c1():\n    # Given: A WCS object is created with a valid FITS file.\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = [\"RA---TAN\", \"DEC--TAN\"]\n    wcs.wcs.crpix = [1, 1]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: wcs.wcs_pix2world([], [], 0) is called\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: returns empty outputs (empty sequences OR arrays with size==0)\n    assert isinstance(result, tuple)\n    assert all(len(r) == 0 for r in result)\n",
+      "verification_result": {
+        "instance_id": "astropy__astropy-7746",
+        "repo": "astropy/astropy",
+        "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
+        "timestamp": "2026-01-30T22:46:25.052434+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out",
+        "tests": [
+          {
+            "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+            "bug": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/astropy/wcs/wcs.py:1353: astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.15 seconds\n",
+              "stderr": "",
+              "duration_s": 1.825777530670166
+            },
+            "gold": {
+              "status": "FAIL",
+              "returncode": 1,
+              "stdout": "F                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: assert False\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n1 failed, 1 warnings in 0.09 seconds\n",
+              "stderr": "",
+              "duration_s": 1.7101314067840576
+            },
+            "classification": {
+              "label": "OVERCONSTRAINED",
+              "reason": "Claim-test fails on both variants."
+            }
+          }
+        ],
+        "summary": {
+          "total_claim_tests": 1,
+          "label_counts": {
+            "OVERCONSTRAINED": 1
+          },
+          "valid": 0,
+          "cvr": 0.0
+        },
+        "success": true,
+        "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
+        "bug_repo_path": "/tmp/claim_verify_astropy__astropy-7746_fzjnkho2/bug/astropy__astropy",
+        "gold_repo_path": "/tmp/claim_verify_astropy__astropy-7746_fzjnkho2/gold/astropy__astropy"
+      },
+      "failure_classification": {
+        "label": "other",
+        "details": "Both variants returned FAIL."
+      }
+    }
+  ],
+  "failure_reason": "other"
+}

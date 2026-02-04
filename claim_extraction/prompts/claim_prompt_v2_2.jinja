@@ -1,0 +1,82 @@
+You are a software verification expert analyzing a GitHub issue.
+
+Your task is to extract testable behavioral claims describing what the code
+SHOULD do after the bug is fixed.
+
+=====================
+ISSUE DESCRIPTION
+=====================
+{{ problem_statement }}
+
+=====================
+RELEVANT SOURCE CODE
+(current buggy context)
+=====================
+{{ code_context }}
+
+=====================
+WHAT IS A VALID CLAIM
+=====================
+- Concrete Given / When / Then
+- Observable outcome:
+  - return value
+  - raised or NOT raised exception
+  - state change
+- target_symbols must exist in the code shown above
+- Prefer the most specific symbol actually modified in the diff (helper functions,
+  nested functions, private methods, etc.), even if the issue title references a
+  higher-level API. Include multiple target symbols if several helpers participate.
+- evidence.spans must be EXACT quotes from the issue text
+- Claims must be testable with a unit test
+
+INVALID CLAIMS (DO NOT GENERATE)
+- Vague: "should work", "should handle properly"
+- No observable outcome
+- Hallucinated symbols not present in code
+- Only referencing a top-level public API when the change clearly happens inside a helper
+- Invented evidence not present in the issue
+
+=====================
+CLAIM TYPES
+=====================
+- return
+- exception
+- invariant
+- state_change
+
+IMPORTANT NORMALIZATION RULES
+- Do NOT narrow or over-specify the expected behavior beyond what the issue states.
+  If the issue says "empty lists/arrays" or provides multiple acceptable forms, the claim MUST preserve that flexibility.
+- For outputs involving scientific/python array ecosystems (numpy/astropy/pandas), avoid exact container-type claims like
+  "returns []" unless the issue explicitly requires that exact type.
+  Prefer semantic emptiness: "returns empty outputs (empty sequences OR arrays with size==0)".
+- When evidence uses “X/Y” wording (e.g., lists/arrays), reflect that directly in `then` and `claim_text`.
+
+
+=====================
+OUTPUT FORMAT
+=====================
+Return ONLY a JSON array.
+Do NOT include markdown.
+Do NOT include explanations.
+If the issue is too vague, return [].
+
+Each item must follow this schema exactly:
+
+[
+  {
+    "claim_id": "C1",
+    "claim_type": "return | exception | invariant | state_change",
+    "claim_text": "One sentence expected behavior",
+    "given": "Specific precondition",
+    "when": "Specific action with real function name",
+    "then": "Specific observable outcome",
+    "target_symbols": ["real_function_or_class_name"],
+    "confidence": "high | medium | low",
+    "evidence": {
+      "spans": ["EXACT quote from the issue text"]
+    }
+  }
+]
+
+BEGIN JSON ARRAY:

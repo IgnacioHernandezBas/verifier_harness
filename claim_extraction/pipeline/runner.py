@@ -15,6 +15,10 @@ from claim_extraction.pipeline.stacktrace import extract_stacktrace_info
 from claim_extraction.pipeline.evidence import verify_evidence_expanded
 from claim_extraction.pipeline.scoring import compute_claim_score_v2
 from claim_extraction.pipeline.specificity import compute_claim_specificity
+from claim_extraction.pipeline.issue_context import (
+    build_issue_context,
+    link_claim_to_issue_context,
+)
 
 
 @dataclass
@@ -28,9 +32,11 @@ class InstanceResult:
     low_score_claims: List[Dict[str, Any]]
     extraction_details: Dict[str, Any]
     stats: Dict[str, Any]
+    schema_version: Optional[str] = None
+    issue_context: Optional[Dict[str, Any]] = None
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        data = {
             "instance_id": self.instance_id,
             "repo": self.repo,
             "eligible": self.eligible,
@@ -41,6 +47,11 @@ class InstanceResult:
             "extraction_details": self.extraction_details,
             "stats": self.stats,
         }
+        if self.schema_version is not None:
+            data["schema_version"] = self.schema_version
+        if self.issue_context is not None:
+            data["issue_context"] = self.issue_context
+        return data
 
 
 def build_prompt_env() -> Environment:
@@ -93,6 +104,9 @@ def process_instance(
     problem_statement = instance.get("problem_statement", "") or ""
     code_context = instance.get("code_context", "") or ""
     patch = instance.get("patch", "") or ""
+    schema_version = str(cfg.get("schema_version", "2.1"))
+    issue_context_enabled = schema_version == "2.2"
+    issue_context = build_issue_context(problem_statement) if issue_context_enabled else None
 
     # 1) eligibility
     threshold = int(cfg.get("eligibility", {}).get("threshold", 2))
@@ -109,6 +123,8 @@ def process_instance(
             low_score_claims=[],
             extraction_details={"parse_details": {"attempts": [{"method": "skipped_ineligible", "success": True}]}},
             stats={"eligible": False},
+            schema_version=schema_version if issue_context_enabled else None,
+            issue_context=issue_context,
         )
 
     # 2) stacktrace info (for evidence)
@@ -146,6 +162,10 @@ def process_instance(
             validation_errors.append({"claim_id": c.get("claim_id"), "error": err})
             continue
         validated.append(c)
+
+    if issue_context is not None:
+        for c in validated:
+            c["issue_context_refs"] = link_claim_to_issue_context(c, issue_context)
 
     # 7) grounding + evidence + scoring + specificity
     require_grounding = bool(cfg.get("extraction", {}).get("require_grounding", True))
@@ -245,4 +265,6 @@ def process_instance(
         low_score_claims=low_score,
         extraction_details=extraction_details,
         stats=stats,
+        schema_version=schema_version if issue_context_enabled else None,
+        issue_context=issue_context,
     )

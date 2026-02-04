@@ -29,6 +29,17 @@
           "The traceback I don't think is expected & not user-friendly."
         ]
       },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          2
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
       "grounding": {
         "status": "weak_file",
         "level": 2,
@@ -92,6 +103,17 @@
       "evidence": {
         "spans": [
           "A usage tip, for example:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          2
+        ],
+        "traceback_ids": [
+          0
         ]
       },
       "grounding": {
@@ -191,6 +213,118 @@
           "success": true
         }
       ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "shell",
+        "content": "pylint -Q",
+        "source": "fenced",
+        "span": {
+          "start": 188,
+          "end": 210
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "************* Module Command line\r\nCommand line:1:0: E0015: Unrecognized option found: Q (unrecognized-option)\r\nTraceback (most recent call last):\r\n  File \"/Users/markbyrne/venv310/bin/pylint\", line 33, in <module>\r\n    sys.exit(load_entry_point('pylint', 'console_scripts', 'pylint')())\r\n  File \"/Users/markbyrne/programming/pylint/pylint/__init__.py\", line 24, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/markbyrne/programming/pylint/pylint/lint/run.py\", line 135, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/markbyrne/programming/pylint/pylint/config/config_initialization.py\", line 85, in _config_initialization\r\n    raise _UnrecognizedOptionError(options=unrecognized_options)\r\npylint.config.exceptions._UnrecognizedOptionError",
+        "source": "fenced",
+        "span": {
+          "start": 232,
+          "end": 1020
+        }
+      },
+      {
+        "lang": "python",
+        "content": "mypy -Q\r\nusage: mypy [-h] [-v] [-V] [more options; see below]\r\n            [-m MODULE] [-p PACKAGE] [-c PROGRAM_TEXT] [files ...]\r\nmypy: error: unrecognized arguments: -Q\r",
+        "source": "fenced",
+        "span": {
+          "start": 1262,
+          "end": 1448
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint 2.14.0-dev0\r\nastroid 2.11.3\r\nPython 3.10.0b2 (v3.10.0b2:317314165a, May 31 2021, 10:02:22) [Clang 12.0.5 (clang-1205.0.22.9)]",
+        "source": "fenced",
+        "span": {
+          "start": 1470,
+          "end": 1615
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "shell\npylint -Q",
+        "span": {
+          "start": 190,
+          "end": 208
+        }
+      },
+      {
+        "command": "### Pylint output",
+        "span": {
+          "start": 209,
+          "end": 233
+        }
+      },
+      {
+        "command": "shell\n************* Module Command line\r\nCommand line:1:0: E0015: Unrecognized option found: Q (unrecognized-option)\r\nTraceback (most recent call last):\r\n  File \"/Users/markbyrne/venv310/bin/pylint\", line 33, in <module>\r\n    sys.exit(load_entry_point('pylint', 'console_scripts', 'pylint')())\r\n  File \"/Users/markbyrne/programming/pylint/pylint/__init__.py\", line 24, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/markbyrne/programming/pylint/pylint/lint/run.py\", line 135, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/markbyrne/programming/pylint/pylint/config/config_initialization.py\", line 85, in _config_initialization\r\n    raise _UnrecognizedOptionError(options=unrecognized_options)\r\npylint.config.exceptions._UnrecognizedOptionError",
+        "span": {
+          "start": 234,
+          "end": 1018
+        }
+      },
+      {
+        "command": "python\r\nmypy -Q\r\nusage: mypy [-h] [-v] [-V] [more options; see below]\r\n            [-m MODULE] [-p PACKAGE] [-c PROGRAM_TEXT] [files ...]\r\nmypy: error: unrecognized arguments: -Q",
+        "span": {
+          "start": 1264,
+          "end": 1446
+        }
+      },
+      {
+        "command": "### Pylint version",
+        "span": {
+          "start": 1447,
+          "end": 1471
+        }
+      },
+      {
+        "command": "shell\npylint 2.14.0-dev0\r\nastroid 2.11.3\r\nPython 3.10.0b2 (v3.10.0b2:317314165a, May 31 2021, 10:02:22) [Clang 12.0.5 (clang-1205.0.22.9)]",
+        "span": {
+          "start": 1472,
+          "end": 1613
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"/Users/markbyrne/venv310/bin/pylint\", line 33, in <module>\r\n    sys.exit(load_entry_point('pylint', 'console_scripts', 'pylint')())\r\n  File \"/Users/markbyrne/programming/pylint/pylint/__init__.py\", line 24, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/markbyrne/programming/pylint/pylint/lint/run.py\", line 135, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/markbyrne/programming/pylint/pylint/config/config_initialization.py\", line 85, in _config_initialization\r\n    raise _UnrecognizedOptionError(options=unrecognized_options)\r\npylint.config.exceptions._UnrecognizedOptionError\n```",
+        "span": {
+          "start": 353,
+          "end": 1020
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "sys.exit",
+        "__init__.py",
+        "sys.argv",
+        "run.py",
+        "config_initialization.py",
+        "pylint.config",
+        "exceptions._UnrecognizedOptionError"
+      ],
+      "paths": [
+        "Users/markbyrne/programming/pylint/pylint/__init__.py",
+        "Users/markbyrne/programming/pylint/pylint/lint/run.py",
+        "Users/markbyrne/programming/pylint/pylint/config/config_initialization.py"
+      ],
+      "options": []
     }
   }
 }
