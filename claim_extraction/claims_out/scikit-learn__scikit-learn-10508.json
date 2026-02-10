@@ -1,0 +1,333 @@
+{
+  "instance_id": "scikit-learn__scikit-learn-10508",
+  "repo": "scikit-learn/scikit-learn",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 8,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "has_stacktrace",
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "LabelEncoder should return an empty array when transforming an empty list after fitting with integer values.",
+      "given": "LabelEncoder is fitted with a list of integers.",
+      "when": "transform is called with an empty list.",
+      "then": "returns empty outputs (empty sequences OR arrays with size==0)",
+      "target_symbols": [
+        "LabelEncoder",
+        "transform"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "le.fit([1,2])",
+          "le.transform([])",
+          "array([], dtype=int64)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": [
+          0,
+          1
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "LabelEncoder",
+          "transform"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "transform",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...transform..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "LabelEncoder",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...LabelEncoder..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "le.fit([1,2])"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "le.transform([])"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "array([], dtype=int64)"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "LabelEncoder should return an empty array when transforming an empty list after fitting with string values.",
+      "given": "LabelEncoder is fitted with a list of strings.",
+      "when": "transform is called with an empty list.",
+      "then": "returns empty outputs (empty sequences OR arrays with size==0)",
+      "target_symbols": [
+        "LabelEncoder",
+        "transform"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "le.fit([\"a\",\"b\"])",
+          "le.transform([])"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": [
+          0,
+          1
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "LabelEncoder",
+          "transform"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "transform",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...transform..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "LabelEncoder",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...LabelEncoder..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "le.fit([\"a\",\"b\"])"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "le.transform([])"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 8,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": ">>> from sklearn.preprocessing import LabelEncoder\r\n>>> le = LabelEncoder()\r\n>>> le.fit([1,2])\r\nLabelEncoder()\r\n>>> le.transform([])\r\narray([], dtype=int64)\r\n>>> le.fit([\"a\",\"b\"])\r\nLabelEncoder()\r\n>>> le.transform([])\r\nTraceback (most recent call last):\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 57, in _wrapfunc\r\n    return getattr(obj, method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"[...]\\Python36\\lib\\site-packages\\sklearn\\preprocessing\\label.py\", line 134, in transform\r\n    return np.searchsorted(self.classes_, y)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 1075, in searchsorted\r\n    return _wrapfunc(a, 'searchsorted', v, side=side, sorter=sorter)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 67, in _wrapfunc\r\n    return _wrapit(obj, method, *args, **kwds)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 47, in _wrapit\r\n    result = getattr(asarray(obj), method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'\r",
+        "source": "fenced",
+        "span": {
+          "start": 282,
+          "end": 1645
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\n>>> from sklearn.preprocessing import LabelEncoder\r\n>>> le = LabelEncoder()\r\n>>> le.fit([1,2])\r\nLabelEncoder()\r\n>>> le.transform([])\r\narray([], dtype=int64)\r\n>>> le.fit([\"a\",\"b\"])\r\nLabelEncoder()\r\n>>> le.transform([])\r\nTraceback (most recent call last):\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 57, in _wrapfunc\r\n    return getattr(obj, method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"[...]\\Python36\\lib\\site-packages\\sklearn\\preprocessing\\label.py\", line 134, in transform\r\n    return np.searchsorted(self.classes_, y)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 1075, in searchsorted\r\n    return _wrapfunc(a, 'searchsorted', v, side=side, sorter=sorter)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 67, in _wrapfunc\r\n    return _wrapit(obj, method, *args, **kwds)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 47, in _wrapit\r\n    result = getattr(asarray(obj), method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'",
+        "span": {
+          "start": 284,
+          "end": 1643
+        }
+      },
+      {
+        "command": ">> from sklearn.preprocessing import LabelEncoder",
+        "span": {
+          "start": 293,
+          "end": 344
+        }
+      },
+      {
+        "command": ">> le = LabelEncoder()",
+        "span": {
+          "start": 345,
+          "end": 369
+        }
+      },
+      {
+        "command": ">> le.fit([1,2])",
+        "span": {
+          "start": 370,
+          "end": 388
+        }
+      },
+      {
+        "command": ">> le.transform([])",
+        "span": {
+          "start": 405,
+          "end": 426
+        }
+      },
+      {
+        "command": ">> le.fit([\"a\",\"b\"])",
+        "span": {
+          "start": 451,
+          "end": 473
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 57, in _wrapfunc\r\n    return getattr(obj, method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'",
+        "span": {
+          "start": 512,
+          "end": 790
+        }
+      },
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"[...]\\Python36\\lib\\site-packages\\sklearn\\preprocessing\\label.py\", line 134, in transform\r\n    return np.searchsorted(self.classes_, y)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 1075, in searchsorted\r\n    return _wrapfunc(a, 'searchsorted', v, side=side, sorter=sorter)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 67, in _wrapfunc\r\n    return _wrapit(obj, method, *args, **kwds)\r\n  File \"[...]\\Python36\\lib\\site-packages\\numpy\\core\\fromnumeric.py\", line 47, in _wrapit\r\n    result = getattr(asarray(obj), method)(*args, **kwds)\r\nTypeError: Cannot cast array data from dtype('float64') to dtype('<U32') according to the rule 'safe'\r\n```",
+        "span": {
+          "start": 864,
+          "end": 1645
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "sklearn.preprocessing",
+        "le.fit",
+        "le.transform",
+        "fromnumeric.py",
+        "label.py",
+        "np.searchsorted",
+        "self.classes_"
+      ],
+      "paths": [
+        "fromnumeric.py",
+        "label.py"
+      ],
+      "options": []
+    }
+  }
+}

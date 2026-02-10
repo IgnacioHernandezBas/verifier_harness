@@ -2,34 +2,37 @@ import pytest
 from astropy.wcs import WCS
 import numpy as np
 
-def _is_empty(x):
-    return len(x) == 0 if isinstance(x, (list, tuple)) else x.size == 0
-
 def test_claim_c1():
-    # Create a WCS object with a valid FITS file
+    # Given: A WCS object is created with a valid FITS file.
     wcs = WCS(naxis=2)
     wcs.wcs.ctype = ["RA---TAN", "DEC--TAN"]
     wcs.wcs.crpix = [1, 1]
     wcs.wcs.cdelt = [1, 1]
     wcs.wcs.crval = [0, 0]
 
-    # Empty inputs return empty outputs
-    # WHEN: wcs.wcs_pix2world([], [], 0) is called
-    result = wcs.wcs_pix2world([], [], 0)
-    # THEN: returns empty arrays
-    assert all(_is_empty(arr) for arr in result)
+    # Prepare empty lists as inputs for the functions.
+    empty_list = []
+    empty_tuple = ()
+    empty_set = set()
 
-    # Functions handle zero-length arrays correctly
-    # WHEN: _array_converter([], [], 0) is called
-    # THEN: handles empty inputs correctly
-    # Note: _array_converter is not directly accessible, so we assume it is used internally
-    # and check the result of wcs_pix2world which uses it
+    # When: wcs.wcs_pix2world([], [], 0) is called
+    # Then: returns empty arrays when called with empty lists.
+    result_list = wcs.wcs_pix2world(empty_list, empty_list, 0)
+    result_tuple = wcs.wcs_pix2world(empty_tuple, empty_tuple, 0)
+    result_set = wcs.wcs_pix2world(list(empty_set), list(empty_set), 0)
 
-    # WHEN: _return_list_of_arrays([], [], 0) is called
-    # THEN: returns empty list of arrays
-    # Note: _return_list_of_arrays is not directly accessible, so we assume it is used internally
-    # and check the result of wcs_pix2world which uses it
+    # Test confirms empty outputs for empty inputs.
+    assert isinstance(result_list, list) and all(isinstance(arr, np.ndarray) and arr.size == 0 for arr in result_list)
+    assert isinstance(result_tuple, list) and all(isinstance(arr, np.ndarray) and arr.size == 0 for arr in result_tuple)
+    assert isinstance(result_set, list) and all(isinstance(arr, np.ndarray) and arr.size == 0 for arr in result_set)
 
-    # Test with various WCS configurations
-    # This is already covered by the setup of the WCS object with naxis=2
-    # Additional configurations can be tested by modifying the WCS setup
+    # No exceptions are raised for empty inputs.
+    # Function behavior is consistent with documentation.
+
+    # Check _array_converter handles empty inputs correctly.
+    # Since _array_converter is not directly accessible, we assume it is used internally and check the result.
+    # The result should be empty arrays as confirmed above.
+
+    # Check _return_list_of_arrays returns empty lists when given empty inputs.
+    # Since _return_list_of_arrays is not directly accessible, we assume it is used internally and check the result.
+    # The result should be empty lists as confirmed above.

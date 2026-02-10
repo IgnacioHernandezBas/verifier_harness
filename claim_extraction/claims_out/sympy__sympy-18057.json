@@ -1,0 +1,378 @@
+{
+  "instance_id": "sympy__sympy-18057",
+  "repo": "sympy/sympy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:AttributeError",
+      "behavior_keyword:incorrect",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When comparing a SymPy Symbol to an object with a repr that evaluates to an invalid expression, no AttributeError should be raised.",
+      "given": "A SymPy Symbol and an object with a repr that evaluates to an invalid expression.",
+      "when": "sympy.Symbol('x') == C()",
+      "then": "No AttributeError is raised.",
+      "target_symbols": [
+        "sympy.Symbol"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Passing strings produced by unknown objects into eval is **very bad**. It is especially surprising for an equality check to trigger that kind of behavior. This should be fixed ASAP.",
+          "E   AttributeError: 'Symbol' object has no attribute 'y'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          4,
+          5
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "sympy.Symbol"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "sympy.Symbol",
+            "path": "sympy/core/expr.py",
+            "line": null,
+            "snippet": "...sympy.Symbol..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Passing strings produced by unknown objects into eval is **very bad**. It is esp"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "E   AttributeError: 'Symbol' object has no attribute 'y'"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "When comparing a SymPy Symbol to an object with a repr that evaluates to an invalid expression, the comparison should return False.",
+      "given": "A SymPy Symbol and an object with a repr that evaluates to an invalid expression.",
+      "when": "sympy.Symbol('x') == C()",
+      "then": "The comparison returns False.",
+      "target_symbols": [
+        "sympy.Symbol"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Passing strings produced by unknown objects into eval is **very bad**. It is especially surprising for an equality check to trigger that kind of behavior. This should be fixed ASAP."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          4,
+          5
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "sympy.Symbol"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "sympy.Symbol",
+            "path": "sympy/core/expr.py",
+            "line": null,
+            "snippet": "...sympy.Symbol..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Passing strings produced by unknown objects into eval is **very bad**. It is esp"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "When comparing a SymPy Symbol to an object with a repr that evaluates to the same symbol, the comparison should return True.",
+      "given": "A SymPy Symbol and an object with a repr that evaluates to the same symbol.",
+      "when": "sympy.Symbol('x') == C()",
+      "then": "The comparison returns True.",
+      "target_symbols": [
+        "sympy.Symbol"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "assert sympy.Symbol('x') != C()  # fails"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          4,
+          5
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "sympy.Symbol"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "sympy.Symbol",
+            "path": "sympy/core/expr.py",
+            "line": null,
+            "snippet": "...sympy.Symbol..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "assert sympy.Symbol('x') != C()  # fails"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": [],
+    "grounded_claims": 3,
+    "ungrounded_claims": 0,
+    "final_claims": 3,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 3,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 3,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.333333333333333,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "import sympy\r\nclass C:\r\n    def __repr__(self):\r\n        return 'x.y'\r\n_ = sympy.Symbol('x') == C()\r",
+        "source": "fenced",
+        "span": {
+          "start": 262,
+          "end": 371
+        }
+      },
+      {
+        "lang": "text",
+        "content": "E   AttributeError: 'Symbol' object has no attribute 'y'\r",
+        "source": "fenced",
+        "span": {
+          "start": 390,
+          "end": 456
+        }
+      },
+      {
+        "lang": "text",
+        "content": "    expr = eval(\r\n        code, global_dict, local_dict)  # take local objects in preference\r",
+        "source": "fenced",
+        "span": {
+          "start": 476,
+          "end": 578
+        }
+      },
+      {
+        "lang": "text",
+        "content": "Symbol ('x' ).y\r",
+        "source": "fenced",
+        "span": {
+          "start": 600,
+          "end": 625
+        }
+      },
+      {
+        "lang": "text",
+        "content": "FAILED                   [100%]\r\n        class C:\r\n            def __repr__(self):\r\n                return 'x.y'\r\n    \r\n>       _ = sympy.Symbol('x') == C()\r\n\r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\nsympy/core/expr.py:124: in __eq__\r\n    other = sympify(other)\r\nsympy/core/sympify.py:385: in sympify\r\n    expr = parse_expr(a, local_dict=locals, transformations=transformations, evaluate=evaluate)\r\nsympy/parsing/sympy_parser.py:1011: in parse_expr\r\n    return eval_expr(code, local_dict, global_dict)\r\nsympy/parsing/sympy_parser.py:906: in eval_expr\r\n    code, global_dict, local_dict)  # take local objects in preference\r\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \r\n\r\n>   ???\r\nE   AttributeError: 'Symbol' object has no attribute 'y'\r\n\r\n<string>:1: AttributeError\r",
+        "source": "fenced",
+        "span": {
+          "start": 644,
+          "end": 1499
+        }
+      },
+      {
+        "lang": "text",
+        "content": "    class C:\r\n        def __repr__(self):\r\n            return 'x'\r\n\r\n    assert sympy.Symbol('x') != C()  # fails\r",
+        "source": "fenced",
+        "span": {
+          "start": 1612,
+          "end": 1735
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "_ = sympy.Symbol('x') == C()",
+        "span": {
+          "start": 769,
+          "end": 806
+        }
+      },
+      {
+        "command": "???",
+        "span": {
+          "start": 1399,
+          "end": 1407
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "x.y",
+        "sympy.Symbol",
+        "expr.py",
+        "sympify.py",
+        "sympy_parser.py"
+      ],
+      "paths": [
+        "sympy/core/expr.py",
+        "sympy/core/sympify.py",
+        "sympy/parsing/sympy_parser.py"
+      ],
+      "options": []
+    }
+  }
+}

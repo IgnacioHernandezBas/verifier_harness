@@ -3,7 +3,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
-#SBATCH --gres=gpu:l40s:1
+#SBATCH --gres=gpu:rtxa6000:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=02:00:00
