@@ -18,7 +18,7 @@ SKETCH_SCHEMA_DESCRIPTION = """
 Return JSON with these keys:
 - "strategy": short string describing overall approach.
 - "assertions": array of observable checks to perform (strings).
-- "fixtures": array of STANDARD pytest fixtures to use (tmp_path, monkeypatch, capsys ONLY - NO repo-specific fixtures).
+- "fixtures": array of STANDARD pytest fixtures to use (tmpdir, monkeypatch, capsys ONLY - NO tmp_path, NO repo-specific fixtures).
 - "data_setup": array describing concrete inputs / data arrangement (strings).
 - "edge_cases": array with optional negative/edge case ideas (strings).
 - "checklist": array of 3 concise sentences (<=80 chars) summarizing what the eventual pytest MUST show.

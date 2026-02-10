@@ -75,9 +75,25 @@ def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any]) -> Tuple[str, str]
             hint += "\nCheck the function signature and ensure all required parameters are provided."
         return "signature_mismatch", f"Call signature mismatch.{hint}\n\nError details:\n{bug_errors}"
 
-    if "fixture" in combined and "missing" in combined:
+    if "fixture" in combined and ("missing" in combined or "not found" in combined):
         bug_errors = _extract_error_summary(bug)
-        return "fixture_missing", f"Fixtures or inputs missing.\n\nError details:\n{bug_errors}"
+        # Extract available fixtures list if present
+        hint = ""
+        if "available fixtures:" in combined:
+            import re
+            match = re.search(r"available fixtures:\s*([^\n]+)", combined)
+            if match:
+                avail = match.group(1).strip()
+                hint = f"\n\n💡 Hint: Use only fixtures from the available list: {avail}"
+                hint += "\nCommon issue: tmp_path is not available in older pytest versions - use tmpdir instead."
+                hint += "\nAvoid using fixtures for simple tests - prefer direct object construction."
+        return "fixture_missing", f"Test uses unavailable fixtures.{hint}\n\nError details:\n{bug_errors}"
+
+    if "attributeerror" in combined and ("monkeypatch" in combined or "setattr" in combined):
+        bug_errors = _extract_error_summary(bug)
+        hint = "\n\n💡 Hint: Don't mock internal/private methods. Test through public APIs only."
+        hint += "\nSimplify your test - create objects directly and call methods normally."
+        return "mocking_error", f"Test failed while trying to mock methods.{hint}\n\nError details:\n{bug_errors}"
 
     if "assertionerror" in combined and bug_status == gold_status == "FAIL":
         bug_errors = _extract_error_summary(bug)
