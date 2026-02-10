@@ -13,25 +13,25 @@ from claim_test_generation.generate_claim_tests import _sanitize
 from claim_test_verification import verify_instance
 
 from . import diagnostics, guardrails, planner
+from .context import (
+    ClaimContext,
+    build_claim_context,
+    hash_claim_context,
+    serialize_claim_context,
+)
+from .context_builder import enrich_claim_context
+from .pytest_writer import generate_pytest_from_sketch
+from .test_sketcher import TestSketch, generate_test_sketch
 
 
 @dataclass
 class LoopConfig:
     tests_root: Path
     claim_tests_root: Path
+    repos_root: Optional[Path] = None
     max_attempts: int = 3
     timeout_s: int = 300
     log_path: Optional[Path] = None
-
-
-CHECKLIST_PROMPT = (
-    "Before writing the pytest, emit a three-line checklist as Python comments "
-    "exactly in this format:\n"
-    "# Chosen strategy: <CLI | unit | hybrid>\n"
-    "# Key observable(s) asserted: <observable details>\n"
-    "# Inputs/fixtures used: <inputs or fixtures>\n"
-    "Immediately after the checklist, output the pytest code."
-)
 
 
 class AgenticClosedLoop:
@@ -48,12 +48,22 @@ class AgenticClosedLoop:
         self.claim = claim
         self.client = client
         self.config = config
-        self.issue_context = issue_context
         self.instance_id = sample.get("metadata", {}).get("instance_id") or sample.get(
             "instance_id"
         )
         self.claim_id = claim.get("claim_id") or "C1"
         self.logs: List[Dict[str, Any]] = []
+        self.claim_context: ClaimContext = build_claim_context(
+            claim=claim,
+            sample=sample,
+            issue_context=issue_context,
+            repos_root=config.repos_root,
+        )
+        self.claim_context = enrich_claim_context(self.claim_context, config.repos_root)
+        self._serialized_context = serialize_claim_context(self.claim_context)
+        self._context_hash = hash_claim_context(self._serialized_context)
+        self._static_plan = planner.StaticPlanner(self.claim_context).build()
+        self._dynamic_planner = planner.DynamicPlanner()
 
     def _tests_dir(self) -> Path:
         return self.config.tests_root / (self.instance_id or "unknown_instance")
@@ -66,17 +76,35 @@ class AgenticClosedLoop:
         path.write_text(code, encoding="utf-8")
         return path
 
+    def _reset_log_file(self) -> None:
+        if not self.config.log_path:
+            return
+        self.config.log_path.parent.mkdir(parents=True, exist_ok=True)
+        self.config.log_path.write_text("", encoding="utf-8")
+
+    def _append_log_event(self, event: Dict[str, Any]) -> None:
+        if not self.config.log_path:
+            return
+        line = json.dumps(event, ensure_ascii=False)
+        with self.config.log_path.open("a", encoding="utf-8") as handle:
+            handle.write(line + "\n")
+
     def run(self) -> Dict[str, Any]:
+        self._reset_log_file()
+        self._append_log_event(
+            {
+                "event": "claim_context",
+                "context_hash": self._context_hash,
+                "context": self._serialized_context,
+            }
+        )
         previous_feedback: Optional[str] = None
+        previous_diagnosis: Optional[diagnostics.Diagnosis] = None
         success = False
         failure_reason: Optional[str] = None
 
         for attempt in range(1, self.config.max_attempts + 1):
-            current_plan = planner.create_plan(
-                self.claim,
-                repo=self.sample.get("repo", "unknown_repo"),
-                instance_id=self.instance_id,
-            )
+            current_plan = self._dynamic_planner.refine(self._static_plan, previous_diagnosis)
             guardrail_result = guardrails.evaluate(current_plan)
 
             if not guardrail_result.ok:
@@ -92,21 +120,23 @@ class AgenticClosedLoop:
                 )
                 break
 
-            prompt_messages = planner.plan_to_messages(
-                current_plan,
+            guardrail_checks = [check.to_dict() for check in guardrail_result.checks]
+            sketch = generate_test_sketch(
+                plan=current_plan,
                 guardrail_context=guardrail_result.context,
+                guardrail_checks=guardrail_checks,
+                client=self.client,
                 previous_feedback=previous_feedback,
             )
-            context_pack = _build_issue_context_message(self.claim, self.issue_context)
-            if context_pack:
-                prompt_messages.append({"role": "user", "content": context_pack})
-            prompt_messages.append({"role": "user", "content": CHECKLIST_PROMPT})
-            code = generate_pytest_for_claim(
-                self.claim,
-                repo=self.sample.get("repo", "unknown_repo"),
-                instance_id=self.instance_id or "unknown_instance",
+            code, checklist_coverage = generate_pytest_from_sketch(
+                claim=self.claim,
+                sample=self.sample,
+                plan=current_plan,
+                sketch=sketch,
+                guardrail_context=guardrail_result.context,
+                guardrail_checks=guardrail_checks,
                 client=self.client,
-                extra_messages=prompt_messages,
+                previous_feedback=previous_feedback,
             )
             test_path = self._write_test(code)
 
@@ -124,16 +154,21 @@ class AgenticClosedLoop:
                 "guardrail": guardrail_result.to_dict(),
                 "generated_test_path": str(test_path),
                 "generated_code": code,
+                "test_sketch": sketch.to_dict(),
+                "checklist_coverage": checklist_coverage,
                 "verification_result": result,
                 "failure_classification": diagnosis.to_dict(),
+                "context_hash": self._context_hash,
             }
             self.logs.append(attempt_log)
+            self._append_log_event({"event": "attempt", **attempt_log})
 
             if diagnosis.label == "success":
                 success = True
                 break
 
             previous_feedback = f"{diagnosis.label}: {diagnosis.details}"
+            previous_diagnosis = diagnosis
             failure_reason = diagnosis.label
 
             if diagnosis.label == "non_discriminative":
@@ -146,65 +181,27 @@ class AgenticClosedLoop:
             "attempts": self.logs,
             "failure_reason": None if success else failure_reason,
         }
-        if self.config.log_path:
-            self.config.log_path.parent.mkdir(parents=True, exist_ok=True)
-            self.config.log_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        self._append_log_event(
+            {
+                "event": "summary",
+                "context_hash": self._context_hash,
+                "payload": payload,
+            }
+        )
         return payload
 
 
-def _build_issue_context_message(
-    claim: Dict[str, Any], issue_context: Optional[Dict[str, Any]]
-) -> Optional[str]:
-    if not issue_context:
-        return None
-
-    refs = claim.get("issue_context_refs") or {}
-
-    sections: List[str] = []
-    mapping = (
-        ("cli_command_ids", "cli_commands", "CLI commands", "command"),
-        ("expected_output_block_ids", "expected_output_blocks", "Expected output", "content"),
-        ("code_block_ids", "code_blocks", "Repro/code snippet", "content"),
-        ("traceback_ids", "tracebacks", "Traceback", "content"),
-    )
-
-    for ref_key, ctx_key, label, value_key in mapping:
-        ids = refs.get(ref_key) or []
-        if not ids:
-            continue
-        entries = issue_context.get(ctx_key) or []
-        selected = []
-        for idx in ids:
-            if not isinstance(idx, int):
-                continue
-            if idx < 0 or idx >= len(entries):
-                continue
-            entry = entries[idx]
-            value = entry.get(value_key)
-            if not value:
-                continue
-            selected.append(value)
-        if not selected:
-            continue
-        section_lines = [f"- {label}:"]
-        for text in selected:
-            section_lines.append(f"  - {_indent_multiline(text)}")
-        sections.append("\n".join(section_lines))
-
-    if not sections:
-        return None
-
-    header = "Additional issue grounding (verbatim):"
-    footer = "Use this grounding to design the pytest. Prefer reproducing the observable behavior."
-    return "\n".join([header, *sections, footer])
 
 
-def _indent_multiline(text: str) -> str:
-    normalized = (text or "").replace("\r\n", "\n")
-    lines = normalized.split("\n")
-    if not lines:
-        return ""
-    if len(lines) == 1:
-        return lines[0]
-    indented = "\n    ".join(lines)
-    return indented
+    def _reset_log_file(self) -> None:
+        if not self.config.log_path:
+            return
+        self.config.log_path.parent.mkdir(parents=True, exist_ok=True)
+        self.config.log_path.write_text("", encoding="utf-8")
+
+    def _append_log_event(self, event: Dict[str, Any]) -> None:
+        if not self.config.log_path:
+            return
+        line = json.dumps(event, ensure_ascii=False)
+        with self.config.log_path.open("a", encoding="utf-8") as handle:
+            handle.write(line + "\n")

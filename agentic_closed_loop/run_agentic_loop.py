@@ -42,6 +42,11 @@ def parse_args() -> argparse.Namespace:
         default="claim_test_generation/tests_out",
         help="Directory synced into repos for verification.",
     )
+    ap.add_argument(
+        "--repos_root",
+        default="repos_temp_demo",
+        help="Root directory containing checked-out repos for context gathering.",
+    )
     ap.add_argument("--max_attempts", type=int, default=3)
     ap.add_argument("--timeout_s", type=int, default=300)
     ap.add_argument("--endpoint", default=default_endpoint)
@@ -89,6 +94,7 @@ def main() -> None:
     instances_path = Path(args.instances_file).resolve()
     tests_root = Path(args.tests_root).resolve()
     claim_tests_root = Path(args.claim_tests_root).resolve()
+    repos_root = Path(args.repos_root).resolve()
     log_path = Path(args.log_path).resolve() if args.log_path else None
 
     sample = load_instance(instances_path, args.instance_id)
@@ -106,6 +112,7 @@ def main() -> None:
     config = LoopConfig(
         tests_root=tests_root,
         claim_tests_root=claim_tests_root,
+        repos_root=repos_root,
         max_attempts=args.max_attempts,
         timeout_s=args.timeout_s,
         log_path=log_path

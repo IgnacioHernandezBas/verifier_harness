@@ -10,4 +10,8 @@ __all__ = [
     "guardrails",
     "diagnostics",
     "loop",
+    "context",
+    "context_builder",
+    "test_sketcher",
+    "pytest_writer",
 ]

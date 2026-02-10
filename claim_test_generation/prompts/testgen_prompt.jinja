@@ -18,7 +18,20 @@ Requirements:
 - Create exactly one pytest test function named test_claim_{{ claim_slug }}.
 - Include "import pytest".
 - Add Given/When/Then as comments.
-- If you cannot reliably call the real function due to unknown fixtures, write a "contract test":
+
+CRITICAL - Test Isolation Requirements:
+- DO NOT use repository-specific pytest fixtures (e.g., linter, checker, register, enable, disable, tests_directory).
+- These fixtures are NOT available when tests run in isolation outside the repo's test directory.
+- Write SELF-CONTAINED tests that create all needed objects directly in the test function.
+- Only use standard pytest built-in fixtures: tmp_path, monkeypatch, capsys, capfd, etc.
+- Example of self-contained approach:
+  Instead of: def test_claim(linter, checker):
+  Write:      def test_claim():
+                  from module import Linter
+                  linter = Linter()
+                  # ... test logic
+
+- If you cannot reliably call the real function, write a "contract test":
   - import the module
   - assert that the target symbol exists (hasattr)
   - and assert the described exception/no-exception behavior with a minimal call if possible

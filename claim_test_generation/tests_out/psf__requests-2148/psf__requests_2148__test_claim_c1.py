@@ -1,27 +1,28 @@
 import pytest
-import requests.models
+from requests.models import Response
+from requests.exceptions import ConnectionError
 
-def test_claim_c1():
-    # Given: A socket error occurs during the read operation in the response content streaming.
-    # When: self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method
-    # Then: A requests.exceptions.ConnectionError is raised.
+def test_claim_c1(monkeypatch):
+    # Simulate socket error and check for ConnectionError.
+    # Verify error handling with various chunk sizes.
+    # Test decode_content parameter impact on error handling.
 
-    # Contract test: Check if the target symbol exists
-    assert hasattr(requests.models.Response, 'iter_content')
-
-    # Simulate a socket error by using a mock response with a broken connection
-    class MockRawResponse:
+    # Create a Response object with a mock raw stream that simulates a socket error.
+    class MockRaw:
         def stream(self, chunk_size, decode_content):
-            raise ConnectionError("Simulated socket error")
+            raise OSError("Simulated socket error")
 
-    class MockResponse(requests.models.Response):
-        def __init__(self):
-            super().__init__()
-            self.raw = MockRawResponse()
+    response = Response()
+    response.raw = MockRaw()
 
-    response = MockResponse()
+    # Set up the necessary parameters for the iter_content method call.
+    chunk_sizes = [1, 1024, 4096]
+    decode_contents = [True, False]
 
-    # Check if ConnectionError is raised
-    with pytest.raises(requests.exceptions.ConnectionError):
-        for _ in response.iter_content(chunk_size=1, decode_content=True):
-            pass
+    for chunk_size in chunk_sizes:
+        for decode_content in decode_contents:
+            # WHEN: self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method
+            with pytest.raises(ConnectionError):
+                # THEN: A requests.exceptions.ConnectionError is raised.
+                for _ in response.iter_content(chunk_size=chunk_size, decode_unicode=decode_content):
+                    pass

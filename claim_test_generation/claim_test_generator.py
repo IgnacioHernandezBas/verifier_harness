@@ -1,11 +1,22 @@
 from __future__ import annotations
 
+import json
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib import error as urllib_error
+from urllib import request as urllib_request
 
-import requests
-from jinja2 import Environment, FileSystemLoader
+try:  # requests is optional inside the Singularity container
+    import requests  # type: ignore
+except ImportError:  # pragma: no cover
+    requests = None
+
+try:  # jinja2 may be absent inside the runtime image
+    from jinja2 import Environment, FileSystemLoader  # type: ignore
+except ImportError:  # pragma: no cover
+    Environment = None  # type: ignore
+    FileSystemLoader = None  # type: ignore
 
 SYSTEM_PROMPT = (
     "You are a senior Python test engineer. You write minimal, deterministic pytest tests.\n"
@@ -14,7 +25,13 @@ SYSTEM_PROMPT = (
 )
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
-_PROMPT_ENV = Environment(loader=FileSystemLoader(str(PROMPTS_DIR)), autoescape=False)
+if Environment is not None:
+    _PROMPT_ENV = Environment(
+        loader=FileSystemLoader(str(PROMPTS_DIR)), autoescape=False
+    )
+else:
+    _PROMPT_ENV = None
+    _PROMPT_TEXT = (PROMPTS_DIR / "testgen_prompt.jinja").read_text(encoding="utf-8")
 
 
 def guess_import_from_path(path: Optional[str]) -> Optional[str]:
@@ -50,21 +67,21 @@ def build_testgen_messages(claim: Dict[str, Any], repo: str, instance_id: str) -
     path = pick_primary_grounding_path(claim)
     suggested_module = guess_import_from_path(path) or "None"
     target_symbols = claim.get("target_symbols") or []
-    tmpl = _PROMPT_ENV.get_template("testgen_prompt.jinja")
-    user_content = tmpl.render(
-        repo=repo,
-        instance_id=instance_id,
-        claim_id=claim_id,
-        claim_type=claim_type,
-        claim_text=claim.get("claim_text") or "",
-        given_text=claim.get("given") or "",
-        when_text=claim.get("when") or "",
-        then_text=claim.get("then") or "",
-        target_symbols=target_symbols,
-        primary_file_path=path or "None",
-        suggested_module=suggested_module,
-        claim_slug=_claim_id_slug(claim_id),
-    )
+    template_vars = {
+        "repo": repo,
+        "instance_id": instance_id,
+        "claim_id": claim_id,
+        "claim_type": claim_type,
+        "claim_text": claim.get("claim_text") or "",
+        "given_text": claim.get("given") or "",
+        "when_text": claim.get("when") or "",
+        "then_text": claim.get("then") or "",
+        "target_symbols": target_symbols,
+        "primary_file_path": path or "None",
+        "suggested_module": suggested_module,
+        "claim_slug": _claim_id_slug(claim_id),
+    }
+    user_content = _render_prompt(template_vars)
     return [
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": user_content},
@@ -97,13 +114,35 @@ class VLLMClient:
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
         }
+        data = self._post_json(url, payload)
+        return data["choices"][0]["message"]["content"]
+
+    def _post_json(self, url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
-        resp = requests.post(url, json=payload, headers=headers, timeout=self.timeout_s)
-        resp.raise_for_status()
-        data = resp.json()
-        return data["choices"][0]["message"]["content"]
+
+        if requests is not None:
+            resp = requests.post(
+                url, json=payload, headers=headers, timeout=self.timeout_s
+            )
+            resp.raise_for_status()
+            return resp.json()
+
+        body = json.dumps(payload).encode("utf-8")
+        req = urllib_request.Request(url, data=body, headers=headers, method="POST")
+        try:
+            with urllib_request.urlopen(req, timeout=self.timeout_s) as response:
+                response_body = response.read()
+                encoding = response.headers.get_content_charset("utf-8")
+                return json.loads(response_body.decode(encoding))
+        except urllib_error.HTTPError as exc:  # pragma: no cover
+            error_body = exc.read().decode("utf-8", "ignore")
+            raise RuntimeError(
+                f"vLLM request failed with HTTP {exc.code}: {error_body}"
+            ) from None
+        except urllib_error.URLError as exc:  # pragma: no cover
+            raise RuntimeError(f"Unable to reach vLLM server: {exc.reason}") from exc
 
 
 def generate_pytest_for_claim(
@@ -184,3 +223,21 @@ def _build_fallback_test(claim: Dict[str, Any], slug: str) -> str:
     lines.append("    # TODO: refine this test manually based on repository context.")
 
     return "\n".join(lines)
+
+
+def _render_prompt(context: Dict[str, Any]) -> str:
+    if _PROMPT_ENV is not None:
+        tmpl = _PROMPT_ENV.get_template("testgen_prompt.jinja")
+        return tmpl.render(**context)
+
+    rendered = _PROMPT_TEXT
+    for key, value in context.items():
+        placeholder = f"{{{{ {key} }}}}"
+        rendered = rendered.replace(placeholder, _stringify_prompt_value(value))
+    return rendered
+
+
+def _stringify_prompt_value(value: Any) -> str:
+    if isinstance(value, (dict, list, tuple, set)):
+        return json.dumps(value, ensure_ascii=False)
+    return str(value)

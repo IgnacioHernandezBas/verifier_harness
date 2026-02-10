@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=agentic-loop
+#SBATCH --job-name=agentic-hybrid
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
@@ -7,8 +7,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=02:00:00
-#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/scripts_slurm/logs/agentic_%j.out
-#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/scripts_slurm/logs/agentic_%j.err
+#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_%j.out
+#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_%j.err
 
 set -euo pipefail
 
@@ -24,6 +24,8 @@ MAX_ATTEMPTS="${MAX_ATTEMPTS:-4}"
 TIMEOUT_S="${TIMEOUT_S:-300}"
 REPOS_ROOT="${REPOS_ROOT:-/fs/nexus-scratch/ihbas/repos_claim_cache}"
 SINGULARITY_IMAGE="${SINGULARITY_IMAGE:-}"
+
+# Auto-detect Singularity image
 if [[ -z "${SINGULARITY_IMAGE}" ]]; then
   for candidate in \
     "/fs/nexus-scratch/ihbas/.containers/singularity/verifier-swebench.sif" \
@@ -40,6 +42,11 @@ if [[ -z "${INSTANCE_ID}" ]]; then
   exit 2
 fi
 
+if [[ ! -f "${SINGULARITY_IMAGE}" ]]; then
+  echo "ERROR: Singularity image not found at ${SINGULARITY_IMAGE}" >&2
+  exit 4
+fi
+
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 
 MODEL="${CLAIM_LLM_MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"
@@ -53,6 +60,7 @@ if [[ -z "${PYTHON_BIN}" ]]; then
   exit 3
 fi
 
+# Port management functions
 is_port_free() {
   "${PYTHON_BIN}" - "$1" <<'PY'
 import socket, sys
@@ -88,9 +96,6 @@ fi
 
 ENDPOINT="http://127.0.0.1:${PORT}/v1"
 VLLM_EXTRA_ARGS=()
-if [[ -n "${VLLM_API_KEY:-}" && -n "${CLAIM_LLM_API_KEY:-}" && "${VLLM_API_KEY}" != "${CLAIM_LLM_API_KEY}" ]]; then
-  echo "WARNING: CLAIM_LLM_API_KEY differs from VLLM_API_KEY; using VLLM_API_KEY." >&2
-fi
 SERVER_API_KEY="${VLLM_API_KEY:-${CLAIM_LLM_API_KEY:-}}"
 if [[ -n "${SERVER_API_KEY}" ]]; then
   export VLLM_API_KEY="${SERVER_API_KEY}"
@@ -100,9 +105,18 @@ fi
 
 module load cuda/12.6.3 2>/dev/null || true
 
+echo "========================================="
+echo "Hybrid Agentic Loop Execution"
+echo "========================================="
 echo "Node: $(hostname -s)"
-echo "Starting vLLM with ${MODEL} on ${ENDPOINT}"
+echo "Instance: ${INSTANCE_ID}"
+echo "Claim: ${CLAIM_ID}"
+echo "Repos root: ${REPOS_ROOT}"
+echo "Singularity image: ${SINGULARITY_IMAGE}"
+echo ""
 
+# Start vLLM server (outside container)
+echo "Starting vLLM with ${MODEL} on ${ENDPOINT}..."
 PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
   --model "${MODEL}" \
   --host 127.0.0.1 \
@@ -110,11 +124,12 @@ PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.a
   --gpu-memory-utilization 0.90 \
   --max-model-len 8192 \
   "${VLLM_EXTRA_ARGS[@]}" \
-  > "${LOG_DIR}/vllm_agentic_${SLURM_JOB_ID}.log" 2>&1 &
+  > "${LOG_DIR}/vllm_hybrid_${SLURM_JOB_ID}.log" 2>&1 &
 
 VLLM_PID=$!
 echo "vLLM PID: ${VLLM_PID}"
 
+# Wait for vLLM readiness
 echo "Waiting for vLLM readiness..."
 CURL_ARGS=(-s -f)
 if [[ -n "${SERVER_API_KEY}" ]]; then
@@ -130,7 +145,7 @@ done
 
 if ! curl "${CURL_ARGS[@]}" "${ENDPOINT}/models" >/dev/null 2>&1; then
   echo "ERROR: vLLM did not start. Tail of log:"
-  tail -n 120 "${LOG_DIR}/vllm_agentic_${SLURM_JOB_ID}.log" || true
+  tail -n 120 "${LOG_DIR}/vllm_hybrid_${SLURM_JOB_ID}.log" || true
   kill ${VLLM_PID} || true
   exit 1
 fi
@@ -139,46 +154,61 @@ export CLAIM_LLM_BACKEND="vLLM"
 export CLAIM_LLM_ENDPOINT="${ENDPOINT}"
 export CLAIM_LLM_MODEL="${MODEL}"
 
-LOOP_ARGS=(
+STATE_FILE="${ROOT_DIR}/agentic_closed_loop/state/${INSTANCE_ID}_${CLAIM_ID}.json"
+mkdir -p "$(dirname "${STATE_FILE}")"
+
+COMMON_ARGS=(
   --instance_id "${INSTANCE_ID}"
   --claim_id "${CLAIM_ID}"
   --max_attempts "${MAX_ATTEMPTS}"
   --timeout_s "${TIMEOUT_S}"
   --endpoint "${ENDPOINT}"
   --repos_root "${REPOS_ROOT}"
+  --state_file "${STATE_FILE}"
 )
 if [[ -n "${SERVER_API_KEY}" ]]; then
-  LOOP_ARGS+=(--api_key "${SERVER_API_KEY}")
+  COMMON_ARGS+=(--api_key "${SERVER_API_KEY}")
 fi
 
-echo "Running agentic loop for ${INSTANCE_ID}:${CLAIM_ID}"
+# ============================================
+# RUN ORCHESTRATOR (manages iterative loop)
+# ============================================
+echo ""
+echo "========================================="
+echo "Starting Orchestrated Iterative Loop"
+echo "========================================="
 set +e
-if [[ ! -f "${SINGULARITY_IMAGE}" ]]; then
-  echo "ERROR: Singularity image not found at ${SINGULARITY_IMAGE}" >&2
-  kill ${VLLM_PID} || true
-  wait ${VLLM_PID} || true
-  exit 4
-fi
+PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m agentic_closed_loop.orchestrator \
+  --state_file "${STATE_FILE}" \
+  --instance_id "${INSTANCE_ID}" \
+  --claim_id "${CLAIM_ID}" \
+  --max_attempts "${MAX_ATTEMPTS}" \
+  --timeout_s "${TIMEOUT_S}" \
+  --repos_root "${REPOS_ROOT}" \
+  --endpoint "${ENDPOINT}" \
+  --model "${MODEL}" \
+  --singularity_image "${SINGULARITY_IMAGE}" \
+  --conda_env verifier_llm \
+  $(if [[ -n "${SERVER_API_KEY}" ]]; then echo "--api_key ${SERVER_API_KEY}"; fi)
 
-PYTHONUNBUFFERED=1 singularity exec \
-  --env CLAIM_LLM_ENDPOINT="${ENDPOINT}" \
-  --env CLAIM_LLM_MODEL="${MODEL}" \
-  --env CLAIM_LLM_API_KEY="${SERVER_API_KEY:-}" \
-  --env INSTANCE_ID="${INSTANCE_ID}" \
-  --env CLAIM_ID="${CLAIM_ID}" \
-  --env MAX_ATTEMPTS="${MAX_ATTEMPTS}" \
-  --env TIMEOUT_S="${TIMEOUT_S}" \
-  --env REPOS_ROOT="${REPOS_ROOT}" \
-  --bind "${ROOT_DIR}:${ROOT_DIR}" \
-  --bind "/fs/nexus-scratch/ihbas:/fs/nexus-scratch/ihbas" \
-  --bind "/tmp:/tmp" \
-  "${SINGULARITY_IMAGE}" \
-  python -m agentic_closed_loop.run_agentic_loop "${LOOP_ARGS[@]}"
-EXIT_CODE=$?
+ORCHESTRATOR_EXIT=$?
 set -e
 
+echo ""
+echo "========================================="
+echo "Results"
+echo "========================================="
+if [[ ${ORCHESTRATOR_EXIT} -eq 0 ]]; then
+  echo "✓ Orchestration complete"
+  cat "${STATE_FILE}" | python -m json.tool 2>/dev/null || cat "${STATE_FILE}"
+else
+  echo "✗ Orchestration failed with exit code ${ORCHESTRATOR_EXIT}"
+fi
+
+echo ""
 echo "Stopping vLLM..."
 kill ${VLLM_PID} || true
 wait ${VLLM_PID} || true
 
-exit ${EXIT_CODE}
+echo "Done."
+exit ${ORCHESTRATOR_EXIT}

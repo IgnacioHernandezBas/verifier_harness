@@ -3,7 +3,11 @@
 import json
 from pathlib import Path
 from typing import Dict, Generator, Optional, List, Union
-from datasets import load_dataset
+
+try:
+    from datasets import load_dataset  # type: ignore
+except ImportError:
+    load_dataset = None  # type: ignore
 
 class DatasetLoader:
     """
@@ -40,6 +44,11 @@ class DatasetLoader:
         self.hf_mode = hf_mode
 
         if self.hf_mode:
+            if load_dataset is None:
+                raise ImportError(
+                    "HuggingFace datasets library is required for hf_mode=True. "
+                    "Install it with: pip install datasets"
+                )
             self.dataset = load_dataset(self.source, split=self.split or "test")
         else:
             self.dataset_path = Path(self.source)
@@ -118,8 +127,6 @@ if __name__ == "__main__":
     Local JSON mode -> python swebench_integration/dataset_loader.py --source swebench_integration/data/swebench_sample.json
     """
     import argparse
-    from datasets import load_dataset
-    
 
     parser = argparse.ArgumentParser(description="Interactive DatasetLoader test")
 
