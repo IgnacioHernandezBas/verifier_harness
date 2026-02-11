@@ -283,7 +283,7 @@ def _singularity_worker(
             tests=[rel_test_path],
             image_path=container_path,
             collect_coverage=False,
-            verbose=False,
+            verbose=True,  # Enable verbose mode to get full assertion details for agent learning
             test_framework_hint="pytest",
         )
         queue.put({"ok": True, "result": result})

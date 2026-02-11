@@ -2,43 +2,32 @@ import pytest
 from pylint.config.config_initialization import _config_initialization, _UnrecognizedOptionError
 
 def test_claim_c1(capsys):
-    # Test raises _UnrecognizedOptionError.
-    # Ensure no traceback is printed.
-    # Verify behavior with various input combinations.
+    # Test raises _UnrecognizedOptionError
+    # Ensure no traceback is printed
+    # Verify behavior with different inputs
 
-    # Prepare an args_list containing an unrecognized option, e.g., ['--unrecognized-option']
-    args_list = ['--unrecognized-option']
-
-    # Given: An unrecognized option is passed to pylint.
-    # When: _config_initialization is called with an unrecognized option.
+    # Given: Unrecognized option '-Q' is passed to _config_initialization
     with pytest.raises(_UnrecognizedOptionError):
-        _config_initialization(args_list)
-
-    # Then: _UnrecognizedOptionError is raised without printing a traceback.
+        _config_initialization(['-Q'])
+    # Then: No traceback is printed
     captured = capsys.readouterr()
-    assert captured.out == ""
     assert captured.err == ""
 
-    # Edge case: Pass multiple unrecognized options.
-    args_list_multiple = ['--unrecognized-option1', '--unrecognized-option2']
+    # Edge case: Option is empty string
     with pytest.raises(_UnrecognizedOptionError):
-        _config_initialization(args_list_multiple)
+        _config_initialization([''])
     captured = capsys.readouterr()
-    assert captured.out == ""
     assert captured.err == ""
 
-    # Edge case: Pass a valid option along with an unrecognized one.
-    args_list_mixed = ['--output-format', 'text', '--unrecognized-option']
-    with pytest.raises(_UnrecognizedOptionError):
-        _config_initialization(args_list_mixed)
-    captured = capsys.readouterr()
-    assert captured.out == ""
-    assert captured.err == ""
+    # Edge case: Option is a valid option
+    # Assuming a valid option for demonstration, replace with actual valid option if known
+    try:
+        _config_initialization(['--version'])
+    except _UnrecognizedOptionError:
+        pytest.fail("Valid option should not raise _UnrecognizedOptionError")
 
-    # Edge case: Pass an empty args_list.
-    args_list_empty = []
+    # Edge case: Multiple unrecognized options
     with pytest.raises(_UnrecognizedOptionError):
-        _config_initialization(args_list_empty)
+        _config_initialization(['-Q', '-X'])
     captured = capsys.readouterr()
-    assert captured.out == ""
     assert captured.err == ""

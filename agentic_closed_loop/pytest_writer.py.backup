@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
 from typing import Any, Dict, List, Optional, Tuple
 
 from claim_test_generation.claim_test_generator import (
@@ -11,139 +10,6 @@ from claim_test_generation.claim_test_generator import (
 
 from .planner import Plan, plan_to_messages
 from .test_sketcher import TestSketch
-
-
-def _extract_function_signature_from_grounding(
-    plan: Plan,
-    target_function: Optional[str] = None
-) -> Optional[str]:
-    """
-    Extract function signature from grounding source_excerpt.
-
-    Args:
-        plan: The plan object containing grounding info
-        target_function: Specific function name to look for (if None, looks for first 'def')
-
-    Returns:
-        Function signature string or None if not found
-    """
-    grounding = plan.context.get("grounding", [])
-
-    for item in grounding:
-        source = item.get("source_excerpt", "")
-        symbol = item.get("symbol", "")
-
-        # If we have a target function, only process matching symbols
-        if target_function and symbol != target_function:
-            continue
-
-        # Look for function definition - capture multi-line signatures
-        lines = source.split('\n')
-        for i, line in enumerate(lines):
-            if 'def ' in line and (not target_function or target_function in line):
-                # Found start of function definition
-                signature_lines = [line]
-
-                # Keep adding lines until we find the closing ')' and ':'
-                # which marks the end of a function signature
-                j = i + 1
-                while j < len(lines):
-                    if j >= len(lines):
-                        break
-                    # Check if this line contains the closing parenthesis
-                    # Could be '):' or ') -> type:' pattern
-                    stripped = lines[j].strip()
-                    if stripped.startswith(')') and ':' in stripped:
-                        signature_lines.append(lines[j])
-                        break
-                    signature_lines.append(lines[j])
-                    j += 1
-                    if j - i > 20:  # Safety limit
-                        break
-
-                # Join and clean up the signature
-                signature = '\n'.join(l.strip() for l in signature_lines)
-                return signature
-
-    return None
-
-
-def _build_signature_fix_guidance(
-    previous_feedback: str,
-    plan: Plan,
-    guardrail_context: Dict[str, Any]
-) -> str:
-    """
-    Build specific guidance for signature mismatch errors.
-    Extracts actual signature from grounding and shows what needs to be fixed.
-    """
-    has_signatures = bool(guardrail_context.get("signatures"))
-    guidance_parts = []
-
-    # Extract the missing argument from error message
-    missing_arg = None
-    if "argument: " in previous_feedback:
-        missing_arg = previous_feedback.split("argument: ")[1].split("\n")[0].strip("'\"")
-
-    # Try to extract function signature from grounding
-    target_symbols = plan.context.get("target_symbols", [])
-    function_name = target_symbols[0] if target_symbols else None
-
-    signature = _extract_function_signature_from_grounding(plan, function_name)
-
-    if signature and not has_signatures:
-        # We found the signature in grounding and guardrails don't have it
-        guidance_parts.append(
-            f"\n**⚠️ PYTHON ERROR MESSAGE IS MISLEADING!**\n"
-            f"When Python says 'missing 1 required positional argument: {missing_arg}',\n"
-            f"it often means you're passing {missing_arg} but missing the parameter BEFORE it.\n\n"
-        )
-
-        guidance_parts.append(
-            f"**ACTUAL FUNCTION SIGNATURE FROM YOUR GROUNDING DATA:**\n"
-            f"```python\n{signature}\n```\n\n"
-        )
-
-        # Parse the signature to identify the first parameter
-        first_param_match = re.search(r'def\s+\w+\s*\(\s*([^:,\)]+)', signature)
-        if first_param_match:
-            first_param = first_param_match.group(1).strip()
-
-            guidance_parts.append(
-                f"**THE PROBLEM:**\n"
-                f"- You're probably calling: `{function_name}({missing_arg})`\n"
-                f"- But the first parameter is: `{first_param}`\n"
-                f"- You need to call: `{function_name}({first_param}, {missing_arg}, ...)`\n\n"
-            )
-
-            # Provide specific guidance based on parameter name
-            if first_param == 'self':
-                guidance_parts.append(
-                    f"**ACTION REQUIRED:**\n"
-                    f"1. Find the class that contains `{function_name}`\n"
-                    f"2. Create an instance of that class first\n"
-                    f"3. Call the method on that instance: `obj.{function_name}({missing_arg})`\n"
-                )
-            else:
-                guidance_parts.append(
-                    f"**ACTION REQUIRED:**\n"
-                    f"1. The first parameter is `{first_param}` - create an instance of this type\n"
-                    f"2. Pass it as the first argument: `{function_name}({first_param}_instance, {missing_arg}, ...)`\n"
-                )
-    else:
-        # Fallback to existing generic guidance
-        guidance_parts.append(
-            f"\n**ERROR ANALYSIS**: The function is missing its FIRST parameter.\n"
-            f"This usually means:\n"
-            f"1. If the error mentions 'self', you need to create an instance of the parent class\n"
-            f"2. Otherwise, you need to create/provide the missing object as the first argument\n\n"
-            f"**ACTION REQUIRED**:\n"
-            f"1. Check the function signature in {'the guardrail diagnostics' if has_signatures else 'the grounding source_excerpt'}\n"
-            f"2. Identify what the FIRST parameter is and its type\n"
-            f"3. Create that object and pass it when calling the function\n"
-        )
-
-    return '\n'.join(guidance_parts)
 
 
 def generate_pytest_from_sketch(
@@ -195,7 +61,7 @@ def _build_extra_messages(
 
     # Build detailed instructions based on guardrail context
     signature_guidance = _build_signature_guidance(guardrail_context)
-    feedback_guidance = _build_feedback_guidance(previous_feedback, guardrail_context, plan)
+    feedback_guidance = _build_feedback_guidance(previous_feedback, guardrail_context)
 
     instructions = (
         "Follow this test sketch exactly. Every checklist line must appear as a comment "
@@ -267,7 +133,7 @@ def _build_signature_guidance(guardrail_context: Dict[str, Any]) -> str:
 
 
 def _build_feedback_guidance(
-    previous_feedback: Optional[str], guardrail_context: Dict[str, Any], plan: Plan
+    previous_feedback: Optional[str], guardrail_context: Dict[str, Any]
 ) -> str:
     """Build guidance based on previous failure feedback."""
     if not previous_feedback:
@@ -278,13 +144,26 @@ def _build_feedback_guidance(
 
     # Detect specific error patterns and provide targeted advice
     if "missing 1 required positional argument" in previous_feedback:
-        # NEW: Use enhanced signature extraction and guidance
-        sig_guidance = _build_signature_fix_guidance(
-            previous_feedback,
-            plan,
-            guardrail_context
-        )
-        guidance.append(sig_guidance)
+        # Check if signature hints were available
+        has_signatures = bool(guardrail_context.get("signatures"))
+
+        # Extract the missing argument
+        if "argument: " in previous_feedback:
+            arg_part = previous_feedback.split("argument: ")[1].split("\n")[0].strip("'\"")
+            guidance.append(
+                f"\n**ERROR ANALYSIS**: The function is missing its FIRST parameter.\n"
+                f"This usually means:\n"
+                f"1. If the error mentions 'self', you need to create an instance of the parent class\n"
+                f"2. Otherwise, you need to create/provide the missing object as the first argument\n\n"
+                f"**ACTION REQUIRED**:\n"
+                f"1. Check the function signature in {'the guardrail diagnostics' if has_signatures else 'the grounding source_excerpt'}\n"
+                f"2. Identify what the FIRST parameter is and its type\n"
+                f"3. Create that object and pass it when calling the function\n"
+            )
+        else:
+            guidance.append(
+                f"\n**ACTION REQUIRED**: Check the function signature and provide ALL required parameters.\n"
+            )
 
     elif "signature_mismatch" in previous_feedback or "TypeError" in previous_feedback:
         has_signatures = bool(guardrail_context.get("signatures"))

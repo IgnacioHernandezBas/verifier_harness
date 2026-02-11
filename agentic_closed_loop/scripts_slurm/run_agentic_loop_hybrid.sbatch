@@ -15,6 +15,13 @@ set -euo pipefail
 ROOT_DIR="${SLURM_SUBMIT_DIR:-/fs/nexus-scratch/ihbas/verifier_harness}"
 cd "${ROOT_DIR}"
 
+#Clean cache
+find "${ROOT_DIR}" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+find "${ROOT_DIR}" -type f -name "*.pyc" -delete 2>/dev/null || true
+
+# Ensure Python imports from current directory first
+export PYTHONPATH="${ROOT_DIR}:${PYTHONPATH:-}"
+
 LOG_DIR="${ROOT_DIR}/agentic_closed_loop/scripts_slurm/logs"
 mkdir -p "${LOG_DIR}"
 
@@ -156,6 +163,33 @@ export CLAIM_LLM_MODEL="${MODEL}"
 
 STATE_FILE="${ROOT_DIR}/agentic_closed_loop/state/${INSTANCE_ID}_${CLAIM_ID}.json"
 mkdir -p "$(dirname "${STATE_FILE}")"
+
+# ============================================
+# CLEANUP: Remove cached state and results
+# ============================================
+echo ""
+echo "Cleaning up cached state and results..."
+if [[ -f "${STATE_FILE}" ]]; then
+  echo "  - Removing state file: ${STATE_FILE}"
+  rm -f "${STATE_FILE}"
+fi
+
+# Clean up generated test file
+INSTANCE_SLUG=$(echo "${INSTANCE_ID}" | sed 's/[^a-zA-Z0-9_-]/_/g')
+CLAIM_SLUG=$(echo "${CLAIM_ID}" | sed 's/[^a-zA-Z0-9_-]/_/g')
+TEST_FILE="${ROOT_DIR}/claim_test_generation/tests_out/${INSTANCE_ID}/${INSTANCE_SLUG}__test_claim_${CLAIM_SLUG}.py"
+if [[ -f "${TEST_FILE}" ]]; then
+  echo "  - Removing old test file: ${TEST_FILE}"
+  rm -f "${TEST_FILE}"
+fi
+
+# Clean up cached verification results
+VERIFY_CACHE="${ROOT_DIR}/claim_test_verification/verification_out/${INSTANCE_ID}"
+if [[ -d "${VERIFY_CACHE}" ]]; then
+  echo "  - Removing cached verification results: ${VERIFY_CACHE}"
+  rm -rf "${VERIFY_CACHE}"
+fi
+echo "✓ Cleanup complete"
 
 COMMON_ARGS=(
   --instance_id "${INSTANCE_ID}"

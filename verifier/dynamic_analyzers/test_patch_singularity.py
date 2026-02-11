@@ -855,6 +855,27 @@ def run_tests_in_singularity(
 
         ensure_pytest_available(repo_path, image_path)
 
+        # Fix for pytest-dev instances: remove minversion from config files
+        # When pytest is installed from source, __version__ is 'unknown' which breaks
+        # version comparison. Config files (tox.ini, pytest.ini) are read before
+        # command-line args, so we must patch the files directly.
+        for config_file in ["tox.ini", "pytest.ini", "setup.cfg"]:
+            config_path = repo_path / config_file
+            if config_path.exists():
+                content = config_path.read_text()
+                if "minversion" in content:
+                    # Comment out minversion lines
+                    import re
+                    fixed_content = re.sub(
+                        r'^(\s*minversion\s*=.*)$',
+                        r'# \1  # Disabled by verifier to avoid InvalidVersion errors',
+                        content,
+                        flags=re.MULTILINE
+                    )
+                    if fixed_content != content:
+                        config_path.write_text(fixed_content)
+                        print(f"🔧 Disabled minversion check in {config_file}")
+
         # No special handling needed for matplotlib test paths - they work as-is
 
         # Build pytest arguments
