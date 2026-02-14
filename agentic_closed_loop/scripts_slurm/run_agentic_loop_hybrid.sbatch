@@ -3,7 +3,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
-#SBATCH --gres=gpu:rtxa6000:1
+#SBATCH --gres=gpu:l40s:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=02:00:00
@@ -111,6 +111,10 @@ if [[ -n "${SERVER_API_KEY}" ]]; then
 fi
 
 module load cuda/12.6.3 2>/dev/null || true
+
+# Set HuggingFace cache to cml-scratch instead of nexus-scratch
+export HF_HOME=/fs/cml-scratch/ihbas/cache/huggingface
+export TRANSFORMERS_CACHE=/fs/cml-scratch/ihbas/cache/huggingface
 
 echo "========================================="
 echo "Hybrid Agentic Loop Execution"

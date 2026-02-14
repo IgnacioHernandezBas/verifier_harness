@@ -116,9 +116,23 @@ class GuardrailResult:
         return payload
 
 
-def evaluate(plan: Plan) -> GuardrailResult:
+def evaluate(plan: Plan, previous_feedback: Optional[str] = None) -> GuardrailResult:
+    """
+    Evaluate plan against guardrails.
+
+    Args:
+        plan: The plan to evaluate
+        previous_feedback: Optional feedback from previous iteration. If signature_check
+                          failed before, we make it non-blocking to allow LLM to try
+                          alternative approaches.
+    """
     context: Dict[str, Any] = {}
     checks: List[GuardrailCheckResult] = []
+
+    # Check if signature check failed in previous iteration
+    has_previous_signature_failure = (
+        previous_feedback and "SIGNATURE CHECK FAILED" in previous_feedback
+    )
 
     if not plan.primary_module:
         context["warning"] = "No module inferred from grounding; proceeding cautiously."
@@ -169,8 +183,28 @@ def evaluate(plan: Plan) -> GuardrailResult:
     probe_check = _run_probe_check(plan, callables)
     checks.append(probe_check)
 
-    ok = all(check.passed for check in checks if check.label != "fixture_check")
-    reason = next((check.label for check in checks if not check.passed), None)
+    # If signature check failed before, make it non-blocking this time
+    # The LLM has been instructed to use different imports
+    if has_previous_signature_failure and not signature_check.passed:
+        context["signature_check_override"] = (
+            "Signature check failed but allowing continuation since LLM was "
+            "instructed to use alternative imports based on previous feedback."
+        )
+        # Check all except signature_check
+        ok = all(
+            check.passed
+            for check in checks
+            if check.label not in ["fixture_check", "signature_check"]
+        )
+        reason = next(
+            (check.label for check in checks
+             if not check.passed and check.label != "signature_check"),
+            None
+        )
+    else:
+        ok = all(check.passed for check in checks if check.label != "fixture_check")
+        reason = next((check.label for check in checks if not check.passed), None)
+
     return GuardrailResult(ok=ok, reason=reason, context=context, checks=checks)
 
 

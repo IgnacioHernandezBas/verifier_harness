@@ -100,25 +100,53 @@ class AgenticClosedLoop:
         )
         previous_feedback: Optional[str] = None
         previous_diagnosis: Optional[diagnostics.Diagnosis] = None
+        previous_code: Optional[str] = None
+        previous_patterns: Optional[List[Dict[str, Any]]] = None
         success = False
         failure_reason: Optional[str] = None
 
         for attempt in range(1, self.config.max_attempts + 1):
             current_plan = self._dynamic_planner.refine(self._static_plan, previous_diagnosis)
-            guardrail_result = guardrails.evaluate(current_plan)
+            guardrail_result = guardrails.evaluate(current_plan, previous_feedback=previous_feedback)
 
             if not guardrail_result.ok:
-                failure_reason = guardrail_result.reason or "guardrail_failed"
-                self.logs.append(
-                    {
-                        "attempt": attempt,
-                        "plan": current_plan.to_dict(),
-                        "guardrail": guardrail_result.to_dict(),
-                        "status": "guardrail_failed",
-                        "failure_classification": failure_reason,
-                    }
+                # Convert guardrail failure into actionable feedback
+                diagnosis = diagnostics.classify_guardrail_failure(
+                    guardrail_result.to_dict(),
+                    current_plan.to_dict()
                 )
-                break
+                failure_reason = diagnosis.label
+
+                attempt_log = {
+                    "attempt": attempt,
+                    "plan": current_plan.to_dict(),
+                    "guardrail": guardrail_result.to_dict(),
+                    "status": "guardrail_failed",
+                    "failure_classification": diagnosis.to_dict(),
+                    "context_hash": self._context_hash,
+                }
+                self.logs.append(attempt_log)
+                self._append_log_event({"event": "attempt", **attempt_log})
+
+                # Set feedback for next iteration
+                previous_feedback = f"{diagnosis.label}: {diagnosis.details}"
+                previous_diagnosis = diagnosis
+
+                # Check if stuck in same guardrail failure (prevents infinite loops)
+                if attempt >= 3:
+                    recent_attempts = self.logs[-3:]
+                    recent_guardrail_failures = [
+                        log.get("failure_classification", {}).get("label", "")
+                        for log in recent_attempts
+                        if log.get("status") == "guardrail_failed"
+                    ]
+                    if len(recent_guardrail_failures) == 3 and len(set(recent_guardrail_failures)) == 1:
+                        # Same guardrail failure 3 times in a row - exit
+                        failure_reason = f"stuck_in_guardrail_loop_{diagnosis.label}"
+                        break
+
+                # Continue to next iteration with feedback
+                continue
 
             guardrail_checks = [check.to_dict() for check in guardrail_result.checks]
             sketch = generate_test_sketch(
@@ -137,6 +165,8 @@ class AgenticClosedLoop:
                 guardrail_checks=guardrail_checks,
                 client=self.client,
                 previous_feedback=previous_feedback,
+                previous_code=previous_code,
+                previous_patterns=previous_patterns,
             )
             test_path = self._write_test(code)
 
@@ -147,7 +177,7 @@ class AgenticClosedLoop:
                 timeout_s=self.config.timeout_s,
                 max_claims=1,
             )
-            diagnosis = diagnostics.classify_verification(result)
+            diagnosis = diagnostics.classify_verification(result, generated_code=code)
             attempt_log = {
                 "attempt": attempt,
                 "plan": current_plan.to_dict(),
@@ -169,6 +199,8 @@ class AgenticClosedLoop:
 
             previous_feedback = f"{diagnosis.label}: {diagnosis.details}"
             previous_diagnosis = diagnosis
+            previous_code = code
+            previous_patterns = diagnosis.patterns
             failure_reason = diagnosis.label
 
             if diagnosis.label == "non_discriminative":

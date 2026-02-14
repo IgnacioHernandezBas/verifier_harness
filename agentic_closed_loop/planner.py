@@ -203,11 +203,61 @@ class StaticPlanner:
 
 
 PLAYBOOKS = {
+    "signature_check": {
+        "preconditions": [
+            "⚠️ CRITICAL: The specified target module failed signature checks!",
+            "The symbols you need are NOT in the originally specified module.",
+            "You MUST use different imports than what the target module suggests.",
+        ],
+        "fallbacks": [
+            "IGNORE the 'Target module' field - it's incorrect for this instance.",
+            "Look at the issue's code blocks - copy the EXACT imports shown there.",
+            "Use package-level imports: 'import package' then 'package.Symbol'",
+            "For sympy: Use 'from sympy import Symbol' instead of 'from sympy.core.X import Symbol'",
+            "For pytest: Use 'import pytest' instead of deep module paths",
+            "Check test_patch files for working import patterns.",
+        ],
+        "observables": [
+            "Your test imports MUST match the issue's code examples exactly.",
+        ],
+        "fixtures": [],
+    },
+    "import_check_failed": {
+        "preconditions": [
+            "Module import failed in planning phase - this may be OK.",
+            "The actual test will run in the correct environment.",
+        ],
+        "fallbacks": [
+            "Use imports shown in the issue's code examples.",
+            "Try simpler import paths: 'import package' vs 'from package.sub import Thing'",
+            "The module may require the repo environment to import.",
+        ],
+        "observables": [],
+        "fixtures": [],
+    },
     "import_error": {
         "preconditions": ["Ensure module import path mirrors repo layout.", "Add sys.path adjustments if needed."],
         "fallbacks": ["Try relative imports or package-qualified names."],
         "observables": [],
         "fixtures": [],
+    },
+    "internal_import_error": {
+        "preconditions": [
+            "NEVER import from internal/private modules (_pytest.*, _internal.*, etc.).",
+            "Use ONLY public APIs and pytest's built-in fixtures.",
+            "Fixtures are declared as function parameters, not imported or accessed as attributes.",
+        ],
+        "fallbacks": [
+            "Check the repo's test files for import and fixture usage examples.",
+            "Use fixtures by adding them as test function parameters.",
+            "For pytest: tmpdir, tmp_path, tmpdir_factory, monkeypatch, capsys, capfd, etc.",
+            "Access fixtures directly in test body after declaring as parameter.",
+        ],
+        "fixtures": [
+            "Fixtures are NOT imported - they're injected as function parameters.",
+            "Add fixture names directly to your test function signature.",
+            "Example: def test(tmpdir_factory): tmpdir_factory.mktemp('name')",
+        ],
     },
     "signature_mismatch": {
         "preconditions": ["Double-check required positional args from signatures."],
@@ -231,6 +281,16 @@ PLAYBOOKS = {
     "non_discriminative": {
         "preconditions": ["Ensure observable differentiates bug vs gold."],
         "fallbacks": ["Switch to CLI reproduction or compare exception types."],
+    },
+    "environment_error": {
+        "preconditions": [
+            "Test code is correct - this is an environment/container issue.",
+            "Do NOT modify the test - it's already using correct patterns.",
+        ],
+        "fallbacks": [
+            "The test environment is broken, not the test code.",
+            "No code changes will fix this - the container needs to be rebuilt.",
+        ],
     },
 }
 
@@ -280,15 +340,28 @@ def plan_to_messages(
     guardrail_context: Optional[Dict[str, Any]] = None,
     previous_feedback: Optional[str] = None,
 ) -> List[Dict[str, str]]:
+    # Check if previous feedback indicates a signature_check failure
+    # If so, we should de-emphasize the target module that failed
+    has_signature_failure = previous_feedback and "SIGNATURE CHECK FAILED" in previous_feedback
+
     lines = [
         f"Plan for {plan.instance_id}:{plan.claim_id}",
         f"Repository: {plan.repo}",
-        f"Target module: {plan.primary_module or 'unknown'}",
+    ]
+
+    # Handle target module differently based on whether signature check failed
+    if has_signature_failure:
+        lines.append(f"Original target module (FAILED signature check): {plan.primary_module or 'unknown'}")
+        lines.append(f"⚠️ IMPORTANT: The module above failed signature checks - try alternative imports!")
+    else:
+        lines.append(f"Target module: {plan.primary_module or 'unknown'}")
+
+    lines.extend([
         f"Target symbols: {', '.join(plan.target_symbols) or 'unspecified'}",
         f"Strategy: {plan.strategy}",
         plan.expected_inputs,
         f"Claim summary: {plan.claim_summary}",
-    ]
+    ])
     if plan.observables:
         obs_lines = "\n".join(f"- {item}" for item in plan.observables)
         lines.append(f"Observables:\n{obs_lines}")

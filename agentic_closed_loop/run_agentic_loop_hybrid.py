@@ -279,22 +279,35 @@ def run_plan_phase(args: argparse.Namespace) -> Dict[str, Any]:
     dynamic_planner = planner.DynamicPlanner()
     current_plan = dynamic_planner.refine(static_plan, previous_diagnosis)
 
-    # Check guardrails
-    guardrail_result = guardrails.evaluate(current_plan)
+    # Check guardrails (pass previous_feedback to allow smart overrides)
+    guardrail_result = guardrails.evaluate(current_plan, previous_feedback=previous_feedback)
     if not guardrail_result.ok:
-        failure_reason = guardrail_result.reason or "guardrail_failed"
+        # Convert guardrail failure into actionable feedback
+        from agentic_closed_loop import diagnostics
+        diagnosis = diagnostics.classify_guardrail_failure(
+            guardrail_result.to_dict(),
+            current_plan.to_dict()
+        )
+
         state["attempts"].append(
             {
                 "attempt": current_attempt,
                 "plan": current_plan.to_dict(),
                 "guardrail": guardrail_result.to_dict(),
                 "status": "guardrail_failed",
-                "failure_classification": failure_reason,
+                "failure_classification": diagnosis.to_dict(),
             }
         )
+
+        # Prepare feedback for next iteration
+        state["previous_feedback"] = f"{diagnosis.label}: {diagnosis.details}"
+        state["previous_diagnosis"] = diagnosis.to_dict()
+
         args.state_file.parent.mkdir(parents=True, exist_ok=True)
         args.state_file.write_text(json.dumps(state, indent=2, ensure_ascii=False))
-        print(f"Guardrail failed: {failure_reason}", file=sys.stderr)
+
+        print(f"⚠ Guardrail failed: {diagnosis.label}", file=sys.stderr)
+        print(f"   Feedback will be provided to next iteration", file=sys.stderr)
         return state
 
     # Generate test sketch and code

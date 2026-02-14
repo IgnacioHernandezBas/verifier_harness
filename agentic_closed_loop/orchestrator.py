@@ -96,13 +96,19 @@ class LoopOrchestrator:
             if not plan_success:
                 return self._handle_plan_failure()
 
-            # Check for guardrail failure
+            # Check for guardrail failure - but don't exit immediately, check if stuck first
             state = self._load_state()
             if self._check_guardrail_failure(state):
-                print("\n✗ Guardrail failed, exiting", file=sys.stderr)
-                return self._finalize_results(
-                    state, {"reason": "guardrail_failed", "should_exit": True}
-                )
+                # Check if we should exit due to repeated failures
+                exit_decision = self._should_exit(state, attempt)
+                if exit_decision["should_exit"]:
+                    print(f"\n✗ Exiting: {exit_decision['reason']}", file=sys.stderr)
+                    return self._finalize_results(state, exit_decision)
+
+                # Guardrail failed but we should continue - prepare feedback and skip verification
+                print(f"⚠ Guardrail failed (attempt {attempt}), preparing feedback for next iteration...", file=sys.stderr)
+                self._prepare_next_iteration(state)
+                continue  # Skip verification phase, go to next iteration
 
             # PHASE 2: Verification (container)
             print(f"→ Running VERIFY phase (attempt {attempt})...", file=sys.stderr)
@@ -235,12 +241,31 @@ class LoopOrchestrator:
                 att.get("failure_classification", {}).get("label", "")
                 for att in attempts[-3:]
             ]
-            if len(set(recent_labels)) == 1 and recent_labels[0] in [
-                "signature_mismatch", "import_error", "fixture_missing"
-            ]:
+            if len(set(recent_labels)) == 1 and recent_labels[0]:
+                # Same error 3 times in a row - check if it's a type we should exit on
+                error_label = recent_labels[0]
+                # Exit on repeated failures that indicate the LLM is not learning
+                if error_label in [
+                    "signature_mismatch", "import_error", "fixture_missing",
+                    "signature_check", "import_check_failed", "probe_check_failed"
+                ] or error_label.startswith("stuck_in_guardrail_loop_"):
+                    return {
+                        "should_exit": True,
+                        "reason": f"stuck_in_loop - same '{error_label}' error 3 times, LLM not learning from feedback",
+                    }
+
+        # Exit condition 4: Specific guardrail loop detection (from loop.py)
+        if last_attempt.get("status") == "guardrail_failed":
+            failure_classification = last_attempt.get("failure_classification", {})
+            if isinstance(failure_classification, dict):
+                label = failure_classification.get("label", "")
+            else:
+                label = str(failure_classification)
+
+            if label.startswith("stuck_in_guardrail_loop_"):
                 return {
                     "should_exit": True,
-                    "reason": f"stuck_in_loop - same '{recent_labels[0]}' error 3 times, LLM not learning from feedback",
+                    "reason": label,
                 }
 
         # Continue iterating
@@ -249,6 +274,7 @@ class LoopOrchestrator:
     def _prepare_next_iteration(self, state: Dict[str, Any]) -> None:
         """
         Extract diagnosis from last attempt and prepare feedback for next iteration.
+        Handles both verification failures and guardrail failures.
         """
         attempts = state.get("attempts", [])
         if not attempts:
@@ -258,17 +284,32 @@ class LoopOrchestrator:
         diagnosis_dict = last_attempt.get("failure_classification", {})
 
         if diagnosis_dict:
-            label = diagnosis_dict.get("label", "")
-            details = diagnosis_dict.get("details", "")
+            # Handle both dict and string failure classifications
+            if isinstance(diagnosis_dict, dict):
+                label = diagnosis_dict.get("label", "")
+                details = diagnosis_dict.get("details", "")
+            else:
+                # Legacy string format
+                label = str(diagnosis_dict)
+                details = ""
 
-            # Format feedback string (matches loop.py:170)
-            state["previous_feedback"] = f"{label}: {details}"
+            # Format feedback string (matches loop.py:174)
+            if details:
+                state["previous_feedback"] = f"{label}: {details}"
+            else:
+                state["previous_feedback"] = label
+
             state["previous_diagnosis"] = diagnosis_dict
             state["should_continue"] = True
 
         self._save_state(state)
+
+        # Show feedback preview
+        feedback_preview = state.get('previous_feedback', 'None')
+        if len(feedback_preview) > 200:
+            feedback_preview = feedback_preview[:200] + "..."
         print(
-            f"   Feedback: {state.get('previous_feedback', 'None')}", file=sys.stderr
+            f"   Feedback: {feedback_preview}", file=sys.stderr
         )
 
     def _load_state(self) -> Dict[str, Any]:

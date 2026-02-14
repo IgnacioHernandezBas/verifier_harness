@@ -19,6 +19,14 @@ Requirements:
 - Include "import pytest".
 - Add Given/When/Then as comments.
 
+CRITICAL - Import Rules (MUST FOLLOW):
+- ✅ ONLY import from PUBLIC APIs (e.g., "import pytest", "from requests.models import Response")
+- ❌ NEVER import from internal/private modules (e.g., "from _pytest.tmpdir import TempdirFactory")
+- Internal modules (those starting with underscore like _pytest.*, _internal.*, etc.) are NOT available in the test environment
+- Use pytest's built-in fixtures instead: tmpdir, tmp_path, monkeypatch, capsys, etc.
+- Example: Instead of "from _pytest.tmpdir import TempdirFactory", use the "tmpdir" or "tmp_path" fixture
+- You CAN access private attributes AFTER creating objects (e.g., obj._private_method()), but DON'T import them
+
 CRITICAL - Test Isolation Requirements:
 - DO NOT use repository-specific pytest fixtures (e.g., linter, checker, register, enable, disable, tests_directory).
 - These fixtures are NOT available when tests run in isolation outside the repo's test directory.

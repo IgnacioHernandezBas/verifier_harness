@@ -274,6 +274,35 @@ def install_package_in_singularity(
                 if data_exists:
                     print(f"✅ Successfully copied matplotlib data files")
 
+        # For pytest, copy generated version file
+        # Check if this is a pytest repo
+        is_pytest = (repo_path / "src" / "_pytest").exists() or (repo_path / "_pytest").exists()
+        if is_pytest:
+            print(f"   Detected pytest, copying generated _version.py...")
+            pytest_version_cmd = [
+                "singularity",
+                "exec",
+                "--bind", f"{str(repo_path)}:/workspace",
+                str(image_path),
+                "bash", "-c",
+                "if [ -f /testbed/src/_pytest/_version.py ]; then "
+                "mkdir -p /workspace/src/_pytest 2>/dev/null; "
+                "cp /testbed/src/_pytest/_version.py /workspace/src/_pytest/ 2>/dev/null || true; "
+                "fi; "
+                "if [ -f /testbed/_pytest/_version.py ]; then "
+                "mkdir -p /workspace/_pytest 2>/dev/null; "
+                "cp /testbed/_pytest/_version.py /workspace/_pytest/ 2>/dev/null || true; "
+                "fi"
+            ]
+            pytest_version_proc = subprocess.run(pytest_version_cmd, capture_output=True, text=True, timeout=60)
+            version_exists_src = (repo_path / "src" / "_pytest" / "_version.py").exists()
+            version_exists_root = (repo_path / "_pytest" / "_version.py").exists()
+            if pytest_version_proc.returncode == 0:
+                if version_exists_src:
+                    print(f"✅ Successfully copied pytest _version.py (src layout)")
+                elif version_exists_root:
+                    print(f"✅ Successfully copied pytest _version.py (root layout)")
+
         if so_count > 0:
             print(f"✅ Successfully copied {so_count} pre-built C extension files")
             return {
@@ -558,6 +587,11 @@ def ensure_pytest_available(
     packages_dir.mkdir(exist_ok=True)
 
     print("📦 Installing pytest into .pip_packages/ ...")
+    # NOTE: We install pytest WITH dependencies here because:
+    # 1. Pytest repos (pytest-dev/*) never reach this code - they return early at line 569
+    # 2. Non-pytest repos (sympy, django, etc.) need pytest AND its dependencies
+    #    (pluggy, iniconfig, packaging, etc.) for pytest to import successfully
+    # 3. PYTHONPATH order ensures /workspace/src comes before .pip_packages, so no conflicts
     install_cmd = [
         "singularity",
         "exec",
@@ -568,12 +602,11 @@ def ensure_pytest_available(
         "--target", "/workspace/.pip_packages",
         "--no-cache-dir",
         "--quiet",
-        "--no-deps",
         "pytest",
     ]
     install_proc = subprocess.run(install_cmd, capture_output=True, text=True, timeout=120)
     if install_proc.returncode == 0:
-        print("✅ pytest installed for fuzzing tests")
+        print("✅ pytest installed with dependencies to .pip_packages/")
     else:
         print("⚠️  Failed to install pytest automatically")
         if install_proc.stderr:
@@ -761,10 +794,10 @@ def run_tests_in_singularity(
     if (repo_path / "lib").exists() and (repo_path / "lib").is_dir():
         path_components.append("/workspace/lib")
 
-    # Add .pip_packages LAST (for auxiliary testing tools like pytest-cov, hypothesis)
+    # Add .pip_packages LAST (for auxiliary testing tools like pytest-cov, hypothesis, or pytest itself)
     # These should only be used if not found in workspace paths above
-    if (repo_path / ".pip_packages").exists():
-        path_components.append("/workspace/.pip_packages")
+    # Always include it in PYTHONPATH even if it doesn't exist yet - ensure_pytest_available() may create it later
+    path_components.append("/workspace/.pip_packages")
 
     python_path = ":".join(path_components)
 
