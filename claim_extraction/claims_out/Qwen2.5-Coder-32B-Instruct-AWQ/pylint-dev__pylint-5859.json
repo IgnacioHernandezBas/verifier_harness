@@ -1,0 +1,268 @@
+{
+  "instance_id": "pylint-dev__pylint-5859",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 3,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "pylint should report a fixme warning for note tags that are entirely punctuation when specified with the --notes option.",
+      "given": "The --notes option is set to include 'YES,???' and the source file contains '# YES: yes' and '# ???: no'.",
+      "when": "pylint.process_tokens is called with tokens containing '# YES: yes' and '# ???: no'.",
+      "then": "pylint should return fixme warnings for both lines.",
+      "target_symbols": [
+        "process_tokens"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "`pylint test.py --notes=\"YES,???”` will return a fixme warning (W0511) for the first line, but not the second.",
+          "### Expected behavior",
+          "```",
+          "************* Module test",
+          "test.py:1:1: W0511: YES: yes (fixme)",
+          "test.py:2:1: W0511: ???: no (fixme)",
+          "```"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          3,
+          4
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "process_tokens"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "process_tokens",
+            "path": "pylint/checkers/misc.py",
+            "line": null,
+            "snippet": "...process_tokens..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "94%",
+            "span": "`pylint test.py --notes=\"YES,???”` will return a fixme warning (W0511) for the f"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "### Expected behavior"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "************* Module test"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "test.py:1:1: W0511: YES: yes (fixme)"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "test.py:2:1: W0511: ???: no (fixme)"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 3,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "# YES: yes\r\n# ???: no\r",
+        "source": "fenced",
+        "span": {
+          "start": 209,
+          "end": 246
+        }
+      },
+      {
+        "lang": "ini",
+        "content": "Default",
+        "source": "fenced",
+        "span": {
+          "start": 381,
+          "end": 399
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint test.py --notes=\"YES,???\"",
+        "source": "fenced",
+        "span": {
+          "start": 420,
+          "end": 465
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "************* Module test\r\ntest.py:1:1: W0511: YES: yes (fixme)",
+        "source": "fenced",
+        "span": {
+          "start": 487,
+          "end": 563
+        }
+      },
+      {
+        "lang": "text",
+        "content": "************* Module test\r\ntest.py:1:1: W0511: YES: yes (fixme)\r\ntest.py:2:1: W0511: ???: no (fixme)\r",
+        "source": "fenced",
+        "span": {
+          "start": 589,
+          "end": 699
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint 2.12.2\r\nastroid 2.9.0\r\nPython 3.10.2 (main, Feb  2 2022, 05:51:25) [Clang 13.0.0 (clang-1300.0.29.3)]",
+        "source": "fenced",
+        "span": {
+          "start": 721,
+          "end": 842
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\n# YES: yes\r\n# ???: no",
+        "span": {
+          "start": 211,
+          "end": 244
+        }
+      },
+      {
+        "command": "shell\npylint test.py --notes=\"YES,???\"",
+        "span": {
+          "start": 422,
+          "end": 463
+        }
+      },
+      {
+        "command": "### Pylint output",
+        "span": {
+          "start": 464,
+          "end": 488
+        }
+      },
+      {
+        "command": "### Pylint version",
+        "span": {
+          "start": 698,
+          "end": 722
+        }
+      },
+      {
+        "command": "shell\npylint 2.12.2\r\nastroid 2.9.0\r\nPython 3.10.2 (main, Feb  2 2022, 05:51:25) [Clang 13.0.0 (clang-1300.0.29.3)]",
+        "span": {
+          "start": 723,
+          "end": 840
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "test.py"
+      ],
+      "paths": [
+        "test.py"
+      ],
+      "options": [
+        "--notes",
+        "--notes=\"YES,???\""
+      ]
+    }
+  }
+}

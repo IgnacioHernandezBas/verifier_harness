@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
     default_api_key = os.getenv("CLAIM_LLM_API_KEY")
 
     ap = argparse.ArgumentParser(
-        description="Hybrid agentic loop: separate planning (host) from verification (container).",
+        description="Hybrid agentic loop v2.0: separate planning (host) from verification (container) with multi-model support.",
     )
     ap.add_argument(
         "--phase",
@@ -57,7 +57,7 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument(
         "--claims_dir",
         default="claim_extraction/claims_out",
-        help="Directory with claim JSON files",
+        help="Directory with claim JSON files (legacy) or base directory for model-specific claims",
     )
     ap.add_argument(
         "--instances_file",
@@ -67,7 +67,7 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument(
         "--tests_root",
         default="claim_test_generation/tests_out",
-        help="Directory where generated tests will be written",
+        help="Directory where generated tests will be written (legacy) or base directory for model-specific tests",
     )
     ap.add_argument(
         "--claim_tests_root",
@@ -91,6 +91,13 @@ def parse_args() -> argparse.Namespace:
         default=1,
         help="Current iteration attempt number (for orchestrator use)",
     )
+
+    # Multi-model support
+    ap.add_argument("--claims-model", default=None, help="Model used for claim extraction (for loading claims from model-specific directory)")
+    ap.add_argument("--tests-model", default=None, help="Model used for test generation (defaults to --model)")
+    ap.add_argument("--use-model-subdirs", action="store_true", help="Use model-specific subdirectories")
+    ap.add_argument("--no-model-subdirs", action="store_true", help="Use legacy flat structure (default)")
+
     return ap.parse_args()
 
 
@@ -113,7 +120,11 @@ def load_instance(instances_path: Path, instance_id: str) -> Dict[str, Any]:
 def load_claim(
     claims_dir: Path, instance_id: str, claim_id: str
 ) -> tuple[Dict[str, Any], Optional[Dict[str, Any]]]:
-    """Load claim data from claims_out directory."""
+    """Load claim data from claims_out directory.
+
+    Supports both flat structure (claims_dir/{instance_id}.json)
+    and model-specific structure (claims_dir/{model_slug}/{instance_id}.json)
+    """
     claim_file = claims_dir / f"{instance_id}.json"
     if not claim_file.exists():
         raise SystemExit(f"Claim file {claim_file} not found")
@@ -151,9 +162,11 @@ def run_plan_phase(args: argparse.Namespace) -> Dict[str, Any]:
     Runs outside container in conda env with full dependencies.
 
     Supports iteration with previous feedback from state file.
+    Supports multi-model workflows (extract claims with Model A, generate tests with Model B).
     """
     from claim_test_generation.claim_test_generator import VLLMClient
     from claim_test_generation.generate_claim_tests import _sanitize
+    from common.model_paths import MultiModelPaths
 
     from .context import (
         ClaimContext,
@@ -191,11 +204,33 @@ def run_plan_phase(args: argparse.Namespace) -> Dict[str, Any]:
 
     current_attempt = state.get("current_attempt", args.current_attempt)
 
+    # Setup multi-model paths
+    use_model_subdirs = args.use_model_subdirs and not args.no_model_subdirs
+    if use_model_subdirs:
+        claims_model = args.claims_model or args.model
+        tests_model = args.tests_model or args.model
+        model_paths = MultiModelPaths(
+            claims_model=claims_model,
+            tests_model=tests_model,
+            base_dir=Path.cwd(),
+            use_model_subdirs=True
+        )
+        print(f"Multi-model setup:", file=sys.stderr)
+        print(f"  Claims from: {claims_model} -> {model_paths.claims_dir()}", file=sys.stderr)
+        print(f"  Tests to: {tests_model} -> {model_paths.tests_root()}", file=sys.stderr)
+    else:
+        model_paths = None
+
     # First iteration: build context
     if not state or current_attempt == 1:
-        claims_dir = Path(args.claims_dir).resolve()
         instances_path = Path(args.instances_file).resolve()
         repos_root = Path(args.repos_root).resolve()
+
+        # Determine claims directory
+        if model_paths:
+            claims_dir = model_paths.claims_dir()
+        else:
+            claims_dir = Path(args.claims_dir).resolve()
 
         sample = load_instance(instances_path, args.instance_id)
         claim, issue_context = load_claim(claims_dir, args.instance_id, args.claim_id)
@@ -239,22 +274,42 @@ def run_plan_phase(args: argparse.Namespace) -> Dict[str, Any]:
         claim_context = deserialize_claim_context(serialized_context)
 
     # Initialize paths and config
-    tests_root = Path(args.tests_root).resolve()
-    claim_tests_root = Path(args.claim_tests_root).resolve()
     repos_root = Path(args.repos_root).resolve()
-    log_path = Path(args.log_path).resolve() if args.log_path else None
 
-    state.setdefault(
-        "config",
-        {
-            "tests_root": str(tests_root),
-            "claim_tests_root": str(claim_tests_root),
-            "repos_root": str(repos_root),
-            "max_attempts": args.max_attempts,
-            "timeout_s": args.timeout_s,
-            "log_path": str(log_path) if log_path else None,
-        },
-    )
+    if model_paths:
+        tests_root = model_paths.tests_root()
+        claim_tests_root = tests_root  # Use same directory for model-specific structure
+        # Auto-generate log path if not provided
+        if args.log_path:
+            log_path = Path(args.log_path).resolve()
+        else:
+            log_path = model_paths.log_file(args.instance_id, args.claim_id)
+    else:
+        tests_root = Path(args.tests_root).resolve()
+        claim_tests_root = Path(args.claim_tests_root).resolve()
+        log_path = Path(args.log_path).resolve() if args.log_path else None
+
+    config_dict = {
+        "tests_root": str(tests_root),
+        "claim_tests_root": str(claim_tests_root),
+        "repos_root": str(repos_root),
+        "max_attempts": args.max_attempts,
+        "timeout_s": args.timeout_s,
+        "log_path": str(log_path) if log_path else None,
+    }
+
+    # Add multi-model metadata
+    if model_paths:
+        config_dict["multi_model"] = model_paths.get_summary()
+    else:
+        # Store model info even without model subdirs for result tracking
+        config_dict["multi_model"] = {
+            "tests_model": args.model,
+            "claims_model": args.claims_model or args.model,
+            "use_model_subdirs": False,
+        }
+
+    state.setdefault("config", config_dict)
 
     # Initialize LLM client
     client = VLLMClient(

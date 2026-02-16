@@ -6,7 +6,7 @@
     "eligible": true,
     "score": 8,
     "reasons": [
-      "mentions_exception:ValueError",
+      "mentions_exception:TypeError",
       "has_stacktrace",
       "behavior_keyword:should return",
       "has_code_refs",
@@ -18,10 +18,10 @@
     {
       "claim_id": "C1",
       "claim_type": "return",
-      "claim_text": "The function should return empty lists/arrays when passed empty lists/arrays.",
-      "given": "A WCS object is created with a valid FITS file.",
+      "claim_text": "When passing empty lists/arrays to WCS transformations, the function should return empty lists/arrays.",
+      "given": "A WCS object is created from a FITS file.",
       "when": "wcs.wcs_pix2world([], [], 0) is called",
-      "then": "returns empty outputs (empty sequences OR arrays with size==0)",
+      "then": "The function returns empty outputs (empty sequences OR arrays with size==0)",
       "target_symbols": [
         "wcs_pix2world",
         "_array_converter",
@@ -54,10 +54,184 @@
         "evidence": [
           {
             "type": "file_reference",
+            "symbol": "_return_list_of_arrays",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "..._return_list_of_arrays..."
+          },
+          {
+            "type": "file_reference",
             "symbol": "_array_converter",
             "path": "astropy/wcs/wcs.py",
             "line": null,
             "snippet": "..._array_converter..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "wcs_pix2world",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "...wcs_pix2world..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The following should not fail but instead should return empty lists/arrays:"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "When passing empty lists/arrays to WCS transformations, the function should return empty lists/arrays.",
+      "given": "A WCS object is created from a FITS file.",
+      "when": "wcs.all_pix2world([], [1], 0) is called",
+      "then": "The function returns empty outputs (empty sequences OR arrays with size==0)",
+      "target_symbols": [
+        "all_pix2world",
+        "_array_converter",
+        "_return_list_of_arrays"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The following should not fail but instead should return empty lists/arrays:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_array_converter",
+          "_return_list_of_arrays",
+          "all_pix2world"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_return_list_of_arrays",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "..._return_list_of_arrays..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "all_pix2world",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "...all_pix2world..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "_array_converter",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "..._array_converter..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The following should not fail but instead should return empty lists/arrays:"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "When passing empty lists/arrays to WCS transformations, the function should return empty lists/arrays.",
+      "given": "A WCS object is created from a FITS file.",
+      "when": "wcs.all_world2pix([], [1], 0) is called",
+      "then": "The function returns empty outputs (empty sequences OR arrays with size==0)",
+      "target_symbols": [
+        "all_world2pix",
+        "_array_converter",
+        "_return_list_of_arrays"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The following should not fail but instead should return empty lists/arrays:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_array_converter",
+          "_return_list_of_arrays",
+          "all_world2pix"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "all_world2pix",
+            "path": "astropy/wcs/wcs.py",
+            "line": null,
+            "snippet": "...all_world2pix..."
           },
           {
             "type": "file_reference",
@@ -68,10 +242,10 @@
           },
           {
             "type": "file_reference",
-            "symbol": "wcs_pix2world",
+            "symbol": "_array_converter",
             "path": "astropy/wcs/wcs.py",
             "line": null,
-            "snippet": "...wcs_pix2world..."
+            "snippet": "..._array_converter..."
           }
         ]
       },
@@ -114,27 +288,27 @@
         }
       ]
     },
-    "raw_claims": 1,
-    "validated_claims": 1,
+    "raw_claims": 3,
+    "validated_claims": 3,
     "validation_errors": []
   },
   "stats": {
     "eligible": true,
     "eligibility_score": 8,
-    "raw_claims": 1,
-    "validated_claims": 1,
+    "raw_claims": 3,
+    "validated_claims": 3,
     "validation_errors": [],
-    "grounded_claims": 1,
+    "grounded_claims": 3,
     "ungrounded_claims": 0,
-    "final_claims": 1,
+    "final_claims": 3,
     "grounding_rate": 1.0,
     "by_grounding": {
       "strong": 0,
-      "weak_file": 1,
+      "weak_file": 3,
       "weak_ref": 0
     },
     "by_confidence": {
-      "high": 1,
+      "high": 3,
       "medium": 0,
       "low": 0
     },

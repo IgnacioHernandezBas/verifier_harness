@@ -17,13 +17,11 @@
     {
       "claim_id": "C1",
       "claim_type": "return",
-      "claim_text": "The expression `point1 + sympy.sympify(2.0) * point2` should return the same result as `point1 + point2 * sympy.sympify(2.0)`.",
-      "given": "point1 is a Point object with coordinates (0,0) and point2 is a Point object with coordinates (1,1)",
-      "when": "point1 + sympy.sympify(2.0) * point2",
-      "then": "returns Point2D(2.0, 2.0)",
+      "claim_text": "Multiplying a Point object by a number should return a new Point object with coordinates scaled by that number, regardless of the order of multiplication.",
+      "given": "A Point object and a number",
+      "when": "sympy.sympify(2.0) * point2",
+      "then": "A new Point object with coordinates (2.0, 2.0)",
       "target_symbols": [
-        "Point",
-        "__add__",
         "__mul__"
       ],
       "confidence": "high",
@@ -47,27 +45,11 @@
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "Point",
-          "__add__",
           "__mul__"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
-          {
-            "type": "file_reference",
-            "symbol": "Point",
-            "path": "sympy/geometry/point.py",
-            "line": null,
-            "snippet": "...Point..."
-          },
-          {
-            "type": "file_reference",
-            "symbol": "__add__",
-            "path": "sympy/geometry/point.py",
-            "line": null,
-            "snippet": "...__add__..."
-          },
           {
             "type": "file_reference",
             "symbol": "__mul__",
@@ -96,10 +78,86 @@
         "+1: high_confidence"
       ],
       "specificity": {
-        "is_specific": true,
-        "issues": [],
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_given"
+        ],
         "has_symbols": true,
-        "has_observable": true
+        "has_observable": false
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "Multiplying a Point object by a number should return a new Point object with coordinates scaled by that number, regardless of the order of multiplication.",
+      "given": "A Point object and a number",
+      "when": "point2 * sympy.sympify(2.0)",
+      "then": "A new Point object with coordinates (2.0, 2.0)",
+      "target_symbols": [
+        "__mul__"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The expected behaviour is, that both lines give the same result"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "__mul__"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "__mul__",
+            "path": "sympy/geometry/point.py",
+            "line": null,
+            "snippet": "...__mul__..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The expected behaviour is, that both lines give the same result"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": false
       }
     }
   ],
@@ -114,31 +172,31 @@
         }
       ]
     },
-    "raw_claims": 1,
-    "validated_claims": 1,
+    "raw_claims": 2,
+    "validated_claims": 2,
     "validation_errors": []
   },
   "stats": {
     "eligible": true,
     "eligibility_score": 7,
-    "raw_claims": 1,
-    "validated_claims": 1,
+    "raw_claims": 2,
+    "validated_claims": 2,
     "validation_errors": [],
-    "grounded_claims": 1,
+    "grounded_claims": 2,
     "ungrounded_claims": 0,
-    "final_claims": 1,
+    "final_claims": 2,
     "grounding_rate": 1.0,
     "by_grounding": {
       "strong": 0,
-      "weak_file": 1,
+      "weak_file": 2,
       "weak_ref": 0
     },
     "by_confidence": {
-      "high": 1,
+      "high": 2,
       "medium": 0,
       "low": 0
     },
-    "specificity_rate": 1.0,
+    "specificity_rate": 0.0,
     "evidence_verified_rate": 1.0,
     "avg_score": 5.0,
     "parse_details": {

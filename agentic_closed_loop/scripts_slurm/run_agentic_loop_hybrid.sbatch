@@ -3,7 +3,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
-#SBATCH --gres=gpu:l40s:1
+#SBATCH --gres=gpu:rtxa6000:1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=02:00:00
@@ -57,6 +57,9 @@ fi
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 
 MODEL="${CLAIM_LLM_MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"
+CLAIMS_MODEL="${CLAIMS_MODEL:-${MODEL}}"
+TESTS_MODEL="${TESTS_MODEL:-${MODEL}}"
+USE_MODEL_SUBDIRS="${USE_MODEL_SUBDIRS:-false}"
 PORT="${CLAIM_LLM_PORT:-8000}"
 
 if [[ -z "${PYTHON_BIN:-}" ]]; then
@@ -122,14 +125,17 @@ echo "========================================="
 echo "Node: $(hostname -s)"
 echo "Instance: ${INSTANCE_ID}"
 echo "Claim: ${CLAIM_ID}"
+echo "Claims Model: ${CLAIMS_MODEL}"
+echo "Tests Model: ${TESTS_MODEL}"
+echo "Use Model Subdirs: ${USE_MODEL_SUBDIRS}"
 echo "Repos root: ${REPOS_ROOT}"
 echo "Singularity image: ${SINGULARITY_IMAGE}"
 echo ""
 
 # Start vLLM server (outside container)
-echo "Starting vLLM with ${MODEL} on ${ENDPOINT}..."
+echo "Starting vLLM with ${TESTS_MODEL} on ${ENDPOINT}..."
 PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
-  --model "${MODEL}" \
+  --model "${TESTS_MODEL}" \
   --host 127.0.0.1 \
   --port ${PORT} \
   --gpu-memory-utilization 0.90 \
@@ -224,7 +230,10 @@ PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m agentic_closed_loop.orche
   --timeout_s "${TIMEOUT_S}" \
   --repos_root "${REPOS_ROOT}" \
   --endpoint "${ENDPOINT}" \
-  --model "${MODEL}" \
+  --model "${TESTS_MODEL}" \
+  --claims-model "${CLAIMS_MODEL}" \
+  --tests-model "${TESTS_MODEL}" \
+  $(if [[ "${USE_MODEL_SUBDIRS}" == "true" ]]; then echo "--use-model-subdirs"; fi) \
   --singularity_image "${SINGULARITY_IMAGE}" \
   --conda_env verifier_llm \
   $(if [[ -n "${SERVER_API_KEY}" ]]; then echo "--api_key ${SERVER_API_KEY}"; fi)

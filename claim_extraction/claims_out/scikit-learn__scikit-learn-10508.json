@@ -20,7 +20,7 @@
       "claim_type": "return",
       "claim_text": "LabelEncoder should return an empty array when transforming an empty list after fitting with integer values.",
       "given": "LabelEncoder is fitted with a list of integers.",
-      "when": "transform is called with an empty list.",
+      "when": "LabelEncoder.transform([]) is called",
       "then": "returns empty outputs (empty sequences OR arrays with size==0)",
       "target_symbols": [
         "LabelEncoder",
@@ -111,7 +111,7 @@
       "claim_type": "return",
       "claim_text": "LabelEncoder should return an empty array when transforming an empty list after fitting with string values.",
       "given": "LabelEncoder is fitted with a list of strings.",
-      "when": "transform is called with an empty list.",
+      "when": "LabelEncoder.transform([]) is called",
       "then": "returns empty outputs (empty sequences OR arrays with size==0)",
       "target_symbols": [
         "LabelEncoder",
@@ -121,7 +121,8 @@
       "evidence": {
         "spans": [
           "le.fit([\"a\",\"b\"])",
-          "le.transform([])"
+          "le.transform([])",
+          "array([], dtype=int64)"
         ]
       },
       "issue_context_refs": {
@@ -173,6 +174,11 @@
             "source": "issue",
             "type": "direct",
             "span": "le.transform([])"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "array([], dtype=int64)"
           }
         ],
         "verified": true
@@ -181,6 +187,81 @@
       "score_factors": [
         "+1: weak_file",
         "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "LabelEncoder should return an empty array when inverse transforming an empty list after fitting with string values.",
+      "given": "LabelEncoder is fitted with a list of strings.",
+      "when": "LabelEncoder.inverse_transform([]) is called",
+      "then": "returns empty outputs (empty sequences OR arrays with size==0)",
+      "target_symbols": [
+        "LabelEncoder",
+        "inverse_transform"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "le.fit(np.array([\"1\", \"2\", \"1\", \"2\", \"2\"]))",
+          "le.inverse_transform([])",
+          "assert_array_equal(np.array([]), inverse_transformed)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": [
+          0,
+          1
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "LabelEncoder",
+          "inverse_transform"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "inverse_transform",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...inverse_transform..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "LabelEncoder",
+            "path": "sklearn/preprocessing/label.py",
+            "line": null,
+            "snippet": "...LabelEncoder..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 0,
+        "matches": [],
+        "verified": false
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+0: evidence_not_verified",
         "+1: has_observable",
         "+1: high_confidence"
       ],
@@ -203,33 +284,33 @@
         }
       ]
     },
-    "raw_claims": 2,
-    "validated_claims": 2,
+    "raw_claims": 3,
+    "validated_claims": 3,
     "validation_errors": []
   },
   "stats": {
     "eligible": true,
     "eligibility_score": 8,
-    "raw_claims": 2,
-    "validated_claims": 2,
+    "raw_claims": 3,
+    "validated_claims": 3,
     "validation_errors": [],
-    "grounded_claims": 2,
+    "grounded_claims": 3,
     "ungrounded_claims": 0,
-    "final_claims": 2,
+    "final_claims": 3,
     "grounding_rate": 1.0,
     "by_grounding": {
       "strong": 0,
-      "weak_file": 2,
+      "weak_file": 3,
       "weak_ref": 0
     },
     "by_confidence": {
-      "high": 2,
+      "high": 3,
       "medium": 0,
       "low": 0
     },
     "specificity_rate": 1.0,
-    "evidence_verified_rate": 1.0,
-    "avg_score": 6.0,
+    "evidence_verified_rate": 0.6666666666666666,
+    "avg_score": 5.0,
     "parse_details": {
       "attempts": [
         {

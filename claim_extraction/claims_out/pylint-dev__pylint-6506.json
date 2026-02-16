@@ -16,17 +16,18 @@
     {
       "claim_id": "C1",
       "claim_type": "exception",
-      "claim_text": "Should raise _UnrecognizedOptionError without printing a traceback when an unrecognized option is passed.",
+      "claim_text": "When an unrecognized option is passed to pylint, it should raise a SystemExit exception instead of printing a traceback.",
       "given": "An unrecognized option is passed to pylint.",
-      "when": "_config_initialization is called with an unrecognized option.",
-      "then": "_UnrecognizedOptionError is raised without printing a traceback.",
+      "when": "Run([str(EMPTY_MODULE), '-Q'], exit=False)",
+      "then": "A SystemExit exception is raised and a usage message is printed to stderr.",
       "target_symbols": [
-        "_config_initialization"
+        "Run"
       ],
       "confidence": "high",
       "evidence": {
         "spans": [
-          "The traceback I don't think is expected & not user-friendly."
+          "The traceback I don't think is expected & not user-friendly.",
+          "A usage tip, for example:"
         ]
       },
       "issue_context_refs": {
@@ -34,7 +35,8 @@
         "expected_output_block_ids": [],
         "code_block_ids": [
           1,
-          2
+          2,
+          3
         ],
         "traceback_ids": [
           0
@@ -44,17 +46,17 @@
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "_config_initialization"
+          "Run"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
           {
             "type": "file_reference",
-            "symbol": "_config_initialization",
+            "symbol": "Run",
             "path": "pylint/config/config_initialization.py",
             "line": null,
-            "snippet": "..._config_initialization..."
+            "snippet": "...Run..."
           }
         ]
       },
@@ -67,10 +69,9 @@
             "span": "The traceback I don't think is expected & not user-friendly."
           },
           {
-            "source": "stacktrace",
-            "type": "function_match",
-            "stacktrace_func": "_config_initialization",
-            "symbol": "_config_initialization"
+            "source": "issue",
+            "type": "direct",
+            "span": "A usage tip, for example:"
           }
         ],
         "verified": true
@@ -78,7 +79,7 @@
       "computed_score": 6,
       "score_factors": [
         "+1: weak_file",
-        "+3: evidence_verified (issue, stacktrace)",
+        "+3: evidence_verified (issue)",
         "+1: has_observable",
         "+1: high_confidence"
       ],
@@ -92,25 +93,30 @@
     {
       "claim_id": "C2",
       "claim_type": "return",
-      "claim_text": "Should return a usage tip when an unrecognized option is passed.",
+      "claim_text": "When an unrecognized option is passed to pylint, it should print a usage message to stderr.",
       "given": "An unrecognized option is passed to pylint.",
-      "when": "_config_initialization is called with an unrecognized option.",
-      "then": "A usage tip is printed.",
+      "when": "Run([str(EMPTY_MODULE), '-Q'], exit=False)",
+      "then": "A usage message is printed to stderr.",
       "target_symbols": [
-        "_config_initialization"
+        "Run"
       ],
       "confidence": "high",
       "evidence": {
         "spans": [
-          "A usage tip, for example:"
+          "A usage tip, for example:",
+          "usage: pylint [-h] [-v] [-V] [more options; see below]",
+          "mypy: error: unrecognized arguments: -Q"
         ]
       },
       "issue_context_refs": {
-        "cli_command_ids": [],
+        "cli_command_ids": [
+          3
+        ],
         "expected_output_block_ids": [],
         "code_block_ids": [
           1,
-          2
+          2,
+          3
         ],
         "traceback_ids": [
           0
@@ -120,17 +126,17 @@
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "_config_initialization"
+          "Run"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
           {
             "type": "file_reference",
-            "symbol": "_config_initialization",
+            "symbol": "Run",
             "path": "pylint/config/config_initialization.py",
             "line": null,
-            "snippet": "..._config_initialization..."
+            "snippet": "...Run..."
           }
         ]
       },
@@ -143,19 +149,24 @@
             "span": "A usage tip, for example:"
           },
           {
-            "source": "stacktrace",
-            "type": "function_match",
-            "stacktrace_func": "_config_initialization",
-            "symbol": "_config_initialization"
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "usage: pylint [-h] [-v] [-V] [more options; see below]"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "mypy: error: unrecognized arguments: -Q"
           }
         ],
         "verified": true
       },
-      "computed_score": 6,
+      "computed_score": 4,
       "score_factors": [
         "+1: weak_file",
-        "+3: evidence_verified (issue, stacktrace)",
-        "+1: has_observable",
+        "+3: evidence_verified (issue)",
+        "-1: no_observable",
         "+1: high_confidence"
       ],
       "specificity": {
@@ -205,7 +216,7 @@
     },
     "specificity_rate": 0.5,
     "evidence_verified_rate": 1.0,
-    "avg_score": 6.0,
+    "avg_score": 5.0,
     "parse_details": {
       "attempts": [
         {

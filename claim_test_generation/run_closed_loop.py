@@ -13,6 +13,7 @@ from claim_test_generation.claim_test_generator import (
 )
 from claim_test_generation.generate_claim_tests import _sanitize
 from claim_test_verification import verify_instance
+from common.model_paths import ModelPaths, MultiModelPaths
 
 
 def parse_args() -> argparse.Namespace:
@@ -27,8 +28,11 @@ def parse_args() -> argparse.Namespace:
     ap.add_argument("--claim_id", default="C1", help="Claim identifier (default: C1).")
     ap.add_argument(
         "--claims_dir",
-        default="claim_extraction/claims_out",
-        help="Directory with claim JSON files.",
+        help="Directory with claim JSON files (overrides --claims_model).",
+    )
+    ap.add_argument(
+        "--claims_model",
+        help="Model used for claim extraction (determines claims input directory).",
     )
     ap.add_argument(
         "--instances_file",
@@ -37,25 +41,35 @@ def parse_args() -> argparse.Namespace:
     )
     ap.add_argument(
         "--tests_root",
-        default="claim_test_generation/tests_out",
-        help="Directory where test files are written/read.",
+        help="Directory where test files are written/read (overrides --model).",
     )
     ap.add_argument(
         "--claim_tests_root",
-        default="claim_test_generation/tests_out",
-        help="Root copied into repos during verification.",
+        help="Root copied into repos during verification (overrides --model).",
     )
     ap.add_argument("--max_attempts", type=int, default=3)
     ap.add_argument("--timeout_s", type=int, default=300)
     ap.add_argument("--temperature", type=float, default=0.1)
     ap.add_argument("--max_tokens", type=int, default=2048)
     ap.add_argument("--endpoint", default=default_endpoint)
-    ap.add_argument("--model", default=default_model)
+    ap.add_argument("--model", default=default_model, help="Model for test generation.")
     ap.add_argument("--api_key", default=default_api_key)
     ap.add_argument(
         "--log_path",
         default=None,
         help="Optional explicit path for attempt log JSON. Defaults to tests dir.",
+    )
+    ap.add_argument(
+        "--use_model_subdirs",
+        action="store_true",
+        default=True,
+        help="Use model-specific subdirectories (default: True).",
+    )
+    ap.add_argument(
+        "--no_model_subdirs",
+        action="store_false",
+        dest="use_model_subdirs",
+        help="Use legacy flat directory structure.",
     )
     return ap.parse_args()
 
@@ -153,9 +167,30 @@ def write_test_file(code: str, tests_dir: Path, instance_id: str, claim_id: str)
 
 def main() -> None:
     args = parse_args()
-    claims_dir = Path(args.claims_dir).resolve()
-    tests_root = Path(args.tests_root).resolve()
-    claim_tests_root = Path(args.claim_tests_root).resolve()
+
+    # Determine paths using ModelPaths or explicit directories
+    if args.claims_dir and args.tests_root and args.claim_tests_root:
+        # Legacy mode: explicit directories provided
+        claims_dir = Path(args.claims_dir).resolve()
+        tests_root = Path(args.tests_root).resolve()
+        claim_tests_root = Path(args.claim_tests_root).resolve()
+    else:
+        # New mode: use ModelPaths
+        if not args.claims_model:
+            # If no claims_model specified, use the test generation model
+            claims_model = args.model
+        else:
+            claims_model = args.claims_model
+
+        paths = MultiModelPaths(
+            claims_model=claims_model,
+            tests_model=args.model,
+            use_model_subdirs=args.use_model_subdirs,
+        )
+        claims_dir = paths.claims_dir()
+        tests_root = paths.tests_root()
+        claim_tests_root = paths.tests_root()
+
     instances_path = Path(args.instances_file).resolve()
 
     sample = load_instance_sample(instances_path, args.instance_id)

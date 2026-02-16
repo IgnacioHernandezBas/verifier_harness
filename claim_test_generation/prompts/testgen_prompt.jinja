@@ -13,6 +13,38 @@ Claim:
 Grounding hint (best-effort):
 - primary_file_path: {{ primary_file_path }}
 - suggested_import_module: {{ suggested_module }}
+{% if test_patch %}
+
+Official Test Patch (developer's expected behavior):
+The following test was added by the developer to verify the fix.
+Use this to understand the INTENDED BEHAVIOR and RETURN STRUCTURE:
+
+{{ test_patch }}
+
+IMPORTANT: Learn from the test patch and adapt it correctly:
+✅ DO learn and use:
+- What structure/type the function returns (e.g., list of arrays vs single array)
+- What assertions work correctly for this function
+- How to properly check for empty outputs or edge cases
+
+✅ Using test data files from test_patch:
+If the test_patch uses test data files, use the DIRECT FILE PATH instead of helper functions:
+- Locate the file path in the repository (e.g., 'package/module/tests/data/file.fits')
+- Use the full relative path from repository root
+- Example: with fits.open('astropy/wcs/tests/data/sip.fits') as f: ...
+- This works because tests run from the repository root (/workspace)
+
+Why not use helper functions like get_pkg_data_filename()?
+- These helpers look for files relative to the calling module's package
+- Our tests run externally (in claim_tests/), not inside the package
+- Helper functions may try to download files from internet (which is disabled)
+
+❌ DO NOT:
+- Use helper functions like get_pkg_data_filename() - they won't find external test files
+- Use bare relative paths like 'data/file.fits' (won't resolve correctly)
+- Forget to import the file handling library (e.g., from astropy.io import fits)
+- Assume files are in current directory
+{% endif %}
 
 Requirements:
 - Create exactly one pytest test function named test_claim_{{ claim_slug }}.

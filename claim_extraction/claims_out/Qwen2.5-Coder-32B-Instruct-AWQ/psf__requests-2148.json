@@ -1,0 +1,198 @@
+{
+  "instance_id": "psf__requests-2148",
+  "repo": "psf/requests",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "has_stacktrace",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When a socket error occurs, a requests.exceptions.ConnectionError should be raised instead of a raw socket.error.",
+      "given": "A socket error occurs during the read operation in the response content streaming.",
+      "when": "self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method",
+      "then": "A requests.exceptions.ConnectionError is raised.",
+      "target_symbols": [
+        "iter_content",
+        "stream"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "socket.error: [Errno 104] Connection reset by peer",
+          "I just noticed a case where I had a socket reset on me, and was raised to me as a raw socket error as opposed to something like a requests.exceptions.ConnectionError:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "iter_content",
+          "stream"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "stream",
+            "path": "requests/models.py",
+            "line": null,
+            "snippet": "...stream..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "iter_content",
+            "path": "requests/models.py",
+            "line": null,
+            "snippet": "...iter_content..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "socket.error: [Errno 104] Connection reset by peer"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "I just noticed a case where I had a socket reset on me, and was raised to me as "
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "  File \"/home/rtdean/***/***/***/***/***/***.py\", line 67, in dir_parse\n    root = ElementTree.fromstring(response.text)\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/models.py\", line 721, in text\n    if not self.content:\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/models.py\", line 694, in content\n    self._content = bytes().join(self.iter_content(CONTENT_CHUNK_SIZE)) or bytes()\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/models.py\", line 627, in generate\n    for chunk in self.raw.stream(chunk_size, decode_content=True):\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/packages/urllib3/response.py\", line 240, in stream\n    data = self.read(amt=amt, decode_content=decode_content)\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/packages/urllib3/response.py\", line 187, in read\n    data = self._fp.read(amt)\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/httplib.py\", line 543, in read\n    return self._read_chunked(amt)\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/httplib.py\", line 612, in _read_chunked\n    value.append(self._safe_read(chunk_left))\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/httplib.py\", line 658, in _safe_read\n    chunk = self.fp.read(min(amt, MAXAMOUNT))\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/socket.py\", line 380, in read\n    data = self._sock.recv(left)\n  File \"/home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/gevent-1.0.1-py2.7-linux-x86_64.egg/gevent/socket.py\", line 385, in recv\n    return sock.recv(*args)\nsocket.error: [Errno 104] Connection reset by peer",
+        "source": "fenced",
+        "span": {
+          "start": 261,
+          "end": 2126
+        }
+      }
+    ],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "socket.error",
+        "requests.exceptions",
+        "ElementTree.fromstring",
+        "response.text",
+        "models.py",
+        "self.content",
+        "self._content",
+        "self.iter_content",
+        "self.raw",
+        "response.py",
+        "self.read",
+        "self._fp",
+        "httplib.py",
+        "self._read_chunked",
+        "value.append",
+        "self._safe_read",
+        "self.fp",
+        "socket.py",
+        "self._sock",
+        "x86_64.egg",
+        "sock.recv"
+      ],
+      "paths": [
+        "home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/models.py",
+        "home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/requests-2.3.0-py2.7.egg/requests/packages/urllib3/response.py",
+        "home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/httplib.py",
+        "home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/socket.py",
+        "home/rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/gevent-1.0.1-py2.7-linux-x86_64.egg/gevent/socket.py"
+      ],
+      "options": []
+    }
+  }
+}

@@ -126,6 +126,7 @@ conda run -n verifier_env python -m claim_extraction.cli \
   --config claim_extraction/configs/claim_extraction_v2_2.yaml \
   --input claim_extraction/instances.json \
   --out claim_extraction/claims_out/ \
+  --model-name "${MODEL}" \
   --limit 50
 
 echo "Claim extraction finished."

@@ -16,9 +16,9 @@
       "claim_id": "C1",
       "claim_type": "exception",
       "claim_text": "Running pylint a should not raise an exception if a/a.py is present.",
-      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and all files are empty.",
-      "when": "expand_modules is called with ['a'] as files_or_modules",
-      "then": "No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.",
+      "given": "Multiple files with the structure: a/a.py and a/b.py, both empty.",
+      "when": "pylint.expand_modules is called with 'a' as the module name.",
+      "then": "No exception should be raised and pylint should successfully parse the files.",
       "target_symbols": [
         "expand_modules"
       ],
@@ -34,6 +34,7 @@
         ],
         "expected_output_block_ids": [],
         "code_block_ids": [
+          1,
           2
         ],
         "traceback_ids": []
@@ -85,22 +86,23 @@
       "claim_id": "C2",
       "claim_type": "exception",
       "claim_text": "Running pylint -E r a should not raise an exception if a/a.py is present.",
-      "given": "Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`, and all files are empty.",
-      "when": "expand_modules is called with ['r', 'a'] as files_or_modules",
-      "then": "No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.",
+      "given": "Multiple files with the structure: a/a.py, a/b.py, and r.py, where r.py imports b from a.",
+      "when": "pylint.expand_modules is called with 'r' and 'a' as the module names.",
+      "then": "No exception should be raised and pylint should successfully parse the files.",
       "target_symbols": [
         "expand_modules"
       ],
       "confidence": "high",
       "evidence": {
         "spans": [
-          "Running `pylint -E r a` will run fine, but `pylint -E r a` will fail. Not just for module a, but for module r as well."
+          "Running `pylint -E r a` will fail. Again, if I rename `a.py` to `c.py`, `pylint -E r a` will work perfectly."
         ]
       },
       "issue_context_refs": {
         "cli_command_ids": [],
         "expected_output_block_ids": [],
         "code_block_ids": [
+          1,
           2
         ],
         "traceback_ids": []
@@ -130,7 +132,7 @@
             "source": "issue",
             "type": "partial",
             "overlap": "100%",
-            "span": "Running `pylint -E r a` will run fine, but `pylint -E r a` will fail. Not just f"
+            "span": "Running `pylint -E r a` will fail. Again, if I rename `a.py` to `c.py`, `pylint "
           }
         ],
         "verified": true

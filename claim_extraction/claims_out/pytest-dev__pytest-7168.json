@@ -16,24 +16,22 @@
   "claims": [
     {
       "claim_id": "C1",
-      "claim_type": "exception",
-      "claim_text": "When an exception is raised in the __repr__ method, SafeRepr.repr should raise the same exception.",
-      "given": "An object with a __repr__ method that raises an exception.",
-      "when": "SafeRepr.repr is called with the object.",
-      "then": "The same exception raised in the __repr__ method is raised.",
+      "claim_type": "return",
+      "claim_text": "saferepr() should return a string indicating that a RuntimeError was raised in repr() for a class with a broken __getattribute__",
+      "given": "A class with both __getattribute__ and __repr__ methods that raise RuntimeError",
+      "when": "saferepr(SomeClass()) is called",
+      "then": "It should return a string starting with '<[RuntimeError() raised in repr()] SomeClass object at 0x'",
       "target_symbols": [
-        "SafeRepr.repr"
+        "saferepr"
       ],
       "confidence": "high",
       "evidence": {
         "spans": [
-          "INTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pytest.py\", line 6, in __repr__\nINTERNALERROR>     raise\nINTERNALERROR> RuntimeError: No active exception to reraise"
+          "saferepr(SomeClass()).startswith('<[RuntimeError() raised in repr()] SomeClass object at 0x'"
         ]
       },
       "issue_context_refs": {
-        "cli_command_ids": [
-          1
-        ],
+        "cli_command_ids": [],
         "expected_output_block_ids": [],
         "code_block_ids": [
           0,
@@ -47,48 +45,37 @@
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "SafeRepr.repr"
+          "saferepr"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
           {
             "type": "file_reference",
-            "symbol": "SafeRepr.repr",
+            "symbol": "saferepr",
             "path": "src/_pytest/_io/saferepr.py",
             "line": null,
-            "snippet": "...SafeRepr.repr..."
+            "snippet": "...saferepr..."
           }
         ]
       },
       "evidence_verification": {
-        "score": 2,
-        "matches": [
-          {
-            "source": "issue",
-            "type": "partial",
-            "overlap": "100%",
-            "span": "INTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pyt"
-          },
-          {
-            "source": "stacktrace",
-            "type": "function_match",
-            "stacktrace_func": "repr",
-            "symbol": "SafeRepr.repr"
-          }
-        ],
-        "verified": true
+        "score": 0,
+        "matches": [],
+        "verified": false
       },
-      "computed_score": 5,
+      "computed_score": 3,
       "score_factors": [
         "+1: weak_file",
-        "+2: evidence_verified (issue, stacktrace)",
+        "+0: evidence_not_verified",
         "+1: has_observable",
         "+1: high_confidence"
       ],
       "specificity": {
-        "is_specific": true,
-        "issues": [],
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
         "has_symbols": true,
         "has_observable": true
       }
@@ -129,9 +116,9 @@
       "medium": 0,
       "low": 0
     },
-    "specificity_rate": 1.0,
-    "evidence_verified_rate": 1.0,
-    "avg_score": 5.0,
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 0.0,
+    "avg_score": 3.0,
     "parse_details": {
       "attempts": [
         {

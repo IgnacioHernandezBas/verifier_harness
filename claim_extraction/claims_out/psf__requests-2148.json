@@ -16,10 +16,10 @@
     {
       "claim_id": "C1",
       "claim_type": "exception",
-      "claim_text": "When a socket error occurs, a requests.exceptions.ConnectionError should be raised instead of a raw socket.error.",
-      "given": "A socket error occurs during the read operation in the response content streaming.",
-      "when": "self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method",
-      "then": "A requests.exceptions.ConnectionError is raised.",
+      "claim_text": "When a socket.error is raised during the streaming of response content, a ConnectionError should be raised.",
+      "given": "A Response object with a raw attribute that raises a socket.error when its stream method is called.",
+      "when": "The iter_content method is called on the Response object.",
+      "then": "A ConnectionError is raised.",
       "target_symbols": [
         "iter_content",
         "stream"
@@ -27,8 +27,8 @@
       "confidence": "high",
       "evidence": {
         "spans": [
-          "socket.error: [Errno 104] Connection reset by peer",
-          "I just noticed a case where I had a socket reset on me, and was raised to me as a raw socket error as opposed to something like a requests.exceptions.ConnectionError:"
+          "socket.error exception not caught/wrapped in a requests exception (ConnectionError perhaps?)",
+          "socket.error: [Errno 104] Connection reset by peer"
         ]
       },
       "issue_context_refs": {
@@ -71,12 +71,12 @@
           {
             "source": "issue",
             "type": "direct",
-            "span": "socket.error: [Errno 104] Connection reset by peer"
+            "span": "socket.error exception not caught/wrapped in a requests exception (ConnectionErr"
           },
           {
             "source": "issue",
             "type": "direct",
-            "span": "I just noticed a case where I had a socket reset on me, and was raised to me as "
+            "span": "socket.error: [Errno 104] Connection reset by peer"
           }
         ],
         "verified": true

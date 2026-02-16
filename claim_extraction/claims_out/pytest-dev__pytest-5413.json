@@ -16,12 +16,13 @@
     {
       "claim_id": "C1",
       "claim_type": "return",
-      "claim_text": "When str() is called on the pytest.raises context variable, it should return the full error message of the exception.",
-      "given": "A LookupError is raised with a multi-line message inside a pytest.raises context.",
-      "when": "str(e) is called where e is the pytest.raises context variable.",
-      "then": "The full error message 'A\nB\nC' is returned.",
+      "claim_text": "The string representation of the pytest.raises context variable should match the string representation of the exception it catches.",
+      "given": "A LookupError is raised with a multi-line message.",
+      "when": "str(e) is called on the pytest.raises context variable e.",
+      "then": "The output should be the full error message 'A\nB\nC'.",
       "target_symbols": [
-        "pytest.raises"
+        "__str__",
+        "value"
       ],
       "confidence": "high",
       "evidence": {
@@ -40,20 +41,22 @@
         "traceback_ids": []
       },
       "grounding": {
-        "status": "weak_file",
-        "level": 2,
+        "status": "strong",
+        "level": 1,
         "matched_symbols": [
-          "pytest.raises"
+          "__str__"
         ],
-        "unmatched_symbols": [],
-        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "unmatched_symbols": [
+          "value"
+        ],
+        "rule": "symbol_in_diff_definition_or_assignment",
         "evidence": [
           {
-            "type": "file_reference",
-            "symbol": "pytest.raises",
+            "type": "diff_definition",
+            "symbol": "__str__",
             "path": "src/_pytest/_code/code.py",
-            "line": null,
-            "snippet": "...pytest.raises..."
+            "line": 537,
+            "snippet": "def __str__(self):"
           }
         ]
       },
@@ -75,9 +78,9 @@
         ],
         "verified": true
       },
-      "computed_score": 5,
+      "computed_score": 7,
       "score_factors": [
-        "+1: weak_file",
+        "+3: strong_grounding (defined/assigned symbol in diff)",
         "+2: evidence_verified (issue)",
         "+1: has_observable",
         "+1: high_confidence"
@@ -118,8 +121,8 @@
     "final_claims": 1,
     "grounding_rate": 1.0,
     "by_grounding": {
-      "strong": 0,
-      "weak_file": 1,
+      "strong": 1,
+      "weak_file": 0,
       "weak_ref": 0
     },
     "by_confidence": {
@@ -129,7 +132,7 @@
     },
     "specificity_rate": 0.0,
     "evidence_verified_rate": 1.0,
-    "avg_score": 5.0,
+    "avg_score": 7.0,
     "parse_details": {
       "attempts": [
         {

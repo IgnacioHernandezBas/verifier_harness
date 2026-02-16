@@ -11,6 +11,7 @@ from typing import Any, Dict, List, Tuple, Optional
 from claim_extraction.config import load_config
 from claim_extraction.llm.factory import build_llm_client
 from claim_extraction.pipeline.runner import build_prompt_env, process_instance
+from common.model_paths import ModelPaths
 
 logging.basicConfig(
     level=logging.INFO,
@@ -100,7 +101,7 @@ def _aggregate_summary(results: List[Dict[str, Any]], cfg: Dict[str, Any]) -> Di
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Claim Extractor (modular) v2.1")
+    ap = argparse.ArgumentParser(description="Claim Extractor (modular) v2.2 - Multi-Model Support")
     ap.add_argument("--config", required=True, help="Path to YAML config")
     ap.add_argument("--input", required=True, help="instances.json (list or dict format)")
     ap.add_argument("--out", required=True, help="Output directory")
@@ -111,6 +112,10 @@ def main():
     ap.add_argument("--require-grounding", dest="require_grounding", action="store_true", help="Require grounding (default)")
     ap.add_argument("--no-require-grounding", dest="require_grounding", action="store_false", help="Do not require grounding")
     ap.set_defaults(require_grounding=None)
+
+    # Multi-model support
+    ap.add_argument("--model-name", default=None, help="Model name for organizing outputs (e.g., 'Qwen/Qwen2.5-Coder-32B-Instruct-AWQ'). If not provided, uses flat structure.")
+    ap.add_argument("--no-model-subdirs", action="store_true", help="Disable model-specific subdirectories (use legacy flat structure)")
 
     ap.add_argument("--dry-run", action="store_true", help="Render prompts and exit (no LLM calls)")
     args = ap.parse_args()
@@ -128,7 +133,25 @@ def main():
         cfg["extraction"]["require_grounding"] = bool(args.require_grounding)
 
     input_path = Path(args.input)
-    out_dir = Path(args.out)
+
+    # Determine output directory with multi-model support
+    use_model_subdirs = args.model_name is not None and not args.no_model_subdirs
+    if use_model_subdirs:
+        # Extract model name from config if not provided
+        model_name = args.model_name or cfg.get("llm", {}).get("model", "unknown_model")
+        model_paths = ModelPaths(
+            model_name=model_name,
+            base_dir=Path(args.out).parent.parent,  # Go up to verifier_harness root
+            use_model_subdirs=True
+        )
+        out_dir = model_paths.claims_dir()
+        logger.info(f"Using model-specific output directory: {out_dir}")
+        logger.info(f"Model slug: {model_paths.model_slug}")
+    else:
+        # Legacy flat structure
+        out_dir = Path(args.out)
+        logger.info(f"Using legacy flat output directory: {out_dir}")
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     instances = _load_instances(input_path)
@@ -189,6 +212,15 @@ def main():
 
     summary = _aggregate_summary(results, cfg)
     summary["errors"] = errors
+
+    # Add multi-model metadata to summary
+    if use_model_subdirs:
+        summary["metadata"]["model_name"] = model_name
+        summary["metadata"]["model_slug"] = model_paths.model_slug
+        summary["metadata"]["output_structure"] = "model_subdirs"
+    else:
+        summary["metadata"]["output_structure"] = "flat"
+
     _write_json(out_dir / "summary.json", summary)
 
     logger.info("==============================================")

@@ -1,11 +1,11 @@
 {
   "metadata": {
-    "timestamp": "2026-01-30T16:57:28.177021",
+    "timestamp": "2026-02-16T13:15:13.397349",
     "llm": {
       "backend": "vllm",
       "endpoint": "http://127.0.0.1:8000/v1",
       "model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
-      "temperature": 0.1,
+      "temperature": 0.0,
       "max_tokens": 2048,
       "timeout_s": 120
     },
@@ -14,39 +14,85 @@
       "check_eligibility": true,
       "require_grounding": true,
       "max_claims_per_issue": 6
-    }
+    },
+    "output_structure": "flat"
   },
   "eligibility": {
-    "total_instances": 5,
-    "eligible": 5,
+    "total_instances": 19,
+    "eligible": 19,
     "ineligible": 0,
     "eligibility_rate": 1.0
   },
   "totals": {
-    "total_raw_claims": 7,
-    "total_grounded_claims": 7,
-    "total_final_claims": 7,
-    "avg_final_claims_per_eligible_instance": 1.4,
-    "grounding_rate": 1.0
+    "total_raw_claims": 34,
+    "total_grounded_claims": 32,
+    "total_final_claims": 31,
+    "avg_final_claims_per_eligible_instance": 1.631578947368421,
+    "grounding_rate": 0.9411764705882353
   },
   "by_grounding": {
-    "strong": 0,
-    "weak_file": 7,
+    "strong": 1,
+    "weak_file": 30,
     "weak_ref": 0
   },
   "quality_metrics": {
-    "avg_specificity_rate": 0.5,
-    "avg_evidence_verified_rate": 1.0,
-    "avg_claim_score": 5.5
+    "avg_specificity_rate": 0.34210526315789475,
+    "avg_evidence_verified_rate": 0.763157894736842,
+    "avg_claim_score": 4.587719298245614
   },
   "instances": [
     {
       "instance_id": "astropy__astropy-7746",
       "repo": "astropy/astropy",
       "eligible": true,
+      "final_claims": 3,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "django__django-11964",
+      "repo": "django/django",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 6.0,
+      "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "django__django-13321",
+      "repo": "django/django",
+      "eligible": true,
+      "final_claims": 2,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "django__django-14997",
+      "repo": "django/django",
+      "eligible": true,
+      "final_claims": 0,
+      "grounding_rate": 0.0,
+      "avg_score": 0.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "django__django-16255",
+      "repo": "django/django",
+      "eligible": true,
       "final_claims": 1,
       "grounding_rate": 1.0,
       "avg_score": 5.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "django__django-16408",
+      "repo": "django/django",
+      "eligible": true,
+      "final_claims": 3,
+      "grounding_rate": 1.0,
+      "avg_score": 3.6666666666666665,
       "specificity_rate": 0.0
     },
     {
@@ -73,7 +119,7 @@
       "eligible": true,
       "final_claims": 2,
       "grounding_rate": 1.0,
-      "avg_score": 6.0,
+      "avg_score": 5.0,
       "specificity_rate": 0.5
     },
     {
@@ -84,6 +130,87 @@
       "grounding_rate": 1.0,
       "avg_score": 4.5,
       "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "pytest-dev__pytest-5413",
+      "repo": "pytest-dev/pytest",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 7.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "pytest-dev__pytest-7168",
+      "repo": "pytest-dev/pytest",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 3.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "pytest-dev__pytest-8365",
+      "repo": "pytest-dev/pytest",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 6.0,
+      "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-10508",
+      "repo": "scikit-learn/scikit-learn",
+      "eligible": true,
+      "final_claims": 3,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 1.0
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-13142",
+      "repo": "scikit-learn/scikit-learn",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 4.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "sympy__sympy-17630",
+      "repo": "sympy/sympy",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 4.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "sympy__sympy-17655",
+      "repo": "sympy/sympy",
+      "eligible": true,
+      "final_claims": 2,
+      "grounding_rate": 1.0,
+      "avg_score": 5.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "sympy__sympy-18057",
+      "repo": "sympy/sympy",
+      "eligible": true,
+      "final_claims": 4,
+      "grounding_rate": 1.0,
+      "avg_score": 4.0,
+      "specificity_rate": 0.0
+    },
+    {
+      "instance_id": "sympy__sympy-23262",
+      "repo": "sympy/sympy",
+      "eligible": true,
+      "final_claims": 1,
+      "grounding_rate": 1.0,
+      "avg_score": 3.0,
+      "specificity_rate": 0.0
     }
   ],
   "errors": []

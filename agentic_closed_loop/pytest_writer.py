@@ -182,6 +182,7 @@ def generate_pytest_from_sketch(
         instance_id=plan.instance_id,
         client=client,
         extra_messages=extra_messages,
+        test_patch=sample.get("test_patch"),
     )
     code, coverage = _enforce_checklist(code, sketch.checklist)
     return code, coverage

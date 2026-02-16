@@ -190,9 +190,58 @@ def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any]) -> Tuple[str, str]
         hint += "\nSimplify your test - create objects directly and call methods normally."
         return "mocking_error", f"Test failed while trying to mock methods.{hint}\n\nError details:\n{bug_errors}"
 
-    if "assertionerror" in combined and bug_status == gold_status == "FAIL":
+    # Check if GOLD has assertion error (test is wrong about expected behavior)
+    gold_stdout = gold.get("stdout", "") or ""
+    gold_stderr = gold.get("stderr", "") or ""
+    gold_combined = (gold_stdout + "\n" + gold_stderr).lower()
+
+    # Detect assertion failures (pytest shows "assert" lines with "E" markers)
+    gold_has_assertion = ("assertionerror" in gold_combined or
+                          ("E   assert" in gold_stdout) or
+                          ("E   assert" in gold_stderr))
+
+    if gold_has_assertion and bug_status == gold_status == "FAIL":
         bug_errors = _extract_error_summary(bug)
-        return "assertion_failure", f"Both variants fail the same assertion.\n\nError details:\n{bug_errors}"
+        gold_errors = _extract_error_summary(gold)
+
+        # Check if GOLD has assertion but BUG has different error
+        bug_stdout = bug.get("stdout", "") or ""
+        bug_stderr = bug.get("stderr", "") or ""
+        bug_has_assertion = ("assertionerror" in (bug_stdout + bug_stderr).lower() or
+                            "E   assert" in bug_stdout or
+                            "E   assert" in bug_stderr)
+
+        if not bug_has_assertion:
+            # BUG has real error, GOLD has assertion - test is incorrect
+            return "assertion_failure", (
+                f"BUG and GOLD both fail, but with DIFFERENT error types:\n\n"
+                f"🔴 BUG run (the actual bug being fixed):\n{bug_errors}\n\n"
+                f"🟢 GOLD run (FIXED code, but YOUR TEST has wrong assertions):\n{gold_errors}\n\n"
+                f"💡 Your test assertion is incorrect!\n"
+                f"   The GOLD error shows your test expects the wrong return type/structure.\n"
+                f"   Look at the GOLD assertion error to see what it actually returns.\n"
+                f"   Update your assertions to match the actual correct behavior.\n"
+                f"   For example: if it says 'isinstance([...], tuple)' failed, change to 'isinstance(result, list)'."
+            )
+        elif bug_errors != gold_errors:
+            # Both have assertions but different ones
+            return "assertion_failure", (
+                f"Both variants fail with assertion errors, but with DIFFERENT failures:\n\n"
+                f"🔴 BUG run (shows the bug behavior):\n{bug_errors}\n\n"
+                f"🟢 GOLD run (shows what the FIXED code returns):\n{gold_errors}\n\n"
+                f"💡 Your test assertion is likely incorrect!\n"
+                f"   The GOLD error shows what the patched code actually returns.\n"
+                f"   Update your assertions to match the GOLD behavior (correct return type/structure).\n"
+                f"   For example, if GOLD shows it returns a list but you check for tuple, fix the assertion."
+            )
+        else:
+            # Same assertion error on both - test is too strict
+            return "assertion_failure", (
+                f"Both variants fail the same assertion.\n\n"
+                f"Error details:\n{bug_errors}\n\n"
+                f"💡 Your test may be overconstrained - it fails even on the fixed code.\n"
+                f"   Consider relaxing assertions to accept multiple valid forms."
+            )
 
     if bug_status == gold_status:
         # Extract error details to help LLM fix the issue

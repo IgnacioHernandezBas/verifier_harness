@@ -1,0 +1,207 @@
+{
+  "instance_id": "sympy__sympy-23262",
+  "repo": "sympy/sympy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 4,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "The generated code for a tuple with one element should include a trailing comma to ensure it is recognized as a tuple.",
+      "given": "A tuple with one element is passed to the lambdify function.",
+      "when": "The inspect.getsource(lambdify([], tuple([1]))) function is called.",
+      "then": "The returned string should be 'def _lambdifygenerated():\n    return (1,)\n'.",
+      "target_symbols": [
+        "lambdify"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "SymPy 1.9 and under outputs:\n'def _lambdifygenerated():\n    return (1,)\n'",
+          "But SymPy 1.10 gives\n'def _lambdifygenerated():\n    return (1)\n'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "lambdify"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "lambdify",
+            "path": "sympy/utilities/lambdify.py",
+            "line": null,
+            "snippet": "...lambdify..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 0,
+        "matches": [],
+        "verified": false
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+0: evidence_not_verified",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 4,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 0.0,
+    "avg_score": 3.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "import inspect\r\nfrom sympy import lambdify\r\n\r\ninspect.getsource(lambdify([], tuple([1])))\r",
+        "source": "fenced",
+        "span": {
+          "start": 214,
+          "end": 319
+        }
+      },
+      {
+        "lang": "text",
+        "content": "'def _lambdifygenerated():\\n    return (1,)\\n'\r",
+        "source": "fenced",
+        "span": {
+          "start": 351,
+          "end": 407
+        }
+      },
+      {
+        "lang": "text",
+        "content": "'def _lambdifygenerated():\\n    return (1)\\n'\r",
+        "source": "fenced",
+        "span": {
+          "start": 435,
+          "end": 490
+        }
+      },
+      {
+        "lang": "python",
+        "content": "inspect.getsource(lambdify([], tuple([1, 2])))\r",
+        "source": "fenced",
+        "span": {
+          "start": 657,
+          "end": 719
+        }
+      },
+      {
+        "lang": "text",
+        "content": "'def _lambdifygenerated():\\n    return (1, 2)\\n'\r",
+        "source": "fenced",
+        "span": {
+          "start": 759,
+          "end": 817
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\nimport inspect\r\nfrom sympy import lambdify\r\n\r\ninspect.getsource(lambdify([], tuple([1])))",
+        "span": {
+          "start": 216,
+          "end": 317
+        }
+      },
+      {
+        "command": "python\r\ninspect.getsource(lambdify([], tuple([1, 2])))",
+        "span": {
+          "start": 659,
+          "end": 717
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "inspect.getsource"
+      ],
+      "paths": [],
+      "options": []
+    }
+  }
+}

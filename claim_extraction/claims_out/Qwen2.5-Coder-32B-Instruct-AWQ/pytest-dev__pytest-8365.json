@@ -1,0 +1,220 @@
+{
+  "instance_id": "pytest-dev__pytest-8365",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:FileNotFoundError",
+      "behavior_keyword:returns",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When the username contains illegal characters for directory names, the creation of a temporary directory should not raise a FileNotFoundError.",
+      "given": "The username returned by getpass.getuser() contains illegal characters for directory names, e.g., 'contoso\\john_doe'.",
+      "when": "tmpdir_factory.mktemp('foobar') is called",
+      "then": "No FileNotFoundError is raised.",
+      "target_symbols": [
+        "tmpdir_factory.mktemp"
+      ],
+      "confidence": "medium",
+      "evidence": {
+        "spans": [
+          "tmpdir creation fails when the username contains illegal characters for directory names",
+          "When trying to create a temp directory in pytest through e.g. `tmpdir_factory.mktemp('foobar')` this fails with the following error message:",
+          "E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\john_doe\\AppData\\Local\\Temp\\pytest-of-contoso\\john_doe'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          1
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "tmpdir_factory.mktemp"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "tmpdir_factory.mktemp",
+            "path": "src/_pytest/tmpdir.py",
+            "line": null,
+            "snippet": "...tmpdir_factory.mktemp..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "tmpdir creation fails when the username contains illegal characters for director"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "When trying to create a temp directory in pytest through e.g. `tmpdir_factory.mk"
+          },
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "91%",
+            "span": "E           FileNotFoundError: [WinError 3] The system cannot find the path spec"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+0: medium_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "self = WindowsPath('C:/Users/john_doe/AppData/Local/Temp/pytest-of-contoso/john_doe')\r\nmode = 511, parents = False, exist_ok = True\r\n\r\n    def mkdir(self, mode=0o777, parents=False, exist_ok=False):\r\n        \"\"\"\r\n        Create a new directory at this given path.\r\n        \"\"\"\r\n        if self._closed:\r\n            self._raise_closed()\r\n        try:\r\n>           self._accessor.mkdir(self, mode)\r\nE           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\\\Users\\\\john_doe\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-contoso\\\\john_doe'\r\n\r\nC:\\Python38\\lib\\pathlib.py:1266: FileNotFoundError\r",
+        "source": "fenced",
+        "span": {
+          "start": 947,
+          "end": 1568
+        }
+      },
+      {
+        "lang": "bat",
+        "content": "echo def test_tmpdir(tmpdir):>test_tmp.py\r\necho   pass>>test_tmp.py\r\nset LOGNAME=contoso\\john_doe\r\npy.test test_tmp.py\r",
+        "source": "fenced",
+        "span": {
+          "start": 1704,
+          "end": 1835
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python -c \"import getpass; print(getpass.getuser())\"",
+        "span": {
+          "start": 623,
+          "end": 677
+        }
+      },
+      {
+        "command": "self = WindowsPath('C:/Users/john_doe/AppData/Local/Temp/pytest-of-contoso/john_doe')\r\nmode = 511, parents = False, exist_ok = True\r\n\r\n    def mkdir(self, mode=0o777, parents=False, exist_ok=False):\r\n        \"\"\"\r\n        Create a new directory at this given path.\r\n        \"\"\"\r\n        if self._closed:\r\n            self._raise_closed()\r\n        try:\r\n>           self._accessor.mkdir(self, mode)\r\nE           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\\\Users\\\\john_doe\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-contoso\\\\john_doe'\r\n\r\nC:\\Python38\\lib\\pathlib.py:1266: FileNotFoundError",
+        "span": {
+          "start": 949,
+          "end": 1566
+        }
+      },
+      {
+        "command": "self._accessor.mkdir(self, mode)",
+        "span": {
+          "start": 1304,
+          "end": 1349
+        }
+      },
+      {
+        "command": "I could also reproduce this without the complicated ssh/windows setup with pytest 6.2.2 using the following commands from a",
+        "span": {
+          "start": 1567,
+          "end": 1697
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "getpass.getuser",
+        "e.g",
+        "tmpdir_factory.mktemp",
+        "self._closed",
+        "self._raise_closed",
+        "self._accessor",
+        "pathlib.py",
+        "test_tmp.py",
+        "py.test"
+      ],
+      "paths": [
+        "pathlib.py",
+        "test_tmp.py"
+      ],
+      "options": []
+    }
+  }
+}

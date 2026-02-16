@@ -359,7 +359,44 @@ class LoopOrchestrator:
         state["should_continue"] = False
         self._save_state(state)
 
+        # Generate result summary
+        self._generate_result_summary(state)
+
         return payload
+
+    def _generate_result_summary(self, state: Dict[str, Any]) -> None:
+        """Generate human-readable result summary."""
+        try:
+            from .result_summarizer import create_result_summary
+            import os
+
+            # Extract model info from common_args or state
+            tests_model = None
+            claims_model = None
+
+            for i, arg in enumerate(self.common_args):
+                if arg == "--model" and i + 1 < len(self.common_args):
+                    tests_model = self.common_args[i + 1]
+                elif arg == "--claims-model" and i + 1 < len(self.common_args):
+                    claims_model = self.common_args[i + 1]
+
+            # Fallback to config if available
+            if not tests_model:
+                config = state.get("config", {})
+                multi_model = config.get("multi_model", {})
+                tests_model = multi_model.get("tests_model", "unknown")
+                claims_model = multi_model.get("claims_model", tests_model)
+
+            slurm_job_id = os.getenv("SLURM_JOB_ID")
+
+            create_result_summary(
+                state_file=self.state_file,
+                tests_model=tests_model or "unknown",
+                claims_model=claims_model,
+                slurm_job_id=slurm_job_id,
+            )
+        except Exception as e:
+            print(f"Warning: Failed to generate result summary: {e}", file=sys.stderr)
 
     def _handle_plan_failure(self) -> Dict[str, Any]:
         """Handle planning phase failure."""
@@ -421,6 +458,11 @@ def main():
     parser.add_argument("--api_key", default=None)
     parser.add_argument("--log_path", default=None)
 
+    # Multi-model support
+    parser.add_argument("--claims-model", dest="claims_model", default=None, help="Model used for claim extraction")
+    parser.add_argument("--tests-model", dest="tests_model", default=None, help="Model used for test generation")
+    parser.add_argument("--use-model-subdirs", dest="use_model_subdirs", action="store_true", help="Use model-specific subdirectories")
+
     args = parser.parse_args()
 
     # Build common args for hybrid script
@@ -454,6 +496,14 @@ def main():
         common_args.extend(["--api_key", args.api_key])
     if args.log_path:
         common_args.extend(["--log_path", args.log_path])
+
+    # Add multi-model support args
+    if args.claims_model:
+        common_args.extend(["--claims-model", args.claims_model])
+    if args.tests_model:
+        common_args.extend(["--tests-model", args.tests_model])
+    if args.use_model_subdirs:
+        common_args.append("--use-model-subdirs")
 
     orchestrator = LoopOrchestrator(
         state_file=args.state_file,

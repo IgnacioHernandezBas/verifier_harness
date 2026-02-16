@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
 
 from .claim_test_generator import VLLMClient, generate_pytest_for_claim
+from common.model_paths import ModelPaths, MultiModelPaths
 
 
 def parse_args() -> argparse.Namespace:
@@ -17,16 +18,38 @@ def parse_args() -> argparse.Namespace:
     default_api_key = os.getenv("CLAIM_LLM_API_KEY")
 
     ap = argparse.ArgumentParser(description="Generate pytest tests from grounded claims.")
-    ap.add_argument("--claims_dir", required=True, help="Directory containing claim JSON files.")
-    ap.add_argument("--out_dir", required=True, help="Directory for generated tests.")
+    ap.add_argument(
+        "--claims_dir",
+        help="Directory containing claim JSON files (overrides --claims_model).",
+    )
+    ap.add_argument(
+        "--out_dir",
+        help="Directory for generated tests (overrides --model).",
+    )
+    ap.add_argument(
+        "--claims_model",
+        help="Model used for claim extraction (determines claims input directory).",
+    )
     ap.add_argument("--endpoint", default=default_endpoint, help="LLM HTTP endpoint.")
-    ap.add_argument("--model", default=default_model, help="LLM model identifier.")
+    ap.add_argument("--model", default=default_model, help="LLM model identifier for test generation.")
     ap.add_argument("--temperature", type=float, default=0.1)
     ap.add_argument("--max_tokens", type=int, default=2048)
     ap.add_argument("--timeout_s", type=int, default=120)
     ap.add_argument("--max_claims_per_instance", type=int, default=6)
     ap.add_argument("--api_key", default=default_api_key, help="Bearer token (defaults to CLAIM_LLM_API_KEY).")
     ap.add_argument("--dry_run", action="store_true", help="List work without hitting the LLM.")
+    ap.add_argument(
+        "--use_model_subdirs",
+        action="store_true",
+        default=True,
+        help="Use model-specific subdirectories (default: True).",
+    )
+    ap.add_argument(
+        "--no_model_subdirs",
+        action="store_false",
+        dest="use_model_subdirs",
+        help="Use legacy flat directory structure.",
+    )
     return ap.parse_args()
 
 
@@ -58,11 +81,32 @@ def ensure_import_and_function(code: str, claim_id: str) -> str:
 
 def main() -> None:
     args = parse_args()
-    claims_dir = Path(args.claims_dir).resolve()
-    out_dir = Path(args.out_dir).resolve()
+
+    # Determine paths using ModelPaths or explicit directories
+    if args.claims_dir and args.out_dir:
+        # Legacy mode: explicit directories provided
+        claims_dir = Path(args.claims_dir).resolve()
+        out_dir = Path(args.out_dir).resolve()
+    else:
+        # New mode: use ModelPaths
+        if not args.claims_model:
+            # If no claims_model specified, use the test generation model
+            claims_model = args.model
+        else:
+            claims_model = args.claims_model
+
+        paths = MultiModelPaths(
+            claims_model=claims_model,
+            tests_model=args.model,
+            use_model_subdirs=args.use_model_subdirs,
+        )
+        claims_dir = paths.claims_dir()
+        out_dir = paths.tests_root()
 
     if args.dry_run:
         print("[DRY RUN] No files will be generated.")
+        print(f"[DRY RUN] Claims directory: {claims_dir}")
+        print(f"[DRY RUN] Output directory: {out_dir}")
     else:
         out_dir.mkdir(parents=True, exist_ok=True)
 

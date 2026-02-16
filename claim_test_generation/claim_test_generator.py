@@ -77,7 +77,12 @@ def pick_primary_grounding_path(claim: Dict[str, Any]) -> Optional[str]:
     return None
 
 
-def build_testgen_messages(claim: Dict[str, Any], repo: str, instance_id: str) -> List[Dict[str, str]]:
+def build_testgen_messages(
+    claim: Dict[str, Any],
+    repo: str,
+    instance_id: str,
+    test_patch: Optional[str] = None
+) -> List[Dict[str, str]]:
     claim_id = claim.get("claim_id") or "C1"
     claim_type = claim.get("claim_type") or "unknown"
     path = pick_primary_grounding_path(claim)
@@ -96,6 +101,7 @@ def build_testgen_messages(claim: Dict[str, Any], repo: str, instance_id: str) -
         "primary_file_path": path or "None",
         "suggested_module": suggested_module,
         "claim_slug": _claim_id_slug(claim_id),
+        "test_patch": test_patch or "",
     }
     user_content = _render_prompt(template_vars)
     return [
@@ -167,8 +173,11 @@ def generate_pytest_for_claim(
     instance_id: str,
     client: VLLMClient,
     extra_messages: Optional[List[Dict[str, str]]] = None,
+    test_patch: Optional[str] = None,
 ) -> str:
-    messages = build_testgen_messages(claim, repo=repo, instance_id=instance_id)
+    messages = build_testgen_messages(
+        claim, repo=repo, instance_id=instance_id, test_patch=test_patch
+    )
     if extra_messages:
         messages.extend(extra_messages)
     raw = client.chat(messages)

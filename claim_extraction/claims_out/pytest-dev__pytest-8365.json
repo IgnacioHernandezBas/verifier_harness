@@ -16,26 +16,24 @@
   "claims": [
     {
       "claim_id": "C1",
-      "claim_type": "exception",
-      "claim_text": "When the username contains illegal characters for directory names, the creation of a temporary directory should not raise a FileNotFoundError.",
-      "given": "The username returned by getpass.getuser() contains illegal characters for directory names, e.g., 'contoso\\john_doe'.",
-      "when": "tmpdir_factory.mktemp('foobar') is called",
-      "then": "No FileNotFoundError is raised.",
+      "claim_type": "return",
+      "claim_text": "The function should return a base temporary directory path that does not contain illegal characters for directory names.",
+      "given": "The username returned by getpass.getuser() contains illegal characters for directory names.",
+      "when": "getbasetemp() is called",
+      "then": "The returned path should be a valid directory name without illegal characters.",
       "target_symbols": [
-        "tmpdir_factory.mktemp"
+        "getbasetemp",
+        "get_user"
       ],
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": {
         "spans": [
           "tmpdir creation fails when the username contains illegal characters for directory names",
-          "When trying to create a temp directory in pytest through e.g. `tmpdir_factory.mktemp('foobar')` this fails with the following error message:",
-          "E           FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\john_doe\\AppData\\Local\\Temp\\pytest-of-contoso\\john_doe'"
+          "getpass.getuser() may return characters that are not allowed for directory names"
         ]
       },
       "issue_context_refs": {
-        "cli_command_ids": [
-          1
-        ],
+        "cli_command_ids": [],
         "expected_output_block_ids": [],
         "code_block_ids": [
           0
@@ -46,17 +44,25 @@
         "status": "weak_file",
         "level": 2,
         "matched_symbols": [
-          "tmpdir_factory.mktemp"
+          "get_user",
+          "getbasetemp"
         ],
         "unmatched_symbols": [],
         "rule": "symbol_in_touched_file_not_in_diff_definition",
         "evidence": [
           {
             "type": "file_reference",
-            "symbol": "tmpdir_factory.mktemp",
+            "symbol": "getbasetemp",
             "path": "src/_pytest/tmpdir.py",
             "line": null,
-            "snippet": "...tmpdir_factory.mktemp..."
+            "snippet": "...getbasetemp..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "get_user",
+            "path": "src/_pytest/tmpdir.py",
+            "line": null,
+            "snippet": "...get_user..."
           }
         ]
       },
@@ -70,24 +76,19 @@
           },
           {
             "source": "issue",
-            "type": "direct",
-            "span": "When trying to create a temp directory in pytest through e.g. `tmpdir_factory.mk"
-          },
-          {
-            "source": "issue",
             "type": "partial",
             "overlap": "91%",
-            "span": "E           FileNotFoundError: [WinError 3] The system cannot find the path spec"
+            "span": "getpass.getuser() may return characters that are not allowed for directory names"
           }
         ],
         "verified": true
       },
-      "computed_score": 5,
+      "computed_score": 6,
       "score_factors": [
         "+1: weak_file",
         "+3: evidence_verified (issue)",
         "+1: has_observable",
-        "+0: medium_confidence"
+        "+1: high_confidence"
       ],
       "specificity": {
         "is_specific": true,
@@ -128,13 +129,13 @@
       "weak_ref": 0
     },
     "by_confidence": {
-      "high": 0,
-      "medium": 1,
+      "high": 1,
+      "medium": 0,
       "low": 0
     },
     "specificity_rate": 1.0,
     "evidence_verified_rate": 1.0,
-    "avg_score": 5.0,
+    "avg_score": 6.0,
     "parse_details": {
       "attempts": [
         {
