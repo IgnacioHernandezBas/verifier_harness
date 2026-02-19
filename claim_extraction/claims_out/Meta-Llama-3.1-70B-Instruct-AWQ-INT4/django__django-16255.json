@@ -1,0 +1,230 @@
+{
+  "instance_id": "django__django-16255",
+  "repo": "django/django",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "mentions_exception:ValueError",
+      "has_stacktrace",
+      "has_func_refs"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "get_latest_lastmod should not raise ValueError when sitemap contains no items but supports returning lastmod for an item",
+      "given": "sitemap contains no items but supports returning lastmod for an item",
+      "when": "calling get_latest_lastmod",
+      "then": "does not raise ValueError",
+      "target_symbols": [
+        "get_latest_lastmod"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "When sitemap contains not items, but supports returning lastmod for an item, it fails with a ValueError"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "get_latest_lastmod"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "get_latest_lastmod",
+            "path": "django/contrib/sitemaps/__init__.py",
+            "line": null,
+            "snippet": "...get_latest_lastmod..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "When sitemap contains not items, but supports returning lastmod for an item, it "
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "get_latest_lastmod returns None when sitemap contains no items but supports returning lastmod for an item",
+      "given": "sitemap contains no items but supports returning lastmod for an item",
+      "when": "calling get_latest_lastmod",
+      "then": "returns None",
+      "target_symbols": [
+        "get_latest_lastmod"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "except (TypeError, ValueError): return None"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "get_latest_lastmod"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "get_latest_lastmod",
+            "path": "django/contrib/sitemaps/__init__.py",
+            "line": null,
+            "snippet": "...get_latest_lastmod..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "except (TypeError, ValueError): return None"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.5,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py\", line 55, in inner\n\tresponse = get_response(request)\n File \"/usr/local/lib/python3.10/site-packages/django/core/handlers/base.py\", line 197, in _get_response\n\tresponse = wrapped_callback(request, *callback_args, **callback_kwargs)\n File \"/usr/local/lib/python3.10/site-packages/django/utils/decorators.py\", line 133, in _wrapped_view\n\tresponse = view_func(request, *args, **kwargs)\n File \"/usr/local/lib/python3.10/site-packages/django/contrib/sitemaps/views.py\", line 34, in inner\n\tresponse = func(request, *args, **kwargs)\n File \"/usr/local/lib/python3.10/site-packages/django/contrib/sitemaps/views.py\", line 76, in index\n\tsite_lastmod = site.get_latest_lastmod()\n File \"/usr/local/lib/python3.10/site-packages/django/contrib/sitemaps/__init__.py\", line 170, in get_latest_lastmod\n\treturn max([self.lastmod(item) for item in self.items()])\nException Type: ValueError at /sitemap.xml\nException Value: max() arg is an empty sequence\nSomething like this might be a solution:\n\t def get_latest_lastmod(self):\n\t\t if not hasattr(self, \"lastmod\"):\n\t\t\t return None\n\t\t if callable(self.lastmod):\n\t\t\t try:\n\t\t\t\t return max([self.lastmod(item) for item in self.items()])\n-\t\t\texcept TypeError:\n+\t\t\texcept (TypeError, ValueError):\n\t\t\t\t return None\n\t\t else:\n\t\t\t return self.lastmod",
+        "span": {
+          "start": 180,
+          "end": 1565
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "exception.py",
+        "base.py",
+        "decorators.py",
+        "views.py",
+        "site.get_latest_lastmod",
+        "__init__.py",
+        "self.lastmod",
+        "self.items",
+        "sitemap.xml"
+      ],
+      "paths": [
+        "usr/local/lib/python3.10/site-packages/django/core/handlers/exception.py",
+        "usr/local/lib/python3.10/site-packages/django/core/handlers/base.py",
+        "usr/local/lib/python3.10/site-packages/django/utils/decorators.py",
+        "usr/local/lib/python3.10/site-packages/django/contrib/sitemaps/views.py",
+        "usr/local/lib/python3.10/site-packages/django/contrib/sitemaps/__init__.py"
+      ],
+      "options": []
+    }
+  }
+}

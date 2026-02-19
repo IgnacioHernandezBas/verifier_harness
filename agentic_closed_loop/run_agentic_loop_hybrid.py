@@ -458,11 +458,18 @@ def run_verify_phase(args: argparse.Namespace) -> Dict[str, Any]:
         max_claims=1,
     )
 
-    diagnosis = diagnostics.classify_verification(result)
+    # CRITICAL FIX: Get generated code from last attempt to enable pattern detection
+    attempts = state["attempts"]
+    generated_code = ""
+    if attempts:
+        last_attempt = attempts[-1]
+        generated_code = last_attempt.get("generated_code", "")
+
+    # Pass generated_code to enable anti-pattern detection
+    diagnosis = diagnostics.classify_verification(result, generated_code=generated_code)
     print(f"Diagnosis: {diagnosis.label} - {diagnosis.details}", file=sys.stderr)
 
     # Update the current attempt with verification results
-    attempts = state["attempts"]
     if attempts:
         last_attempt = attempts[-1]
         last_attempt["verification_result"] = result

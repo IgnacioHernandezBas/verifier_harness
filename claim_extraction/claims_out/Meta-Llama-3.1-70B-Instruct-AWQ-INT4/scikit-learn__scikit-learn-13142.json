@@ -1,0 +1,221 @@
+{
+  "instance_id": "scikit-learn__scikit-learn-13142",
+  "repo": "scikit-learn/scikit-learn",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 7,
+    "reasons": [
+      "mentions_exception:AssertionError",
+      "has_stacktrace",
+      "behavior_keyword:does not",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [],
+  "ungrounded_claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "GaussianMixture fit_predict and predict should return the same results when n_init>1",
+      "given": "GaussianMixture with n_components=5 and n_init>1",
+      "when": "calling fit_predict and predict on the same data",
+      "then": "the results of fit_predict and predict are equal",
+      "target_symbols": [
+        "GaussianMixture"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "When `n_init` is specified in GaussianMixture, the results of fit_predict(X) and predict(X) are often different."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "GaussianMixture"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "GaussianMixture fit_predict and predict should not raise an exception when n_init>1",
+      "given": "GaussianMixture with n_components=5 and n_init>1",
+      "when": "calling fit_predict and predict on the same data",
+      "then": "no exception is raised",
+      "target_symbols": [
+        "GaussianMixture"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "No exceptions."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          2
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "GaussianMixture"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    }
+  ],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 7,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 0,
+    "ungrounded_claims": 2,
+    "final_claims": 0,
+    "grounding_rate": 0.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 0,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 0.0,
+    "avg_score": 0.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "python\r\nfrom sklearn.mixture import GaussianMixture\r\nfrom sklearn.utils.testing import assert_array_equal\r\nimport numpy\r\nX = numpy.random.randn(1000,5)\r\nprint 'no n_init'\r\ngm = GaussianMixture(n_components=5)\r\nc1 = gm.fit_predict(X)\r\nc2 = gm.predict(X)\r\nassert_array_equal(c1,c2)\r\nprint 'n_init=5'\r\ngm = GaussianMixture(n_components=5, n_init=5)\r\nc1 = gm.fit_predict(X)\r\nc2 = gm.predict(X)\r\nassert_array_equal(c1,c2)\r",
+        "source": "fenced",
+        "span": {
+          "start": 331,
+          "end": 757
+        }
+      },
+      {
+        "lang": "text",
+        "content": "no n_init\r\nn_init=5\r",
+        "source": "fenced",
+        "span": {
+          "start": 784,
+          "end": 813
+        }
+      },
+      {
+        "lang": "text",
+        "content": "no n_init\r\nn_init=5\r\nTraceback (most recent call last):\r\n  File \"test_gm.py\", line 17, in <module>\r\n    assert_array_equal(c1,c2)\r\n  File \"/home/scott/.local/lib/python2.7/site-packages/numpy/testing/_private/utils.py\", line 872, in assert_array_equal\r\n    verbose=verbose, header='Arrays are not equal')\r\n  File \"/home/scott/.local/lib/python2.7/site-packages/numpy/testing/_private/utils.py\", line 796, in assert_array_compare\r\n    raise AssertionError(msg)\r\nAssertionError: \r\nArrays are not equal\r\n\r\n(mismatch 88.6%)\r\n x: array([4, 0, 1, 1, 1, 3, 3, 4, 4, 2, 0, 0, 1, 2, 0, 2, 0, 1, 3, 1, 1, 3,\r\n       2, 1, 0, 2, 1, 0, 2, 0, 3, 1, 2, 3, 3, 1, 0, 2, 2, 0, 3, 0, 2, 0,\r\n       4, 2, 3, 0, 4, 2, 4, 1, 0, 2, 2, 1, 3, 2, 1, 4, 0, 2, 2, 1, 1, 2,...\r\n y: array([4, 1, 0, 2, 2, 1, 1, 4, 4, 0, 4, 1, 0, 3, 1, 0, 2, 2, 1, 2, 0, 0,\r\n       1, 0, 4, 1, 0, 4, 0, 1, 1, 2, 3, 1, 4, 0, 1, 4, 4, 4, 0, 1, 0, 2,\r\n       4, 1, 1, 2, 4, 3, 4, 0, 2, 3, 2, 3, 0, 0, 2, 3, 3, 3, 3, 0, 3, 2,...\r",
+        "source": "fenced",
+        "span": {
+          "start": 854,
+          "end": 1841
+        }
+      },
+      {
+        "lang": "text",
+        "content": "System:\r\n    python: 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]\r\n   machine: Linux-4.15.0-43-generic-x86_64-with-Ubuntu-18.04-bionic\r\nexecutable: /usr/bin/python\r\n\r\nBLAS:\r\n    macros: HAVE_CBLAS=None, NO_ATLAS_INFO=-1\r\ncblas_libs: cblas\r\n  lib_dirs: /usr/lib/x86_64-linux-gnu\r\n\r\nPython deps:\r\n    Cython: 0.28.5\r\n     scipy: 1.2.0\r\nsetuptools: 39.0.1\r\n       pip: 19.0.1\r\n     numpy: 1.16.0\r\n    pandas: 0.23.1\r\n   sklearn: 0.20.2\r",
+        "source": "fenced",
+        "span": {
+          "start": 1860,
+          "end": 2313
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\nfrom sklearn.mixture import GaussianMixture\r\nfrom sklearn.utils.testing import assert_array_equal\r\nimport numpy\r\nX = numpy.random.randn(1000,5)\r\nprint 'no n_init'\r\ngm = GaussianMixture(n_components=5)\r\nc1 = gm.fit_predict(X)\r\nc2 = gm.predict(X)\r\nassert_array_equal(c1,c2)\r\nprint 'n_init=5'\r\ngm = GaussianMixture(n_components=5, n_init=5)\r\nc1 = gm.fit_predict(X)\r\nc2 = gm.predict(X)\r\nassert_array_equal(c1,c2)",
+        "span": {
+          "start": 333,
+          "end": 755
+        }
+      },
+      {
+        "command": "System:\r\n    python: 2.7.15rc1 (default, Nov 12 2018, 14:31:15)  [GCC 7.3.0]\r\n   machine: Linux-4.15.0-43-generic-x86_64-with-Ubuntu-18.04-bionic\r\nexecutable: /usr/bin/python\r\n\r\nBLAS:\r\n    macros: HAVE_CBLAS=None, NO_ATLAS_INFO=-1\r\ncblas_libs: cblas\r\n  lib_dirs: /usr/lib/x86_64-linux-gnu\r\n\r\nPython deps:\r\n    Cython: 0.28.5\r\n     scipy: 1.2.0\r\nsetuptools: 39.0.1\r\n       pip: 19.0.1\r\n     numpy: 1.16.0\r\n    pandas: 0.23.1\r\n   sklearn: 0.20.2",
+        "span": {
+          "start": 1862,
+          "end": 2311
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"test_gm.py\", line 17, in <module>\r\n    assert_array_equal(c1,c2)\r\n  File \"/home/scott/.local/lib/python2.7/site-packages/numpy/testing/_private/utils.py\", line 872, in assert_array_equal\r\n    verbose=verbose, header='Arrays are not equal')\r\n  File \"/home/scott/.local/lib/python2.7/site-packages/numpy/testing/_private/utils.py\", line 796, in assert_array_compare\r\n    raise AssertionError(msg)\r\nAssertionError: \r\nArrays are not equal",
+        "span": {
+          "start": 880,
+          "end": 1359
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "sklearn.mixture",
+        "sklearn.utils",
+        "numpy.random",
+        "gm.fit_predict",
+        "gm.predict",
+        "test_gm.py",
+        "utils.py"
+      ],
+      "paths": [
+        "test_gm.py",
+        "home/scott/.local/lib/python2.7/site-packages/numpy/testing/_private/utils.py"
+      ],
+      "options": []
+    }
+  }
+}

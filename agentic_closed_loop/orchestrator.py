@@ -244,10 +244,14 @@ class LoopOrchestrator:
             if len(set(recent_labels)) == 1 and recent_labels[0]:
                 # Same error 3 times in a row - check if it's a type we should exit on
                 error_label = recent_labels[0]
-                # Exit on repeated failures that indicate the LLM is not learning
+                # CRITICAL FIX: Exit on repeated failures that indicate the LLM is not learning
+                # Added "internal_import_error" and other stuck patterns
                 if error_label in [
                     "signature_mismatch", "import_error", "fixture_missing",
-                    "signature_check", "import_check_failed", "probe_check_failed"
+                    "signature_check", "import_check_failed", "probe_check_failed",
+                    "internal_import_error",  # FIX: Was missing, caused UNRESOLVED instances to waste attempts
+                    "mocking_error",  # Also exit on repeated mocking issues
+                    "environment_error"  # Environment issues won't be fixed by retrying
                 ] or error_label.startswith("stuck_in_guardrail_loop_"):
                     return {
                         "should_exit": True,

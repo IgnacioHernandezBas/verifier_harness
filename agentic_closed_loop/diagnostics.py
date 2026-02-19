@@ -114,7 +114,7 @@ def _extract_error_summary(test_run: Dict[str, Any], max_lines: int = 15) -> str
     return '\n'.join(lines[-max_lines:]) if lines else "No output captured"
 
 
-def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any]) -> Tuple[str, str]:
+def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any], generated_code: str = "") -> Tuple[str, str]:
     bug_status = bug.get("status")
     gold_status = gold.get("status")
     combined = f"{_collect_outputs(bug)}\n{_collect_outputs(gold)}"
@@ -124,20 +124,37 @@ def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any]) -> Tuple[str, str]
 
     # Check for internal/private module import errors FIRST (more specific)
     if ("importerror" in combined or "modulenotfounderror" in combined or "module not found" in combined):
-        # Check if it's importing from internal modules
-        if any(pattern in combined for pattern in ["_pytest", "from _", "._internal", "._private"]):
-            bug_errors = _extract_error_summary(bug)
+        bug_errors = _extract_error_summary(bug)
 
-            # Check if this is pytest's own initialization failure (not test code)
-            if "_pytest._version" in combined or "pytest/__init__.py" in combined:
-                return "environment_error", (
-                    f"Pytest installation is broken in the test environment.\n"
-                    f"This is NOT a test code issue - pytest itself cannot initialize.\n\n"
-                    f"🔧 The test code appears correct, but the pytest environment is broken.\n"
-                    f"This typically means the container or environment setup failed.\n\n"
-                    f"Error details:\n{bug_errors}"
-                )
+        # CRITICAL FIX: Check if this is pytest's own initialization failure (not test code)
+        if "_pytest._version" in combined or "pytest/__init__.py" in combined:
+            return "environment_error", (
+                f"Pytest installation is broken in the test environment.\n"
+                f"This is NOT a test code issue - pytest itself cannot initialize.\n\n"
+                f"🔧 The test code appears correct, but the pytest environment is broken.\n"
+                f"This typically means the container or environment setup failed.\n\n"
+                f"Error details:\n{bug_errors}"
+            )
 
+        # CRITICAL FIX: Only classify as internal_import_error if the TEST CODE has internal imports
+        # Don't just check the error output (which includes stack traces with _pytest paths)
+        has_internal_import_in_code = False
+        if generated_code:
+            # Check if the actual test code imports from internal modules
+            from .pattern_detector import detect_internal_import_attempt
+            internal_import_pattern = detect_internal_import_attempt(generated_code)
+            has_internal_import_in_code = internal_import_pattern is not None
+        else:
+            # Fallback: check if error mentions internal imports in a way that suggests test code issue
+            # Be more specific - look for "from _pytest" or "import _pytest" in the actual error line
+            if any(pattern in combined for pattern in [
+                "from _pytest", "import _pytest",
+                "from _internal", "import _internal",
+                "from _private", "import _private"
+            ]):
+                has_internal_import_in_code = True
+
+        if has_internal_import_in_code:
             return "internal_import_error", (
                 f"Test imports from internal/private modules (e.g., _pytest.*).\n"
                 f"These modules are NOT available in the test environment.\n\n"
@@ -156,6 +173,26 @@ def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any]) -> Tuple[str, str]
     # Generic import errors (after checking for internal imports)
     if "importerror" in combined or "module not found" in combined:
         bug_errors = _extract_error_summary(bug)
+
+        # Extract the actual import error to provide better guidance
+        import re
+        # Look for "cannot import name 'X' from 'Y'"
+        import_match = re.search(r"cannot import name ['\"]([^'\"]+)['\"] from ['\"]([^'\"]+)['\"]", combined, re.IGNORECASE)
+        if import_match:
+            name = import_match.group(1)
+            module = import_match.group(2)
+            return "import_error", (
+                f"Cannot import '{name}' from '{module}'.\n\n"
+                f"🔧 POSSIBLE FIXES:\n"
+                f"1. The symbol '{name}' may not exist in module '{module}'\n"
+                f"   - Check the grounding evidence for the correct module/function name\n"
+                f"   - Look at imports in the test_patch files - they show working imports\n"
+                f"2. The symbol may be in a different submodule\n"
+                f"   - Try importing from the parent package: from {module.split('.')[0]} import {name}\n"
+                f"3. The symbol name may be slightly different (check capitalization, underscores)\n\n"
+                f"Error details:\n{bug_errors}"
+            )
+
         return "import_error", f"Import failed while running the test.\n\nError details:\n{bug_errors}"
 
     if "missing 1 required positional argument" in combined or "missing required positional argument" in combined:
@@ -278,7 +315,8 @@ def classify_verification(
             return Diagnosis(label="other", details=result["error"])
         return Diagnosis(label="other", details="No tests executed.")
 
-    label, details = _classify_pair(tests[0]["bug"], tests[0]["gold"])
+    # CRITICAL FIX: Pass generated_code to _classify_pair for accurate classification
+    label, details = _classify_pair(tests[0]["bug"], tests[0]["gold"], generated_code=generated_code or "")
 
     # Detect anti-patterns if code is provided
     patterns = []
