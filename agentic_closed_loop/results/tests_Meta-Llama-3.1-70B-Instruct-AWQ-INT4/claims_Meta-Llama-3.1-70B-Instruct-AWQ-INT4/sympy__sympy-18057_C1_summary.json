@@ -1,0 +1,61 @@
+{
+  "instance_id": "sympy__sympy-18057",
+  "claim_id": "C1",
+  "timestamp": "2026-02-18T21:52:03.489972",
+  "slurm_job_id": "6283217",
+  "models": {
+    "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  },
+  "status": "success",
+  "total_attempts": 6,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": true,
+    "classification": "VALID",
+    "bug": "FAIL",
+    "gold": "PASS"
+  },
+  "failure_reason": null,
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:32: in test_claim_c1\n    _ = sympy.Symbol('x') == E()\nE   Failed: DID NOT RAISE <class 'AttributeError'>\n=============================== warnings summary ===============================\n.pip_packages/_pytest/config/__init__.py:1474\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 - Failed: DID NOT RAISE <class 'AttributeError'>\n======================== 1 failed, 2 warnings in 0.19s =========================\n"
+    },
+    {
+      "attempt": 2,
+      "status": "unknown",
+      "issue": "other: Unhandled combination"
+    },
+    {
+      "attempt": 3,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_claim_c1 _________________________________\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:22: in test_claim_c1\n    assert not hasattr(C(), '__eq__')\nE   AssertionError: assert not True\nE    +  where True = hasattr(x.y, '__eq__')\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:22: in test_claim_c1\n    assert not hasattr(C(), '__eq__')\nE   AssertionError: assert not True\nE    +  where True = hasattr(x.y, '__eq__')\nE    +    where x.y = <class 'sympy__sympy_18057__test_claim_c1.test_claim_c1.<locals>.C'>()"
+    },
+    {
+      "attempt": 4,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n<string>:1: in <module>\n    ???\nE   AttributeError: 'Symbol' object has no attribute 'y'\n\nDuring handling of the above exception, another exception occurred:\nE   AttributeError: 'Symbol' object has no attribute 'y'\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:141: in test_claim_c1\n    pytest.fail(\"Test raised an AttributeError\")"
+    },
+    {
+      "attempt": 5,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n<string>:1: in <module>\n    ???\nE   AttributeError: 'Symbol' object has no attribute 'y'\n\nDuring handling of the above exception, another exception occurred:\nE   AttributeError: 'Symbol' object has no attribute 'y'\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:19: in test_claim_c1\n    pytest.fail(\"Test raised an AttributeError\")"
+    },
+    {
+      "attempt": 6,
+      "status": "unknown",
+      "issue": "success: Observed discriminative claim-test."
+    }
+  ],
+  "files": {
+    "state_file": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/sympy__sympy-18057_C1.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py",
+    "slurm_logs": {
+      "out": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283217.out",
+      "err": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283217.err",
+      "vllm": "agentic_closed_loop/scripts_slurm/logs/vllm_hybrid_6283217.log"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "instance_id": "psf__requests-2148",
+  "claim_id": "C1",
+  "timestamp": "2026-02-18T20:47:59.099891",
+  "slurm_job_id": "6283198",
+  "models": {
+    "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  },
+  "status": "non_discriminative",
+  "total_attempts": 2,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": false,
+    "classification": "NON_DISCRIMINATIVE",
+    "bug": "PASS",
+    "gold": "PASS"
+  },
+  "failure_reason": "Test does not discriminate between bug and gold",
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "guardrail_failed",
+      "issue": "signature_check: 🔍 SIGNATURE CHECK FAILED\n\nThe following symbols were not found in module 'requests.models':\n  'Response.iter_content'\n\n💡 POSSIBLE FIXES:\n1. Check if these symbols exist in a different module\n   - Try importing directly: 'import Response' instead\n   - Or look in related modules (check the issue context for correct imports)\n\n2. The symbol might be in the same package but different submodule\n   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'\n   - Try: from sympy import Symbol  (imports work across submodules)\n\n3. Look at the test_patch files in the issue - they show working imports\n\n"
+    },
+    {
+      "attempt": 2,
+      "status": "unknown",
+      "issue": "non_discriminative: Both variants pass. Claim may not capture bug."
+    }
+  ],
+  "files": {
+    "state_file": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/psf__requests-2148/psf__requests_2148__test_claim_c1.py",
+    "slurm_logs": {
+      "out": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.out",
+      "err": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.err",
+      "vllm": "agentic_closed_loop/scripts_slurm/logs/vllm_hybrid_6283198.log"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pytest-dev__pytest-8365
+Claim:          C2
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Timestamp:      2026-02-18T21:30:51.036454
+SLURM Job:      6283211
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       3 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      internal_import_error: Test imports from internal/private modules (e.g., _pytest.*).
+These modules are NOT available in the test environment.
+
+🔧 FIX: Use ONLY public API imports:
+  ✅ import pytest
+  ✅ Use pytest fixtures: tmpdir, tmp_path, monkeypatch, etc.
+  ❌ from _pytest.* import anything
+
+💡 EXAMPLES:
+  Instead of: from _pytest.tmpdir import TempdirFactory
+  Use:        def test(tmpdir):  # Use pytest's built-in tmpdir fixture
+
+  Instead of: from _pytest.monkeypatch import MonkeyPatch
+  Use:        def test(monkeypatch):  # Use pytest's built-in fixture
+
+Error details:
+cachedir: .pytest_cache
+rootdir: /workspace, configfile: pyproject.toml
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+Hint: make sure your test modules/packages have valid Python names.
+
+🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
+   You tried: pytest.tmpdir
+   In line: from _pytest.tmpdir import getbasetemp
+   But 'tmpdir' is a FIXTURE, not a module attribute!
+   Fix: Add 'tmpdir' as a function parameter instead.
+
+
+🎯 **DETECTED ANTI-PATTERN**: Internal module import
+   You tried: from _pytest.tmpdir import getbasetemp
+   But internal modules (starting with _) are NOT available!
+   Fix: Use public APIs and fixtures instead.
+
+
+  [2] UNKNOWN
+      internal_import_error: Both variants pass. Claim may not capture bug.
+
+🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
+   You tried: pytest.tmpdir
+   In line: from src._pytest.tmpdir import getbasetemp
+   But 'tmpdir' is a FIXTURE, not a module attribute!
+   Fix: Add 'tmpdir' as a function parameter instead.
+
+
+🎯 **DETECTED ANTI-PATTERN**: Internal module import
+   You tried: from src._pytest.tmpdir import getbasetemp
+   But internal modules (starting with _) are NOT available!
+   Fix: Use public APIs and fixtures instead.
+
+
+  [3] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c2.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-8365_C2.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283211.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283211.err
+================================================================================

@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-13660",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "Testing against Django installed in '/testbed/django'\nImporting application shell\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\ntest_command_option (shell.tests.ShellCommandTestCase) ... ok\ntest_command_option_globals (shell.tests.ShellCommandTestCase) ... FAIL\ntest_command_option_inline_function_call (shell.tests.ShellCommandTestCase) ... ok\ntest_shell_with_bpython_not_installed (shell.tests.ShellCommandTestCase) ... ok\ntest_shell_with_ipython_not_installed (shell.tests.ShellCommandTestCase) ... ok\ntest_stdin_read (shell.tests.ShellCommandTestCase) ... ok\ntest_stdin_read_globals (shell.tests.ShellCommandTestCase) ... FAIL\ntest_stdin_read_inline_function_call (shell.tests.ShellCommandTestCase) ... ok\n\n======================================================================\nFAIL: test_command_option_globals (shell.tests.ShellCommandTestCase)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/shell/tests.py\", line 34, in test_command_option_globals\n    self.assertEqual(stdout.getvalue().strip(), 'True')\nAssertionError: 'False' != 'True'\n- False\n+ True\n\n\n======================================================================\nFAIL: test_stdin_read_globals (shell.tests.ShellCommandTestCase)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/opt/miniconda3/envs/testbed/lib/python3.6/unittest/mock.py\", line 1183, in patched\n    return func(*args, **keywargs)\n  File \"/testbed/tests/shell/tests.py\", line 60, in test_stdin_read_globals\n    self.assertEqual(stdout.getvalue().strip(), 'True')\nAssertionError: 'False' != 'True'\n- False\n+ True\n\n\n----------------------------------------------------------------------\nRan 8 tests in 0.008s\n\nFAILED (failures=2)\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 165.4233682155609
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "instance_id": "astropy__astropy-12907",
+    "static": null,
+    "swebench": {
+      "success": false,
+      "exit_code": -1,
+      "test_output": "",
+      "coverage_data": null,
+      "error": "Failed to pull image: time=\"2026-01-12T11:16:36-05:00\" level=error msg=\"cannot find UID/GID for user ihbas: no subuid ranges found for user \\\"ihbas\\\" in /etc/subuid - check rootless mode in man pages.\"\ntime=\"2026-01-12T11:16:36-05:00\" level=warning msg=\"Using rootless single mapping into the namespace. This might break some images. Check /etc/subuid and /etc/subgid for adding sub*ids if not using a network user\"\nTrying to pull docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest...\nGetting image source signatures\nCopying blob sha256:7cd589973a38d9da84f5bedd88df596ac1732601ef0ccba5d73acb77166bbd6f\nCopying blob sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498\nCopying blob sha256:72a765079ad33d1aec75d6f6e9ccba99d4fe2079b79ff2f9de47e73ee173e1b3\nCopying blob sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\nCopying blob sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713\nCopying blob sha256:3ab6df53b88e07a392eb662288ce79c34340be50dd16cb005562b57b5bdd9194\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:ac19725aedcbe86627b5caf52e01e99911b8d306f61233dde83140ae6547f638\nCopying blob sha256:b40e3501b4c699c5deddcfde6f236b24306ba942199c64147649a77b1c0fba66\nCopying blob sha256:4485e2b8dc6a4d9ee84cbe3365c7a821c7b70a775e773ec867a50760f9a7b8da\nCopying blob sha256:7340c0fa6812dcb4b9975487e211f874ef5e98d5d7fec90d2b20db5878781fd9\nCopying blob sha256:f8c18ceb58cbf12f243c43b85061c3936c7f78e1aee0e5a84cb9beff32e05c53\nCopying blob sha256:a60c7f69477fa769be31d866bdf344ca39df2d444b181d9c262e6e2b519a32b7\nCopying blob sha256:2073288870e5e6406f4ea2799e5bb6e6c60b994b6efa6fd366ff4ff5842a3c38\nError: writing blob: adding layer with blob \"sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\": processing tar file(potentially insufficient UIDs or GIDs available in user namespace (requested 0:42 for /etc/gshadow): Check /etc/subuid and /etc/subgid if configured locally and run \"podman system migrate\": lchown /etc/gshadow: invalid argument): exit status 1\n",
+      "execution_time": 10.16589617729187
+    },
+    "fuzzing": {
+      "success": false,
+      "exit_code": -1,
+      "test_output": "",
+      "coverage_data": null,
+      "error": "Failed to pull image: Trying to pull docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-12907:latest...\nGetting image source signatures\nCopying blob sha256:7cd589973a38d9da84f5bedd88df596ac1732601ef0ccba5d73acb77166bbd6f\nCopying blob sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498\nCopying blob sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\nCopying blob sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713\nCopying blob sha256:3ab6df53b88e07a392eb662288ce79c34340be50dd16cb005562b57b5bdd9194\nCopying blob sha256:72a765079ad33d1aec75d6f6e9ccba99d4fe2079b79ff2f9de47e73ee173e1b3\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:ac19725aedcbe86627b5caf52e01e99911b8d306f61233dde83140ae6547f638\nCopying blob sha256:b40e3501b4c699c5deddcfde6f236b24306ba942199c64147649a77b1c0fba66\nCopying blob sha256:4485e2b8dc6a4d9ee84cbe3365c7a821c7b70a775e773ec867a50760f9a7b8da\nCopying blob sha256:7340c0fa6812dcb4b9975487e211f874ef5e98d5d7fec90d2b20db5878781fd9\nCopying blob sha256:f8c18ceb58cbf12f243c43b85061c3936c7f78e1aee0e5a84cb9beff32e05c53\nCopying blob sha256:a60c7f69477fa769be31d866bdf344ca39df2d444b181d9c262e6e2b519a32b7\nCopying blob sha256:2073288870e5e6406f4ea2799e5bb6e6c60b994b6efa6fd366ff4ff5842a3c38\nError: writing blob: adding layer with blob \"sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\": processing tar file(potentially insufficient UIDs or GIDs available in user namespace (requested 0:42 for /etc/gshadow): Check /etc/subuid and /etc/subgid if configured locally and run \"podman system migrate\": lchown /etc/gshadow: invalid argument): exit status 1\n",
+      "execution_time": 9.369682550430298
+    },
+    "invariance": null,
+    "overall_verdict": "FAIL_SWEBENCH",
+    "errors": []
+  },
+  {
+    "instance_id": "astropy__astropy-14182",
+    "static": null,
+    "swebench": {
+      "success": false,
+      "exit_code": -1,
+      "test_output": "",
+      "coverage_data": null,
+      "error": "Failed to pull image: Trying to pull docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14182:latest...\nGetting image source signatures\nCopying blob sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498\nCopying blob sha256:7cd589973a38d9da84f5bedd88df596ac1732601ef0ccba5d73acb77166bbd6f\nCopying blob sha256:3ab6df53b88e07a392eb662288ce79c34340be50dd16cb005562b57b5bdd9194\nCopying blob sha256:72a765079ad33d1aec75d6f6e9ccba99d4fe2079b79ff2f9de47e73ee173e1b3\nCopying blob sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\nCopying blob sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:ac19725aedcbe86627b5caf52e01e99911b8d306f61233dde83140ae6547f638\nCopying blob sha256:b40e3501b4c699c5deddcfde6f236b24306ba942199c64147649a77b1c0fba66\nCopying blob sha256:4485e2b8dc6a4d9ee84cbe3365c7a821c7b70a775e773ec867a50760f9a7b8da\nCopying blob sha256:7340c0fa6812dcb4b9975487e211f874ef5e98d5d7fec90d2b20db5878781fd9\nCopying blob sha256:90a13d791f17d7d48cecc435f7a8257ea3ad3303c3a68a86e7d8603925c8a23e\nCopying blob sha256:90a13d791f17d7d48cecc435f7a8257ea3ad3303c3a68a86e7d8603925c8a23e\nCopying blob sha256:5f2e524146716ca4df197c3ddb7828c89cb6eada08763894fd1385b32903e84a\nError: writing blob: adding layer with blob \"sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\": processing tar file(potentially insufficient UIDs or GIDs available in user namespace (requested 0:42 for /etc/gshadow): Check /etc/subuid and /etc/subgid if configured locally and run \"podman system migrate\": lchown /etc/gshadow: invalid argument): exit status 1\n",
+      "execution_time": 7.974653482437134
+    },
+    "fuzzing": {
+      "success": false,
+      "exit_code": -1,
+      "test_output": "",
+      "coverage_data": null,
+      "error": "Failed to pull image: Trying to pull docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14182:latest...\nGetting image source signatures\nCopying blob sha256:7cd589973a38d9da84f5bedd88df596ac1732601ef0ccba5d73acb77166bbd6f\nCopying blob sha256:3f7fc75e098692fef95499de3ebd855ff26e4a49e6d8092d129db82576327498\nCopying blob sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\nCopying blob sha256:f8d2d48431b18d78fdd3c59ffce6a53ae59d99023280293b18276cae8234a713\nCopying blob sha256:72a765079ad33d1aec75d6f6e9ccba99d4fe2079b79ff2f9de47e73ee173e1b3\nCopying blob sha256:3ab6df53b88e07a392eb662288ce79c34340be50dd16cb005562b57b5bdd9194\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:dbd6e9df81f023d52d91dd5ea558a412fda054b2e622a55c5296d955185e794d\nCopying blob sha256:ac19725aedcbe86627b5caf52e01e99911b8d306f61233dde83140ae6547f638\nCopying blob sha256:b40e3501b4c699c5deddcfde6f236b24306ba942199c64147649a77b1c0fba66\nCopying blob sha256:4485e2b8dc6a4d9ee84cbe3365c7a821c7b70a775e773ec867a50760f9a7b8da\nCopying blob sha256:7340c0fa6812dcb4b9975487e211f874ef5e98d5d7fec90d2b20db5878781fd9\nCopying blob sha256:90a13d791f17d7d48cecc435f7a8257ea3ad3303c3a68a86e7d8603925c8a23e\nCopying blob sha256:90a13d791f17d7d48cecc435f7a8257ea3ad3303c3a68a86e7d8603925c8a23e\nCopying blob sha256:5f2e524146716ca4df197c3ddb7828c89cb6eada08763894fd1385b32903e84a\nError: writing blob: adding layer with blob \"sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff\": processing tar file(potentially insufficient UIDs or GIDs available in user namespace (requested 0:42 for /etc/gshadow): Check /etc/subuid and /etc/subgid if configured locally and run \"podman system migrate\": lchown /etc/gshadow: invalid argument): exit status 1\n",
+      "execution_time": 12.699554204940796
+    },
+    "invariance": null,
+    "overall_verdict": "FAIL_SWEBENCH",
+    "errors": []
+  }
+]

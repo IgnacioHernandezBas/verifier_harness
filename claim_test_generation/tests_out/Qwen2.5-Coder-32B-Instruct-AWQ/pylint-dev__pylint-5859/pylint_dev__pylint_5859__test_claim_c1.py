@@ -1,41 +1,38 @@
-# Checklist TODO: Test module imports correctly.
-# Checklist TODO: Verify fixme warnings are generated for specified tags.
-# Checklist TODO: Ensure no false positives for non-matching tags.
 import pytest
 from pylint.checkers.misc import MiscChecker
-from pylint.lint import PyLinter
+from pylint.testutils import CheckerTestCase, MessageTest, set_config
 from pylint.utils import tokenize_module
 
-def test_claim_c1(tmpdir):
-    # Test module imports correctly.
-    from pylint.checkers.misc import MiscChecker
+class TestPylintFixmeWarning(CheckerTestCase):
+    CHECKER_CLASS = MiscChecker
 
-    # Create a temporary file with contents '# YES: yes' and '# ???: no'.
-    test_file = tmpdir.join("test.py")
-    test_file.write("# YES: yes\n# ???: no\n")
+    @set_config(notes=["???"])
+    def test_claim_c1(self, capsys):
+        # Given: A note tag specified with the --notes option is entirely punctuation.
+        code = """a = 1
+                #???
+                """
+        # When: Running pylint with the --notes option.
+        with self.assertAddsMessages(
+            MessageTest(msg_id="fixme", line=2, args="???", col_offset=17)
+        ):
+            self.checker.process_tokens(tokenize_module(code))
 
-    # Set the --notes option to include 'YES,???' in the pylint configuration.
-    linter = PyLinter()
-    linter.load_default_plugins()
-    linter.set_option('notes', ['YES', '???'])
-    checker = MiscChecker(linter)
-    linter.register_checker(checker)
+        # Then: Pylint returns a fixme warning (W0511) for the note tag.
+        captured = capsys.readouterr()
+        assert "W0511: fixme" in captured.out
 
-    # Given: The --notes option is set to include 'YES,???' and the source file contains '# YES: yes' and '# ???: no'.
-    # When: pylint.process_tokens is called with tokens containing '# YES: yes' and '# ???: no'.
-    with open(test_file, 'r') as f:
-        tokens = tokenize_module(f.read(), test_file.strpath)
+        # Test captures W0511 warning for punctuation-only note tags.
+        # Verify no W0511 warning for non-punctuation note tags.
+        code_no_punctuation = """a = 1
+                                # TODO: fix this
+                                """
+        with self.assertNoMessages():
+            self.checker.process_tokens(tokenize_module(code_no_punctuation))
 
-    # Then: pylint should return fixme warnings for both lines.
-    with pytest.raises(AssertionError) as excinfo:
-        linter.check([test_file.strpath])
-    assert "W0511: YES: yes (fixme)" in str(excinfo.value)
-    assert "W0511: ???: no (fixme)" in str(excinfo.value)
-
-    # Ensure no false positives for non-matching tags.
-    test_file.write("# OTHER: no\n")
-    with open(test_file, 'r') as f:
-        tokens = tokenize_module(f.read(), test_file.strpath)
-    with pytest.raises(AssertionError) as excinfo:
-        linter.check([test_file.strpath])
-    assert "W0511: OTHER: no (fixme)" not in str(excinfo.value)
+        # Ensure correct handling of empty note tags.
+        code_empty_tag = """a = 1
+                            # 
+                            """
+        with self.assertNoMessages():
+            self.checker.process_tokens(tokenize_module(code_empty_tag))

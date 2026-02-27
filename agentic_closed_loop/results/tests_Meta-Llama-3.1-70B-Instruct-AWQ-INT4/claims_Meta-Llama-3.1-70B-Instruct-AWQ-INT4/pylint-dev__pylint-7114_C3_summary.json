@@ -1,0 +1,41 @@
+{
+  "instance_id": "pylint-dev__pylint-7114",
+  "claim_id": "C3",
+  "timestamp": "2026-02-18T21:24:18.628257",
+  "slurm_job_id": "6283205",
+  "models": {
+    "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  },
+  "status": "non_discriminative",
+  "total_attempts": 2,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": false,
+    "classification": "NON_DISCRIMINATIVE",
+    "bug": "PASS",
+    "gold": "PASS"
+  },
+  "failure_reason": "Test does not discriminate between bug and gold",
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\nclaim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:30: in test_claim_c1\n    expand_modules.expand_modules(['path/to/module'])\nE   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n\nDuring handling of the above exception, another exception occurred:\nE   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:36: in test_claim_c1\n    pytest.fail(f\"Test failed with error: {e}\")"
+    },
+    {
+      "attempt": 2,
+      "status": "unknown",
+      "issue": "non_discriminative: Both variants pass. Claim may not capture bug."
+    }
+  ],
+  "files": {
+    "state_file": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-7114_C3.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c3.py",
+    "slurm_logs": {
+      "out": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283205.out",
+      "err": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283205.err",
+      "vllm": "agentic_closed_loop/scripts_slurm/logs/vllm_hybrid_6283205.log"
+    }
+  }
+}

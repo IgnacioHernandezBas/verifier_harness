@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-15388",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "test_get_template_directories (template_tests.test_autoreloader.Jinja2TemplateReloadTests) ... ok\ntest_reset_all_loaders (template_tests.test_autoreloader.Jinja2TemplateReloadTests) ... ok\ntest_watch_for_template_changes (template_tests.test_autoreloader.Jinja2TemplateReloadTests) ... ok\ntest_get_template_directories (template_tests.test_autoreloader.TemplateReloadTests) ... ok\ntest_non_template_changed (template_tests.test_autoreloader.TemplateReloadTests) ... ok\ntest_non_template_changed_in_template_directory (template_tests.test_autoreloader.TemplateReloadTests) ... FAIL\ntest_reset_all_loaders (template_tests.test_autoreloader.TemplateReloadTests) ... ok\ntest_template_changed (template_tests.test_autoreloader.TemplateReloadTests) ... ok\ntest_template_dirs_normalized_to_paths (template_tests.test_autoreloader.TemplateReloadTests) ... ok\ntest_watch_for_template_changes (template_tests.test_autoreloader.TemplateReloadTests) ... ok\n\n======================================================================\nFAIL: test_non_template_changed_in_template_directory (template_tests.test_autoreloader.TemplateReloadTests)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/django/test/utils.py\", line 437, in inner\n    return func(*args, **kwargs)\n  File \"/opt/miniconda3/envs/testbed/lib/python3.9/unittest/mock.py\", line 1336, in patched\n    return func(*newargs, **newkeywargs)\n  File \"/testbed/tests/template_tests/test_autoreloader.py\", line 52, in test_non_template_changed_in_template_directory\n    self.assertIsNone(autoreload.template_changed(None, Path(__file__)))\nAssertionError: True is not None\n\n----------------------------------------------------------------------\nRan 10 tests in 0.010s\n\nFAILED (failures=1)\nTesting against Django installed in '/testbed/django'\nImporting application template_tests\nFound 10 test(s).\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 210.02823519706726
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

@@ -120,39 +120,35 @@
           }
         ]
       },
-      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
-      "generated_code": "import pytest\nfrom pytest import raises\n\ndef test_claim_c1(capsys):\n    # Given: A LookupError is raised with a multi-line error message\n    # When: calling str() on the pytest.raises context variable\n    # Then: returns the full error message, including all lines\n\n    # Checklist: Test passes with multi-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"A\\nB\\nC\")\n    captured = capsys.readouterr()\n    assert \"A\\nB\\nC\" in str(e.value)\n\n    # Checklist: Test fails with single-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"Single line\")\n    captured = capsys.readouterr()\n    assert \"Single line\" in str(e.value)\n\n    # Checklist: Test handles non-LookupError exceptions correctly\n    with raises(ValueError) as e:\n        raise ValueError(\"Non-LookupError exception\")\n    captured = capsys.readouterr()\n    assert \"Non-LookupError exception\" in str(e.value)\n\n    # Edge case: Single-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"Single line\")\n    captured = capsys.readouterr()\n    assert \"Single line\" in str(e.value)\n\n    # Edge case: Error message with non-string lines\n    with raises(LookupError) as e:\n        raise LookupError([\"A\", \"B\", \"C\"])\n    captured = capsys.readouterr()\n    assert \"['A', 'B', 'C']\" in str(e.value)\n\n    # Edge case: Non-LookupError exception\n    with raises(ValueError) as e:\n        raise ValueError(\"Non-LookupError exception\")\n    captured = capsys.readouterr()\n    assert \"Non-LookupError exception\" in str(e.value)\n",
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
+      "generated_code": "import pytest\n\ndef test_claim_c1():\n    # Test verifies str() returns full multi-line error message\n    # Given: A LookupError is raised with a multi-line error message\n    multi_line_error_message = \"A\\nB\\nC\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(multi_line_error_message)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == multi_line_error_message\n\n    # Handles error messages without newline characters\n    # Given: A LookupError is raised with a single-line error message\n    single_line_error_message = \"SingleLineError\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(single_line_error_message)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == single_line_error_message\n\n    # Consistently includes all lines in the error message\n    # Given: A LookupError is raised with a multi-line error message including leading and trailing newlines\n    multi_line_error_message_with_newlines = \"\\nA\\nB\\nC\\n\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(multi_line_error_message_with_newlines)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == multi_line_error_message_with_newlines\n",
       "test_sketch": {
-        "strategy": "Exercise __str__ with LookupError",
+        "strategy": "Import src._pytest._code.code and exercise __str__ using parameters implied by the claim text.",
         "assertions": [
-          "str(e) returns the full error message",
-          "str(e) includes all lines of the error message"
+          "returns the full error message, including all lines"
         ],
-        "fixtures": [
-          "capsys"
-        ],
+        "fixtures": [],
         "data_setup": [
-          "Create a LookupError with a multi-line error message",
-          "Raise the LookupError and catch it with pytest.raises"
+          "A LookupError is raised with a multi-line error message"
         ],
         "edge_cases": [
-          "Single-line error message",
-          "Error message with non-string lines",
-          "Non-LookupError exception"
+          "Error message with no newline characters",
+          "Error message with trailing newline characters",
+          "Error message with leading newline characters"
         ],
         "checklist": [
-          "Test passes with multi-line error message",
-          "Test fails with single-line error message",
-          "Test handles non-LookupError exceptions correctly"
+          "Test verifies str() returns full multi-line error message",
+          "Handles error messages without newline characters",
+          "Consistently includes all lines in the error message"
         ],
-        "raw": "```json\n{\n  \"strategy\": \"Exercise __str__ with LookupError\",\n  \"assertions\": [\n    \"str(e) returns the full error message\",\n    \"str(e) includes all lines of the error message\"\n  ],\n  \"fixtures\": [\n    \"capsys\"\n  ],\n  \"data_setup\": [\n    \"Create a LookupError with a multi-line error message\",\n    \"Raise the LookupError and catch it with pytest.raises\"\n  ],\n  \"edge_cases\": [\n    \"Single-line error message\",\n    \"Error message with non-string lines\",\n    \"Non-LookupError exception\"\n  ],\n  \"checklist\": [\n    \"Test passes with multi-line error message\",\n    \"Test fails with single-line error message\",\n    \"Test handles non-LookupError exceptions correctly\"\n  ]\n}\n```"
+        "raw": "{\n  \"strategy\": \"Import src._pytest._code.code and exercise __str__ using parameters implied by the claim text.\",\n  \"assertions\": [\n    \"returns the full error message, including all lines\"\n  ],\n  \"fixtures\": [],\n  \"data_setup\": [\n    \"A LookupError is raised with a multi-line error message\"\n  ],\n  \"edge_cases\": [\n    \"Error message with no newline characters\",\n    \"Error message with trailing newline characters\",\n    \"Error message with leading newline characters\"\n  ],\n  \"checklist\": [\n    \"Test verifies str() returns full multi-line error message\",\n    \"Handles error messages without newline characters\",\n    \"Consistently includes all lines in the error message\"\n  ]\n}"
       },
       "checklist_coverage": {
         "missing": [],
         "checklist": [
-          "Test passes with multi-line error message",
-          "Test fails with single-line error message",
-          "Test handles non-LookupError exceptions correctly"
+          "Test verifies str() returns full multi-line error message",
+          "Handles error messages without newline characters",
+          "Consistently includes all lines in the error message"
         ]
       },
       "context_hash": "1fdc957a7674596604dce0b7e920ee668fcf78c8",
@@ -160,24 +156,24 @@
         "instance_id": "pytest-dev__pytest-5413",
         "repo": "pytest-dev/pytest",
         "base_commit": "450d2646233c670654744d3d24330b69895bb9d2",
-        "timestamp": "2026-02-19T02:26:38.744773+00:00",
-        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+        "timestamp": "2026-02-25T05:30:03.369762+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ",
         "tests": [
           {
             "test_path": "claim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
             "bug": {
               "status": "PASS",
               "returncode": 0,
-              "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.05 seconds ===========================\n",
+              "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.04 seconds ===========================\n",
               "stderr": "",
-              "duration_s": 1.9286320209503174
+              "duration_s": 1.4597656726837158
             },
             "gold": {
               "status": "PASS",
               "returncode": 0,
               "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.04 seconds ===========================\n",
               "stderr": "",
-              "duration_s": 1.7245917320251465
+              "duration_s": 1.4616260528564453
             },
             "classification": {
               "label": "NON_DISCRIMINATIVE",
@@ -195,8 +191,8 @@
         },
         "success": true,
         "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-5413.sif",
-        "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_oigntr9d/bug/pytest-dev__pytest",
-        "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_oigntr9d/gold/pytest-dev__pytest"
+        "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_tntcw0aw/bug/pytest-dev__pytest",
+        "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_tntcw0aw/gold/pytest-dev__pytest"
       },
       "failure_classification": {
         "label": "non_discriminative",
@@ -453,22 +449,22 @@
   },
   "context_hash": "1fdc957a7674596604dce0b7e920ee668fcf78c8",
   "config": {
-    "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-    "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ",
+    "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ",
     "repos_root": "/fs/nexus-scratch/ihbas/repos_claim_cache",
     "max_attempts": 10,
     "timeout_s": 300,
-    "log_path": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/logs/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-5413_C1.jsonl",
+    "log_path": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/logs/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-5413_C1.jsonl",
     "multi_model": {
       "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
       "claims_model_slug": "Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-      "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-      "tests_model_slug": "Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+      "tests_model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
+      "tests_model_slug": "Qwen2.5-Coder-32B-Instruct-AWQ",
       "use_model_subdirs": true,
       "claims_dir": "/fs/nexus-scratch/ihbas/verifier_harness/claim_extraction/claims_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-      "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-      "state_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
-      "logs_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/logs/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+      "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ",
+      "state_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/Qwen2.5-Coder-32B-Instruct-AWQ",
+      "logs_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/logs/Qwen2.5-Coder-32B-Instruct-AWQ"
     }
   },
   "static_plan": {
@@ -553,7 +549,7 @@
       "Create all necessary objects directly in the test function (no repo fixtures)."
     ]
   },
-  "test_file_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
+  "test_file_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
   "verification_complete": true,
   "final_payload": {
     "instance_id": "pytest-dev__pytest-5413",
@@ -673,39 +669,35 @@
             }
           ]
         },
-        "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
-        "generated_code": "import pytest\nfrom pytest import raises\n\ndef test_claim_c1(capsys):\n    # Given: A LookupError is raised with a multi-line error message\n    # When: calling str() on the pytest.raises context variable\n    # Then: returns the full error message, including all lines\n\n    # Checklist: Test passes with multi-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"A\\nB\\nC\")\n    captured = capsys.readouterr()\n    assert \"A\\nB\\nC\" in str(e.value)\n\n    # Checklist: Test fails with single-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"Single line\")\n    captured = capsys.readouterr()\n    assert \"Single line\" in str(e.value)\n\n    # Checklist: Test handles non-LookupError exceptions correctly\n    with raises(ValueError) as e:\n        raise ValueError(\"Non-LookupError exception\")\n    captured = capsys.readouterr()\n    assert \"Non-LookupError exception\" in str(e.value)\n\n    # Edge case: Single-line error message\n    with raises(LookupError) as e:\n        raise LookupError(\"Single line\")\n    captured = capsys.readouterr()\n    assert \"Single line\" in str(e.value)\n\n    # Edge case: Error message with non-string lines\n    with raises(LookupError) as e:\n        raise LookupError([\"A\", \"B\", \"C\"])\n    captured = capsys.readouterr()\n    assert \"['A', 'B', 'C']\" in str(e.value)\n\n    # Edge case: Non-LookupError exception\n    with raises(ValueError) as e:\n        raise ValueError(\"Non-LookupError exception\")\n    captured = capsys.readouterr()\n    assert \"Non-LookupError exception\" in str(e.value)\n",
+        "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
+        "generated_code": "import pytest\n\ndef test_claim_c1():\n    # Test verifies str() returns full multi-line error message\n    # Given: A LookupError is raised with a multi-line error message\n    multi_line_error_message = \"A\\nB\\nC\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(multi_line_error_message)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == multi_line_error_message\n\n    # Handles error messages without newline characters\n    # Given: A LookupError is raised with a single-line error message\n    single_line_error_message = \"SingleLineError\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(single_line_error_message)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == single_line_error_message\n\n    # Consistently includes all lines in the error message\n    # Given: A LookupError is raised with a multi-line error message including leading and trailing newlines\n    multi_line_error_message_with_newlines = \"\\nA\\nB\\nC\\n\"\n    with pytest.raises(LookupError) as excinfo:\n        raise LookupError(multi_line_error_message_with_newlines)\n    # When: calling str() on the pytest.raises context variable\n    error_str = str(excinfo.value)\n    # Then: returns the full error message, including all lines\n    assert error_str == multi_line_error_message_with_newlines\n",
         "test_sketch": {
-          "strategy": "Exercise __str__ with LookupError",
+          "strategy": "Import src._pytest._code.code and exercise __str__ using parameters implied by the claim text.",
           "assertions": [
-            "str(e) returns the full error message",
-            "str(e) includes all lines of the error message"
+            "returns the full error message, including all lines"
           ],
-          "fixtures": [
-            "capsys"
-          ],
+          "fixtures": [],
           "data_setup": [
-            "Create a LookupError with a multi-line error message",
-            "Raise the LookupError and catch it with pytest.raises"
+            "A LookupError is raised with a multi-line error message"
           ],
           "edge_cases": [
-            "Single-line error message",
-            "Error message with non-string lines",
-            "Non-LookupError exception"
+            "Error message with no newline characters",
+            "Error message with trailing newline characters",
+            "Error message with leading newline characters"
           ],
           "checklist": [
-            "Test passes with multi-line error message",
-            "Test fails with single-line error message",
-            "Test handles non-LookupError exceptions correctly"
+            "Test verifies str() returns full multi-line error message",
+            "Handles error messages without newline characters",
+            "Consistently includes all lines in the error message"
           ],
-          "raw": "```json\n{\n  \"strategy\": \"Exercise __str__ with LookupError\",\n  \"assertions\": [\n    \"str(e) returns the full error message\",\n    \"str(e) includes all lines of the error message\"\n  ],\n  \"fixtures\": [\n    \"capsys\"\n  ],\n  \"data_setup\": [\n    \"Create a LookupError with a multi-line error message\",\n    \"Raise the LookupError and catch it with pytest.raises\"\n  ],\n  \"edge_cases\": [\n    \"Single-line error message\",\n    \"Error message with non-string lines\",\n    \"Non-LookupError exception\"\n  ],\n  \"checklist\": [\n    \"Test passes with multi-line error message\",\n    \"Test fails with single-line error message\",\n    \"Test handles non-LookupError exceptions correctly\"\n  ]\n}\n```"
+          "raw": "{\n  \"strategy\": \"Import src._pytest._code.code and exercise __str__ using parameters implied by the claim text.\",\n  \"assertions\": [\n    \"returns the full error message, including all lines\"\n  ],\n  \"fixtures\": [],\n  \"data_setup\": [\n    \"A LookupError is raised with a multi-line error message\"\n  ],\n  \"edge_cases\": [\n    \"Error message with no newline characters\",\n    \"Error message with trailing newline characters\",\n    \"Error message with leading newline characters\"\n  ],\n  \"checklist\": [\n    \"Test verifies str() returns full multi-line error message\",\n    \"Handles error messages without newline characters\",\n    \"Consistently includes all lines in the error message\"\n  ]\n}"
         },
         "checklist_coverage": {
           "missing": [],
           "checklist": [
-            "Test passes with multi-line error message",
-            "Test fails with single-line error message",
-            "Test handles non-LookupError exceptions correctly"
+            "Test verifies str() returns full multi-line error message",
+            "Handles error messages without newline characters",
+            "Consistently includes all lines in the error message"
           ]
         },
         "context_hash": "1fdc957a7674596604dce0b7e920ee668fcf78c8",
@@ -713,24 +705,24 @@
           "instance_id": "pytest-dev__pytest-5413",
           "repo": "pytest-dev/pytest",
           "base_commit": "450d2646233c670654744d3d24330b69895bb9d2",
-          "timestamp": "2026-02-19T02:26:38.744773+00:00",
-          "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+          "timestamp": "2026-02-25T05:30:03.369762+00:00",
+          "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ",
           "tests": [
             {
               "test_path": "claim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
               "bug": {
                 "status": "PASS",
                 "returncode": 0,
-                "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.05 seconds ===========================\n",
+                "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.04 seconds ===========================\n",
                 "stderr": "",
-                "duration_s": 1.9286320209503174
+                "duration_s": 1.4597656726837158
               },
               "gold": {
                 "status": "PASS",
                 "returncode": 0,
                 "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.9.20, pytest-4.6.1.dev72+g450d26462, py-1.11.0, pluggy-0.13.1 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .pytest_cache\nrootdir: /workspace, inifile: tox.ini\ncollecting ... collected 1 item\n\nclaim_tests/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=========================== 1 passed in 0.04 seconds ===========================\n",
                 "stderr": "",
-                "duration_s": 1.7245917320251465
+                "duration_s": 1.4616260528564453
               },
               "classification": {
                 "label": "NON_DISCRIMINATIVE",
@@ -748,8 +740,8 @@
           },
           "success": true,
           "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/pytest/pytest-dev__pytest-5413.sif",
-          "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_oigntr9d/bug/pytest-dev__pytest",
-          "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_oigntr9d/gold/pytest-dev__pytest"
+          "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_tntcw0aw/bug/pytest-dev__pytest",
+          "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_pytest-dev__pytest-5413_tntcw0aw/gold/pytest-dev__pytest"
         },
         "failure_classification": {
           "label": "non_discriminative",

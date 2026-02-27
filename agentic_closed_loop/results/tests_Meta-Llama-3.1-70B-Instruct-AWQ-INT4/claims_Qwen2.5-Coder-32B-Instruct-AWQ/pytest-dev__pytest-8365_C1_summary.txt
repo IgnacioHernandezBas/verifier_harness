@@ -1,0 +1,66 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pytest-dev__pytest-8365
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T19:20:29.803687
+SLURM Job:      6283074
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      internal_import_error: Pytest installation is broken in the test environment.
+This is NOT a test code issue - pytest itself cannot initialize.
+
+🔧 The test code appears correct, but the pytest environment is broken.
+This typically means the container or environment setup failed.
+
+Error details:
+cachedir: .pytest_cache
+rootdir: /workspace, configfile: pyproject.toml
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+Hint: make sure your test modules/packages have valid Python names.
+
+🎯 **DETECTED ANTI-PATTERN**: Non-existent pytest API
+   You tried: pytest.TempdirFactory
+   This API does not exist in pytest!
+
+
+🎯 **DETECTED ANTI-PATTERN**: Manual fixture creation
+   You tried to create: TempdirFactory(...)
+   But fixtures should NOT be instantiated manually!
+   Fix: Use the fixture as a function parameter.
+
+
+  [2] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-8365_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283074.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283074.err
+================================================================================

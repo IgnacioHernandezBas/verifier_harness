@@ -167,7 +167,7 @@ fi
 SBATCH_CMD=(
   sbatch
   --export=ALL,INSTANCE_ID="${INSTANCE_ID}",CLAIM_ID="${CLAIM_ID}",CLAIMS_MODEL="${CLAIMS_MODEL}",TESTS_MODEL="${TESTS_MODEL}",MAX_ATTEMPTS="${MAX_ATTEMPTS}",USE_MODEL_SUBDIRS="${USE_MODEL_SUBDIRS}"
-  --gres="gpu:rtxa6000:${GPU_COUNT}"
+  --gres="gpu:l40s:${GPU_COUNT}"
   --cpus-per-task="${CPUS}"
   --mem="${MEM}"
   "${SCRIPT_DIR}/run_agentic_loop_hybrid_multiple.sbatch"

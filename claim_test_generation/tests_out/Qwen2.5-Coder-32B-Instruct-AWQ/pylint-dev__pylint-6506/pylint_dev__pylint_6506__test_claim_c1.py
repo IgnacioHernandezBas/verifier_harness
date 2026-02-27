@@ -1,44 +1,40 @@
-# Checklist TODO: Test raises _UnrecognizedOptionError
-# Checklist TODO: Verify no traceback in output
-# Checklist TODO: Ensure valid options do not raise error
 import pytest
 from pylint.config.config_initialization import _config_initialization
-from pylint.lint import PyLinter
-from pylint.reporters import BaseReporter
+from pylint.lint import Run as LintRun
 
 def test_claim_c1(capsys):
-    # Given: An unrecognized option is passed to pylint.
-    args_list = ['-Q']
-    linter = PyLinter()
-    reporter = BaseReporter()
-
-    # When: _config_initialization is called with an unrecognized option.
+    # Prepare an unrecognized option for pylint
+    unrecognized_option = "--unknown-option=yes"
+    
+    # Test raises _UnrecognizedOptionError for unrecognized option
     with pytest.raises(SystemExit):
-        _config_initialization(linter, args_list, reporter)
-
-    # Then: _UnrecognizedOptionError is raised without printing a traceback.
+        LintRun([unrecognized_option], exit=False)
+    
+    # Ensure no traceback is printed in the output
     output = capsys.readouterr()
     assert "usage: pylint" in output.err
     assert "Unrecognized option" in output.err
+    assert "Traceback" not in output.err
 
-    # Edge case: Pass multiple unrecognized options
-    args_list_multiple = ['-Q', '--unknown-option']
+    # Verify behavior with multiple unrecognized options
+    multiple_unrecognized_options = ["--unknown-option1=yes", "--unknown-option2=no"]
     with pytest.raises(SystemExit):
-        _config_initialization(linter, args_list_multiple, reporter)
+        LintRun(multiple_unrecognized_options, exit=False)
+    
+    # Ensure no traceback is printed in the output
     output = capsys.readouterr()
     assert "usage: pylint" in output.err
     assert "Unrecognized option" in output.err
+    assert "Traceback" not in output.err
 
-    # Edge case: Pass a valid option to ensure no false positives
-    args_list_valid = ['--help']
+    # Verify behavior with a valid option along with an unrecognized one
+    valid_option = "--disable=C0114"
+    mixed_options = [valid_option, unrecognized_option]
     with pytest.raises(SystemExit):
-        _config_initialization(linter, args_list_valid, reporter)
+        LintRun(mixed_options, exit=False)
+    
+    # Ensure no traceback is printed in the output
     output = capsys.readouterr()
     assert "usage: pylint" in output.err
-    assert "Unrecognized option" not in output.err
-
-    # Edge case: Test with an empty list to see if it handles no options gracefully
-    args_list_empty = []
-    _config_initialization(linter, args_list_empty, reporter)
-    output = capsys.readouterr()
-    assert output.err == ""
+    assert "Unrecognized option" in output.err
+    assert "Traceback" not in output.err

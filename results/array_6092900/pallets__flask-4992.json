@@ -1,0 +1,16 @@
+{
+  "instance_id": "pallets__flask-4992",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test session starts ==============================\nplatform linux -- Python 3.11.10, pytest-7.3.0, pluggy-1.0.0\nrootdir: /testbed\nconfigfile: pyproject.toml\ncollected 19 items\n\ntests/test_config.py ...F...............                                 [100%]\n\n=================================== FAILURES ===================================\n__________________________ test_config_from_file_toml __________________________\n\n    def test_config_from_file_toml():\n        tomllib = pytest.importorskip(\"tomllib\", reason=\"tomllib added in 3.11\")\n        app = flask.Flask(__name__)\n        current_dir = os.path.dirname(os.path.abspath(__file__))\n>       app.config.from_file(\n            os.path.join(current_dir, \"static\", \"config.toml\"), tomllib.load, text=False\n        )\nE       TypeError: Config.from_file() got an unexpected keyword argument 'text'\n\ntests/test_config.py:43: TypeError\n==================================== PASSES ====================================\n=========================== short test summary info ============================\nPASSED tests/test_config.py::test_config_from_pyfile\nPASSED tests/test_config.py::test_config_from_object\nPASSED tests/test_config.py::test_config_from_file_json\nPASSED tests/test_config.py::test_from_prefixed_env\nPASSED tests/test_config.py::test_from_prefixed_env_custom_prefix\nPASSED tests/test_config.py::test_from_prefixed_env_nested\nPASSED tests/test_config.py::test_config_from_mapping\nPASSED tests/test_config.py::test_config_from_class\nPASSED tests/test_config.py::test_config_from_envvar\nPASSED tests/test_config.py::test_config_from_envvar_missing\nPASSED tests/test_config.py::test_config_missing\nPASSED tests/test_config.py::test_config_missing_file\nPASSED tests/test_config.py::test_custom_config_class\nPASSED tests/test_config.py::test_session_lifetime\nPASSED tests/test_config.py::test_get_namespace\nPASSED tests/test_config.py::test_from_pyfile_weird_encoding[utf-8]\nPASSED tests/test_config.py::test_from_pyfile_weird_encoding[iso-8859-15]\nPASSED tests/test_config.py::test_from_pyfile_weird_encoding[latin-1]\nFAILED tests/test_config.py::test_config_from_file_toml - TypeError: Config.f...\n========================= 1 failed, 18 passed in 0.10s =========================\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 248.98092317581177
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

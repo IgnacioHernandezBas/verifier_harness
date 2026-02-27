@@ -1,0 +1,81 @@
+{
+  "instance_id": "django__django-13321",
+  "claim_id": "C2",
+  "timestamp": "2026-02-18T20:47:16.098933",
+  "slurm_job_id": "6283193",
+  "models": {
+    "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  },
+  "status": "failed",
+  "total_attempts": 10,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": false,
+    "classification": "OVERCONSTRAINED",
+    "bug": "FAIL",
+    "gold": "FAIL"
+  },
+  "failure_reason": "Classification: OVERCONSTRAINED",
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/core/signing.py:174: in unsign\n    if self.sep not in signed_value:\nE   TypeError: a bytes-like object is required, not 'str'\n\nDuring handling of the above exception, another exception occurred:\nE   TypeError: a bytes-like object is required, not 'str'\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(invalid_session_data)"
+    },
+    {
+      "attempt": 2,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:68: in _setup\n    % (desc, ENVIRONMENT_VARIABLE))\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\n============================== 1 failed in 0.50s ===============================\n"
+    },
+    {
+      "attempt": 3,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:91: in __getattr__\n    raise ImproperlyConfigured(\"The SECRET_KEY setting must not be empty.\")\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:34: in test_claim_c1\n    session.decode(invalid_session_data)"
+    },
+    {
+      "attempt": 4,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:68: in _setup\n    % (desc, ENVIRONMENT_VARIABLE))\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\n============================== 1 failed in 0.46s ===============================\n"
+    },
+    {
+      "attempt": 5,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/core/signing.py:174: in unsign\n    if self.sep not in signed_value:\nE   TypeError: a bytes-like object is required, not 'str'\n\nDuring handling of the above exception, another exception occurred:\nE   TypeError: a bytes-like object is required, not 'str'\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(invalid_session_data)"
+    },
+    {
+      "attempt": 6,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:68: in _setup\n    % (desc, ENVIRONMENT_VARIABLE))\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\nE   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.\n=========================== short test summary info ============================\nFAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1\n============================== 1 failed in 0.50s ===============================\n"
+    },
+    {
+      "attempt": 7,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:91: in __getattr__\n    raise ImproperlyConfigured(\"The SECRET_KEY setting must not be empty.\")\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(\"Session data with invalid encoding\")"
+    },
+    {
+      "attempt": 8,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:91: in __getattr__\n    raise ImproperlyConfigured(\"The SECRET_KEY setting must not be empty.\")\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(\"Session data with invalid encoding\")"
+    },
+    {
+      "attempt": 9,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:91: in __getattr__\n    raise ImproperlyConfigured(\"The SECRET_KEY setting must not be empty.\")\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(\"Session data with invalid encoding\")"
+    },
+    {
+      "attempt": 10,
+      "status": "unknown",
+      "issue": "other: Both variants returned FAIL.\n\nError details from BUG run:\ncollecting ... collected 1 item\n\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\ndjango/conf/__init__.py:91: in __getattr__\n    raise ImproperlyConfigured(\"The SECRET_KEY setting must not be empty.\")\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nE   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.\n\nDuring handling of the above exception, another exception occurred:\nclaim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1\n    session.decode(\"Session data with invalid encoding\")"
+    }
+  ],
+  "files": {
+    "state_file": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/django__django-13321_C2.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/django__django-13321/django__django_13321__test_claim_c2.py",
+    "slurm_logs": {
+      "out": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283193.out",
+      "err": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283193.err",
+      "vllm": "agentic_closed_loop/scripts_slurm/logs/vllm_hybrid_6283193.log"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pytest-dev__pytest-5413
+Claim:          C2
+Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Timestamp:      2026-02-25T00:30:20.192381
+SLURM Job:      6301234
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       1 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c2.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-5413_C2.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301234.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301234.err
+================================================================================

@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-13768",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "Testing against Django installed in '/testbed/django'\nImporting application dispatch\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\ntest_cached_garbaged_collected (dispatch.tests.DispatcherTests) ... ok\ntest_cannot_connect_no_kwargs (dispatch.tests.DispatcherTests) ... ok\ntest_cannot_connect_non_callable (dispatch.tests.DispatcherTests) ... ok\ntest_disconnection (dispatch.tests.DispatcherTests) ... ok\ntest_garbage_collected (dispatch.tests.DispatcherTests) ... ok\ntest_has_listeners (dispatch.tests.DispatcherTests) ... ok\ntest_multiple_registration (dispatch.tests.DispatcherTests) ... ok\ntest_send (dispatch.tests.DispatcherTests) ... ok\ntest_send_connected_no_sender (dispatch.tests.DispatcherTests) ... ok\ntest_send_different_no_sender (dispatch.tests.DispatcherTests) ... ok\ntest_send_no_receivers (dispatch.tests.DispatcherTests) ... ok\ntest_send_robust_fail (dispatch.tests.DispatcherTests) ... FAIL\ntest_send_robust_ignored_sender (dispatch.tests.DispatcherTests) ... ok\ntest_send_robust_no_receivers (dispatch.tests.DispatcherTests) ... ok\ntest_send_robust_success (dispatch.tests.DispatcherTests) ... ok\ntest_uid_registration (dispatch.tests.DispatcherTests) ... ok\ntest_values_returned_by_disconnection (dispatch.tests.DispatcherTests) ... ok\ntest_receiver_signal_list (dispatch.tests.ReceiverTestCase) ... ok\ntest_receiver_single_signal (dispatch.tests.ReceiverTestCase) ... ok\n\n======================================================================\nFAIL: test_send_robust_fail (dispatch.tests.DispatcherTests)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/dispatch/tests.py\", line 180, in test_send_robust_fail\n    'Error calling '\nAssertionError: 'Exception in signal receiver <function Dis[64 chars]d90>' != 'Error calling DispatcherTests.test_send_ro[51 chars]his)'\n- Exception in signal receiver <function DispatcherTests.test_send_robust_fail.<locals>.fails at 0x7f79cd638d90>\n+ Error calling DispatcherTests.test_send_robust_fail.<locals>.fails in Signal.send_robust() (this)\n\n\n----------------------------------------------------------------------\nRan 19 tests in 0.025s\n\nFAILED (failures=1)\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 166.78922080993652
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

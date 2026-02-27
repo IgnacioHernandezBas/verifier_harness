@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-13220",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "test_eq (test_exceptions.test_validation_error.TestValidationError) ... FAIL\ntest_eq_nested (test_exceptions.test_validation_error.TestValidationError) ... FAIL\ntest_hash (test_exceptions.test_validation_error.TestValidationError) ... ERROR\ntest_hash_nested (test_exceptions.test_validation_error.TestValidationError) ... ERROR\ntest_messages_concatenates_error_dict_values (test_exceptions.test_validation_error.TestValidationError) ... ok\n\n======================================================================\nERROR: test_hash (test_exceptions.test_validation_error.TestValidationError)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/test_exceptions/test_validation_error.py\", line 164, in test_hash\n    self.assertEqual(hash(error1), hash(ValidationError('message')))\nTypeError: unhashable type: 'ValidationError'\n\n======================================================================\nERROR: test_hash_nested (test_exceptions.test_validation_error.TestValidationError)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/test_exceptions/test_validation_error.py\", line 266, in test_hash_nested\n    self.assertEqual(hash(error), hash(ValidationError(dict(error_dict))))\nTypeError: unhashable type: 'ValidationError'\n\n======================================================================\nFAIL: test_eq (test_exceptions.test_validation_error.TestValidationError)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/test_exceptions/test_validation_error.py\", line 37, in test_eq\n    self.assertNotEqual(error1, error2)\nAssertionError: ValidationError(['message']) == ValidationError(['message'])\n\n======================================================================\nFAIL: test_eq_nested (test_exceptions.test_validation_error.TestValidationError)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/test_exceptions/test_validation_error.py\", line 145, in test_eq_nested\n    'field2': 'other',\nAssertionError: ValidationError({'field1': ['error val1 val2'], 'field2': ['other']}) == ValidationError({'field1': ['error val1 val2'], 'field2': ['other']})\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=2, errors=2)\nTesting against Django installed in '/testbed/django'\nImporting application test_exceptions\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 193.68245387077332
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

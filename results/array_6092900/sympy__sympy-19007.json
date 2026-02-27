@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-19007",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nnumpy:              None\nrandom seed:        42043053\nhash randomization: on (PYTHONHASHSEED=3827433598)\n\nsympy/matrices/expressions/tests/test_blockmatrix.py[17] \ntest_bc_matmul ok\ntest_bc_matadd ok\ntest_bc_transpose ok\ntest_bc_dist_diag ok\ntest_block_plus_ident ok\ntest_BlockMatrix ok\ntest_block_collapse_explicit_matrices ok\ntest_issue_17624 ok\ntest_issue_18618 ok\ntest_BlockMatrix_trace ok\ntest_BlockMatrix_Determinant ok\ntest_squareBlockMatrix ok\ntest_BlockDiagMatrix ok\ntest_blockcut ok\ntest_reblock_2x2 ok\ntest_deblock ok\ntest_block_collapse_type ok                                                 [OK]\n\nsympy/matrices/expressions/tests/test_indexing.py[15] \ntest_symbolic_indexing ok\ntest_add_index ok\ntest_mul_index ok\ntest_pow_index ok\ntest_transpose_index ok\ntest_Identity_index ok\ntest_block_index ok\ntest_block_index_symbolic E\ntest_block_index_symbolic_nonzero F\ntest_block_index_large ok\ntest_block_index_symbolic_fail f\ntest_slicing ok\ntest_errors ok\ntest_matrix_expression_to_indices ok\ntest_matrix_expression_from_index_summation ok                            [FAIL]\n\n\n________________________________________________________________________________\n_ sympy/matrices/expressions/tests/test_indexing.py:test_block_index_symbolic __\nTraceback (most recent call last):\n  File \"/testbed/sympy/matrices/expressions/tests/test_indexing.py\", line 94, in test_block_index_symbolic\n    assert A[0, 0] == MatrixElement(A, 0, 0)  # Cannot be A1[0, 0]\n  File \"/testbed/sympy/matrices/expressions/matexpr.py\", line 296, in __getitem__\n    return self._entry(i, j)\n  File \"/testbed/sympy/matrices/expressions/blockmatrix.py\", line 247, in _entry\n    if i < numrows:  # Fixed: remove the \"!= False\" logic\n  File \"/testbed/sympy/core/relational.py\", line 391, in __nonzero__\n    raise TypeError(\"cannot determine truth value of Relational\")\nTypeError: cannot determine truth value of Relational\n\n________________________________________________________________________________\n sympy/matrices/expressions/tests/test_indexing.py:test_block_index_symbolic_nonzero \nTraceback (most recent call last):\n  File \"/testbed/sympy/matrices/expressions/tests/test_indexing.py\", line 116, in test_block_index_symbolic_nonzero\n    assert A[n + m - 1, 0] == A3[m - 1, 0]\nAssertionError\n\n tests finished: 29 passed, 1 failed, 1 expected to fail, 1 exceptions, \nin 1.05 seconds \nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 287.24756360054016
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

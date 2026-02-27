@@ -1,37 +1,47 @@
 import pytest
 from sympy import Symbol
 
+# Test passes without raising AttributeError
+# Symbol comparison with non-sympy object behaves as expected
+# Edge cases do not cause unexpected behavior
+
 def test_claim_c1():
-    # Create a SymPy Symbol with the name 'x'.
-    x = Symbol('x')
-    
-    # Create an object with a repr that evaluates to an invalid expression, e.g., 'x.y'.
+    # Create a class C with __repr__ returning 'x.y'
     class C:
         def __repr__(self):
             return 'x.y'
-    
-    # Test passes without raising AttributeError.
-    # Test uses the exact import pattern from the issue.
-    # Test covers various invalid repr scenarios.
-    
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
-    # When: sympy.Symbol('x') == C()
-    # Then: No AttributeError is raised.
-    with pytest.raises(AttributeError):
-        # This should not raise an AttributeError
-        _ = x == C()
-    
-    # Additional edge cases
-    class D:
+
+    # Instantiate sympy.Symbol('x')
+    x = Symbol('x')
+
+    # Instantiate C()
+    c = C()
+
+    # Given: An unknown object whose repr is 'x.y'
+    # When: Calling sympy.Symbol('x') == C()
+    # Then: Does not raise an AttributeError
+    assert (x == c) is False
+
+    # Edge case: Test with a class that raises an exception in __repr__
+    class BadRepr:
         def __repr__(self):
-            return 'x.method()'
-    
-    class E:
+            raise RuntimeError
+
+    bad_repr = BadRepr()
+    assert (x == bad_repr) is False
+
+    # Edge case: Test with a class that returns a non-string from __repr__
+    class NonStringRepr:
         def __repr__(self):
-            return 'x + y'
-    
-    with pytest.raises(AttributeError):
-        _ = x == D()
-    
-    with pytest.raises(AttributeError):
-        _ = x == E()
+            return 123
+
+    non_string_repr = NonStringRepr()
+    assert (x == non_string_repr) is False
+
+    # Edge case: Test with a class that returns a string that looks like a sympy expression
+    class StringLikeRepr:
+        def __repr__(self):
+            return 'x'
+
+    string_like_repr = StringLikeRepr()
+    assert (x == string_like_repr) is False

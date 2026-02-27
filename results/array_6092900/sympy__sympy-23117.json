@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-23117",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nnumpy:              None\nrandom seed:        8448766\nhash randomization: on (PYTHONHASHSEED=2127675539)\n\nsympy/tensor/array/tests/test_ndim_array.py[5] \ntest_array_negative_indices ok\ntest_issue_18361 ok\ntest_issue_20222 ok\ntest_issue_17851 ok\ntest_issue_and_18715 E                                                    [FAIL]\n\n\n________________________________________________________________________________\n_______ sympy/tensor/array/tests/test_ndim_array.py:test_issue_and_18715 _______\nTraceback (most recent call last):\n  File \"/testbed/sympy/tensor/array/tests/test_ndim_array.py\", line 72, in test_issue_and_18715\n    A[0] += 5\n  File \"/testbed/sympy/tensor/array/dense_ndim_array.py\", line 199, in __setitem__\n    index = self._parse_index(index)\n  File \"/testbed/sympy/tensor/array/ndim_array.py\", line 148, in _parse_index\n    raise ValueError(\"Only a tuple index is accepted\")\nValueError: Only a tuple index is accepted\n\n=========== tests finished: 4 passed, 1 exceptions, in 1.00 seconds ============\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 160.58165383338928
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

@@ -1,0 +1,62 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pytest-dev__pytest-8365
+Claim:          C1
+Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T13:34:21.893313
+SLURM Job:      6282719
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      internal_import_error: Pytest installation is broken in the test environment.
+This is NOT a test code issue - pytest itself cannot initialize.
+
+🔧 The test code appears correct, but the pytest environment is broken.
+This typically means the container or environment setup failed.
+
+Error details:
+cachedir: .pytest_cache
+rootdir: /workspace, configfile: pyproject.toml
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
+ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
+Hint: make sure your test modules/packages have valid Python names.
+
+🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
+   You tried: pytest.tmpdir_factory
+   In line: with pytest.tmpdir_factory() as tmpdir_factory:
+   But 'tmpdir_factory' is a FIXTURE, not a module attribute!
+   Fix: Add 'tmpdir_factory' as a function parameter instead.
+
+
+  [2] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-8365_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282719.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282719.err
+================================================================================

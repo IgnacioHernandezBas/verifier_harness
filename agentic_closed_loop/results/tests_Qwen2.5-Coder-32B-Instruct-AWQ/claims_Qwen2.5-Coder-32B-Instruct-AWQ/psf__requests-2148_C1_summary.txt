@@ -1,0 +1,49 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       psf__requests-2148
+Claim:          C1
+Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T13:16:24.698800
+SLURM Job:      6282713
+
+STATUS:         ✓ SUCCESS
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: VALID
+  Bug:            FAIL
+  Gold:           PASS
+  Discriminative: YES
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+    for chunk in self.raw.stream(chunk_size, decode_content=True):
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:9: in stream
+    raise socket.error()
+E   OSError
+=============================== warnings summary ===============================
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:9: in stream
+    raise socket.error()
+E   OSError
+=============================== warnings summary ===============================
+requests/packages/urllib3/connectionpool.py:80
+
+  [2] UNKNOWN
+      success: Observed discriminative claim-test.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/psf__requests-2148/psf__requests_2148__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282713.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282713.err
+================================================================================

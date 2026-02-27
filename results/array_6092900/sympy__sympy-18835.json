@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-18835",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nnumpy:              None\nrandom seed:        26560254\nhash randomization: on (PYTHONHASHSEED=133520257)\n\nsympy/utilities/tests/test_iterables.py[43] \ntest_is_palindromic ok\ntest_postorder_traversal ok\ntest_flatten ok\ntest_iproduct ok\ntest_group ok\ntest_subsets ok\ntest_variations ok\ntest_cartes ok\ntest_filter_symbols ok\ntest_numbered_symbols ok\ntest_sift ok\ntest_take ok\ntest_dict_merge ok\ntest_prefixes ok\ntest_postfixes ok\ntest_topological_sort ok\ntest_strongly_connected_components ok\ntest_connected_components ok\ntest_rotate ok\ntest_multiset_partitions ok\ntest_multiset_combinations ok\ntest_multiset_permutations ok\ntest_partitions ok\ntest_binary_partitions ok\ntest_bell_perm ok\ntest_involutions ok\ntest_derangements ok\ntest_necklaces ok\ntest_bracelets ok\ntest_generate_oriented_forest ok\ntest_unflatten ok\ntest_common_prefix_suffix ok\ntest_minlex ok\ntest_ordered ok\ntest_runs ok\ntest_reshape ok\ntest_uniq E\ntest_kbins ok\ntest_has_dups ok\ntest__partition ok\ntest_ordered_partitions ok\ntest_rotations ok\ntest_ibin ok                                                              [FAIL]\n\n\n________________________________________________________________________________\n______________ sympy/utilities/tests/test_iterables.py:test_uniq _______________\nTraceback (most recent call last):\n  File \"/testbed/sympy/utilities/tests/test_iterables.py\", line 707, in test_uniq\n    raises(RuntimeError, lambda: [f.remove(i) for i in uniq(f)])\n  File \"/testbed/sympy/testing/pytest.py\", line 97, in raises\n    raise Failed(\"DID NOT RAISE\")\nsympy.testing.pytest.Failed: DID NOT RAISE\n\n=========== tests finished: 42 passed, 1 exceptions, in 1.21 seconds ===========\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 287.3335385322571
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

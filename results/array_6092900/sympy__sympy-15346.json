@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-15346",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nnumpy:              None\nrandom seed:        64704398\nhash randomization: on (PYTHONHASHSEED=1984611844)\n\nsympy/simplify/tests/test_trigsimp.py[25] \ntest_trigsimp1 ok\ntest_trigsimp1a ok\ntest_trigsimp2 ok\ntest_issue_4373 ok\ntest_trigsimp3 ok\ntest_issue_4661 ok\ntest_issue_4494 ok\ntest_issue_5948 ok\ntest_issue_4775 ok\ntest_issue_4280 ok\ntest_issue_3210 ok\ntest_trigsimp_issues ok\ntest_trigsimp_issue_2515 ok\ntest_trigsimp_issue_3826 ok\ntest_trigsimp_issue_4032 ok\ntest_trigsimp_issue_7761 ok\ntest_trigsimp_noncommutative ok\ntest_hyperbolic_simp ok\ntest_trigsimp_groebner ok\ntest_issue_2827_trigsimp_methods ok\ntest_issue_15129_trigsimp_methods F\ntest_exptrigsimp ok\ntest_powsimp_on_numbers ok\ntest_issue_6811_fail f\ntest_Piecewise ok                                                         [FAIL]\n\n\n________________________________ slowest tests _________________________________\ntest_trigsimp_groebner - Took 10.743 seconds\n________________________________________________________________________________\n___ sympy/simplify/tests/test_trigsimp.py:test_issue_15129_trigsimp_methods ____\nTraceback (most recent call last):\n  File \"/testbed/sympy/simplify/tests/test_trigsimp.py\", line 367, in test_issue_15129_trigsimp_methods\n    assert trigsimp(r1) == cos(S(1)/50)\nAssertionError\n\n== tests finished: 23 passed, 1 failed, 1 expected to fail, in 28.44 seconds ===\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 205.56536507606506
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

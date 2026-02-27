@@ -1,0 +1,228 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pylint-dev__pylint-7114
+Claim:          C1
+Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T13:41:07.606981
+SLURM Job:      6282716
+
+STATUS:         ✗ FAILED
+Attempts:       10 / 10
+
+FINAL RESULTS:
+  Classification: OVERCONSTRAINED
+  Bug:            FAIL
+  Gold:           FAIL
+  Discriminative: NO
+
+FAILURE REASON: Classification: OVERCONSTRAINED
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:14: in test_claim_c1
+    module_descriptions = expand_modules(['a'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.99s ===============================
+
+
+  [2] UNKNOWN
+      import_error: Import failed while running the test.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+=========================== short test summary info ============================
+
+  [3] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    module_descriptions = expand_modules(['a'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 1.17s ===============================
+
+
+  [4] UNKNOWN
+      import_error: Import failed while running the test.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+=========================== short test summary info ============================
+
+  [5] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:14: in test_claim_c1
+    module_descriptions = expand_modules(['a'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.96s ===============================
+
+
+  [6] UNKNOWN
+      import_error: Import failed while running the test.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:25: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:25: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+=========================== short test summary info ============================
+
+  [7] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:14: in test_claim_c1
+    module_descriptions = expand_modules(['a'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 1.06s ===============================
+
+
+  [8] UNKNOWN
+      import_error: Import failed while running the test.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+=========================== short test summary info ============================
+
+  [9] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:15: in test_claim_c1
+    module_descriptions = expand_modules(['a'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+=========================== short test summary info ============================
+FAILED claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 1.06s ===============================
+
+
+  [10] UNKNOWN
+      import_error: Import failed while running the test.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    assert isinstance(module_descriptions, list)
+E   AssertionError: assert False
+E    +  where False = isinstance(([], [{'ex': ImportError('No module named a'), 'key': 'fatal', 'mod': 'a'}]), list)
+=========================== short test summary info ============================
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-7114_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282716.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6282716.err
+================================================================================

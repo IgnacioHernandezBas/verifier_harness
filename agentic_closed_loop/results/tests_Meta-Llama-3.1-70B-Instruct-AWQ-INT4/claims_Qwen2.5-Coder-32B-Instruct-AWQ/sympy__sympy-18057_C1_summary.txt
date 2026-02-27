@@ -1,0 +1,110 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       sympy__sympy-18057
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T19:33:52.961502
+SLURM Job:      6283078
+
+STATUS:         ✓ SUCCESS
+Attempts:       4 / 10
+
+FINAL RESULTS:
+  Classification: VALID
+  Bug:            FAIL
+  Gold:           PASS
+  Discriminative: YES
+
+ITERATION HISTORY:
+  [1] GUARDRAIL_FAILED
+      signature_check: 🔍 SIGNATURE CHECK FAILED
+
+The following symbols were not found in module 'sympy.core.expr':
+  'sympy.Symbol'
+
+💡 POSSIBLE FIXES:
+1. Check if these symbols exist in a different module
+   - Try importing directly: 'import sympy' instead
+   - Or look in related modules (check the issue context for correct imports)
+
+2. The symbol might be in the same package but different submodule
+   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
+   - Try: from sympy import Symbol  (imports work across submodules)
+
+3. Look at the test_patch files in the issue - they show working imports
+
+
+
+  [2] UNKNOWN
+      assertion_failure: BUG and GOLD both fail, but with DIFFERENT error types:
+
+🔴 BUG run (the actual bug being fixed):
+collecting ... collected 1 item
+
+claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+<string>:1: in <module>
+    ???
+E   AttributeError: 'Symbol' object has no attribute 'y'
+
+During handling of the above exception, another exception occurred:
+E   AttributeError: 'Symbol' object has no attribute 'y'
+
+During handling of the above exception, another exception occurred:
+claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:16: in test_claim_c1
+    pytest.fail("AttributeError raised")
+
+🟢 GOLD run (FIXED code, but YOUR TEST has wrong assertions):
+collecting ... collected 1 item
+
+claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:23: in test_claim_c1
+    assert x.__class__.__module__ == 'sympy'
+E   AssertionError: assert 'sympy.core.symbol' == 'sympy'
+E     
+claim_tests/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py:23: in test_claim_c1
+    assert x.__class__.__module__ == 'sympy'
+E   AssertionError: assert 'sympy.core.symbol' == 'sympy'
+E     
+E     - sympy
+
+💡 Your test assertion is incorrect!
+   The GOLD error shows your test expects the wrong return type/structure.
+   Look at the GOLD assertion error to see what it actually returns.
+   Update your assertions to match the actual correct behavior.
+   For example: if it says 'isinstance([...], tuple)' failed, change to 'isinstance(result, list)'.
+
+  [3] GUARDRAIL_FAILED
+      signature_check: 🔍 SIGNATURE CHECK FAILED
+
+The following symbols were not found in module 'sympy.core.expr':
+  'sympy.Symbol'
+
+💡 POSSIBLE FIXES:
+1. Check if these symbols exist in a different module
+   - Try importing directly: 'import sympy' instead
+   - Or look in related modules (check the issue context for correct imports)
+
+2. The symbol might be in the same package but different submodule
+   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
+   - Try: from sympy import Symbol  (imports work across submodules)
+
+3. Look at the test_patch files in the issue - they show working imports
+
+
+
+  [4] UNKNOWN
+      success: Observed discriminative claim-test.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/sympy__sympy-18057/sympy__sympy_18057__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/sympy__sympy-18057_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283078.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283078.err
+================================================================================

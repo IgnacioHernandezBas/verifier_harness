@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-14730",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "Testing against Django installed in '/testbed/django'\nImporting application invalid_models_tests\nImporting application field_deconstruction\nImporting application model_meta\nFound 121 test(s).\nSkipping setup of unused database(s): default, other.\nTraceback (most recent call last):\n  File \"./tests/runtests.py\", line 668, in <module>\n    failures = django_tests(\n  File \"./tests/runtests.py\", line 386, in django_tests\n    failures = test_runner.run_tests(test_labels)\n  File \"/testbed/django/test/runner.py\", line 914, in run_tests\n    self.run_checks(databases)\n  File \"/testbed/django/test/runner.py\", line 833, in run_checks\n    call_command('check', verbosity=self.verbosity, databases=databases)\n  File \"/testbed/django/core/management/__init__.py\", line 181, in call_command\n    return command.execute(*args, **defaults)\n  File \"/testbed/django/core/management/base.py\", line 398, in execute\n    output = self.handle(*args, **options)\n  File \"/testbed/django/core/management/commands/check.py\", line 63, in handle\n    self.check(\n  File \"/testbed/django/core/management/base.py\", line 469, in check\n    raise SystemCheckError(msg)\ndjango.core.management.base.SystemCheckError: SystemCheckError: System check identified some issues:\n\nERRORS:\nmodel_meta.BasePerson.friends_abstract: (fields.E344) related_name has no effect on ManyToManyField with symmetrical=True.\n\tHINT: Remove the related_name argument or set symmetrical=False.\nmodel_meta.BasePerson.friends_base: (fields.E344) related_name has no effect on ManyToManyField with symmetrical=True.\n\tHINT: Remove the related_name argument or set symmetrical=False.\nmodel_meta.Person.friends_inherited: (fields.E344) related_name has no effect on ManyToManyField with symmetrical=True.\n\tHINT: Remove the related_name argument or set symmetrical=False.\n\nSystem check identified 3 issues (0 silenced).\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 2.6774721145629883
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

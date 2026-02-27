@@ -1,0 +1,91 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       pylint-dev__pylint-7114
+Claim:          C2
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Timestamp:      2026-02-18T21:23:40.593378
+SLURM Job:      6283204
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       4 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:26: in test_claim_c1
+    expand_modules(config)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:31: in test_claim_c1
+    pytest.fail(f"Test failed with error: {e}")
+
+  [2] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:27: in test_claim_c1
+    expand_modules_instance = expand_modules.ExpandModules(config)
+E   AttributeError: module 'pylint.lint.expand_modules' has no attribute 'ExpandModules'
+
+During handling of the above exception, another exception occurred:
+E   AttributeError: module 'pylint.lint.expand_modules' has no attribute 'ExpandModules'
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:36: in test_claim_c1
+    pytest.fail(f"Test failed with error: {e}")
+
+  [3] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:30: in test_claim_c1
+    expand_modules.expand_modules(['path/to/module'])
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+
+During handling of the above exception, another exception occurred:
+E   TypeError: expand_modules() missing 3 required positional arguments: 'ignore_list', 'ignore_list_re', and 'ignore_list_paths_re'
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:36: in test_claim_c1
+    pytest.fail(f"Test failed with error: {e}")
+
+  [4] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c2.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-7114_C2.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283204.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283204.err
+================================================================================

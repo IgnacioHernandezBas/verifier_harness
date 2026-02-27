@@ -1,0 +1,36 @@
+{
+  "instance_id": "pytest-dev__pytest-5413",
+  "claim_id": "C1",
+  "timestamp": "2026-02-18T21:26:58.597188",
+  "slurm_job_id": "6283206",
+  "models": {
+    "tests_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    "claims_model": "hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4"
+  },
+  "status": "non_discriminative",
+  "total_attempts": 1,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": false,
+    "classification": "NON_DISCRIMINATIVE",
+    "bug": "PASS",
+    "gold": "PASS"
+  },
+  "failure_reason": "Test does not discriminate between bug and gold",
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "unknown",
+      "issue": "non_discriminative: Both variants pass. Claim may not capture bug."
+    }
+  ],
+  "files": {
+    "state_file": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-5413_C1.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-5413/pytest_dev__pytest_5413__test_claim_c1.py",
+    "slurm_logs": {
+      "out": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283206.out",
+      "err": "agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283206.err",
+      "vllm": "agentic_closed_loop/scripts_slurm/logs/vllm_hybrid_6283206.log"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-13031",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nrandom seed:        91785892\nhash randomization: on (PYTHONHASHSEED=3341966750)\n\nsympy/matrices/tests/test_sparse.py[11] \ntest_sparse_matrix F\ntest_transpose ok\ntest_trace ok\ntest_CL_RL ok\ntest_add ok\ntest_errors ok\ntest_len ok\ntest_sparse_zeros_sparse_eye ok\ntest_copyin ok\ntest_sparse_solve ok\ntest_hermitian ok                                                         [FAIL]\n\n\n________________________________________________________________________________\n____________ sympy/matrices/tests/test_sparse.py:test_sparse_matrix ____________\n  File \"/testbed/sympy/matrices/tests/test_sparse.py\", line 31, in test_sparse_matrix\n    assert SparseMatrix.hstack(*sparse_matrices) == Matrix(0, 6, [])\nAssertionError\n\n============= tests finished: 10 passed, 1 failed, in 0.44 seconds =============\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 234.01399493217468
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

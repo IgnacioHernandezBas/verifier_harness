@@ -1,0 +1,49 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       astropy__astropy-7746
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T17:49:48.947809
+SLURM Job:      6283060
+
+STATUS:         ✓ SUCCESS
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: VALID
+  Bug:            FAIL
+  Gold:           PASS
+  Discriminative: YES
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+astropy/wcs/wcs.py:1353: in <lambda>
+    lambda xy, o: self.wcs.p2s(xy, o)['world'],
+E   astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:
+E   ncoord and/or nelem inconsistent with the wcsprm.
+
+E   ncoord and/or nelem inconsistent with the wcsprm.
+
+During handling of the above exception, another exception occurred:
+claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:14: in test_claim_c1
+    pytest.fail(f"Unexpected exception: {e}")
+
+  [2] UNKNOWN
+      success: Observed discriminative claim-test.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/astropy__astropy-7746_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283060.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283060.err
+================================================================================

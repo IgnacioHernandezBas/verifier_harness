@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-12113",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "test_custom_test_name (backends.sqlite.test_creation.TestDbSignatureTests) ... FAIL\n\n======================================================================\nFAIL: test_custom_test_name (backends.sqlite.test_creation.TestDbSignatureTests)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/backends/sqlite/test_creation.py\", line 16, in test_custom_test_name\n    self.assertEqual(signature, (None, 'custom.sqlite.db'))\nAssertionError: Tuples differ: (None,) != (None, 'custom.sqlite.db')\n\nSecond tuple contains 1 additional elements.\nFirst extra element 1:\n'custom.sqlite.db'\n\n- (None,)\n+ (None, 'custom.sqlite.db')\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\nTesting against Django installed in '/testbed/django'\nImporting application backends\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 2.1060690879821777
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

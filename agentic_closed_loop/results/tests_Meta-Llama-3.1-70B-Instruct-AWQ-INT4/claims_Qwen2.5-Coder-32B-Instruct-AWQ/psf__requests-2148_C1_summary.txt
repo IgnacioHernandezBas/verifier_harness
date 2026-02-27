@@ -1,0 +1,54 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       psf__requests-2148
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
+Timestamp:      2026-02-18T18:34:16.401235
+SLURM Job:      6283066
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      mocking_error: Test failed while trying to mock methods.
+
+💡 Hint: Don't mock internal/private methods. Test through public APIs only.
+Simplify your test - create objects directly and call methods normally.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:24: in test_claim_c1
+    monkeypatch.setattr(response.raw, 'stream', mock_stream)
+E   AttributeError: None has no attribute 'stream'
+=============================== warnings summary ===============================
+requests/packages/urllib3/connectionpool.py:80
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1
+======================== 1 failed, 21 warnings in 0.52s ========================
+
+
+  [2] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/psf__requests-2148/psf__requests_2148__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283066.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283066.err
+================================================================================

@@ -1,0 +1,228 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       django__django-13321
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Timestamp:      2026-02-18T20:34:23.597550
+SLURM Job:      6283192
+
+STATUS:         ✗ FAILED
+Attempts:       10 / 10
+
+FINAL RESULTS:
+  Classification: OVERCONSTRAINED
+  Bug:            FAIL
+  Gold:           FAIL
+  Discriminative: NO
+
+FAILURE REASON: Classification: OVERCONSTRAINED
+
+ITERATION HISTORY:
+  [1] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.47s ===============================
+
+
+  [2] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:91: in __getattr__
+    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:21: in test_claim_c1
+    session.decode(invalid_session_data)
+
+  [3] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.47s ===============================
+
+
+  [4] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/core/signing.py:174: in unsign
+    if self.sep not in signed_value:
+E   TypeError: a bytes-like object is required, not 'str'
+
+During handling of the above exception, another exception occurred:
+E   TypeError: a bytes-like object is required, not 'str'
+
+During handling of the above exception, another exception occurred:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
+    session.decode(invalid_session_data)
+
+  [5] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.55s ===============================
+
+
+  [6] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:91: in __getattr__
+    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:34: in test_claim_c1
+    session.decode(invalid_session_data)
+
+  [7] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.49s ===============================
+
+
+  [8] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/core/signing.py:174: in unsign
+    if self.sep not in signed_value:
+E   TypeError: a bytes-like object is required, not 'str'
+
+During handling of the above exception, another exception occurred:
+E   TypeError: a bytes-like object is required, not 'str'
+
+During handling of the above exception, another exception occurred:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
+    session.decode(invalid_session_data)
+
+  [9] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.48s ===============================
+
+
+  [10] UNKNOWN
+      other: Both variants returned FAIL.
+
+Error details from BUG run:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:91: in __getattr__
+    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+
+During handling of the above exception, another exception occurred:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
+    session.decode("Session data with invalid encoding")
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/django__django-13321/django__django_13321__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/django__django-13321_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283192.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283192.err
+================================================================================

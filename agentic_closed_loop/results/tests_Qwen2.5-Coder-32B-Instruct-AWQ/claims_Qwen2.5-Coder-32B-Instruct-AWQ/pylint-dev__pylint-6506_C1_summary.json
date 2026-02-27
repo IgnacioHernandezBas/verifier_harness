@@ -1,0 +1,32 @@
+{
+  "instance_id": "pylint-dev__pylint-6506",
+  "claim_id": "C1",
+  "timestamp": "2026-02-15T14:29:42.075878",
+  "slurm_job_id": "unknown",
+  "models": {
+    "tests_model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ",
+    "claims_model": "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ"
+  },
+  "status": "failed",
+  "total_attempts": 1,
+  "max_attempts": 10,
+  "final_result": {
+    "discriminative": false,
+    "classification": "OVERCONSTRAINED",
+    "bug": "FAIL",
+    "gold": "FAIL"
+  },
+  "failure_reason": "Classification: OVERCONSTRAINED",
+  "iterations": [
+    {
+      "attempt": 1,
+      "status": "unknown",
+      "issue": "signature_mismatch: Call signature mismatch.\n\n💡 Hint: The function is missing the required argument(s): args_list\nCheck the function signature and ensure all required parameters are provided.\n\nError details:\nF                                                                        [100%]\n=================================== FAILURES ===================================\n/workspace/claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py:11: TypeError: _config_initialization() missing 1 required positional argument: 'args_list'\n=============================== warnings summary ===============================\n../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1\n1 failed, 1 warning in 0.83s\n\n=========================== short test summary info ============================\nFAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1\n1 failed, 1 warning in 0.83s\n\n"
+    }
+  ],
+  "files": {
+    "state_file": "agentic_closed_loop/state/pylint-dev__pylint-6506_C1.json",
+    "test_file": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py",
+    "slurm_logs": {}
+  }
+}

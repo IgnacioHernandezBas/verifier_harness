@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-11400",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "/testbed/sympy/core/basic.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n  from collections import Mapping\n/testbed/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n  from collections import Callable\n/testbed/sympy/core/basic.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n  from collections import Mapping\n/testbed/sympy/plotting/plot.py:28: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n  from collections import Callable\n============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nrandom seed:        5655539\nhash randomization: on (PYTHONHASHSEED=2033717551)\n\nsympy/printing/tests/test_ccode.py[32] \ntest_printmethod ok\ntest_ccode_sqrt ok\ntest_ccode_Pow ok\ntest_ccode_constants_mathh ok\ntest_ccode_constants_other ok\ntest_ccode_Rational ok\ntest_ccode_Integer ok\ntest_ccode_functions ok\ntest_ccode_inline_function ok\ntest_ccode_exceptions ok\ntest_ccode_user_functions ok\ntest_ccode_boolean ok\ntest_ccode_Relational F\ntest_ccode_Piecewise ok\ntest_ccode_sinc F\ntest_ccode_Piecewise_deep ok\ntest_ccode_ITE ok\ntest_ccode_settings ok\ntest_ccode_Indexed ok\ntest_ccode_Indexed_without_looking_for_contraction ok\ntest_ccode_loops_matrix_vector ok\ntest_dummy_loops ok\ntest_ccode_loops_add ok\ntest_ccode_loops_multiple_contractions ok\ntest_ccode_loops_addfactor ok\ntest_ccode_loops_multiple_terms ok\ntest_dereference_printing ok\ntest_Matrix_printing ok\ntest_ccode_reserved_words ok\ntest_ccode_sign ok\ntest_ccode_Assignment ok\ntest_ccode_For ok                                                         [FAIL]\n\n\n________________________________________________________________________________\n___________ sympy/printing/tests/test_ccode.py:test_ccode_Relational ___________\n  File \"/testbed/sympy/printing/tests/test_ccode.py\", line 125, in test_ccode_Relational\n    assert ccode(Eq(x, y)) == \"x == y\"\nAssertionError\n________________________________________________________________________________\n______________ sympy/printing/tests/test_ccode.py:test_ccode_sinc ______________\n  File \"/testbed/sympy/printing/tests/test_ccode.py\", line 178, in test_ccode_sinc\n    assert ccode(expr) == (\nAssertionError\n\n============= tests finished: 30 passed, 2 failed, in 0.14 seconds =============\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 171.78204941749573
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

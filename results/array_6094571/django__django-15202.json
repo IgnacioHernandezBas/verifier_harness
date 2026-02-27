@@ -1,0 +1,16 @@
+{
+  "instance_id": "django__django-15202",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "test_urlfield_clean (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_clean_invalid (forms_tests.field_tests.test_urlfield.URLFieldTest) ... test_urlfield_clean_not_required (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_clean_required (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_strip_on_none_value (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_unable_to_set_strip_kwarg (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_widget (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\ntest_urlfield_widget_max_min_length (forms_tests.field_tests.test_urlfield.URLFieldTest) ... ok\n\n======================================================================\nFAIL: test_urlfield_clean_invalid (forms_tests.field_tests.test_urlfield.URLFieldTest) (value='#@A.bO')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/testbed/tests/forms_tests/field_tests/test_urlfield.py\", line 112, in test_urlfield_clean_invalid\n    f.clean(value)\n  File \"/opt/miniconda3/envs/testbed/lib/python3.9/contextlib.py\", line 126, in __exit__\n    next(self.gen)\n  File \"/testbed/django/test/testcases.py\", line 698, in _assert_raises_or_warns_cm\n    yield cm\nAssertionError: ValidationError not raised\n\n----------------------------------------------------------------------\nRan 8 tests in 0.038s\n\nFAILED (failures=1)\nTesting against Django installed in '/testbed/django'\nImporting application forms_tests\nFound 8 test(s).\nSkipping setup of unused database(s): default, other.\nSystem check identified no issues (0 silenced).\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 2.396336317062378
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}

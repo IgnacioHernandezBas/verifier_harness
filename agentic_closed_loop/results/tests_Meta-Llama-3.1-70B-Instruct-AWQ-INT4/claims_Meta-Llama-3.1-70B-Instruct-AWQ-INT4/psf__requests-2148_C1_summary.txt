@@ -1,0 +1,50 @@
+================================================================================
+AGENTIC LOOP SUMMARY
+================================================================================
+Instance:       psf__requests-2148
+Claim:          C1
+Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
+Timestamp:      2026-02-18T20:47:59.099891
+SLURM Job:      6283198
+
+STATUS:         ✗ NON-DISCRIMINATIVE
+Attempts:       2 / 10
+
+FINAL RESULTS:
+  Classification: NON_DISCRIMINATIVE
+  Bug:            PASS
+  Gold:           PASS
+  Discriminative: NO
+
+FAILURE REASON: Test does not discriminate between bug and gold
+
+ITERATION HISTORY:
+  [1] GUARDRAIL_FAILED
+      signature_check: 🔍 SIGNATURE CHECK FAILED
+
+The following symbols were not found in module 'requests.models':
+  'Response.iter_content'
+
+💡 POSSIBLE FIXES:
+1. Check if these symbols exist in a different module
+   - Try importing directly: 'import Response' instead
+   - Or look in related modules (check the issue context for correct imports)
+
+2. The symbol might be in the same package but different submodule
+   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
+   - Try: from sympy import Symbol  (imports work across submodules)
+
+3. Look at the test_patch files in the issue - they show working imports
+
+
+
+  [2] UNKNOWN
+      non_discriminative: Both variants pass. Claim may not capture bug.
+
+FILES:
+  Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/psf__requests-2148/psf__requests_2148__test_claim_c1.py
+  State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.err
+================================================================================

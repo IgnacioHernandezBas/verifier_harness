@@ -1,0 +1,16 @@
+{
+  "instance_id": "sympy__sympy-23191",
+  "static": null,
+  "swebench": {
+    "success": false,
+    "exit_code": 1,
+    "test_output": "============================= test process starts ==============================\nexecutable:         /opt/miniconda3/envs/testbed/bin/python  (3.9.20-final-0) [CPython]\narchitecture:       64-bit\ncache:              no\nground types:       python \nnumpy:              None\nrandom seed:        48286741\nhash randomization: on (PYTHONHASHSEED=2458228221)\n\nsympy/vector/tests/test_printing.py[6] \ntest_str_printing ok\ntest_pretty_printing_ascii f\ntest_pretty_print_unicode_v E\ntest_latex_printing ok\ntest_issue_23058 E\ntest_custom_names ok                                                      [FAIL]\n\n\n________________________________________________________________________________\n_______ sympy/vector/tests/test_printing.py:test_pretty_print_unicode_v ________\nTraceback (most recent call last):\n  File \"/testbed/sympy/vector/tests/test_printing.py\", line 124, in test_pretty_print_unicode_v\n    assert upretty(v[1]) == 'i_N'\n  File \"/testbed/sympy/vector/tests/test_printing.py\", line 18, in upretty\n    return xpretty(expr, use_unicode=True, wrap_line=False)\n  File \"/testbed/sympy/printing/printer.py\", line 372, in __call__\n    return self.__wrapped__(*args, **kwargs)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 2836, in pretty\n    return pp.doprint(expr)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 66, in doprint\n    return self._print(expr).render(**self._settings)\n  File \"/testbed/sympy/printing/printer.py\", line 331, in _print\n    return printmethod(expr, **kwargs)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 1158, in _print_BasisDependent\n    for j in range(n_newlines):\nNameError: name 'n_newlines' is not defined\n________________________________________________________________________________\n_____________ sympy/vector/tests/test_printing.py:test_issue_23058 _____________\nTraceback (most recent call last):\n  File \"/testbed/sympy/vector/tests/test_printing.py\", line 198, in test_issue_23058\n    assert upretty(vecB) == vecB_str\n  File \"/testbed/sympy/vector/tests/test_printing.py\", line 18, in upretty\n    return xpretty(expr, use_unicode=True, wrap_line=False)\n  File \"/testbed/sympy/printing/printer.py\", line 372, in __call__\n    return self.__wrapped__(*args, **kwargs)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 2836, in pretty\n    return pp.doprint(expr)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 66, in doprint\n    return self._print(expr).render(**self._settings)\n  File \"/testbed/sympy/printing/printer.py\", line 331, in _print\n    return printmethod(expr, **kwargs)\n  File \"/testbed/sympy/printing/pretty/pretty.py\", line 1152, in _print_BasisDependent\n    if len(parts) == 1:             # If part has no newline\nUnboundLocalError: local variable 'parts' referenced before assignment\n\n= tests finished: 3 passed, 1 expected to fail, 2 exceptions, in 0.55 seconds ==\nDO *NOT* COMMIT!\n",
+    "coverage_data": null,
+    "error": null,
+    "execution_time": 163.00488543510437
+  },
+  "fuzzing": null,
+  "invariance": null,
+  "overall_verdict": "FAIL_SWEBENCH",
+  "errors": []
+}
