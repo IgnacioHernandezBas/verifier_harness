@@ -281,10 +281,33 @@ def _classify_pair(bug: Dict[str, Any], gold: Dict[str, Any], generated_code: st
             )
 
     if bug_status == gold_status:
-        # Extract error details to help LLM fix the issue
+        # OVERCONSTRAINED: Both bug and gold fail - test is too coupled to implementation
         bug_errors = _extract_error_summary(bug)
-        details = f"Both variants returned {bug_status}.\n\nError details from BUG run:\n{bug_errors}"
-        return "other", details
+        gold_errors = _extract_error_summary(gold)
+        details = (
+            f"🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.\n\n"
+            f"This means you are testing an implementation detail that does not exist in either version,\n"
+            f"rather than testing the behavioral claim described in your task.\n\n"
+            f"🔴 ERROR from BUGGY version:\n{bug_errors}\n\n"
+            f"🟢 ERROR from FIXED (gold) version:\n{gold_errors}\n\n"
+            f"💡 ACTION REQUIRED:\n"
+            f"1. Re-read the claim_text from your plan context - what BEHAVIOR should change?\n"
+            f"2. Simplify your test to ONLY verify the behavioral property described in the claim\n"
+            f"3. Do NOT test:\n"
+            f"   - Internal implementation details (private methods, internal state)\n"
+            f"   - Specific exception types from library internals\n"
+            f"   - Line numbers, file paths, or error message text\n"
+            f"   - Implementation artifacts not mentioned in the claim\n"
+            f"4. DO test:\n"
+            f"   - The public API behavior described in the claim\n"
+            f"   - The expected output/result for given inputs\n"
+            f"   - Whether the function succeeds or fails as claimed\n\n"
+            f"**EXAMPLE PATTERN**:\n"
+            f"❌ WRONG: assert obj._internal_state == X\n"
+            f"❌ WRONG: with pytest.raises(SpecificInternalError)\n"
+            f"✅ RIGHT: result = call_the_function(input); assert result == expected_output\n"
+        )
+        return "overconstrained", details
 
     return "other", "Unhandled combination"
 

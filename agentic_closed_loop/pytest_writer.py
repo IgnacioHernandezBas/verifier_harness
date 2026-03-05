@@ -320,6 +320,54 @@ def _build_feedback_guidance(
             f"5. Do NOT skip parameters or call methods directly that need 'self'\n"
         )
 
+    elif "overconstrained" in previous_feedback.lower():
+        # OVERCONSTRAINED: Both bug and gold fail the test
+        guidance.append(
+            f"\n**🚨 OVERCONSTRAINED TEST - CRITICAL ISSUE 🚨**\n\n"
+            f"Your test fails on BOTH the buggy version AND the fixed version.\n"
+            f"This means you are testing implementation details that don't exist in either version,\n"
+            f"instead of testing the actual behavioral claim.\n\n"
+            f"**WHY THIS HAPPENS**:\n"
+            f"- You're asserting on internal state, private methods, or specific exception types\n"
+            f"- You're checking implementation artifacts not mentioned in the claim\n"
+            f"- You're testing HOW the code works internally instead of WHAT it does externally\n\n"
+            f"**MANDATORY FIXES**:\n"
+            f"1. 📖 RE-READ the claim_text from your plan context\n"
+            f"   - What BEHAVIORAL PROPERTY should change between bug and gold?\n"
+            f"   - Focus ONLY on the public API behavior described there\n\n"
+            f"2. 🚫 IGNORE these details:\n"
+            f"   - Internal implementation details (methods starting with _, internal state)\n"
+            f"   - Specific exception types from library internals (unless the claim explicitly mentions them)\n"
+            f"   - Error messages, line numbers, file paths, stack traces\n"
+            f"   - Any code structure not visible through the public API\n\n"
+            f"3. ✅ WRITE A SIMPLER TEST that:\n"
+            f"   - Calls the public API function/method described in the claim\n"
+            f"   - Provides the input described in the claim's 'when' condition\n"
+            f"   - Checks ONLY the behavioral outcome described in the claim's 'then' condition\n"
+            f"   - Uses simple assertions on return values or observable behavior\n\n"
+            f"4. ❌ DO NOT:\n"
+            f"   - Assert on specific exception types unless the claim says \"raises XError\"\n"
+            f"   - Check internal state like obj._internal_field\n"
+            f"   - Mock or patch internal methods\n"
+            f"   - Check error message text or stack trace details\n\n"
+            f"**CONCRETE PATTERN**:\n"
+            f"❌ WRONG:\n"
+            f"   with pytest.raises(SpecificInternalError):\n"
+            f"       obj._private_method()\n"
+            f"   assert obj._internal_state == X\n\n"
+            f"✅ RIGHT:\n"
+            f"   # Call public API with the input from claim\n"
+            f"   result = public_function(input_from_claim)\n"
+            f"   # Check the behavioral outcome from claim\n"
+            f"   assert result == expected_output_from_claim\n"
+            f"   # OR for error cases:\n"
+            f"   assert result is None  # or check that it handles error gracefully\n\n"
+            f"**YOUR NEXT ATTEMPT MUST**:\n"
+            f"- Start from the claim_text and translate it directly to a simple behavioral test\n"
+            f"- Test ONLY what the user would observe through the public API\n"
+            f"- Avoid any testing of 'how' it works internally\n"
+        )
+
     elif "internal_import_error" in previous_feedback or (
         "internal/private module" in previous_feedback.lower()
     ):
