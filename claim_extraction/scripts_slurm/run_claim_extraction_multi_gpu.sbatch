@@ -3,7 +3,7 @@
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
-#SBATCH --gres=gpu:rtxa6000:2
+#SBATCH --gres=gpu:l40s:2
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=128G
 #SBATCH --time=04:00:00
@@ -105,7 +105,11 @@ fi
 
 # Detect model size to optimize parameters
 MODEL_SIZE="unknown"
-if [[ "${MODEL}" =~ 70[Bb] ]]; then
+if [[ "${MODEL}" =~ deepseek-coder-v2-instruct ]]; then
+  MODEL_SIZE="70b"  # Treat DeepSeek-V2 (236B MoE) like 70B for memory config
+elif [[ "${MODEL}" =~ Qwen2.5-72B ]]; then
+  MODEL_SIZE="72b"  # Qwen 72B
+elif [[ "${MODEL}" =~ 70[Bb] ]]; then
   MODEL_SIZE="70b"
 elif [[ "${MODEL}" =~ (32[Bb]|33[Bb]) ]]; then
   MODEL_SIZE="32b"
@@ -119,7 +123,7 @@ TENSOR_PARALLEL_SIZE="${GPU_COUNT}"
 if [[ ${GPU_COUNT} -ge 4 ]]; then
   # 4+ GPUs: Maximum throughput configuration
   GPU_MEM_UTIL=0.85
-  if [[ "${MODEL_SIZE}" == "70b" ]]; then
+  if [[ "${MODEL_SIZE}" == "70b" || "${MODEL_SIZE}" == "72b" ]]; then
     MAX_MODEL_LEN=12288
     MAX_NUM_SEQS=128
   else
@@ -129,9 +133,9 @@ if [[ ${GPU_COUNT} -ge 4 ]]; then
   ENABLE_CHUNKED_PREFILL="true"
 
 elif [[ ${GPU_COUNT} -ge 2 ]]; then
-  # 2-3 GPUs: Balanced configuration (RECOMMENDED for 70B)
+  # 2-3 GPUs: Balanced configuration (RECOMMENDED for 70B/72B)
   GPU_MEM_UTIL=0.90
-  if [[ "${MODEL_SIZE}" == "70b" ]]; then
+  if [[ "${MODEL_SIZE}" == "70b" || "${MODEL_SIZE}" == "72b" ]]; then
     MAX_MODEL_LEN=8192
     MAX_NUM_SEQS=64
   else
@@ -143,7 +147,7 @@ elif [[ ${GPU_COUNT} -ge 2 ]]; then
 else
   # 1 GPU: Memory-constrained configuration
   GPU_MEM_UTIL=0.95
-  if [[ "${MODEL_SIZE}" == "70b" ]]; then
+  if [[ "${MODEL_SIZE}" == "70b" || "${MODEL_SIZE}" == "72b" ]]; then
     MAX_MODEL_LEN=4096
     MAX_NUM_SEQS=32
     ENFORCE_EAGER="true"
@@ -209,7 +213,12 @@ fi
 
 # Add quantization for AWQ models
 if [[ "${MODEL}" =~ AWQ ]]; then
-  VLLM_SERVER_ARGS+=(--quantization awq)
+  # Use awq_marlin for Qwen models (faster)
+  if [[ "${MODEL}" =~ Qwen ]]; then
+    VLLM_SERVER_ARGS+=(--quantization awq_marlin)
+  else
+    VLLM_SERVER_ARGS+=(--quantization awq)
+  fi
 fi
 
 # Enable eager mode for memory-constrained single GPU 70B
@@ -232,7 +241,10 @@ VLLM_PID=$!
 echo "vLLM PID: ${VLLM_PID}"
 
 # Wait for vLLM readiness
-if [[ "${MODEL_SIZE}" == "70b" ]]; then
+if [[ "${MODEL}" =~ deepseek-coder-v2-instruct ]]; then
+  MAX_WAIT_ITERATIONS=300  # 10 minutes for DeepSeek-V2 (120GB model)
+  echo "Waiting for vLLM readiness (DeepSeek-V2 120GB model, may take 5-10 minutes)..."
+elif [[ "${MODEL_SIZE}" == "70b" ]]; then
   MAX_WAIT_ITERATIONS=120  # 4 minutes for 70B models
   echo "Waiting for vLLM readiness (70B model, may take 2-4 minutes)..."
 else

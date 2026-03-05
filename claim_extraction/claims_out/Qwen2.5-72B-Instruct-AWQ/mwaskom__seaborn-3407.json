@@ -1,0 +1,305 @@
+{
+  "instance_id": "mwaskom__seaborn-3407",
+  "repo": "mwaskom/seaborn",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:KeyError",
+      "behavior_keyword:raises",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "pairplot should not raise a KeyError when called with a MultiIndex DataFrame",
+      "given": "A MultiIndex DataFrame is provided as input to pairplot",
+      "when": "sns.pairplot(df) is called",
+      "then": "No KeyError is raised",
+      "target_symbols": [
+        "pairplot"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "pairplot raises KeyError with MultiIndex DataFrame",
+          "When trying to pairplot a MultiIndex DataFrame, `pairplot` raises a `KeyError`:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "pairplot"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "pairplot",
+            "path": "seaborn/axisgrid.py",
+            "line": null,
+            "snippet": "...pairplot..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "pairplot raises KeyError with MultiIndex DataFrame"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "When trying to pairplot a MultiIndex DataFrame, `pairplot` raises a `KeyError`:"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "state_change",
+      "claim_text": "pairplot should correctly map the columns of a MultiIndex DataFrame to the plot axes",
+      "given": "A MultiIndex DataFrame is provided as input to pairplot",
+      "when": "sns.pairplot(df) is called",
+      "then": "The plot axes are correctly populated with the data from the MultiIndex DataFrame",
+      "target_symbols": [
+        "map_diag"
+      ],
+      "confidence": "medium",
+      "evidence": {
+        "spans": [
+          "pairplot raises KeyError with MultiIndex DataFrame",
+          "When trying to pairplot a MultiIndex DataFrame, `pairplot` raises a `KeyError`:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "map_diag"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "map_diag",
+            "path": "seaborn/axisgrid.py",
+            "line": null,
+            "snippet": "...map_diag..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "pairplot raises KeyError with MultiIndex DataFrame"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "When trying to pairplot a MultiIndex DataFrame, `pairplot` raises a `KeyError`:"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "-1: no_observable",
+        "+0: medium_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_language",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 1,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.5,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "import numpy as np\r\nimport pandas as pd\r\nimport seaborn as sns\r\n\r\n\r\ndata = {\r\n    (\"A\", \"1\"): np.random.rand(100),\r\n    (\"A\", \"2\"): np.random.rand(100),\r\n    (\"B\", \"1\"): np.random.rand(100),\r\n    (\"B\", \"2\"): np.random.rand(100),\r\n}\r\ndf = pd.DataFrame(data)\r\nsns.pairplot(df)\r",
+        "source": "fenced",
+        "span": {
+          "start": 142,
+          "end": 432
+        }
+      },
+      {
+        "lang": "text",
+        "content": "[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\seaborn\\axisgrid.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/seaborn/axisgrid.py) in pairplot(data, hue, hue_order, palette, vars, x_vars, y_vars, kind, diag_kind, markers, height, aspect, corner, dropna, plot_kws, diag_kws, grid_kws, size)\r\n   2142     diag_kws.setdefault(\"legend\", False)\r\n   2143     if diag_kind == \"hist\":\r\n-> 2144         grid.map_diag(histplot, **diag_kws)\r\n   2145     elif diag_kind == \"kde\":\r\n   2146         diag_kws.setdefault(\"fill\", True)\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\seaborn\\axisgrid.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/seaborn/axisgrid.py) in map_diag(self, func, **kwargs)\r\n   1488                 plt.sca(ax)\r\n   1489 \r\n-> 1490             vector = self.data[var]\r\n   1491             if self._hue_var is not None:\r\n   1492                 hue = self.data[self._hue_var]\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\frame.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/frame.py) in __getitem__(self, key)\r\n   3765             if is_iterator(key):\r\n   3766                 key = list(key)\r\n-> 3767             indexer = self.columns._get_indexer_strict(key, \"columns\")[1]\r\n   3768 \r\n   3769         # take() does not accept boolean indexers\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\multi.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/indexes/multi.py) in _get_indexer_strict(self, key, axis_name)\r\n   2534             indexer = self._get_indexer_level_0(keyarr)\r\n   2535 \r\n-> 2536             self._raise_if_missing(key, indexer, axis_name)\r\n   2537             return self[indexer], indexer\r\n   2538 \r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\multi.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/indexes/multi.py) in _raise_if_missing(self, key, indexer, axis_name)\r\n   2552                 cmask = check == -1\r\n   2553                 if cmask.any():\r\n-> 2554                     raise KeyError(f\"{keyarr[cmask]} not in index\")\r\n   2555                 # We get here when levels still contain values which are not\r\n   2556                 # actually in Index anymore\r\n\r\nKeyError: \"['1'] not in index\"\r",
+        "source": "fenced",
+        "span": {
+          "start": 447,
+          "end": 2701
+        }
+      },
+      {
+        "lang": "python",
+        "content": "df.columns = [\"\".join(column) for column in df.columns]\r",
+        "source": "fenced",
+        "span": {
+          "start": 2750,
+          "end": 2821
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\nimport numpy as np\r\nimport pandas as pd\r\nimport seaborn as sns\r\n\r\n\r\ndata = {\r\n    (\"A\", \"1\"): np.random.rand(100),\r\n    (\"A\", \"2\"): np.random.rand(100),\r\n    (\"B\", \"1\"): np.random.rand(100),\r\n    (\"B\", \"2\"): np.random.rand(100),\r\n}\r\ndf = pd.DataFrame(data)\r\nsns.pairplot(df)",
+        "span": {
+          "start": 144,
+          "end": 430
+        }
+      },
+      {
+        "command": "[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\seaborn\\axisgrid.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/seaborn/axisgrid.py) in pairplot(data, hue, hue_order, palette, vars, x_vars, y_vars, kind, diag_kind, markers, height, aspect, corner, dropna, plot_kws, diag_kws, grid_kws, size)\r\n   2142     diag_kws.setdefault(\"legend\", False)\r\n   2143     if diag_kind == \"hist\":\r\n-> 2144         grid.map_diag(histplot, **diag_kws)\r\n   2145     elif diag_kind == \"kde\":\r\n   2146         diag_kws.setdefault(\"fill\", True)\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\seaborn\\axisgrid.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/seaborn/axisgrid.py) in map_diag(self, func, **kwargs)\r\n   1488                 plt.sca(ax)\r\n   1489 \r\n-> 1490             vector = self.data[var]\r\n   1491             if self._hue_var is not None:\r\n   1492                 hue = self.data[self._hue_var]\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\frame.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/frame.py) in __getitem__(self, key)\r\n   3765             if is_iterator(key):\r\n   3766                 key = list(key)\r\n-> 3767             indexer = self.columns._get_indexer_strict(key, \"columns\")[1]\r\n   3768 \r\n   3769         # take() does not accept boolean indexers\r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\multi.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/indexes/multi.py) in _get_indexer_strict(self, key, axis_name)\r\n   2534             indexer = self._get_indexer_level_0(keyarr)\r\n   2535 \r\n-> 2536             self._raise_if_missing(key, indexer, axis_name)\r\n   2537             return self[indexer], indexer\r\n   2538 \r\n\r\n[c:\\Users\\KLuu\\anaconda3\\lib\\site-packages\\pandas\\core\\indexes\\multi.py](file:///C:/Users/KLuu/anaconda3/lib/site-packages/pandas/core/indexes/multi.py) in _raise_if_missing(self, key, indexer, axis_name)\r\n   2552                 cmask = check == -1\r\n   2553                 if cmask.any():\r\n-> 2554                     raise KeyError(f\"{keyarr[cmask]} not in index\")\r\n   2555                 # We get here when levels still contain values which are not\r\n   2556                 # actually in Index anymore\r\n\r\nKeyError: \"['1'] not in index\"",
+        "span": {
+          "start": 449,
+          "end": 2699
+        }
+      },
+      {
+        "command": "python\r\ndf.columns = [\"\".join(column) for column in df.columns]",
+        "span": {
+          "start": 2752,
+          "end": 2819
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "np.random",
+        "pd.DataFrame",
+        "sns.pairplot",
+        "axisgrid.py",
+        "diag_kws.setdefault",
+        "grid.map_diag",
+        "plt.sca",
+        "self.data",
+        "self._hue_var",
+        "frame.py",
+        "self.columns",
+        "multi.py",
+        "self._get_indexer_level_0",
+        "self._raise_if_missing",
+        "cmask.any",
+        "df.columns"
+      ],
+      "paths": [
+        "axisgrid.py",
+        "Users/KLuu/anaconda3/lib/site-packages/seaborn/axisgrid.py",
+        "frame.py",
+        "Users/KLuu/anaconda3/lib/site-packages/pandas/core/frame.py",
+        "multi.py",
+        "Users/KLuu/anaconda3/lib/site-packages/pandas/core/indexes/multi.py"
+      ],
+      "options": []
+    }
+  }
+}

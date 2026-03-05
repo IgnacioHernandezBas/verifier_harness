@@ -1,0 +1,247 @@
+{
+  "instance_id": "django__django-13028",
+  "repo": "django/django",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 4,
+    "reasons": [
+      "has_stacktrace",
+      "behavior_keyword:raises",
+      "has_func_refs"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When filtering a queryset with a model that has a field labeled 'filterable' set to False, a NotSupportedError should be raised.",
+      "given": "A model class with a field labeled 'filterable' set to False",
+      "when": "ProductMetaData.objects.filter(value='Dark Vador', metadata_type=self.brand_metadata) is called",
+      "then": "NotSupportedError is raised",
+      "target_symbols": [
+        "check_filterable"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "ProductMetaDataType is disallowed in the filter clause."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "check_filterable"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "check_filterable",
+            "path": "django/db/models/sql/query.py",
+            "line": null,
+            "snippet": "...check_filterable..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "ProductMetaDataType is disallowed in the filter clause."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "When filtering a queryset with a model that has a field labeled 'filterable' set to True, no NotSupportedError should be raised.",
+      "given": "A model class with a field labeled 'filterable' set to True",
+      "when": "ProductMetaData.objects.filter(value='Dark Vador', metadata_type=self.brand_metadata) is called",
+      "then": "No exception is raised",
+      "target_symbols": [
+        "check_filterable"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "I changed label to filterable_test and it fixed this issue"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "check_filterable"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "check_filterable",
+            "path": "django/db/models/sql/query.py",
+            "line": null,
+            "snippet": "...check_filterable..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "I changed label to filterable_test and it fixed this issue"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 4,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\n File \"/backoffice/backoffice/adminpricing/tests/test_pw.py\", line 481, in test_checkpolicywarning_by_fields\n\tfor p in ProductMetaData.objects.filter(\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/manager.py\", line 82, in manager_method\n\treturn getattr(self.get_queryset(), name)(*args, **kwargs)\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/query.py\", line 904, in filter\n\treturn self._filter_or_exclude(False, *args, **kwargs)\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/query.py\", line 923, in _filter_or_exclude\n\tclone.query.add_q(Q(*args, **kwargs))\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py\", line 1351, in add_q\n\tclause, _ = self._add_q(q_object, self.used_aliases)\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py\", line 1378, in _add_q\n\tchild_clause, needed_inner = self.build_filter(\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py\", line 1264, in build_filter\n\tself.check_filterable(value)\n File \"/usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py\", line 1131, in check_filterable\n\traise NotSupportedError(\ndjango.db.utils.NotSupportedError: ProductMetaDataType is disallowed in the filter clause.\nI changed label to filterable_test and it fixed this issue\nThis should be documented or fix.",
+        "span": {
+          "start": 1441,
+          "end": 2838
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "models.Model",
+        "models.CharField",
+        "models.BooleanField",
+        "self.label",
+        "models.BigAutoField",
+        "models.ForeignKey",
+        "models.CASCADE",
+        "models.TextField",
+        "models.DateTimeField",
+        "timezone.now",
+        "ProductMetaData.objects",
+        "self.brand_metadata",
+        "test_pw.py",
+        "manager.py",
+        "self.get_queryset",
+        "query.py",
+        "self._filter_or_exclude",
+        "clone.query",
+        "self._add_q",
+        "self.used_aliases",
+        "self.build_filter",
+        "self.check_filterable",
+        "django.db",
+        "utils.NotSupportedError"
+      ],
+      "paths": [
+        "backoffice/backoffice/adminpricing/tests/test_pw.py",
+        "usr/local/lib/python3.8/site-packages/django/db/models/manager.py",
+        "usr/local/lib/python3.8/site-packages/django/db/models/query.py",
+        "usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py"
+      ],
+      "options": []
+    }
+  }
+}

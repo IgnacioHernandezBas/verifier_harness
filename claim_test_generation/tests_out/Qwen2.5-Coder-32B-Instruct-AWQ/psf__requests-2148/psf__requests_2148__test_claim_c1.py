@@ -1,52 +1,32 @@
-# Checklist TODO: Test raises ConnectionError on socket error
-# Checklist TODO: Verify normal behavior without errors
-# Checklist TODO: Check for other error types
+# Checklist TODO: Simulated socket error triggers ConnectionError.
+# Checklist TODO: iter_content handles error gracefully across chunk sizes.
+# Checklist TODO: decode_unicode parameter does not affect error handling.
 import pytest
-import requests
-from requests.exceptions import ConnectionError
 from requests.models import Response
+from requests.exceptions import ConnectionError
+import socket
 
-@pytest.fixture
-def mock_response(monkeypatch):
+def test_claim_c1(monkeypatch):
+    # Given: A socket error occurs during a request
+    r = Response()
+
     class RawMock(object):
         def stream(self, chunk_size, decode_content=None):
             raise socket.error()
 
-    def mock_raw():
-        return RawMock()
+    r.raw = RawMock()
 
-    monkeypatch.setattr(Response, 'raw', property(mock_raw))
-    return Response()
-
-def test_claim_c1(mock_response):
-    # Given: A socket error occurs during a request
-    # When: Calling Response.iter_content()
+    # When: iter_content is called on a Response object
     # Then: A requests.exceptions.ConnectionError is raised
     with pytest.raises(ConnectionError):
-        list(mock_response.iter_content())
+        list(r.iter_content())
 
-def test_iter_content_no_error():
-    # Given: No error occurs during a request
-    # When: Calling Response.iter_content()
-    # Then: No exception is raised
-    response = Response()
-    response._content = b"test content"
-    list(response.iter_content())
-    # No exception should be raised
+    # Edge case: Test with different chunk sizes to ensure error handling is consistent
+    for chunk_size in [1, 1024, 4096]:
+        with pytest.raises(ConnectionError):
+            list(r.iter_content(chunk_size=chunk_size))
 
-def test_iter_content_other_error(monkeypatch):
-    # Given: A different error occurs during a request
-    # When: Calling Response.iter_content()
-    # Then: The specific error is raised
-    class RawMock(object):
-        def stream(self, chunk_size, decode_content=None):
-            raise ValueError("Other error")
-
-    def mock_raw():
-        return RawMock()
-
-    monkeypatch.setattr(Response, 'raw', property(mock_raw))
-    response = Response()
-    with pytest.raises(ValueError) as excinfo:
-        list(response.iter_content())
-    assert str(excinfo.value) == "Other error"
+    # Edge case: Test with decode_unicode set to True and False
+    for decode_unicode in [True, False]:
+        with pytest.raises(ConnectionError):
+            list(r.iter_content(decode_unicode=decode_unicode))

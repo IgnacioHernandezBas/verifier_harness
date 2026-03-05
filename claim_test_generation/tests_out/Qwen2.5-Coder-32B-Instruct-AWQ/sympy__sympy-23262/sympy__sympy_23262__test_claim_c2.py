@@ -1,49 +1,25 @@
-# Checklist TODO: Test confirms tuple return with multiple elements.
-# Checklist TODO: Handles tuples of varying lengths correctly.
-# Checklist TODO: Generates code with commas between tuple elements.
+# Checklist TODO: Test passes with a multi-element tuple input.
+# Checklist TODO: Lambda function returns the correct tuple output.
+# Checklist TODO: Edge cases are handled appropriately.
 import pytest
-from sympy import lambdify
-from sympy.utilities.lambdify import _recursive_to_string
+from sympy.utilities.lambdify import lambdify
 
 def test_claim_c2():
-    # Given: A tuple with two or more elements is passed to lambdify.
-    # When: Calling lambdify with a tuple of two or more elements.
-    # Then: The generated code should return a tuple with commas between elements.
-
-    # Test confirms tuple return with multiple elements.
-    f1 = lambdify([], (1, 2))
-    assert isinstance(f1(), tuple)  # Result is a tuple.
-    assert f1() == (1, 2)  # Generated function returns a tuple with commas.
-
-    # Handles tuples of varying lengths correctly.
-    f2 = lambdify([], (1, 2, 3))
-    assert isinstance(f2(), tuple)  # Result is a tuple.
-    assert f2() == (1, 2, 3)  # Generated function returns a tuple with commas.
-
-    # Uses different data types within the tuple elements.
-    f3 = lambdify([], (1, 'a', 3.0))
-    assert isinstance(f3(), tuple)  # Result is a tuple.
-    assert f3() == (1, 'a', 3.0)  # Generated function returns a tuple with commas.
-
-    # Edge case: Pass an empty tuple to lambdify.
-    f4 = lambdify([], ())
-    assert isinstance(f4(), tuple)  # Result is a tuple.
-    assert f4() == ()  # Generated function returns an empty tuple.
-
-    # Edge case: Pass a tuple with a single element to lambdify.
-    f5 = lambdify([], (1,))
-    assert isinstance(f5(), tuple)  # Result is a tuple.
-    assert f5() == (1,)  # Generated function returns a tuple with a trailing comma.
-
-    # Edge case: Pass a tuple with nested tuples to lambdify.
-    f6 = lambdify([], ((1, 2), (3, 4)))
-    assert isinstance(f6(), tuple)  # Result is a tuple.
-    assert f6() == ((1, 2), (3, 4))  # Generated function returns a tuple with nested tuples.
-
-    # Check _recursive_to_string directly
-    doprint = lambda x: x
-    assert _recursive_to_string(doprint, (1, 2)) == '(1, 2)'
-    assert _recursive_to_string(doprint, (1, 'a', 3.0)) == "(1, 'a', 3.0)"
-    assert _recursive_to_string(doprint, ()) == '()'
-    assert _recursive_to_string(doprint, (1,)) == '(1,)'
-    assert _recursive_to_string(doprint, ((1, 2), (3, 4))) == '((1, 2), (3, 4))'
+    # Given: A multi-element tuple (1, 2) is provided as the argument to `lambdify`.
+    # When: The `lambdify` function is called with an empty list and the multi-element tuple.
+    f = lambdify([], (1, 2))
+    
+    # Then: The generated lambda function returns a tuple with multiple elements, represented as (1, 2).
+    assert f() == (1, 2)
+    
+    # Edge case: Test with a single-element tuple to ensure it returns a single-element tuple.
+    f_single = lambdify([], (1,))
+    assert f_single() == (1,)
+    
+    # Edge case: Test with an empty tuple to see if it returns an empty tuple.
+    f_empty = lambdify([], ())
+    assert f_empty() == ()
+    
+    # Edge case: Test with non-numeric elements in the tuple.
+    f_non_numeric = lambdify([], ('a', 'b'))
+    assert f_non_numeric() == ('a', 'b')

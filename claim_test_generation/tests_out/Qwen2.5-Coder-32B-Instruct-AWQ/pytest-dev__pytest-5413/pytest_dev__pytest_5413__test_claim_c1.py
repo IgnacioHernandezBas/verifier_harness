@@ -1,32 +1,28 @@
+# Checklist TODO: Test passes with correct LookupError message
+# Checklist TODO: str(e) output matches expected format
+# Checklist TODO: Test fails with incorrect LookupError message
 import pytest
 
 def test_claim_c1():
-    # Test verifies str() returns full multi-line error message
-    # Given: A LookupError is raised with a multi-line error message
-    multi_line_error_message = "A\nB\nC"
-    with pytest.raises(LookupError) as excinfo:
-        raise LookupError(multi_line_error_message)
-    # When: calling str() on the pytest.raises context variable
-    error_str = str(excinfo.value)
-    # Then: returns the full error message, including all lines
-    assert error_str == multi_line_error_message
+    # Given: A LookupError is raised within a pytest.raises context
+    with pytest.raises(LookupError) as e:
+        raise LookupError("A\nB\nC")
+    
+    # When: str(e) is called on the pytest.raises context variable e
+    # Then: returns 'A\nB\nC'
+    assert str(e.value) == "A\nB\nC"
 
-    # Handles error messages without newline characters
-    # Given: A LookupError is raised with a single-line error message
-    single_line_error_message = "SingleLineError"
-    with pytest.raises(LookupError) as excinfo:
-        raise LookupError(single_line_error_message)
-    # When: calling str() on the pytest.raises context variable
-    error_str = str(excinfo.value)
-    # Then: returns the full error message, including all lines
-    assert error_str == single_line_error_message
+    # Edge case: Empty error message
+    with pytest.raises(LookupError) as e:
+        raise LookupError("")
+    assert str(e.value) == ""
 
-    # Consistently includes all lines in the error message
-    # Given: A LookupError is raised with a multi-line error message including leading and trailing newlines
-    multi_line_error_message_with_newlines = "\nA\nB\nC\n"
-    with pytest.raises(LookupError) as excinfo:
-        raise LookupError(multi_line_error_message_with_newlines)
-    # When: calling str() on the pytest.raises context variable
-    error_str = str(excinfo.value)
-    # Then: returns the full error message, including all lines
-    assert error_str == multi_line_error_message_with_newlines
+    # Edge case: Multiline error message with different content
+    with pytest.raises(LookupError) as e:
+        raise LookupError("X\nY\nZ")
+    assert str(e.value) == "X\nY\nZ"
+
+    # Edge case: Error message with special characters
+    with pytest.raises(LookupError) as e:
+        raise LookupError("!@#\n$%^&*()")
+    assert str(e.value) == "!@#\n$%^&*()"

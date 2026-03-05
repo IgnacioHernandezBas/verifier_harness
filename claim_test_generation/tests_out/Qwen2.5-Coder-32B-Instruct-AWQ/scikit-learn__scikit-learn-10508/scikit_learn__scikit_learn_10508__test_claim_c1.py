@@ -1,47 +1,24 @@
-# Checklist TODO: LabelEncoder returns an empty array for empty input.
-# Checklist TODO: Output array has dtype int64.
-# Checklist TODO: Test passes with various empty input types.
+# Checklist TODO: Test transform with empty input after fitting integers.
+# Checklist TODO: Test transform with empty input after fitting strings.
+# Checklist TODO: Ensure empty array is returned in both cases.
 import pytest
 from sklearn.preprocessing import LabelEncoder
-import numpy as np
 
 def test_claim_c1():
-    # Given: LabelEncoder is fitted with a non-empty list of integers.
-    le = LabelEncoder()
-    le.fit([1, 2])
+    # Test transform with empty input after fitting integers.
+    # Given: LabelEncoder is fit with a list of integers [1, 2]
+    le_integers = LabelEncoder()
+    le_integers.fit([1, 2])
+    # When: LabelEncoder.transform is called with an empty list
+    transformed_integers = le_integers.transform([])
+    # Then: Ensure empty array is returned
+    assert transformed_integers.size == 0
 
-    # When: transform is called with an empty list.
-    transformed_list = le.transform([])
-
-    # Then: The output is an empty array.
-    assert len(transformed_list) == 0
-
-    # And: The dtype of the output array is int64.
-    assert transformed_list.dtype == np.int64
-
-    # When: transform is called with an empty tuple.
-    transformed_tuple = le.transform(())
-
-    # Then: The output is an empty array.
-    assert len(transformed_tuple) == 0
-
-    # And: The dtype of the output array is int64.
-    assert transformed_tuple.dtype == np.int64
-
-    # When: transform is called with an empty set.
-    transformed_set = le.transform(set())
-
-    # Then: The output is an empty array.
-    assert len(transformed_set) == 0
-
-    # And: The dtype of the output array is int64.
-    assert transformed_set.dtype == np.int64
-
-    # When: transform is called with an empty numpy array.
-    transformed_array = le.transform(np.array([]))
-
-    # Then: The output is an empty array.
-    assert transformed_array.size == 0
-
-    # And: The dtype of the output array is int64.
-    assert transformed_array.dtype == np.int64
+    # Test transform with empty input after fitting strings.
+    # Given: LabelEncoder is fit with a list of strings ['a', 'b']
+    le_strings = LabelEncoder()
+    le_strings.fit(['a', 'b'])
+    # When: LabelEncoder.transform is called with an empty list
+    transformed_strings = le_strings.transform([])
+    # Then: Ensure empty array is returned
+    assert transformed_strings.size == 0

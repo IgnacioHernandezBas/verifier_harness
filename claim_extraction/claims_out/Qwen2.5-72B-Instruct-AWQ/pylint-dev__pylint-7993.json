@@ -1,0 +1,354 @@
+{
+  "instance_id": "pylint-dev__pylint-7993",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 3,
+    "reasons": [
+      "behavior_keyword:does not",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "The message template should correctly format the output with the specified custom braces.",
+      "given": "A message template with custom braces is provided, e.g., '--msg-template={{ \"Category\": \"{category}\" }}'.",
+      "when": "pylint is invoked with the provided message template.",
+      "then": "The output should include the formatted messages with the 'Category' key and the corresponding category value.",
+      "target_symbols": [
+        "TextReporter.on_set_current_module",
+        "TextReporter.write_message"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "I am able to use this as my message template\n```$ pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'\nNo config file found, using default configuration\n************* Module [redacted].test\n{ \"Category\": \"convention\" }\n{ \"Category\": \"error\" }\n{ \"Category\": \"error\" }\n{ \"Category\": \"convention\" }\n{ \"Category\": \"convention\" }\n{ \"Category\": \"convention\" }\n{ \"Category\": \"error\" }\n```"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          0,
+          1
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "TextReporter.on_set_current_module",
+          "TextReporter.write_message"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "TextReporter.write_message",
+            "path": "pylint/reporters/text.py",
+            "line": null,
+            "snippet": "...TextReporter.write_message..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "TextReporter.on_set_current_module",
+            "path": "pylint/reporters/text.py",
+            "line": null,
+            "snippet": "...TextReporter.on_set_current_module..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "97%",
+            "span": "I am able to use this as my message template\n```$ pylint test.py --msg-template="
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "No warning should be raised for unrecognized arguments in the message template.",
+      "given": "A message template with custom braces is provided, e.g., '--msg-template={{ \"Category\": \"{category}\" }}'.",
+      "when": "pylint is invoked with the provided message template.",
+      "then": "No UserWarning should be raised regarding unrecognized arguments.",
+      "target_symbols": [
+        "TextReporter.on_set_current_module"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recognize the argument '{ \"Category\"' in the --msg-template. Are you sure it is supported on the current version of pylint?\n  warnings.warn("
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          3,
+          6
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "TextReporter.on_set_current_module"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "TextReporter.on_set_current_module",
+            "path": "pylint/reporters/text.py",
+            "line": null,
+            "snippet": "...TextReporter.on_set_current_module..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recogn"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 3,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "$ pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'\r\nNo config file found, using default configuration\r\n************* Module [redacted].test\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"error\" }\r\n{ \"Category\": \"error\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"error\" }\r",
+        "source": "fenced",
+        "span": {
+          "start": 178,
+          "end": 536
+        }
+      },
+      {
+        "lang": "text",
+        "content": "$ pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'\r\n[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recognize the argument '{ \"Category\"' in the --msg-template. Are you sure it is supported on the current version of pylint?\r\n  warnings.warn(\r\n************* Module [redacted].test\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r",
+        "source": "fenced",
+        "span": {
+          "start": 604,
+          "end": 963
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'",
+        "source": "fenced",
+        "span": {
+          "start": 1050,
+          "end": 1125
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recognize the argument '{ \"Category\"' in the --msg-template. Are you sure it is supported on the current version of pylint?\r\n  warnings.warn(\r\n************* Module [redacted].test\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }",
+        "source": "fenced",
+        "span": {
+          "start": 1147,
+          "end": 1443
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "Affected Version:\r\npylint 2.12.2\r\nastroid 2.9.2\r\nPython 3.9.9+ (heads/3.9-dirty:a2295a4, Dec 21 2021, 22:32:52) \r\n[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]\r\n\r\n\r\nPreviously working version:\r\nNo config file found, using default configuration\r\npylint 1.7.4, \r\nastroid 1.6.6\r\nPython 3.6.8 (default, Nov 16 2020, 16:55:22) \r\n[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]",
+        "source": "fenced",
+        "span": {
+          "start": 1555,
+          "end": 1925
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "$ pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'\r\nNo config file found, using default configuration\r\n************* Module [redacted].test\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"error\" }\r\n{ \"Category\": \"error\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"convention\" }\r\n{ \"Category\": \"error\" }",
+        "span": {
+          "start": 180,
+          "end": 534
+        }
+      },
+      {
+        "command": "pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'",
+        "span": {
+          "start": 183,
+          "end": 248
+        }
+      },
+      {
+        "command": "However, on Python3.9 with Pylint 2.12.2, I get the following:",
+        "span": {
+          "start": 535,
+          "end": 605
+        }
+      },
+      {
+        "command": "$ pylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'\r\n[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recognize the argument '{ \"Category\"' in the --msg-template. Are you sure it is supported on the current version of pylint?\r\n  warnings.warn(\r\n************* Module [redacted].test\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }",
+        "span": {
+          "start": 606,
+          "end": 961
+        }
+      },
+      {
+        "command": "shell\npylint test.py --msg-template='{{ \"Category\": \"{category}\" }}'",
+        "span": {
+          "start": 1052,
+          "end": 1123
+        }
+      },
+      {
+        "command": "### Pylint output",
+        "span": {
+          "start": 1124,
+          "end": 1148
+        }
+      },
+      {
+        "command": "shell\n[redacted]/site-packages/pylint/reporters/text.py:206: UserWarning: Don't recognize the argument '{ \"Category\"' in the --msg-template. Are you sure it is supported on the current version of pylint?\r\n  warnings.warn(\r\n************* Module [redacted].test\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }\r\n\" }",
+        "span": {
+          "start": 1149,
+          "end": 1441
+        }
+      },
+      {
+        "command": "as the key.\n\n### Pylint version",
+        "span": {
+          "start": 1520,
+          "end": 1556
+        }
+      },
+      {
+        "command": "shell\nAffected Version:\r\npylint 2.12.2\r\nastroid 2.9.2\r\nPython 3.9.9+ (heads/3.9-dirty:a2295a4, Dec 21 2021, 22:32:52) \r\n[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]\r\n\r\n\r\nPreviously working version:\r\nNo config file found, using default configuration\r\npylint 1.7.4, \r\nastroid 1.6.6\r\nPython 3.6.8 (default, Nov 16 2020, 16:55:22) \r\n[GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]",
+        "span": {
+          "start": 1557,
+          "end": 1923
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "test.py",
+        "text.py",
+        "warnings.warn"
+      ],
+      "paths": [
+        "test.py",
+        "site-packages/pylint/reporters/text.py"
+      ],
+      "options": [
+        "--msg-template='{{",
+        "--msg-template"
+      ]
+    }
+  }
+}

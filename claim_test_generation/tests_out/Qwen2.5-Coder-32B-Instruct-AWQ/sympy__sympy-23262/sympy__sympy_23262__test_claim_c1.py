@@ -1,38 +1,32 @@
-# Checklist TODO: Test confirms tuple with one element includes trailing comma.
-# Checklist TODO: Test handles empty tuple correctly.
-# Checklist TODO: Test verifies multiple element tuples are formatted correctly.
+# Checklist TODO: Test passes with a single-element tuple.
+# Checklist TODO: Lambda function returns a tuple with a single element.
+# Checklist TODO: Test handles different types of single-element tuples.
 import pytest
-from sympy import lambdify
-from sympy.utilities.lambdify import _recursive_to_string
+from sympy.utilities.lambdify import lambdify
 
-def test_claim_c1(monkeypatch):
-    # Given: A tuple with one element is passed to lambdify.
-    # When: Calling lambdify with a tuple of one element.
-    f1 = lambdify([], (1,))
-    result = f1()
-    
-    # Then: The generated code should return a tuple with a comma after the element.
-    assert isinstance(result, tuple)  # Result is a tuple with trailing comma.
-    assert len(result) == 1  # Tuple has one element.
-    assert result == (1,)  # Tuple contains the correct element with trailing comma.
+def test_claim_c1():
+    # Given: A single-element tuple is provided as the argument to `lambdify`.
+    # When: The `lambdify` function is called with an empty list and a single-element tuple.
+    f = lambdify([], (1,))
+    # Then: The generated lambda function returns a tuple with a single element, represented as (1,).
+    assert f() == (1,)
 
-    # Test handles empty tuple correctly.
-    f2 = lambdify([], ())
-    result = f2()
-    assert isinstance(result, tuple)  # Result is a tuple.
-    assert len(result) == 0  # Tuple is empty.
+    # Test handles different types of single-element tuples.
+    # Given: A single-element tuple with a different integer.
+    # When: The `lambdify` function is called with an empty list and a single-element tuple.
+    f2 = lambdify([], (2,))
+    # Then: The generated lambda function returns a tuple with a single element, represented as (2,).
+    assert f2() == (2,)
 
-    # Test verifies multiple element tuples are formatted correctly.
-    f3 = lambdify([], (1, 2, 3))
-    result = f3()
-    assert isinstance(result, tuple)  # Result is a tuple.
-    assert len(result) == 3  # Tuple has three elements.
-    assert result == (1, 2, 3)  # Tuple contains the correct elements.
+    # Given: A single-element tuple with a non-integer element.
+    # When: The `lambdify` function is called with an empty list and a single-element tuple.
+    f3 = lambdify([], ('a',))
+    # Then: The generated lambda function returns a tuple with a single element, represented as ('a',).
+    assert f3() == ('a',)
 
-    # Additional check for _recursive_to_string
-    def mock_doprint(arg):
-        return str(arg)
-    
-    monkeypatch.setattr('sympy.utilities.lambdify.doprint', mock_doprint)
-    result = _recursive_to_string(mock_doprint, (1,))
-    assert result == "(1,)"  # _recursive_to_string returns string with trailing comma.
+    # Test with additional keyword arguments to `lambdify`.
+    # Given: A single-element tuple is provided as the argument to `lambdify`.
+    # When: The `lambdify` function is called with an empty list, a single-element tuple, and additional keyword arguments.
+    f4 = lambdify([], (1,), use_imps=False)
+    # Then: The generated lambda function returns a tuple with a single element, represented as (1,).
+    assert f4() == (1,)

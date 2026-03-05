@@ -1,37 +1,53 @@
 import pytest
-from src._pytest._io.saferepr import SafeRepr
 
+# Given: An instance of SomeClass is created and an attribute is accessed, which raises an exception in __getattribute__ and __repr__.
+class SomeClass:
+    def __getattribute__(self, attr):
+        raise RuntimeError
+
+    def __repr__(self):
+        raise RuntimeError
+
+# When: pytest runs the test function `test`
 def test_claim_c1(monkeypatch):
-    # Given: An object with a __repr__ method that raises an exception
-    class ExceptionRaisingObject:
+    # Test function runs without raising INTERNALERROR
+    # Test failure or error is raised as expected
+    # Exceptions in __getattribute__ and __repr__ are handled correctly
+    some_instance = SomeClass()
+    with pytest.raises(RuntimeError):
+        repr(some_instance)
+
+    # Edge case: Exception in __getattribute__ but not in __repr__
+    class SomeClassEdgeCase1:
+        def __getattribute__(self, attr):
+            raise RuntimeError
+
         def __repr__(self):
-            raise RuntimeError("Test exception")
+            return "SomeClassEdgeCase1"
 
-    # When: Calling SafeRepr.repr() on that object
-    exception_raising_object = ExceptionRaisingObject()
-    safe_repr = SafeRepr(maxsize=1000)
-    result = safe_repr.repr(exception_raising_object)
+    some_instance_edge_case_1 = SomeClassEdgeCase1()
+    with pytest.raises(RuntimeError):
+        repr(some_instance_edge_case_1)
 
-    # Then: SafeRepr.repr() should return a string containing information about the exception
-    assert "RuntimeError" in result
-    assert "Test exception" in result
+    # Edge case: Exception in __repr__ but not in __getattribute__
+    class SomeClassEdgeCase2:
+        def __getattribute__(self, attr):
+            return None
 
-    # Test passes when __repr__ raises an exception
-    assert "ExceptionRaisingObject" in result
-
-    # Test fails when __repr__ does not raise an exception
-    class NonExceptionRaisingObject:
         def __repr__(self):
-            return "NonExceptionRaisingObject"
-    non_exception_raising_object = NonExceptionRaisingObject()
-    result = safe_repr.repr(non_exception_raising_object)
-    assert "NonExceptionRaisingObject" in result
+            raise RuntimeError
 
-    # Test handles different types of exceptions raised by __repr__
-    class DifferentExceptionRaisingObject:
+    some_instance_edge_case_2 = SomeClassEdgeCase2()
+    with pytest.raises(RuntimeError):
+        repr(some_instance_edge_case_2)
+
+    # Edge case: No exceptions in __getattribute__ or __repr__
+    class SomeClassEdgeCase3:
+        def __getattribute__(self, attr):
+            return None
+
         def __repr__(self):
-            raise ValueError("Different test exception")
-    different_exception_raising_object = DifferentExceptionRaisingObject()
-    result = safe_repr.repr(different_exception_raising_object)
-    assert "ValueError" in result
-    assert "Different test exception" in result
+            return "SomeClassEdgeCase3"
+
+    some_instance_edge_case_3 = SomeClassEdgeCase3()
+    assert repr(some_instance_edge_case_3) == "SomeClassEdgeCase3"

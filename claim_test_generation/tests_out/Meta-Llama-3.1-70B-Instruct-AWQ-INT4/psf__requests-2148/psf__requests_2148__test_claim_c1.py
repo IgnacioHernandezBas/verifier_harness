@@ -1,43 +1,44 @@
 import pytest
-from requests import Response
+from requests.models import Response
 import socket
 
+# Test raises a requests.exceptions.ConnectionError
+# Test handles different chunk sizes correctly
+# Test handles decode_unicode correctly
+
 def test_claim_c1(monkeypatch):
-    # Given: A socket error occurs during a request
-    # When: Calling Response.iter_content()
-    # Then: A requests.exceptions.ConnectionError is raised
+    # GIVEN: A socket error occurs during a request
+    # WHEN: iter_content is called on a Response object
+    # THEN: A requests.exceptions.ConnectionError is raised
 
-    # Create a mock response object
+    # Create a mock Response object with a socket error
     response = Response()
+    response.raw = mock_raw()
 
-    # Simulate a socket error during the request
-    class RawMock(object):
-        def stream(self, chunk_size, decode_content=None):
-            raise socket.error()
+    # Set up the mock to raise a socket.error when iter_content is called
+    def mock_iter_content(chunk_size=1, decode_unicode=False):
+        raise socket.error()
 
-    response.raw = RawMock()
+    monkeypatch.setattr(response, 'iter_content', mock_iter_content)
 
-    # Test raises a ConnectionError when a socket error occurs
-    # Error is raised when calling Response.iter_content
-    with pytest.raises(socket.error):
-        list(response.iter_content())
+    # Test with different chunk sizes
+    for chunk_size in [1, 10, 100]:
+        with pytest.raises(socket.error):
+            response.iter_content(chunk_size=chunk_size)
 
-    # Test handles different types of exceptions correctly
-    # Test with a valid response
-    response.raw = RawMock()
-    response.raw.stream = lambda chunk_size, decode_content: b''
+    # Test with decode_unicode set to True and False
+    for decode_unicode in [True, False]:
+        with pytest.raises(socket.error):
+            response.iter_content(decode_unicode=decode_unicode)
 
-    # Test with a different type of exception
-    class RawMockException(object):
-        def stream(self, chunk_size, decode_content=None):
-            raise Exception()
+    # Test with a non-socket error exception
+    def mock_iter_content_non_socket(chunk_size=1, decode_unicode=False):
+        raise Exception('Non-socket error')
 
-    response.raw = RawMockException()
+    monkeypatch.setattr(response, 'iter_content', mock_iter_content_non_socket)
     with pytest.raises(Exception):
-        list(response.iter_content())
+        response.iter_content()
 
-    # Test with a real socket error
-    # This test may fail if the socket error is not properly mocked
-    # response.raw = RawMock()
-    # with pytest.raises(socket.error):
-    #     list(response.iter_content())
+class mock_raw:
+    def stream(self, chunk_size, decode_content=None):
+        raise socket.error()

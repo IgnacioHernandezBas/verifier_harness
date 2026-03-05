@@ -1,40 +1,22 @@
+# Checklist TODO: Test fails with _UnrecognizedOptionError
+# Checklist TODO: Captured output contains user-friendly error message
+# Checklist TODO: No traceback is printed
 import pytest
+from pylint.lint import PyLinter
+from pylint.reporters import BaseReporter
 from pylint.config.config_initialization import _config_initialization
-from pylint.lint import Run as LintRun
 
 def test_claim_c1(capsys):
-    # Prepare an unrecognized option for pylint
-    unrecognized_option = "--unknown-option=yes"
-    
-    # Test raises _UnrecognizedOptionError for unrecognized option
-    with pytest.raises(SystemExit):
-        LintRun([unrecognized_option], exit=False)
-    
-    # Ensure no traceback is printed in the output
-    output = capsys.readouterr()
-    assert "usage: pylint" in output.err
-    assert "Unrecognized option" in output.err
-    assert "Traceback" not in output.err
+    # Given: An unrecognized option is passed to pylint
+    linter = PyLinter()
+    reporter = BaseReporter()
+    args_list = ['-Q']
 
-    # Verify behavior with multiple unrecognized options
-    multiple_unrecognized_options = ["--unknown-option1=yes", "--unknown-option2=no"]
+    # When: _config_initialization is called with the unrecognized option
     with pytest.raises(SystemExit):
-        LintRun(multiple_unrecognized_options, exit=False)
-    
-    # Ensure no traceback is printed in the output
-    output = capsys.readouterr()
-    assert "usage: pylint" in output.err
-    assert "Unrecognized option" in output.err
-    assert "Traceback" not in output.err
+        _config_initialization(linter, args_list, reporter)
 
-    # Verify behavior with a valid option along with an unrecognized one
-    valid_option = "--disable=C0114"
-    mixed_options = [valid_option, unrecognized_option]
-    with pytest.raises(SystemExit):
-        LintRun(mixed_options, exit=False)
-    
-    # Ensure no traceback is printed in the output
+    # Then: A _UnrecognizedOptionError is raised, and a user-friendly error message is printed
     output = capsys.readouterr()
     assert "usage: pylint" in output.err
     assert "Unrecognized option" in output.err
-    assert "Traceback" not in output.err

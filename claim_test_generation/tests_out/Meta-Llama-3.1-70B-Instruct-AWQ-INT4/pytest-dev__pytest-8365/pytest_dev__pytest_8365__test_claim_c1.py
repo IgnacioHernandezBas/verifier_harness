@@ -1,47 +1,28 @@
 import pytest
-import tempfile
-import os
+from pathlib import Path
+from _pytest.tmpdir import TempPathFactory
+import getpass
 
 # Test passes without raising FileNotFoundError
-# getbasetemp returns a valid temporary directory path
-# Test handles edge cases correctly
+# Temporary directory is created with the correct name
+# Result is an instance of Path with the correct path
 
 def test_claim_c1(monkeypatch):
-    # Given: The username contains illegal characters for directory names
-    # Create a username with illegal characters for directory names
-    username = "os/<:*?;>agnostic"
+    # GIVEN: The username returned by `getpass.getuser()` contains illegal characters for directory names, such as a backslash.
+    monkeypatch.setattr("getpass.getuser", lambda: "os/<:*?;>agnostic")
 
-    # Set up a test environment with the created username
-    monkeypatch.setattr("getpass.getuser", lambda: username)
+    # WHEN: The `mktemp` method of `TempPathFactory` is called with a valid `basename` and `numbered` parameter.
+    factory = TempPathFactory()
+    path = factory.mktemp("test_basename", numbered=True)
 
-    # When: getbasetemp is called
-    # Exercise getbasetemp with username containing illegal characters
-    # Use public API to get the temporary directory
-    temp_dir = tempfile.gettempdir()
+    # THEN: A `FileNotFoundError` should not be raised.
+    try:
+        path.mkdir()
+    except FileNotFoundError:
+        pytest.fail("FileNotFoundError raised unexpectedly")
 
-    # Then: FileNotFoundError is not raised
-    # getbasetemp returns a valid temporary directory path
-    assert os.path.exists(temp_dir)
-    assert os.path.isdir(temp_dir)
+    # THEN: Temporary directory is created successfully
+    assert path.exists()
 
-    # Edge cases
-    # Username contains only valid characters
-    username = "valid_username"
-    monkeypatch.setattr("getpass.getuser", lambda: username)
-    temp_dir = tempfile.gettempdir()
-    assert os.path.exists(temp_dir)
-    assert os.path.isdir(temp_dir)
-
-    # Username is empty
-    username = ""
-    monkeypatch.setattr("getpass.getuser", lambda: username)
-    temp_dir = tempfile.gettempdir()
-    assert os.path.exists(temp_dir)
-    assert os.path.isdir(temp_dir)
-
-    # Username is None
-    username = None
-    monkeypatch.setattr("getpass.getuser", lambda: username)
-    temp_dir = tempfile.gettempdir()
-    assert os.path.exists(temp_dir)
-    assert os.path.isdir(temp_dir)
+    # THEN: Result is an instance of Path
+    assert isinstance(path, Path)

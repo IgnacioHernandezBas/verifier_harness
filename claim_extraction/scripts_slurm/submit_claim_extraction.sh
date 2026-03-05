@@ -40,19 +40,27 @@ ${BLUE}Options:${NC}
   --dry-run               Show sbatch command without submitting
 
 ${BLUE}Model Size Presets:${NC}
-  70b     Uses hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 (2 GPUs recommended)
-  32b     Uses Qwen/Qwen2.5-Coder-32B-Instruct-AWQ (1 GPU sufficient)
-  custom  Specify full model name with --model
+  70b         Uses hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 (2 GPUs recommended)
+  qwen72b     Uses Qwen/Qwen2.5-72B-Instruct-AWQ (2 GPUs recommended)
+  32b         Uses Qwen/Qwen2.5-Coder-32B-Instruct-AWQ (1 GPU sufficient)
+  deepseek-v2 Uses casperhansen/deepseek-coder-v2-instruct-awq (2 GPUs recommended)
+  custom      Specify full model name with --model
 
 ${BLUE}Examples:${NC}
   # Extract claims with Llama 70B (2 GPUs)
   $(basename "$0") 70b
+
+  # Extract with Qwen 72B (2 GPUs, recommended)
+  $(basename "$0") qwen72b
 
   # Extract with Llama 70B using 4 GPUs for maximum throughput
   $(basename "$0") 70b --gpus 4
 
   # Extract only first 5 instances with Qwen 32B
   $(basename "$0") 32b --limit 5
+
+  # Extract with DeepSeek-V2 (2 GPUs)
+  $(basename "$0") deepseek-v2
 
   # Use custom model
   $(basename "$0") custom --model "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ" --gpus 1
@@ -132,6 +140,13 @@ case "${MODEL_SIZE}" in
     CPUS=16
     MEM=120G
     ;;
+  qwen72b)
+    MODEL="${MODEL:-Qwen/Qwen2.5-72B-Instruct-AWQ}"
+    CONFIG_FILE="${CONFIG_FILE:-claim_extraction/configs/claim_extraction_qwen72b.yaml}"
+    GPU_COUNT="${GPU_COUNT:-2}"
+    CPUS=16
+    MEM=120G
+    ;;
   32b)
     MODEL="${MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"
     CONFIG_FILE="${CONFIG_FILE:-claim_extraction/configs/claim_extraction_v2_2.yaml}"
@@ -145,6 +160,13 @@ case "${MODEL_SIZE}" in
     GPU_COUNT="${GPU_COUNT:-1}"
     CPUS=8
     MEM=64G
+    ;;
+  deepseek-v2)
+    MODEL="${MODEL:-casperhansen/deepseek-coder-v2-instruct-awq}"
+    CONFIG_FILE="${CONFIG_FILE:-claim_extraction/configs/claim_extraction_deepseek_v2.yaml}"
+    GPU_COUNT="${GPU_COUNT:-2}"
+    CPUS=16
+    MEM=120G
     ;;
   *)
     # Custom model name provided
@@ -186,7 +208,7 @@ fi
 SBATCH_CMD=(
   sbatch
   --export="${EXPORT_VARS}"
-  --gres="gpu:rtxa6000:${GPU_COUNT}"
+  --gres="gpu:l40s:${GPU_COUNT}"
   --cpus-per-task="${CPUS}"
   --mem="${MEM}"
   "${SCRIPT_DIR}/run_claim_extraction_multi_gpu.sbatch"

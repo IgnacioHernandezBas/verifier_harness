@@ -1,18 +1,26 @@
-# Checklist TODO: Test passes with a correctly structured module.
-# Checklist TODO: No unexpected errors are captured in stderr.
-# Checklist TODO: Pylint output does not contain F0010 or E0611 errors.
 import pytest
-from pylint import epylint as lint
+from pylint.lint.expand_modules import expand_modules
 
-def test_claim_c2(tmpdir, capsys):
-    # Given: A module with a file of the same name exists.
-    module_dir = tmpdir.mkdir("identical")
-    module_dir.join("identical.py").write("import imp\n")
+def test_claim_c2(tmpdir):
+    # Given: A directory 'a' with two empty files: 'a.py' and 'b.py'
+    directory = tmpdir.mkdir("a")
+    directory.join("a.py").write("")
+    directory.join("b.py").write("")
 
-    # When: Running pylint on the module.
-    lint.py_run(f"{module_dir} -d all", do_exit=False)
+    # When: expand_modules is called with the directory 'a' as input
+    with pytest.raises(SystemExit) as excinfo:
+        expand_modules([str(directory)])
 
-    # Then: Pylint runs successfully.
-    _, errors = capsys.readouterr()
-    assert "F0010" not in errors, "No F0010 error related to file parsing should be raised."
-    assert "E0611" not in errors, "No E0611 error related to missing names in the module should be raised."
+    # Then: The function processes the directory without raising an error related to the absence of __init__.py
+    assert "F0010" not in excinfo.value.args[0]
+
+    # Then: No F0010 error is reported for the missing __init__.py file
+    assert "Unable to load file a/__init__.py" not in excinfo.value.args[0]
+
+    # Then: The function correctly identifies and processes the modules 'a.py' and 'b.py'
+    assert "************* Module a" in excinfo.value.args[0]
+    assert "************* Module a.b" not in excinfo.value.args[0]  # Ensure no nested module error
+
+    # Test passes without F0010 error.
+    # Modules 'a.py' and 'b.py' are processed.
+    # No unexpected errors are raised.

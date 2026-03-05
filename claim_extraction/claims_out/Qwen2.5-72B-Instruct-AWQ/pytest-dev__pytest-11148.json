@@ -1,0 +1,363 @@
+{
+  "instance_id": "pytest-dev__pytest-11148",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "mentions_exception:AttributeError",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "state_change",
+      "claim_text": "The `pmxbot.logging.Logger.store` should be set after `core.initialize()` is called.",
+      "given": "The `core.initialize()` function is called with a valid configuration.",
+      "when": "core.initialize(config) is called",
+      "then": "pmxbot.logging.Logger.store is set to a non-None value",
+      "target_symbols": [
+        "core.initialize",
+        "pmxbot.logging.Logger.store"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "initializer is executed and performs its actions (setting a class variable `pmxbot.logging.Logger.store`), but when that happens, there are two different versions of `pmxbot.logging` present, one in `sys.modules` and another found in `tests.unit.test_commands.logging`:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "pmxbot.logging.Logger.store"
+        ],
+        "unmatched_symbols": [
+          "core.initialize"
+        ],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "pmxbot.logging.Logger.store",
+            "path": "src/_pytest/pathlib.py",
+            "line": null,
+            "snippet": "...pmxbot.logging.Logger.store..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "initializer is executed and performs its actions (setting a class variable `pmxb"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "Accessing `pmxbot.logging.Logger.store` should not raise an AttributeError.",
+      "given": "The `core.initialize()` function has been called and `pmxbot.logging.Logger.store` is set.",
+      "when": "logging.Logger.store.message('logged', 'testrunner', 'some text') is called",
+      "then": "No AttributeError is raised",
+      "target_symbols": [
+        "logging.Logger.store.message"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "E       AttributeError: type object 'Logger' has no attribute 'store'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "logging.Logger.store.message"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "logging.Logger.store.message",
+            "path": "src/_pytest/pathlib.py",
+            "line": null,
+            "snippet": "...logging.Logger.store.message..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "E       AttributeError: type object 'Logger' has no attribute 'store'"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "invariant",
+      "claim_text": "The `pmxbot.logging` module in `sys.modules` should be the same as the `logging` module used in the tests.",
+      "given": "The `core.initialize()` function has been called.",
+      "when": "The test is running and `sys.modules['pmxbot.logging']` is checked",
+      "then": "sys.modules['pmxbot.logging'] is the same object as the `logging` module used in the tests",
+      "target_symbols": [
+        "sys.modules['pmxbot.logging']",
+        "logging"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "sys.modules['pmxbot.logging'] is logging\nFalse"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "sys.modules['pmxbot.logging']"
+        ],
+        "unmatched_symbols": [
+          "logging"
+        ],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "sys.modules['pmxbot.logging']",
+            "path": "src/_pytest/pathlib.py",
+            "line": null,
+            "snippet": "...sys.modules['pmxbot.logging']..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "sys.modules['pmxbot.logging'] is logging\nFalse"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": [],
+    "grounded_claims": 3,
+    "ungrounded_claims": 0,
+    "final_claims": 3,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 3,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 3,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.6666666666666666,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.666666666666667,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "=========================================================================== test session starts ===========================================================================\r\nplatform darwin -- Python 3.11.1, pytest-7.2.0, pluggy-1.0.0\r\ncachedir: .tox/python/.pytest_cache\r\nrootdir: /Users/jaraco/code/pmxbot/pmxbot, configfile: pytest.ini\r\nplugins: black-0.3.12, mypy-0.10.3, jaraco.test-5.3.0, checkdocs-2.9.0, flake8-1.1.1, enabler-2.0.0, jaraco.mongodb-11.2.1, pmxbot-1122.14.3.dev13+g7f189ad\r\ncollected 421 items / 180 deselected / 241 selected                                                                                                                       \r\nrun-last-failure: rerun previous 240 failures (skipped 14 files)\r\n\r\ntests/unit/test_commands.py E\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> traceback >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\ncls = <class 'tests.unit.test_commands.TestCommands'>\r\n\r\n    @classmethod\r\n    def setup_class(cls):\r\n        path = os.path.dirname(os.path.abspath(__file__))\r\n        configfile = os.path.join(path, 'testconf.yaml')\r\n        config = pmxbot.dictlib.ConfigDict.from_yaml(configfile)\r\n        cls.bot = core.initialize(config)\r\n>       logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\nE       AttributeError: type object 'Logger' has no attribute 'store'\r\n\r\ntests/unit/test_commands.py:37: AttributeError\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> entering PDB >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDB post_mortem (IO-capturing turned off) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n> /Users/jaraco/code/pmxbot/pmxbot/tests/unit/test_commands.py(37)setup_class()\r\n-> logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\n(Pdb) logging.Logger\r\n<class 'pmxbot.logging.Logger'>\r\n(Pdb) logging\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) import sys\r\n(Pdb) sys.modules['pmxbot.logging']\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) sys.modules['pmxbot.logging'] is logging\r\nFalse\r",
+        "source": "fenced",
+        "span": {
+          "start": 772,
+          "end": 3095
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "=========================================================================== test session starts ===========================================================================\r\nplatform darwin -- Python 3.11.1, pytest-7.2.0, pluggy-1.0.0\r\ncachedir: .tox/python/.pytest_cache\r\nrootdir: /Users/jaraco/code/pmxbot/pmxbot, configfile: pytest.ini\r\nplugins: black-0.3.12, mypy-0.10.3, jaraco.test-5.3.0, checkdocs-2.9.0, flake8-1.1.1, enabler-2.0.0, jaraco.mongodb-11.2.1, pmxbot-1122.14.3.dev13+g7f189ad\r\ncollected 421 items / 180 deselected / 241 selected                                                                                                                       \r\nrun-last-failure: rerun previous 240 failures (skipped 14 files)\r\n\r\ntests/unit/test_commands.py E\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> traceback >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\ncls = <class 'tests.unit.test_commands.TestCommands'>\r\n\r\n    @classmethod\r\n    def setup_class(cls):\r\n        path = os.path.dirname(os.path.abspath(__file__))\r\n        configfile = os.path.join(path, 'testconf.yaml')\r\n        config = pmxbot.dictlib.ConfigDict.from_yaml(configfile)\r\n        cls.bot = core.initialize(config)\r\n>       logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\nE       AttributeError: type object 'Logger' has no attribute 'store'\r\n\r\ntests/unit/test_commands.py:37: AttributeError\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> entering PDB >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n\r\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDB post_mortem (IO-capturing turned off) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\r\n> /Users/jaraco/code/pmxbot/pmxbot/tests/unit/test_commands.py(37)setup_class()\r\n-> logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")\r\n(Pdb) logging.Logger\r\n<class 'pmxbot.logging.Logger'>\r\n(Pdb) logging\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) import sys\r\n(Pdb) sys.modules['pmxbot.logging']\r\n<module 'pmxbot.logging' from '/Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py'>\r\n(Pdb) sys.modules['pmxbot.logging'] is logging\r\nFalse",
+        "span": {
+          "start": 774,
+          "end": 3093
+        }
+      },
+      {
+        "command": ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> traceback >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+        "span": {
+          "start": 1544,
+          "end": 1716
+        }
+      },
+      {
+        "command": "logging.Logger.store.message(\"logged\", \"testrunner\", \"some text\")",
+        "span": {
+          "start": 2047,
+          "end": 2121
+        }
+      },
+      {
+        "command": ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> entering PDB >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+        "span": {
+          "start": 2243,
+          "end": 2415
+        }
+      },
+      {
+        "command": ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PDB post_mortem (IO-capturing turned off) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+        "span": {
+          "start": 2418,
+          "end": 2590
+        }
+      },
+      {
+        "command": "/Users/jaraco/code/pmxbot/pmxbot/tests/unit/test_commands.py(37)setup_class()",
+        "span": {
+          "start": 2591,
+          "end": 2671
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "core.initialize",
+        "pmxbot.logging",
+        "Logger.store",
+        "sys.modules",
+        "tests.unit",
+        "test_commands.logging",
+        "pytest.ini",
+        "jaraco.test",
+        "jaraco.mongodb",
+        "test_commands.py",
+        "test_commands.TestCommands",
+        "os.path",
+        "testconf.yaml",
+        "pmxbot.dictlib",
+        "ConfigDict.from_yaml",
+        "cls.bot",
+        "logging.Logger",
+        "store.message",
+        "logging.py"
+      ],
+      "paths": [
+        "tests/unit/test_commands.py",
+        "Users/jaraco/code/pmxbot/pmxbot/tests/unit/test_commands.py",
+        "Users/jaraco/code/pmxbot/pmxbot/pmxbot/logging.py"
+      ],
+      "options": []
+    }
+  }
+}

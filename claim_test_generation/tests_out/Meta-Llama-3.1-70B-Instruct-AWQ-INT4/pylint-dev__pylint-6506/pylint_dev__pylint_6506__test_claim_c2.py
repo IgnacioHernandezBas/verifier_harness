@@ -1,44 +1,47 @@
 import pytest
-from pylint.config.config_initialization import _config_initialization
 from pylint.lint import PyLinter
+from pylint.config.config_initialization import _config_initialization
 from pylint.reporters import BaseReporter
 
-# | GIVEN: An unrecognized option is passed to pylint.
-# | WHEN: Calling pylint with an unrecognized option.
-# | THEN: Pylint should print a message similar to 'unrecognized arguments: -Q'.
+# Given: An unrecognized option is passed to pylint
+# When: _config_initialization is called with the unrecognized option
+# Then: The linter adds a message 'unrecognized-option' with the unrecognized option name
 
 def test_claim_c2(capsys):
-    # Test passes unrecognized option to _config_initialization
-    # Test verifies required positional args from signatures
-    # Test checks for user-friendly error message
+    # Checklist: Test passes with an unrecognized option
+    # Checklist: Test fails with a recognized option
+    # Checklist: Test handles multiple unrecognized options correctly
 
-    # Create an instance of PyLinter
+    # Data setup: Create a list of unrecognized options
+    unrecognized_options = ["--unknown-option=yes", "--another-unknown-option=no"]
+
+    # Data setup: Pass the list to _config_initialization
     linter = PyLinter()
-
-    # Create an instance of BaseReporter
     reporter = BaseReporter()
+    _config_initialization(linter, unrecognized_options, reporter)
 
-    # Pass unrecognized option to _config_initialization
-    _config_initialization(linter, ["--unknown-option=yes"], reporter)
-
-    # Capture the output
+    # Assertions: The linter adds a message 'unrecognized-option' with the unrecognized option name
     captured = capsys.readouterr()
+    assert "unrecognized option" in captured.out.lower()
+    assert "unknown-option" in captured.out
+    assert "another-unknown-option" in captured.out
 
-    # Check for user-friendly error message
-    assert "unrecognized arguments" in captured.err
-
-    # Edge cases
-    # Pass multiple unrecognized options
-    _config_initialization(linter, ["--unknown-option=yes", "--another-unknown-option=no"], reporter)
-    captured = capsys.readouterr()
-    assert "unrecognized arguments" in captured.err
-
-    # Pass no options
+    # Edge case: Pass an empty list to _config_initialization
     _config_initialization(linter, [], reporter)
     captured = capsys.readouterr()
-    assert "unrecognized arguments" not in captured.err
+    assert "unrecognized option" not in captured.out.lower()
 
-    # Pass valid options
-    _config_initialization(linter, ["--help"], reporter)
+    # Edge case: Pass a list with a single recognized option to _config_initialization
+    recognized_options = ["--help"]
+    _config_initialization(linter, recognized_options, reporter)
     captured = capsys.readouterr()
-    assert "unrecognized arguments" not in captured.err
+    assert "unrecognized option" not in captured.out.lower()
+
+    # Edge case: Pass a list with multiple unrecognized options to _config_initialization
+    multiple_unrecognized_options = ["--unknown-option1=yes", "--unknown-option2=no", "--unknown-option3=maybe"]
+    _config_initialization(linter, multiple_unrecognized_options, reporter)
+    captured = capsys.readouterr()
+    assert "unrecognized option" in captured.out.lower()
+    assert "unknown-option1" in captured.out
+    assert "unknown-option2" in captured.out
+    assert "unknown-option3" in captured.out

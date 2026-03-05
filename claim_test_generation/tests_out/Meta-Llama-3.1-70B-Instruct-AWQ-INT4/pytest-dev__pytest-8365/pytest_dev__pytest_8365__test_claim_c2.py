@@ -1,47 +1,53 @@
 import pytest
-from pathlib import Path
-import tempfile
+from _pytest.tmpdir import TempPathFactory
+import getpass
 import os
 
-def test_claim_c2(tmpdir, monkeypatch):
-    # Given: The username contains illegal characters for directory names
-    # When: getbasetemp is called
-    # Then: A valid temporary directory path is returned
+def test_claim_c2(monkeypatch):
+    # Given: The username returned by `getpass.getuser()` contains illegal characters for directory names, such as a backslash.
+    # When: The `getbasetemp` method of `TempPathFactory` is called.
+    # Then: The `basetemp` directory should be created without illegal characters in its path.
 
-    # Create a username with illegal characters for directory names
-    username = "os/<:*?;>agnostic"
+    # Checklist: Test passes with a username containing illegal characters
+    # Checklist: The created directory path does not contain illegal characters
+    # Checklist: The test fails if the username is not properly sanitized
 
-    # Set the username as the current user
-    monkeypatch.setattr("getpass.getuser", lambda: username)
+    # Data setup: Mock getpass.getuser() to return a username with illegal characters
+    monkeypatch.setattr(getpass, "getuser", lambda: "os/<:*?;>agnostic")
 
-    # Call getbasetemp with the username
-    # Since we can't import getbasetemp directly, we'll use the tempfile module to create a temporary directory
-    temp_dir = tempfile.mkdtemp(dir=tmpdir)
+    # Data setup: Create a TempPathFactory instance with the mocked username
+    factory = TempPathFactory(basetemp="basetemp", trace=None)
 
-    # Test returns a valid temporary directory path
-    assert Path(temp_dir).is_dir(), "The returned path is not a valid directory"
+    # Exercise TempPathFactory with monkeypatched getpass.getuser()
+    basetemp = factory.getbasetemp()
 
-    # Test handles usernames with illegal characters
-    assert "pytest-of-unknown" in temp_dir, "The returned path does not contain 'pytest-of-unknown'"
+    # Assertions: The basetemp directory is created without illegal characters in its path
+    assert "pytest-of-unknown" in str(basetemp)
 
-    # Test does not raise any exceptions
-    try:
-        Path(temp_dir).mkdir()
-    except Exception as e:
-        assert False, f"An exception was raised: {e}"
+    # Assertions: The created directory exists and is a valid path
+    assert os.path.exists(basetemp)
+    assert os.path.isdir(basetemp)
 
-    # Edge cases
-    # Username is empty
-    monkeypatch.setattr("getpass.getuser", lambda: "")
-    temp_dir = tempfile.mkdtemp(dir=tmpdir)
-    assert Path(temp_dir).is_dir(), "The returned path is not a valid directory"
+    # Edge cases: Username contains a backslash
+    monkeypatch.setattr(getpass, "getuser", lambda: "os\\<:*?;>agnostic")
+    factory = TempPathFactory(basetemp="basetemp", trace=None)
+    basetemp = factory.getbasetemp()
+    assert "pytest-of-unknown" in str(basetemp)
+    assert os.path.exists(basetemp)
+    assert os.path.isdir(basetemp)
 
-    # Username contains only spaces
-    monkeypatch.setattr("getpass.getuser", lambda: "   ")
-    temp_dir = tempfile.mkdtemp(dir=tmpdir)
-    assert Path(temp_dir).is_dir(), "The returned path is not a valid directory"
+    # Edge cases: Username contains a forward slash
+    monkeypatch.setattr(getpass, "getuser", lambda: "os/<:*?;>agnostic")
+    factory = TempPathFactory(basetemp="basetemp", trace=None)
+    basetemp = factory.getbasetemp()
+    assert "pytest-of-unknown" in str(basetemp)
+    assert os.path.exists(basetemp)
+    assert os.path.isdir(basetemp)
 
-    # Username is extremely long
-    monkeypatch.setattr("getpass.getuser", lambda: "a" * 1000)
-    temp_dir = tempfile.mkdtemp(dir=tmpdir)
-    assert Path(temp_dir).is_dir(), "The returned path is not a valid directory"
+    # Edge cases: Username is empty
+    monkeypatch.setattr(getpass, "getuser", lambda: "")
+    factory = TempPathFactory(basetemp="basetemp", trace=None)
+    basetemp = factory.getbasetemp()
+    assert "pytest-of-unknown" in str(basetemp)
+    assert os.path.exists(basetemp)
+    assert os.path.isdir(basetemp)

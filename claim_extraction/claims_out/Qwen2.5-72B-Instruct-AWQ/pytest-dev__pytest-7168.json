@@ -1,0 +1,264 @@
+{
+  "instance_id": "pytest-dev__pytest-7168",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 7,
+    "reasons": [
+      "mentions_exception:RuntimeError",
+      "has_stacktrace",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When an exception is raised in __repr__, the test should not cause an INTERNALERROR but handle the exception gracefully.",
+      "given": "An instance of SomeClass is created and an attribute is accessed, which raises an exception in __getattribute__ and __repr__.",
+      "when": "pytest runs the test function `test`",
+      "then": "pytest should raise a test failure or error, not an INTERNALERROR.",
+      "target_symbols": [
+        "_pytest._io.saferepr._format_repr_exception"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "INTERNALERROR> Traceback (most recent call last):",
+          "INTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pytest.py\", line 6, in __repr__",
+          "INTERNALERROR>     raise",
+          "INTERNALERROR> RuntimeError: No active exception to reraise"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          1
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_pytest._io.saferepr._format_repr_exception"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_pytest._io.saferepr._format_repr_exception",
+            "path": "src/_pytest/_io/saferepr.py",
+            "line": null,
+            "snippet": "..._pytest._io.saferepr._format_repr_exception..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "INTERNALERROR> Traceback (most recent call last):"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "INTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pyt"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "INTERNALERROR>     raise"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "INTERNALERROR> RuntimeError: No active exception to reraise"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 7,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "class SomeClass:\r\n    def __getattribute__(self, attr):\r\n        raise\r\n    def __repr__(self):\r\n        raise\r\ndef test():\r\n    SomeClass().attr\r",
+        "source": "fenced",
+        "span": {
+          "start": 80,
+          "end": 241
+        }
+      },
+      {
+        "lang": "text",
+        "content": "============================= test session starts ==============================\r\nplatform darwin -- Python 3.8.1, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- /usr/local/opt/python@3.8/bin/python3.8\r\ncachedir: .pytest_cache\r\nrootdir: ******\r\nplugins: asyncio-0.10.0, mock-3.0.0, cov-2.8.1\r\ncollecting ... collected 1 item\r\n\r\ntest_pytest.py::test \r\nINTERNALERROR> Traceback (most recent call last):\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 191, in wrap_session\r\nINTERNALERROR>     session.exitstatus = doit(config, session) or 0\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 247, in _main\r\nINTERNALERROR>     config.hook.pytest_runtestloop(session=session)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 272, in pytest_runtestloop\r\nINTERNALERROR>     item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 85, in pytest_runtest_protocol\r\nINTERNALERROR>     runtestprotocol(item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 100, in runtestprotocol\r\nINTERNALERROR>     reports.append(call_and_report(item, \"call\", log))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 188, in call_and_report\r\nINTERNALERROR>     report = hook.pytest_runtest_makereport(item=item, call=call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 203, in _multicall\r\nINTERNALERROR>     gen.send(outcome)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/skipping.py\", line 129, in pytest_runtest_makereport\r\nINTERNALERROR>     rep = outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 260, in pytest_runtest_makereport\r\nINTERNALERROR>     return TestReport.from_item_and_call(item, call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/reports.py\", line 294, in from_item_and_call\r\nINTERNALERROR>     longrepr = item.repr_failure(excinfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/python.py\", line 1513, in repr_failure\r\nINTERNALERROR>     return self._repr_failure_py(excinfo, style=style)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/nodes.py\", line 355, in _repr_failure_py\r\nINTERNALERROR>     return excinfo.getrepr(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 634, in getrepr\r\nINTERNALERROR>     return fmt.repr_excinfo(self)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 879, in repr_excinfo\r\nINTERNALERROR>     reprtraceback = self.repr_traceback(excinfo_)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 823, in repr_traceback\r\nINTERNALERROR>     reprentry = self.repr_traceback_entry(entry, einfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 784, in repr_traceback_entry\r\nINTERNALERROR>     reprargs = self.repr_args(entry) if not short else None\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 693, in repr_args\r\nINTERNALERROR>     args.append((argname, saferepr(argvalue)))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 82, in saferepr\r\nINTERNALERROR>     return SafeRepr(maxsize).repr(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 51, in repr\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 47, in repr\r\nINTERNALERROR>     s = super().repr(x)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 52, in repr\r\nINTERNALERROR>     return self.repr1(x, self.maxlevel)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 62, in repr1\r\nINTERNALERROR>     return self.repr_instance(x, level)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 60, in repr_instance\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 56, in repr_instance\r\nINTERNALERROR>     s = repr(x)\r\nINTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pytest.py\", line 6, in __repr__\r\nINTERNALERROR>     raise\r\nINTERNALERROR> RuntimeError: No active exception to reraise\r\n\r\n============================ no tests ran in 0.09s ============================\r",
+        "source": "fenced",
+        "span": {
+          "start": 263,
+          "end": 8442
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\nclass SomeClass:\r\n    def __getattribute__(self, attr):\r\n        raise\r\n    def __repr__(self):\r\n        raise\r\ndef test():\r\n    SomeClass().attr",
+        "span": {
+          "start": 82,
+          "end": 239
+        }
+      },
+      {
+        "command": "============================= test session starts ==============================\r\nplatform darwin -- Python 3.8.1, pytest-5.4.1, py-1.8.1, pluggy-0.13.1 -- /usr/local/opt/python@3.8/bin/python3.8\r\ncachedir: .pytest_cache\r\nrootdir: ******\r\nplugins: asyncio-0.10.0, mock-3.0.0, cov-2.8.1\r\ncollecting ... collected 1 item\r\n\r\ntest_pytest.py::test \r\nINTERNALERROR> Traceback (most recent call last):\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 191, in wrap_session\r\nINTERNALERROR>     session.exitstatus = doit(config, session) or 0\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 247, in _main\r\nINTERNALERROR>     config.hook.pytest_runtestloop(session=session)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 272, in pytest_runtestloop\r\nINTERNALERROR>     item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 85, in pytest_runtest_protocol\r\nINTERNALERROR>     runtestprotocol(item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 100, in runtestprotocol\r\nINTERNALERROR>     reports.append(call_and_report(item, \"call\", log))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 188, in call_and_report\r\nINTERNALERROR>     report = hook.pytest_runtest_makereport(item=item, call=call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 203, in _multicall\r\nINTERNALERROR>     gen.send(outcome)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/skipping.py\", line 129, in pytest_runtest_makereport\r\nINTERNALERROR>     rep = outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 260, in pytest_runtest_makereport\r\nINTERNALERROR>     return TestReport.from_item_and_call(item, call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/reports.py\", line 294, in from_item_and_call\r\nINTERNALERROR>     longrepr = item.repr_failure(excinfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/python.py\", line 1513, in repr_failure\r\nINTERNALERROR>     return self._repr_failure_py(excinfo, style=style)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/nodes.py\", line 355, in _repr_failure_py\r\nINTERNALERROR>     return excinfo.getrepr(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 634, in getrepr\r\nINTERNALERROR>     return fmt.repr_excinfo(self)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 879, in repr_excinfo\r\nINTERNALERROR>     reprtraceback = self.repr_traceback(excinfo_)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 823, in repr_traceback\r\nINTERNALERROR>     reprentry = self.repr_traceback_entry(entry, einfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 784, in repr_traceback_entry\r\nINTERNALERROR>     reprargs = self.repr_args(entry) if not short else None\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 693, in repr_args\r\nINTERNALERROR>     args.append((argname, saferepr(argvalue)))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 82, in saferepr\r\nINTERNALERROR>     return SafeRepr(maxsize).repr(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 51, in repr\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 47, in repr\r\nINTERNALERROR>     s = super().repr(x)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 52, in repr\r\nINTERNALERROR>     return self.repr1(x, self.maxlevel)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 62, in repr1\r\nINTERNALERROR>     return self.repr_instance(x, level)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 60, in repr_instance\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 56, in repr_instance\r\nINTERNALERROR>     s = repr(x)\r\nINTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pytest.py\", line 6, in __repr__\r\nINTERNALERROR>     raise\r\nINTERNALERROR> RuntimeError: No active exception to reraise\r\n\r\n============================ no tests ran in 0.09s ============================",
+        "span": {
+          "start": 265,
+          "end": 8440
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 191, in wrap_session\r\nINTERNALERROR>     session.exitstatus = doit(config, session) or 0\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 247, in _main\r\nINTERNALERROR>     config.hook.pytest_runtestloop(session=session)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/main.py\", line 272, in pytest_runtestloop\r\nINTERNALERROR>     item.config.hook.pytest_runtest_protocol(item=item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 208, in _multicall\r\nINTERNALERROR>     return outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 85, in pytest_runtest_protocol\r\nINTERNALERROR>     runtestprotocol(item, nextitem=nextitem)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 100, in runtestprotocol\r\nINTERNALERROR>     reports.append(call_and_report(item, \"call\", log))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 188, in call_and_report\r\nINTERNALERROR>     report = hook.pytest_runtest_makereport(item=item, call=call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/hooks.py\", line 286, in __call__\r\nINTERNALERROR>     return self._hookexec(self, self.get_hookimpls(), kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 93, in _hookexec\r\nINTERNALERROR>     return self._inner_hookexec(hook, methods, kwargs)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/manager.py\", line 84, in <lambda>\r\nINTERNALERROR>     self._inner_hookexec = lambda hook, methods, kwargs: hook.multicall(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 203, in _multicall\r\nINTERNALERROR>     gen.send(outcome)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/skipping.py\", line 129, in pytest_runtest_makereport\r\nINTERNALERROR>     rep = outcome.get_result()\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 80, in get_result\r\nINTERNALERROR>     raise ex[1].with_traceback(ex[2])\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/pluggy/callers.py\", line 187, in _multicall\r\nINTERNALERROR>     res = hook_impl.function(*args)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/runner.py\", line 260, in pytest_runtest_makereport\r\nINTERNALERROR>     return TestReport.from_item_and_call(item, call)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/reports.py\", line 294, in from_item_and_call\r\nINTERNALERROR>     longrepr = item.repr_failure(excinfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/python.py\", line 1513, in repr_failure\r\nINTERNALERROR>     return self._repr_failure_py(excinfo, style=style)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/nodes.py\", line 355, in _repr_failure_py\r\nINTERNALERROR>     return excinfo.getrepr(\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 634, in getrepr\r\nINTERNALERROR>     return fmt.repr_excinfo(self)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 879, in repr_excinfo\r\nINTERNALERROR>     reprtraceback = self.repr_traceback(excinfo_)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 823, in repr_traceback\r\nINTERNALERROR>     reprentry = self.repr_traceback_entry(entry, einfo)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 784, in repr_traceback_entry\r\nINTERNALERROR>     reprargs = self.repr_args(entry) if not short else None\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_code/code.py\", line 693, in repr_args\r\nINTERNALERROR>     args.append((argname, saferepr(argvalue)))\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 82, in saferepr\r\nINTERNALERROR>     return SafeRepr(maxsize).repr(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 51, in repr\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 47, in repr\r\nINTERNALERROR>     s = super().repr(x)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 52, in repr\r\nINTERNALERROR>     return self.repr1(x, self.maxlevel)\r\nINTERNALERROR>   File \"/usr/local/Cellar/python@3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py\", line 62, in repr1\r\nINTERNALERROR>     return self.repr_instance(x, level)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 60, in repr_instance\r\nINTERNALERROR>     s = _format_repr_exception(exc, x)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 23, in _format_repr_exception\r\nINTERNALERROR>     exc_info, obj.__class__.__name__, id(obj)\r\nINTERNALERROR>   File \"/usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py\", line 56, in repr_instance\r\nINTERNALERROR>     s = repr(x)\r\nINTERNALERROR>   File \"/Users/stiflou/Documents/projets/apischema/tests/test_pytest.py\", line 6, in __repr__\r\nINTERNALERROR>     raise\r\nINTERNALERROR> RuntimeError: No active exception to reraise",
+        "span": {
+          "start": 628,
+          "end": 8355
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "test_pytest.py",
+        "main.py",
+        "session.exitstatus",
+        "config.hook",
+        "hooks.py",
+        "self._hookexec",
+        "self.get_hookimpls",
+        "manager.py",
+        "self._inner_hookexec",
+        "hook.multicall",
+        "callers.py",
+        "outcome.get_result",
+        "hook_impl.function",
+        "item.config",
+        "hook.pytest_runtest_protocol",
+        "runner.py",
+        "reports.append",
+        "hook.pytest_runtest_makereport",
+        "gen.send",
+        "skipping.py",
+        "TestReport.from_item_and_call",
+        "reports.py",
+        "item.repr_failure",
+        "python.py",
+        "self._repr_failure_py",
+        "nodes.py",
+        "excinfo.getrepr",
+        "code.py",
+        "fmt.repr_excinfo",
+        "self.repr_traceback",
+        "self.repr_traceback_entry",
+        "self.repr_args",
+        "args.append",
+        "saferepr.py",
+        "obj.__class__",
+        "Python.framework",
+        "reprlib.py",
+        "self.repr1",
+        "self.maxlevel",
+        "self.repr_instance"
+      ],
+      "paths": [
+        "test_pytest.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/main.py",
+        "usr/local/lib/python3.8/site-packages/pluggy/hooks.py",
+        "usr/local/lib/python3.8/site-packages/pluggy/manager.py",
+        "usr/local/lib/python3.8/site-packages/pluggy/callers.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/runner.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/skipping.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/reports.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/python.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/nodes.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/_code/code.py",
+        "usr/local/lib/python3.8/site-packages/_pytest/_io/saferepr.py",
+        "3.8/3.8.1/Frameworks/Python.framework/Versions/3.8/lib/python3.8/reprlib.py",
+        "Users/stiflou/Documents/projets/apischema/tests/test_pytest.py"
+      ],
+      "options": []
+    }
+  }
+}

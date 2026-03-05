@@ -1,0 +1,366 @@
+{
+  "instance_id": "astropy__astropy-14995",
+  "repo": "astropy/astropy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "behavior_keyword:returns",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [],
+  "ungrounded_claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "When one of the operands does not have a mask, the mask that exists should just be copied over to the output.",
+      "given": "One operand has a mask and the other does not.",
+      "when": "nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or) is called",
+      "then": "returns a mask that is a copy of the existing mask.",
+      "target_symbols": [
+        "NDDataRef",
+        "_handle_mask"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "When one of the operand does not have mask, the mask that exists should just be copied over to the output."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "NDDataRef",
+          "_handle_mask"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "The operation should not raise a TypeError when one of the operands does not have a mask.",
+      "given": "One operand has a mask and the other does not.",
+      "when": "nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or) is called",
+      "then": "does not raise a TypeError.",
+      "target_symbols": [
+        "NDDataRef",
+        "_handle_mask"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "TypeError: unsupported operand type(s) for |: 'int' and 'NoneType'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "NDDataRef",
+          "_handle_mask"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "When both operands have masks, the handle_mask function should be used to combine the masks.",
+      "given": "Both operands have masks.",
+      "when": "nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or) is called",
+      "then": "returns a mask that is the result of applying handle_mask to the two masks.",
+      "target_symbols": [
+        "NDDataRef",
+        "_handle_mask"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "# multiply mask by itself (mask * mask)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "NDDataRef",
+          "_handle_mask"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    },
+    {
+      "claim_id": "C4",
+      "claim_type": "return",
+      "claim_text": "When neither operand has a mask, the result should have no mask.",
+      "given": "Neither operand has a mask.",
+      "when": "nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or) is called",
+      "then": "returns no mask.",
+      "target_symbols": [
+        "NDDataRef",
+        "_handle_mask"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "# multiply no mask by itself (no mask * no mask)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "NDDataRef",
+          "_handle_mask"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    }
+  ],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 4,
+    "validated_claims": 4,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 4,
+    "validated_claims": 4,
+    "validation_errors": [],
+    "grounded_claims": 0,
+    "ungrounded_claims": 4,
+    "final_claims": 0,
+    "grounding_rate": 0.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 0,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 0.0,
+    "avg_score": 0.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": ">>> import numpy as np\r\n>>> from astropy.nddata import NDDataRef\r\n\r\n>>> array = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])\r\n>>> mask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])\r\n\r\n>>> nref_nomask = NDDataRef(array)\r\n>>> nref_mask = NDDataRef(array, mask=mask)\r\n\r\n# multiply no mask by constant (no mask * no mask)\r\n>>> nref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK\r\n\r\n# multiply no mask by itself (no mask * no mask)\r\n>>> nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK\r\n\r\n# multiply mask by constant (mask * no mask)\r\n>>> nref_mask.multiply(1., handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r\n\r\n# multiply mask by itself (mask * mask)\r\n>>> nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask\r\narray([[ 0,  1, 64],\r\n       [ 8,  0,  1],\r\n       [ 2,  1,  0]])\r\n\r\n# multiply mask by no mask (mask * no mask)\r\n>>> nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r",
+        "source": "fenced",
+        "span": {
+          "start": 817,
+          "end": 1940
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": ">> import numpy as np",
+        "span": {
+          "start": 822,
+          "end": 845
+        }
+      },
+      {
+        "command": ">> from astropy.nddata import NDDataRef",
+        "span": {
+          "start": 846,
+          "end": 887
+        }
+      },
+      {
+        "command": ">> array = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])",
+        "span": {
+          "start": 890,
+          "end": 946
+        }
+      },
+      {
+        "command": ">> mask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])",
+        "span": {
+          "start": 947,
+          "end": 1003
+        }
+      },
+      {
+        "command": ">> nref_nomask = NDDataRef(array)",
+        "span": {
+          "start": 1006,
+          "end": 1041
+        }
+      },
+      {
+        "command": ">> nref_mask = NDDataRef(array, mask=mask)",
+        "span": {
+          "start": 1042,
+          "end": 1086
+        }
+      },
+      {
+        "command": ">> nref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK",
+        "span": {
+          "start": 1141,
+          "end": 1236
+        }
+      },
+      {
+        "command": ">> nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK",
+        "span": {
+          "start": 1289,
+          "end": 1389
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(1., handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1438,
+          "end": 1497
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1614,
+          "end": 1680
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1795,
+          "end": 1863
+        }
+      },
+      {
+        "command": ">> import sys; print(\"Python\", sys.version)",
+        "span": {
+          "start": 1958,
+          "end": 2003
+        }
+      },
+      {
+        "command": ">> import astropy; print(\"astropy\", astropy.__version__)",
+        "span": {
+          "start": 2094,
+          "end": 2152
+        }
+      },
+      {
+        "command": ">> import numpy; print(\"Numpy\", numpy.__version__)",
+        "span": {
+          "start": 2166,
+          "end": 2218
+        }
+      },
+      {
+        "command": ">> import erfa; print(\"pyerfa\", erfa.__version__)",
+        "span": {
+          "start": 2233,
+          "end": 2284
+        }
+      },
+      {
+        "command": ">> import scipy; print(\"Scipy\", scipy.__version__)",
+        "span": {
+          "start": 2301,
+          "end": 2353
+        }
+      },
+      {
+        "command": ">> import matplotlib; print(\"Matplotlib\", matplotlib.__version__)",
+        "span": {
+          "start": 2368,
+          "end": 2435
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "np.bitwise_or",
+        "astropy.nddata",
+        "np.array",
+        "nref_nomask.multiply",
+        "nref_mask.multiply",
+        "sys.version",
+        "astropy.__version__",
+        "numpy.__version__",
+        "erfa.__version__",
+        "scipy.__version__",
+        "matplotlib.__version__"
+      ],
+      "paths": [],
+      "options": []
+    }
+  }
+}

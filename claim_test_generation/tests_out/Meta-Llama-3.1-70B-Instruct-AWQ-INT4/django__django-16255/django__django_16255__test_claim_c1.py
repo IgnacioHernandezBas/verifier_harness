@@ -1,73 +1,59 @@
 import pytest
 from django.contrib.sitemaps import Sitemap
 
-# Checklist
-# Test does not raise ValueError when sitemap contains no items but supports returning lastmod for an item.
-# Test handles sitemap with no items correctly.
-# Test does not crash when calling get_latest_lastmod.
+# Checklist: Test passes without raising a ValueError
+# Checklist: get_latest_lastmod returns the expected result
+# Checklist: Test handles edge cases correctly
 
 def test_claim_c1(capsys):
-    # Given: sitemap contains no items but supports returning lastmod for an item
+    # Given: A sitemap with no items and a callable lastmod method
     class TestSitemap(Sitemap):
         def items(self):
             return []
-        
+
         def lastmod(self, obj):
             return None
 
     sitemap = TestSitemap()
 
-    # When: calling get_latest_lastmod
+    # When: get_latest_lastmod is called
     try:
-        # Note: get_latest_lastmod is not a standalone function, it's a method of Sitemap class
+        # Since get_latest_lastmod is not a standalone function, we'll call it from the Sitemap class
         sitemap.get_latest_lastmod()
     except ValueError as e:
-        pytest.fail(f"Test raised ValueError: {e}")
+        pytest.fail(f"ValueError raised: {e}")
 
-    # Then: does not raise ValueError
+    # Then: No ValueError is raised
     captured = capsys.readouterr()
     assert "ValueError" not in captured.out
-    assert "ValueError" not in captured.err
 
-    # Edge cases
-    # sitemap with one item
-    class TestSitemapOneItem(Sitemap):
+    # Edge case: Test with an empty sitemap
+    assert sitemap.items() == []
+
+    # Edge case: Test with a sitemap containing a single item
+    class SingleItemSitemap(Sitemap):
         def items(self):
-            return [None]
-        
+            return [object()]
+
         def lastmod(self, obj):
             return None
 
-    sitemap_one_item = TestSitemapOneItem()
+    single_item_sitemap = SingleItemSitemap()
     try:
-        sitemap_one_item.get_latest_lastmod()
+        single_item_sitemap.get_latest_lastmod()
     except ValueError as e:
-        pytest.fail(f"Test raised ValueError: {e}")
+        pytest.fail(f"ValueError raised: {e}")
 
-    # sitemap with multiple items
-    class TestSitemapMultipleItems(Sitemap):
+    # Edge case: Test with a sitemap containing multiple items
+    class MultiItemSitemap(Sitemap):
         def items(self):
-            return [None, None]
-        
+            return [object(), object()]
+
         def lastmod(self, obj):
             return None
 
-    sitemap_multiple_items = TestSitemapMultipleItems()
+    multi_item_sitemap = MultiItemSitemap()
     try:
-        sitemap_multiple_items.get_latest_lastmod()
+        multi_item_sitemap.get_latest_lastmod()
     except ValueError as e:
-        pytest.fail(f"Test raised ValueError: {e}")
-
-    # sitemap with no items and does not support returning lastmod
-    class TestSitemapNoItemsNoLastmod(Sitemap):
-        def items(self):
-            return []
-        
-        def lastmod(self, obj):
-            raise NotImplementedError
-
-    sitemap_no_items_no_lastmod = TestSitemapNoItemsNoLastmod()
-    try:
-        sitemap_no_items_no_lastmod.get_latest_lastmod()
-    except ValueError as e:
-        pytest.fail(f"Test raised ValueError: {e}")
+        pytest.fail(f"ValueError raised: {e}")

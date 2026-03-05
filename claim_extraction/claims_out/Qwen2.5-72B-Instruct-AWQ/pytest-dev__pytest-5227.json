@@ -1,0 +1,182 @@
+{
+  "instance_id": "pytest-dev__pytest-5227",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 2,
+    "reasons": [
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "state_change",
+      "claim_text": "The default logging format should include the module name and file name with line number.",
+      "given": "The current default logging format is set to `DEFAULT_LOG_FORMAT = \"%(filename)-25s %(lineno)4d %(levelname)-8s %(message)s\"`.",
+      "when": "The `DEFAULT_LOG_FORMAT` is updated to `DEFAULT_LOG_FORMAT = \"%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s\"`.",
+      "then": "The log output should include the module name, file name, and line number in the specified format.",
+      "target_symbols": [
+        "DEFAULT_LOG_FORMAT"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Using `DEFAULT_LOG_FORMAT = \"%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s\"` instead:"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "strong",
+        "level": 1,
+        "matched_symbols": [
+          "DEFAULT_LOG_FORMAT"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_diff_definition_or_assignment",
+        "evidence": [
+          {
+            "type": "diff_assignment",
+            "symbol": "DEFAULT_LOG_FORMAT",
+            "path": "src/_pytest/logging.py",
+            "line": 18,
+            "snippet": "DEFAULT_LOG_FORMAT = \"%(filename)-25s %(lineno)4d %(levelname)-8s %(message)s\""
+          },
+          {
+            "type": "diff_assignment",
+            "symbol": "DEFAULT_LOG_FORMAT",
+            "path": "src/_pytest/logging.py",
+            "line": 18,
+            "snippet": "DEFAULT_LOG_FORMAT = \"%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %(message)s\""
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Using `DEFAULT_LOG_FORMAT = \"%(levelname)-8s %(name)s:%(filename)s:%(lineno)d %("
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 7,
+      "score_factors": [
+        "+3: strong_grounding (defined/assigned symbol in diff)",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 2,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 1,
+      "weak_file": 0,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 7.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": "utils.py                   114 DEBUG    (0.000) SELECT \"app_url\".\"id\", \"app_url\".\"created\", \"app_url\".\"url\" FROM \"app_url\" WHERE \"app_url\".\"id\" = 2; args=(2,)\r\nmultipart.py               604 DEBUG    Calling on_field_start with no data\r",
+        "source": "fenced",
+        "span": {
+          "start": 433,
+          "end": 678
+        }
+      },
+      {
+        "lang": "text",
+        "content": "DEBUG    django.db.backends:utils.py:114 (0.000) SELECT \"app_url\".\"id\", \"app_url\".\"created\", \"app_url\".\"url\" FROM \"app_url\" WHERE \"app_url\".\"id\" = 2; args=(2,)\r\nDEBUG    multipart.multipart:multipart.py:604 Calling on_field_start with no data\r",
+        "source": "fenced",
+        "span": {
+          "start": 788,
+          "end": 1040
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "DEFAULT_LOG_FORMAT = \"%(filename)-25s %(lineno)4d %(levelname)-8s %(message)s\"",
+        "span": {
+          "start": 51,
+          "end": 132
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "e.g",
+        "utils.py",
+        "multipart.py",
+        "django.db",
+        "multipart.multipart"
+      ],
+      "paths": [
+        "utils.py",
+        "multipart.py"
+      ],
+      "options": []
+    }
+  }
+}

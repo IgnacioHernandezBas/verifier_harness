@@ -1,36 +1,43 @@
 import pytest
-from sympy import lambdify
-from sympy.utilities.lambdify import _recursive_to_string
+from sympy import symbols, lambdify
 
 def test_claim_c2(capsys):
-    # | GIVEN: A tuple with two or more elements is passed to lambdify.
-    # | WHEN: Calling lambdify with a tuple of two or more elements.
-    # | THEN: The generated code should return a tuple with commas between elements.
+    # GIVEN: A multi-element tuple is provided as the argument to `lambdify`.
+    # WHEN: The `lambdify` function is called with an empty list and a multi-element tuple.
+    # THEN: The generated lambda function returns a tuple with multiple elements, represented as `(1, 2)`.
 
-    # Test passes with a tuple of two or more elements
-    # Create a tuple with two or more elements
-    tup = (1, 2, 3)
-    # Pass the tuple to lambdify
-    f = lambdify([], tup, 'sympy')
-    # Capture the generated code
-    captured = capsys.readouterr()
-    # Generated code returns a tuple with commas between elements
-    assert "return (1, 2, 3)" in captured.out
-    # Return value is a tuple
-    assert isinstance(f(), tuple)
-    # Tuple elements are comma-separated
-    assert len(f()) == len(tup)
+    # The test must show that lambdify returns a tuple with multiple elements
+    # The test must show that the generated lambda function returns the correct elements
+    # The test must handle edge cases correctly
 
-    # Test fails with a non-tuple input or an empty tuple
-    # Passing a non-tuple input
+    # Create a multi-element tuple as input to lambdify
+    multi_element_tuple = (1, 2)
+
+    # Create a SymPy expression as input to lambdify
+    x, y = symbols('x y')
+    sympy_expr = (x, y)
+
+    # Exercise lambdify with multi-element tuple
+    lambda_func = lambdify([], multi_element_tuple)
+
+    # The generated lambda function returns a tuple with multiple elements
+    assert isinstance(lambda_func(), tuple)
+
+    # The generated lambda function returns a tuple with the correct elements
+    assert lambda_func() == multi_element_tuple
+
+    # Passing a single-element tuple to lambdify
+    single_element_tuple = (1,)
+    lambda_func_single = lambdify([], single_element_tuple)
+    assert isinstance(lambda_func_single(), tuple)
+    assert lambda_func_single() == single_element_tuple
+
+    # Passing a non-tuple input to lambdify
+    non_tuple_input = 1
     with pytest.raises(TypeError):
-        lambdify([], 1, 'sympy')
-    # Passing an empty tuple
-    with pytest.raises(TypeError):
-        lambdify([], (), 'sympy')
+        lambdify([], non_tuple_input)
 
-    # Edge cases
-    # Passing a tuple with a single element
-    f_single = lambdify([], (1,), 'sympy')
-    assert isinstance(f_single(), tuple)
-    assert len(f_single()) == 1
+    # Passing a non-SymPy expression input to lambdify
+    non_sympy_expr = 'non_sympy_expr'
+    with pytest.raises(TypeError):
+        lambdify([], non_sympy_expr)

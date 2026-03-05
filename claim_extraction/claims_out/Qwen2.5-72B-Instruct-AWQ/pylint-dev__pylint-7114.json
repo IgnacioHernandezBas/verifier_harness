@@ -1,0 +1,432 @@
+{
+  "instance_id": "pylint-dev__pylint-7114",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 3,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Running pylint on a directory with a module of the same name should not raise an error",
+      "given": "A directory 'a' containing a module 'a.py' and another module 'b.py', all files are empty",
+      "when": "expand_modules is called with the directory 'a' as input",
+      "then": "No exception is raised and the function completes successfully",
+      "target_symbols": [
+        "expand_modules"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Running `pylint a` if `a/a.py` is present fails while searching for an `__init__.py` file.",
+          "Running `pylint a` if `a/a.py` is present should succeed."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          1
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          6
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "expand_modules"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "expand_modules",
+            "path": "pylint/lint/expand_modules.py",
+            "line": null,
+            "snippet": "...expand_modules..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Running `pylint a` if `a/a.py` is present fails while searching for an `__init__"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Running `pylint a` if `a/a.py` is present should succeed."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "exception",
+      "claim_text": "Running pylint on a directory with a module of the same name should not affect module resolution in other files",
+      "given": "A directory 'a' containing a module 'a.py' and another module 'b.py', and a file 'r.py' that imports 'b' from 'a'",
+      "when": "expand_modules is called with the directory 'a' and file 'r.py' as input",
+      "then": "No exception is raised and the function completes successfully without affecting module resolution",
+      "target_symbols": [
+        "expand_modules"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Running `pylint -E r a` will fail. Not just for module a, but for module r as well.",
+          "Again, if I rename `a.py` to `c.py`, `pylint -E r a` will work perfectly."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          6
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "expand_modules"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "expand_modules",
+            "path": "pylint/lint/expand_modules.py",
+            "line": null,
+            "snippet": "...expand_modules..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "Running `pylint -E r a` will fail. Not just for module a, but for module r as we"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Again, if I rename `a.py` to `c.py`, `pylint -E r a` will work perfectly."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "state_change",
+      "claim_text": "The function should not require the presence of an __init__.py file to process a directory with a module of the same name",
+      "given": "A directory 'a' containing a module 'a.py' and another module 'b.py', all files are empty",
+      "when": "expand_modules is called with the directory 'a' as input",
+      "then": "The function processes the directory without requiring an __init__.py file",
+      "target_symbols": [
+        "expand_modules"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Alternatively, I can also `touch a/__init__.py`, but that shouldn't be necessary anymore."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          6
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "expand_modules"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "expand_modules",
+            "path": "pylint/lint/expand_modules.py",
+            "line": null,
+            "snippet": "...expand_modules..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Alternatively, I can also `touch a/__init__.py`, but that shouldn't be necessary"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "-1: no_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 3,
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": [],
+    "grounded_claims": 3,
+    "ungrounded_claims": 0,
+    "final_claims": 3,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 3,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 3,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": ".\r\n`-- a/\r\n    |-- a.py\r\n    `-- b.py\r",
+        "source": "fenced",
+        "span": {
+          "start": 106,
+          "end": 153
+        }
+      },
+      {
+        "lang": "text",
+        "content": "$ pylint a\r\n************* Module a\r\na/__init__.py:1:0: F0010: error while code parsing: Unable to load file a/__init__.py:\r\n[Errno 2] No such file or directory: 'a/__init__.py' (parse-error)\r\n$\r",
+        "source": "fenced",
+        "span": {
+          "start": 205,
+          "end": 408
+        }
+      },
+      {
+        "lang": "text",
+        "content": "$ mv a/a.py a/c.py\r\n$ pylint a\r\n$\r",
+        "source": "fenced",
+        "span": {
+          "start": 465,
+          "end": 508
+        }
+      },
+      {
+        "lang": "text",
+        "content": "pylint 3.0.0a3\r\nastroid 2.5.6\r\nPython 3.8.5 (default, Jan 27 2021, 15:41:15) \r\n[GCC 9.3.0]\r",
+        "source": "fenced",
+        "span": {
+          "start": 878,
+          "end": 978
+        }
+      },
+      {
+        "lang": "text",
+        "content": ".\r\n|-- a\r\n|   |-- a.py\r\n|   `-- b.py\r\n`-- r.py\r",
+        "source": "fenced",
+        "span": {
+          "start": 1108,
+          "end": 1164
+        }
+      },
+      {
+        "lang": "text",
+        "content": "from a import b\r",
+        "source": "fenced",
+        "span": {
+          "start": 1189,
+          "end": 1214
+        }
+      },
+      {
+        "lang": "text",
+        "content": "************* Module r\r\nr.py:1:0: E0611: No name 'b' in module 'a' (no-name-in-module)\r\n************* Module a\r\na/__init__.py:1:0: F0010: error while code parsing: Unable to load file a/__init__.py:\r\n[Errno 2] No such file or directory: 'a/__init__.py' (parse-error)\r",
+        "source": "fenced",
+        "span": {
+          "start": 1338,
+          "end": 1614
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "$ pylint a\r\n************* Module a\r\na/__init__.py:1:0: F0010: error while code parsing: Unable to load file a/__init__.py:\r\n[Errno 2] No such file or directory: 'a/__init__.py' (parse-error)\r\n$",
+        "span": {
+          "start": 207,
+          "end": 406
+        }
+      },
+      {
+        "command": "pylint a",
+        "span": {
+          "start": 210,
+          "end": 221
+        }
+      },
+      {
+        "command": "```",
+        "span": {
+          "start": 402,
+          "end": 409
+        }
+      },
+      {
+        "command": "$ mv a/a.py a/c.py\r\n$ pylint a\r\n$",
+        "span": {
+          "start": 467,
+          "end": 506
+        }
+      },
+      {
+        "command": "mv a/a.py a/c.py",
+        "span": {
+          "start": 470,
+          "end": 489
+        }
+      },
+      {
+        "command": "is present should succeed.\r\n\r\n### pylint --version output\r\n\r\nResult of",
+        "span": {
+          "start": 775,
+          "end": 849
+        }
+      },
+      {
+        "command": "pylint 3.0.0a3\r\nastroid 2.5.6\r\nPython 3.8.5 (default, Jan 27 2021, 15:41:15) \r\n[GCC 9.3.0]",
+        "span": {
+          "start": 880,
+          "end": 976
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "a.py",
+        "b.py",
+        "__init__.py",
+        "c.py",
+        "r.py"
+      ],
+      "paths": [
+        "a.py",
+        "b.py",
+        "a/__init__.py",
+        "a/a.py",
+        "a/c.py",
+        "__init__.py",
+        "r.py",
+        "c.py"
+      ],
+      "options": [
+        "--version"
+      ]
+    }
+  }
+}

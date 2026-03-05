@@ -1,0 +1,350 @@
+{
+  "instance_id": "pallets__flask-4992",
+  "repo": "pallets/flask",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "When the file is opened in text mode and the load function requires binary mode, a TypeError should be raised.",
+      "given": "A file is opened in text mode and the load function is `tomllib.load` which requires binary mode.",
+      "when": "flask.Config.from_file is called with a TOML file and `tomllib.load` as the load function.",
+      "then": "A TypeError is raised indicating that the file must be opened in binary mode.",
+      "target_symbols": [
+        "flask.Config.from_file"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "TypeError: File must be opened in binary mode, e.g. use `open('foo.toml', 'rb')`"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "flask.Config.from_file"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "flask.Config.from_file",
+            "path": "src/flask/config.py",
+            "line": null,
+            "snippet": "...flask.Config.from_file..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "TypeError: File must be opened in binary mode, e.g. use `open('foo.toml', 'rb')`"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "state_change",
+      "claim_text": "When the file mode parameter is set to 'b', the file should be opened in binary mode.",
+      "given": "A file is specified and the file mode parameter is set to 'b'.",
+      "when": "flask.Config.from_file is called with the file mode parameter set to 'b'.",
+      "then": "The file is opened in binary mode and the configuration is updated from the file.",
+      "target_symbols": [
+        "flask.Config.from_file"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "app.config.from_file(\"config.toml\", tomllib.load, mode=\"b\")"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          2,
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "flask.Config.from_file"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "flask.Config.from_file",
+            "path": "src/flask/config.py",
+            "line": null,
+            "snippet": "...flask.Config.from_file..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "app.config.from_file(\"config.toml\", tomllib.load, mode=\"b\")"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    },
+    {
+      "claim_id": "C3",
+      "claim_type": "return",
+      "claim_text": "When the file is successfully loaded, the method should return True.",
+      "given": "A valid file path and a load function that can handle the file format are provided.",
+      "when": "flask.Config.from_file is called with a valid file and load function.",
+      "then": "The method returns True.",
+      "target_symbols": [
+        "flask.Config.from_file"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "return True if the file was loaded successfully"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          2,
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "flask.Config.from_file"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "flask.Config.from_file",
+            "path": "src/flask/config.py",
+            "line": null,
+            "snippet": "...flask.Config.from_file..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 0,
+        "matches": [],
+        "verified": false
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+0: evidence_not_verified",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_language",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": [],
+    "grounded_claims": 3,
+    "ungrounded_claims": 0,
+    "final_claims": 3,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 3,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 3,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 0.6666666666666666,
+    "avg_score": 4.333333333333333,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "app.config.from_file(\"config.toml\", tomllib.load)\r",
+        "source": "fenced",
+        "span": {
+          "start": 236,
+          "end": 301
+        }
+      },
+      {
+        "lang": "text",
+        "content": "TypeError: File must be opened in binary mode, e.g. use `open('foo.toml', 'rb')`\r",
+        "source": "fenced",
+        "span": {
+          "start": 460,
+          "end": 550
+        }
+      },
+      {
+        "lang": "python",
+        "content": "# We have to repeat the path joining that from_file() does\r\nwith open(os.path.join(app.config.root_path, \"config.toml\"), \"rb\") as file:\r\n    app.config.from_mapping(tomllib.load(file))\r",
+        "source": "fenced",
+        "span": {
+          "start": 735,
+          "end": 935
+        }
+      },
+      {
+        "lang": "python",
+        "content": "app.config.from_file(\"config.toml\", tomllib.load, mode=\"b\")\r",
+        "source": "fenced",
+        "span": {
+          "start": 1057,
+          "end": 1132
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\napp.config.from_file(\"config.toml\", tomllib.load)",
+        "span": {
+          "start": 238,
+          "end": 299
+        }
+      },
+      {
+        "command": "python\r\n# We have to repeat the path joining that from_file() does\r\nwith open(os.path.join(app.config.root_path, \"config.toml\"), \"rb\") as file:\r\n    app.config.from_mapping(tomllib.load(file))",
+        "span": {
+          "start": 737,
+          "end": 933
+        }
+      },
+      {
+        "command": "python\r\napp.config.from_file(\"config.toml\", tomllib.load, mode=\"b\")",
+        "span": {
+          "start": 1059,
+          "end": 1130
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "flask.Config",
+        "app.config",
+        "config.toml",
+        "tomllib.load",
+        "e.g",
+        "foo.toml",
+        "os.path"
+      ],
+      "paths": [],
+      "options": []
+    }
+  }
+}

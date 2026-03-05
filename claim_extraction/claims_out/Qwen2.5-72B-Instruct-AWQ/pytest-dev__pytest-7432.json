@@ -1,0 +1,218 @@
+{
+  "instance_id": "pytest-dev__pytest-7432",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 4,
+    "reasons": [
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "state_change",
+      "claim_text": "The skip location should point to the item itself when running with --runxfail",
+      "given": "A test function is marked with @pytest.mark.skip and pytest is run with --runxfail",
+      "when": "pytest_runtest_makereport is called for the test item",
+      "then": "The rep.longrepr should be set to the location of the test item, not the location within pytest",
+      "target_symbols": [
+        "pytest_runtest_makereport"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "the expected skip location reported should point to the item itself, and this is indeed what happens when running with `pytest -rs`",
+          "However, adding `pytest -rs --runxfail` breaks this:",
+          "The `--runxfail` is only about xfail and should not affect this at all."
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          1,
+          2
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "pytest_runtest_makereport"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "pytest_runtest_makereport",
+            "path": "src/_pytest/skipping.py",
+            "line": null,
+            "snippet": "...pytest_runtest_makereport..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "the expected skip location reported should point to the item itself, and this is"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "However, adding `pytest -rs --runxfail` breaks this:"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The `--runxfail` is only about xfail and should not affect this at all."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 4,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "py",
+        "content": "import pytest\r\n@pytest.mark.skip\r\ndef test_skip_location() -> None:\r\n    assert 0\r",
+        "source": "fenced",
+        "span": {
+          "start": 186,
+          "end": 279
+        }
+      },
+      {
+        "lang": "text",
+        "content": "SKIPPED [1] test_it.py:3: unconditional skip\r",
+        "source": "fenced",
+        "span": {
+          "start": 419,
+          "end": 473
+        }
+      },
+      {
+        "lang": "text",
+        "content": "SKIPPED [1] src/_pytest/skipping.py:238: unconditional skip\r",
+        "source": "fenced",
+        "span": {
+          "start": 533,
+          "end": 602
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "@pytest.mark.skip",
+        "span": {
+          "start": 111,
+          "end": 130
+        }
+      },
+      {
+        "command": "py\r\nimport pytest\r\n@pytest.mark.skip\r\ndef test_skip_location() -> None:\r\n    assert 0",
+        "span": {
+          "start": 188,
+          "end": 277
+        }
+      },
+      {
+        "command": "SKIPPED [1] src/_pytest/skipping.py:238: unconditional skip",
+        "span": {
+          "start": 535,
+          "end": 600
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "pytest.mark",
+        "test_it.py",
+        "skipping.py"
+      ],
+      "paths": [
+        "test_it.py",
+        "src/_pytest/skipping.py"
+      ],
+      "options": [
+        "--runxfail"
+      ]
+    }
+  }
+}

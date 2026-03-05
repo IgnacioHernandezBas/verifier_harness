@@ -1,27 +1,27 @@
 # Checklist TODO: Test passes without raising ValueError.
-# Checklist TODO: Function handles empty sitemap gracefully.
-# Checklist TODO: Test confirms lastmod method is not called unnecessarily.
+# Checklist TODO: Callable lastmod method is correctly handled.
+# Checklist TODO: No unexpected exceptions are raised.
 import pytest
 from django.contrib.sitemaps import Sitemap
 
 def test_claim_c1():
-    # Given: sitemap contains no items but supports returning lastmod for an item
-    class EmptySitemap(Sitemap):
+    # Given: A sitemap with no items and a callable lastmod method
+    class NoItemsSitemap(Sitemap):
         def items(self):
             return []
 
         def lastmod(self, obj):
-            return None  # This method is defined but will not be called
+            return None
 
-    sitemap = EmptySitemap()
+    sitemap = NoItemsSitemap()
 
-    # When: calling get_latest_lastmod
-    # Then: does not raise ValueError
+    # When: get_latest_lastmod is called
+    # Then: No ValueError is raised
     try:
         sitemap.get_latest_lastmod()
     except ValueError:
-        pytest.fail("get_latest_lastmod raised ValueError unexpectedly")
+        pytest.fail("ValueError was raised unexpectedly")
 
-    # Function handles empty sitemap gracefully.
-    # Test confirms lastmod method is not called unnecessarily.
-    # Since items() returns an empty list, lastmod() should not be called.
+    # Callable lastmod method is correctly handled
+    # No unexpected exceptions are raised
+    # Test passes without raising ValueError

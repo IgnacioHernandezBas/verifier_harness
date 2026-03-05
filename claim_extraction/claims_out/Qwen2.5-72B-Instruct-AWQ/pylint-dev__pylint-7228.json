@@ -1,0 +1,265 @@
+{
+  "instance_id": "pylint-dev__pylint-7228",
+  "repo": "pylint-dev/pylint",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "has_stacktrace",
+      "behavior_keyword:expected",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "The function should not throw an error when the configuration includes the \\p{Han} regex pattern.",
+      "given": "The .pylintrc file contains the function-rgx configuration with the \\p{Han} regex pattern.",
+      "when": "pylint is run with the configuration that includes the \\p{Han} regex pattern.",
+      "then": "No exception is raised.",
+      "target_symbols": [
+        "_regexp_csv_transfomer"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "config rxg in pylintrc with \\p{Han} will throw err",
+          "not throw error"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0,
+          2
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_regexp_csv_transfomer"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_regexp_csv_transfomer",
+            "path": "pylint/config/argument.py",
+            "line": null,
+            "snippet": "..._regexp_csv_transfomer..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "config rxg in pylintrc with \\p{Han} will throw err"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "not throw error"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "ini",
+        "content": "function-rgx=[\\p{Han}a-z_][\\p{Han}a-z0-9_]{2,30}$\r",
+        "source": "fenced",
+        "span": {
+          "start": 149,
+          "end": 211
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint\r",
+        "source": "fenced",
+        "span": {
+          "start": 235,
+          "end": 256
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "(venvtest) tsung-hande-MacBook-Pro:robot_is_comming tsung-han$ pylint\r\nTraceback (most recent call last):\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/bin/pylint\", line 8, in <module>\r\n    sys.exit(run_pylint())\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/__init__.py\", line 25, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/lint/run.py\", line 161, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/config_initialization.py\", line 57, in _config_initialization\r\n    linter._parse_configuration_file(config_args)\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/arguments_manager.py\", line 244, in _parse_configuration_file\r\n    self.config, parsed_args = self._arg_parser.parse_known_args(\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1858, in parse_known_args\r\n    namespace, args = self._parse_known_args(args, namespace)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2067, in _parse_known_args\r\n    start_index = consume_optional(start_index)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2007, in consume_optional\r\n    take_action(action, args, option_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1919, in take_action\r\n    argument_values = self._get_values(action, argument_strings)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2450, in _get_values\r\n    value = self._get_value(action, arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2483, in _get_value\r\n    result = type_func(arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 252, in compile\r\n    return _compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 304, in _compile\r\n    p = sre_compile.compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_compile.py\", line 788, in compile\r\n    p = sre_parse.parse(p, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 955, in parse\r\n    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 444, in _parse_sub\r\n    itemsappend(_parse(source, state, verbose, nested + 1,\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 555, in _parse\r\n    code1 = _class_escape(source, this)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 350, in _class_escape\r\n    raise source.error('bad escape %s' % escape, len(escape))\r\nre.error: bad escape \\p at position 1\r",
+        "source": "fenced",
+        "span": {
+          "start": 283,
+          "end": 3867
+        }
+      },
+      {
+        "lang": "shell",
+        "content": "pylint 2.14.4\r\nastroid 2.11.7\r\nPython 3.9.13 (main, May 24 2022, 21:28:44) \r\n[Clang 13.0.0 (clang-1300.0.29.30)]\r",
+        "source": "fenced",
+        "span": {
+          "start": 3937,
+          "end": 4064
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "shell\r\npylint",
+        "span": {
+          "start": 237,
+          "end": 254
+        }
+      },
+      {
+        "command": "### Pylint output",
+        "span": {
+          "start": 255,
+          "end": 284
+        }
+      },
+      {
+        "command": "shell\r\n(venvtest) tsung-hande-MacBook-Pro:robot_is_comming tsung-han$ pylint\r\nTraceback (most recent call last):\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/bin/pylint\", line 8, in <module>\r\n    sys.exit(run_pylint())\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/__init__.py\", line 25, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/lint/run.py\", line 161, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/config_initialization.py\", line 57, in _config_initialization\r\n    linter._parse_configuration_file(config_args)\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/arguments_manager.py\", line 244, in _parse_configuration_file\r\n    self.config, parsed_args = self._arg_parser.parse_known_args(\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1858, in parse_known_args\r\n    namespace, args = self._parse_known_args(args, namespace)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2067, in _parse_known_args\r\n    start_index = consume_optional(start_index)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2007, in consume_optional\r\n    take_action(action, args, option_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1919, in take_action\r\n    argument_values = self._get_values(action, argument_strings)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2450, in _get_values\r\n    value = self._get_value(action, arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2483, in _get_value\r\n    result = type_func(arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 252, in compile\r\n    return _compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 304, in _compile\r\n    p = sre_compile.compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_compile.py\", line 788, in compile\r\n    p = sre_parse.parse(p, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 955, in parse\r\n    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 444, in _parse_sub\r\n    itemsappend(_parse(source, state, verbose, nested + 1,\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 555, in _parse\r\n    code1 = _class_escape(source, this)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 350, in _class_escape\r\n    raise source.error('bad escape %s' % escape, len(escape))\r\nre.error: bad escape \\p at position 1",
+        "span": {
+          "start": 285,
+          "end": 3865
+        }
+      },
+      {
+        "command": "### Expected behavior\r\n\r\nnot throw error\r\n\r\n### Pylint version",
+        "span": {
+          "start": 3866,
+          "end": 3938
+        }
+      },
+      {
+        "command": "shell\r\npylint 2.14.4\r\nastroid 2.11.7\r\nPython 3.9.13 (main, May 24 2022, 21:28:44) \r\n[Clang 13.0.0 (clang-1300.0.29.30)]",
+        "span": {
+          "start": 3939,
+          "end": 4062
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/bin/pylint\", line 8, in <module>\r\n    sys.exit(run_pylint())\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/__init__.py\", line 25, in run_pylint\r\n    PylintRun(argv or sys.argv[1:])\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/lint/run.py\", line 161, in __init__\r\n    args = _config_initialization(\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/config_initialization.py\", line 57, in _config_initialization\r\n    linter._parse_configuration_file(config_args)\r\n  File \"/Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/arguments_manager.py\", line 244, in _parse_configuration_file\r\n    self.config, parsed_args = self._arg_parser.parse_known_args(\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1858, in parse_known_args\r\n    namespace, args = self._parse_known_args(args, namespace)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2067, in _parse_known_args\r\n    start_index = consume_optional(start_index)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2007, in consume_optional\r\n    take_action(action, args, option_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 1919, in take_action\r\n    argument_values = self._get_values(action, argument_strings)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2450, in _get_values\r\n    value = self._get_value(action, arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py\", line 2483, in _get_value\r\n    result = type_func(arg_string)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 252, in compile\r\n    return _compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py\", line 304, in _compile\r\n    p = sre_compile.compile(pattern, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_compile.py\", line 788, in compile\r\n    p = sre_parse.parse(p, flags)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 955, in parse\r\n    p = _parse_sub(source, state, flags & SRE_FLAG_VERBOSE, 0)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 444, in _parse_sub\r\n    itemsappend(_parse(source, state, verbose, nested + 1,\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 555, in _parse\r\n    code1 = _class_escape(source, this)\r\n  File \"/usr/local/Cellar/python@3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py\", line 350, in _class_escape\r\n    raise source.error('bad escape %s' % escape, len(escape))\r\nre.error: bad escape \\p at position 1\r\n```",
+        "span": {
+          "start": 364,
+          "end": 3868
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "sys.exit",
+        "__init__.py",
+        "sys.argv",
+        "run.py",
+        "config_initialization.py",
+        "linter._parse_configuration_file",
+        "arguments_manager.py",
+        "self.config",
+        "self._arg_parser",
+        "Python.framework",
+        "argparse.py",
+        "self._parse_known_args",
+        "self._get_values",
+        "self._get_value",
+        "re.py",
+        "sre_compile.compile",
+        "sre_compile.py",
+        "sre_parse.parse",
+        "sre_parse.py",
+        "source.error",
+        "re.error"
+      ],
+      "paths": [
+        "Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/__init__.py",
+        "Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/lint/run.py",
+        "Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/config_initialization.py",
+        "Users/tsung-han/PycharmProjects/robot_is_comming/venvtest/lib/python3.9/site-packages/pylint/config/arguments_manager.py",
+        "3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/argparse.py",
+        "3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/re.py",
+        "3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_compile.py",
+        "3.9/3.9.13_1/Frameworks/Python.framework/Versions/3.9/lib/python3.9/sre_parse.py"
+      ],
+      "options": []
+    }
+  }
+}

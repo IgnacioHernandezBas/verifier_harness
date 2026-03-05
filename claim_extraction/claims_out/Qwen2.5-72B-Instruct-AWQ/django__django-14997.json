@@ -1,0 +1,202 @@
+{
+  "instance_id": "django__django-14997",
+  "repo": "django/django",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:Exception",
+      "has_stacktrace",
+      "behavior_keyword:raises",
+      "has_func_refs"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "The code should not raise an OperationalError when remaking a table with a unique constraint in SQLite.",
+      "given": "A Django model with a unique constraint on 'name' and 'value' fields, and a migration that alters the 'value' field's max_length.",
+      "when": "The migration is applied using `manage.py migrate`.",
+      "then": "No OperationalError is raised.",
+      "target_symbols": [
+        "django.db.backends.sqlite3.schema"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "raises this error: manage.py migrate Operations to perform: Apply all migrations: admin, auth, contenttypes, myapp, sessions Running migrations: Applying myapp.0002_alter_tag_value...python-BaseException Traceback (most recent call last): ... django.db.utils.OperationalError: the \".\" operator prohibited in index expressions"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_ref",
+        "level": 3,
+        "matched_symbols": [
+          "django.db.backends.sqlite3.schema"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_code_context_reference",
+        "evidence": [
+          {
+            "type": "import_reference",
+            "symbol": "django.db.backends.sqlite3.schema",
+            "path": "code_context",
+            "line": null,
+            "snippet": "...django.db.backends.sqlite3.schema..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "97%",
+            "span": "raises this error: manage.py migrate Operations to perform: Apply all migrations"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_ref",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 0,
+      "weak_ref": 1
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 4.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\sqlite3\\base.py\", line 416, in execute\n\treturn Database.Cursor.execute(self, query, params)\nsqlite3.OperationalError: the \".\" operator prohibited in index expressions\nThe above exception was the direct cause of the following exception:\nTraceback (most recent call last):\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\core\\management\\base.py\", line 373, in run_from_argv\n\tself.execute(*args, **cmd_options)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\core\\management\\base.py\", line 417, in execute\n\toutput = self.handle(*args, **options)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\core\\management\\base.py\", line 90, in wrapped\n\tres = handle_func(*args, **kwargs)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\core\\management\\commands\\migrate.py\", line 253, in handle\n\tpost_migrate_state = executor.migrate(\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\migrations\\executor.py\", line 126, in migrate\n\tstate = self._migrate_all_forwards(state, plan, full_plan, fake=fake, fake_initial=fake_initial)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\migrations\\executor.py\", line 156, in _migrate_all_forwards\n\tstate = self.apply_migration(state, migration, fake=fake, fake_initial=fake_initial)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\migrations\\executor.py\", line 236, in apply_migration\n\tstate = migration.apply(state, schema_editor)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\migrations\\migration.py\", line 125, in apply\n\toperation.database_forwards(self.app_label, schema_editor, old_state, project_state)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\migrations\\operations\\fields.py\", line 225, in database_forwards\n\tschema_editor.alter_field(from_model, from_field, to_field)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\sqlite3\\schema.py\", line 140, in alter_field\n\tsuper().alter_field(model, old_field, new_field, strict=strict)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\base\\schema.py\", line 618, in alter_field\n\tself._alter_field(model, old_field, new_field, old_type, new_type,\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\sqlite3\\schema.py\", line 362, in _alter_field\n\tself._remake_table(model, alter_field=(old_field, new_field))\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\sqlite3\\schema.py\", line 303, in _remake_table\n\tself.execute(sql)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\base\\schema.py\", line 151, in execute\n\tcursor.execute(sql, params)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 98, in execute\n\treturn super().execute(sql, params)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 66, in execute\n\treturn self._execute_with_wrappers(sql, params, many=False, executor=self._execute)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 75, in _execute_with_wrappers\n\treturn executor(sql, params, many, context)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\utils.py\", line 90, in __exit__\n\traise dj_exc_value.with_traceback(traceback) from exc_value\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\n File \"D:\\Projects\\Development\\sqliteerror\\.venv\\lib\\site-packages\\django\\db\\backends\\sqlite3\\base.py\", line 416, in execute\n\treturn Database.Cursor.execute(self, query, params)\ndjango.db.utils.OperationalError: the \".\" operator prohibited in index expressions",
+        "span": {
+          "start": 1601,
+          "end": 6010
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "models.Model",
+        "models.SlugField",
+        "models.CharField",
+        "models.UniqueConstraint",
+        "self.name",
+        "self.value",
+        "migrations.Migration",
+        "migrations.CreateModel",
+        "models.BigAutoField",
+        "migrations.AddConstraint",
+        "django.db",
+        "models.expressions",
+        "migrations.AlterField",
+        "manage.py",
+        "utils.py",
+        "self.cursor",
+        "base.py",
+        "Database.Cursor",
+        "sqlite3.OperationalError",
+        "self.execute",
+        "self.handle",
+        "migrate.py",
+        "executor.migrate",
+        "executor.py",
+        "self._migrate_all_forwards",
+        "self.apply_migration",
+        "migration.apply",
+        "migration.py",
+        "operation.database_forwards",
+        "self.app_label",
+        "fields.py",
+        "schema_editor.alter_field",
+        "schema.py",
+        "self._alter_field",
+        "self._remake_table",
+        "cursor.execute",
+        "self._execute_with_wrappers",
+        "self._execute",
+        "dj_exc_value.with_traceback",
+        "utils.OperationalError"
+      ],
+      "paths": [
+        "manage.py",
+        "utils.py",
+        "base.py",
+        "migrate.py",
+        "executor.py",
+        "migration.py",
+        "fields.py",
+        "schema.py"
+      ],
+      "options": []
+    }
+  }
+}
