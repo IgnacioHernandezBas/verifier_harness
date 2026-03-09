@@ -1,38 +1,43 @@
 import pytest
 from pylint.checkers.misc import MiscChecker
-from pylint.testutils import CheckerTestCase, MessageTest, set_config
-from pylint.utils import tokenize_module
+from pylint.utils import tokenize_str
 
-class TestPylintFixmeWarning(CheckerTestCase):
-    CHECKER_CLASS = MiscChecker
+def test_claim_c1(monkeypatch):
+    # Function processes tokens correctly with specified notes.
+    # Output includes fixme warnings for both lines.
+    # Function handles edge cases gracefully.
 
-    @set_config(notes=["???"])
-    def test_claim_c1(self, capsys):
-        # Given: A note tag specified with the --notes option is entirely punctuation.
-        code = """a = 1
-                #???
-                """
-        # When: Running pylint with the --notes option.
-        with self.assertAddsMessages(
-            MessageTest(msg_id="fixme", line=2, args="???", col_offset=17)
-        ):
-            self.checker.process_tokens(tokenize_module(code))
+    # Given: The --notes option is set to include 'YES,???' and the source file contains '# YES: yes' and '# ???: no'.
+    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': ['YES', '???']}))
 
-        # Then: Pylint returns a fixme warning (W0511) for the note tag.
-        captured = capsys.readouterr()
-        assert "W0511: fixme" in captured.out
+    # Create an instance of MiscChecker
+    checker = MiscChecker()
 
-        # Test captures W0511 warning for punctuation-only note tags.
-        # Verify no W0511 warning for non-punctuation note tags.
-        code_no_punctuation = """a = 1
-                                # TODO: fix this
-                                """
-        with self.assertNoMessages():
-            self.checker.process_tokens(tokenize_module(code_no_punctuation))
+    # Create tokens containing '# YES: yes' and '# ???: no'
+    code = """a = 1
+# YES: yes
+# ???: no
+"""
+    tokens = list(tokenize_str(code))
 
-        # Ensure correct handling of empty note tags.
-        code_empty_tag = """a = 1
-                            # 
-                            """
-        with self.assertNoMessages():
-            self.checker.process_tokens(tokenize_module(code_empty_tag))
+    # When: pylint.process_tokens is called with tokens containing '# YES: yes' and '# ???: no'.
+    with pytest.raises(AssertionError) as excinfo:
+        # Check for W0511: YES: yes (fixme) in the output.
+        # Check for W0511: ???: no (fixme) in the output.
+        checker.process_tokens(tokens)
+
+    # Then: pylint should return fixme warnings for both lines.
+    assert "W0511: YES: yes (fixme)" in str(excinfo.value)
+    assert "W0511: ???: no (fixme)" in str(excinfo.value)
+
+    # Edge case: Test with empty tokens list
+    empty_tokens = []
+    checker.process_tokens(empty_tokens)  # Should not raise any exceptions
+
+    # Edge case: Test with no --notes option set
+    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': []}))
+    checker.process_tokens(tokens)  # Should not raise any exceptions
+
+    # Edge case: Test with --notes option not including 'YES,???'
+    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': ['TODO']}))
+    checker.process_tokens(tokens)  # Should not raise any exceptions

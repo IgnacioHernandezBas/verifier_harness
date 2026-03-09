@@ -1,37 +1,22 @@
-# Checklist TODO: Test returns None for empty sitemap with callable lastmod.
-# Checklist TODO: Ensure callable lastmod does not affect return value.
-# Checklist TODO: Verify behavior with lastmod set to None.
+# Checklist TODO: Test passes on the fixed version
+# Checklist TODO: Test fails on the buggy version
+# Checklist TODO: Test only checks the return value of get_latest_lastmod
 import pytest
 from django.contrib.sitemaps import Sitemap
 
 def test_claim_c2():
-    # Given: A sitemap with no items and a callable lastmod method
-    class CallableLastmodNoItemsSitemap(Sitemap):
+    # Given: sitemap contains no items but supports returning lastmod for an item
+    class EmptySitemap(Sitemap):
         def items(self):
             return []
 
         def lastmod(self, obj):
-            return obj.lastmod
+            return None  # This method is defined to support lastmod, but it won't be called
 
-    sitemap = CallableLastmodNoItemsSitemap()
+    sitemap = EmptySitemap()
 
-    # When: get_latest_lastmod is called
-    latest_lastmod = sitemap.get_latest_lastmod()
+    # When: calling get_latest_lastmod
+    result = sitemap.get_latest_lastmod()
 
-    # Then: Returns None
-    assert latest_lastmod is None
-
-    # Ensure callable lastmod does not affect return value
-    # This is already covered by the test above as the lastmod method is defined but never called due to no items
-
-    # Verify behavior with lastmod set to None
-    class LastmodNoneSitemap(Sitemap):
-        def items(self):
-            return []
-
-        def lastmod(self, obj):
-            return None
-
-    sitemap_none = LastmodNoneSitemap()
-    latest_lastmod_none = sitemap_none.get_latest_lastmod()
-    assert latest_lastmod_none is None
+    # Then: returns None
+    assert result is None

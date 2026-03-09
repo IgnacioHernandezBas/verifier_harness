@@ -5,8 +5,8 @@ Instance:       django__django-11964
 Claim:          C2
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-18T20:35:33.392895
-SLURM Job:      6283191
+Timestamp:      2026-03-06T06:26:03.163069
+SLURM Job:      6346015
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
@@ -21,9 +21,12 @@ FAILURE REASON: Classification: UNRESOLVED
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -37,33 +40,52 @@ FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::
 E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.24s ===============================
+============================== 1 failed in 1.08s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:62: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 1.02s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [2] UNKNOWN
-      other: Both variants returned ERROR.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-cachedir: .pytest_cache
-rootdir: /workspace
-collecting ... collected 0 items / 1 error
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
-    class TestModel(models.Model):
-
-  [3] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -77,13 +99,111 @@ FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::
 E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.24s ===============================
+============================== 1 failed in 1.02s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:62: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 1.02s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [3] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:15: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:15: in <module>
+    class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:15: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:15: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [4] UNKNOWN
-      other: Both variants returned ERROR.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 cachedir: .pytest_cache
 rootdir: /workspace
 collecting ... collected 0 items / 1 error
@@ -93,57 +213,174 @@ collecting ... collected 0 items / 1 error
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
     class MyModel(models.Model):
 
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
   [5] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
+🔴 ERROR from BUGGY version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
 
-=================================== FAILURES ===================================
-django/conf/__init__.py:62: in _setup
-    % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.23s ===============================
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [6] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
+🔴 ERROR from BUGGY version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
 
-=================================== FAILURES ===================================
-django/conf/__init__.py:62: in _setup
-    % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.26s ===============================
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [7] UNKNOWN
-      other: Both variants returned ERROR.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 cachedir: .pytest_cache
 rootdir: /workspace
 collecting ... collected 0 items / 1 error
@@ -153,57 +390,115 @@ collecting ... collected 0 items / 1 error
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:21: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:21: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
     class MyModel(models.Model):
 
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
   [8] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
+🔴 ERROR from BUGGY version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
 
-=================================== FAILURES ===================================
-django/conf/__init__.py:62: in _setup
-    % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.32s ===============================
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [9] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-django/conf/__init__.py:62: in _setup
-    % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-11964/django__django_11964__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 1.26s ===============================
-
-
-  [10] UNKNOWN
-      other: Both variants returned ERROR.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 cachedir: .pytest_cache
 rootdir: /workspace
 collecting ... collected 0 items / 1 error
@@ -213,16 +508,111 @@ collecting ... collected 0 items / 1 error
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
 
 ==================================== ERRORS ====================================
 _ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
-claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:16: in <module>
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
     class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [10] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+🟢 ERROR from FIXED (gold) version:
+cachedir: .pytest_cache
+rootdir: /workspace
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+
+==================================== ERRORS ====================================
+_ ERROR collecting claim_tests/django__django-11964/django__django_11964__test_claim_c1.py _
+claim_tests/django__django-11964/django__django_11964__test_claim_c1.py:7: in <module>
+    class MyModel(models.Model):
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/django__django-11964/django__django_11964__test_claim_c2.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/django__django-11964_C2.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283191.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283191.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346015.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346015.err
 ================================================================================

@@ -1,29 +1,28 @@
-# Checklist TODO: Test fails with binascii.Error for incorrect padding.
-# Checklist TODO: No other exceptions are raised.
-# Checklist TODO: Test passes with valid session data (control test).
+# Checklist TODO: Test fails on buggy version with binascii.Error
+# Checklist TODO: Test passes on fixed version without raising binascii.Error
+# Checklist TODO: Test handles various edge cases correctly
 import pytest
-import base64
 from django.contrib.sessions.backends.base import SessionBase
+import base64
 
 def test_claim_c3():
     # Given: An invalid session data with incorrect padding is provided
-    incorrect_format_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii')[:-1]  # Remove one character to create incorrect padding
-    no_padding_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii').replace('=', '')
-    extra_padding_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii') + '='
+    invalid_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii')[:-1]  # Remove one character to cause incorrect padding
 
     # When: decode is called with the invalid session data
-    # Then: decode should raise a binascii.Error exception
     session = SessionBase()
-
     with pytest.raises(binascii.Error):
-        session.decode(incorrect_format_session_data)
+        session.decode(invalid_session_data)
 
+    # Edge case: Test with empty string
     with pytest.raises(binascii.Error):
-        session.decode(no_padding_session_data)
+        session.decode('')
 
+    # Edge case: Test with non-base64 characters
     with pytest.raises(binascii.Error):
-        session.decode(extra_padding_session_data)
+        session.decode('bad:encoded:value')
 
-    # Control test: Test passes with valid session data
-    valid_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii')
-    assert session.decode(valid_session_data) == {}
+    # Edge case: Test with valid base64 but incorrect padding
+    valid_base64_no_padding = base64.b64encode(b'valid').decode('ascii')[:-1]
+    with pytest.raises(binascii.Error):
+        session.decode(valid_base64_no_padding)

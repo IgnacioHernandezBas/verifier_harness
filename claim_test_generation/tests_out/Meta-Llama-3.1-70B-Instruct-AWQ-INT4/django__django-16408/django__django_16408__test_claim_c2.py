@@ -1,70 +1,47 @@
 import pytest
-from django.conf import settings
 from django.db import models
-from django.db.models.sql.compiler import get_related_selections, get_related_klass_infos
 from django.db.models import FilteredRelation
+from django.db.models.sql.compiler import get_related_selections, get_related_klass_infos
 
-# Checklist: The test creates a PoolStyle object with a related tournament object
-class Pool(models.Model):
-    pass
-
+# Create a PoolStyle object with a related tournament object
 class PoolStyle(models.Model):
-    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
+    tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
 
 class Tournament(models.Model):
-    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
+    pass
 
-# Checklist: The test defines a multi-level FilteredRelation for the PoolStyle object
-class TestModel(models.Model):
-    pool_style = models.ForeignKey(PoolStyle, on_delete=models.CASCADE)
-    tournament_pool = FilteredRelation('pool__tournament__pool')
+# Define a multi-level FilteredRelation for select_related()
+filtered_relation = FilteredRelation('pool__tournament__pool')
 
-# Checklist: The test verifies the tournament_pool attribute is correctly set
+# Create a QuerySet with the PoolStyle object
+qs = PoolStyle.objects.annotate(tournament_pool=filtered_relation).select_related('tournament_pool', 'tournament_pool__tournament')
+
 def test_claim_c2(capsys):
-    # Given
-    # Checklist: The test creates a PoolStyle object with a related tournament object
-    pool = Pool.objects.create()
-    pool_style = PoolStyle.objects.create(pool=pool)
-    tournament = Tournament.objects.create(pool=pool)
+    # GIVEN: A PoolStyle object with a related tournament object
+    # WHEN: Calling select_related() with a multi-level FilteredRelation
+    # THEN: The tournament_pool attribute should be correctly set
 
-    # When
-    # Checklist: The test defines a multi-level FilteredRelation for the PoolStyle object
-    test_model = TestModel.objects.annotate(
-        tournament_pool=FilteredRelation("pool_style__pool__tournament__pool")
-    ).select_related("tournament_pool", "tournament_pool__tournament")
+    # Test passes with the correct tournament_pool attribute set
+    assert hasattr(qs[0], 'tournament_pool')
+    assert hasattr(qs[0].tournament_pool, 'tournament')
 
-    # Then
-    # Checklist: The test verifies the tournament_pool attribute is correctly set
-    assert test_model[0].tournament_pool.tournament == tournament
+    # Test fails with an incorrect tournament_pool attribute set
+    with pytest.raises(AttributeError):
+        qs[0].tournament_pool_invalid
 
-    # Configure Django settings to avoid ImproperlyConfigured exceptions
-    settings.configure(INSTALLED_APPS=['django.contrib.contenttypes', 'django.contrib.auth'])
+    # Test handles edge cases correctly
+    # Test with an empty QuerySet
+    empty_qs = PoolStyle.objects.none()
+    assert not hasattr(empty_qs, 'tournament_pool')
 
-    # Test with an empty FilteredRelation
-    test_model_empty = TestModel.objects.annotate(
-        tournament_pool=FilteredRelation("")
-    ).select_related("tournament_pool", "tournament_pool__tournament")
-    assert test_model_empty[0].tournament_pool is None
+    # Test with a non-existent related tournament object
+    with pytest.raises(models.FieldError):
+        PoolStyle.objects.annotate(tournament_pool=FilteredRelation('non_existent_relation'))
 
-    # Test with a non-existent related object
-    test_model_non_existent = TestModel.objects.annotate(
-        tournament_pool=FilteredRelation("non_existent__tournament__pool")
-    ).select_related("tournament_pool", "tournament_pool__tournament")
-    assert test_model_non_existent[0].tournament_pool is None
-
-    # Test with a misconfigured Django setting
-    try:
-        settings.configure(INSTALLED_APPS=[])
-        test_model_misconfigured = TestModel.objects.annotate(
-            tournament_pool=FilteredRelation("pool_style__pool__tournament__pool")
-        ).select_related("tournament_pool", "tournament_pool__tournament")
-        assert False, "Expected ImproperlyConfigured exception"
-    except Exception as e:
-        assert isinstance(e, Exception), "Expected ImproperlyConfigured exception"
+    # Test with an invalid FilteredRelation
+    with pytest.raises(ValueError):
+        PoolStyle.objects.annotate(tournament_pool=FilteredRelation('invalid_relation'))
 
     # Exercise get_related_selections and get_related_klass_infos
-    get_related_selections(TestModel, ["tournament_pool"])
-    get_related_klass_infos(TestModel, ["tournament_pool"])
-
-    # No exceptions are raised during the test
-    assert True
+    get_related_selections(qs.query)
+    get_related_klass_infos(qs.query)

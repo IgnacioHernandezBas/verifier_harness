@@ -5,8 +5,8 @@ Instance:       sympy__sympy-17655
 Claim:          C1
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-18T21:41:39.974502
-SLURM Job:      6283215
+Timestamp:      2026-03-06T06:39:38.048968
+SLURM Job:      6346039
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
@@ -135,11 +135,11 @@ claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py::test_claim_
 ________________________________ test_claim_c1 _________________________________
 claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
     assert result1 == result2
-E   assert Point2D(8, 14) == Point2D(20, 30)
+E   assert Point2D(5, 8) == Point2D(8, 12)
 E     
 claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
     assert result1 == result2
-E   assert Point2D(8, 14) == Point2D(20, 30)
+E   assert Point2D(5, 8) == Point2D(8, 12)
 E     
 E     Full diff:
 
@@ -175,15 +175,15 @@ claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py::test_claim_
 
 =================================== FAILURES ===================================
 ________________________________ test_claim_c1 _________________________________
-claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:15: in test_claim_c1
-    assert result1 == result2, "Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number"
-E   AssertionError: Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number
-E   assert Point2D(8, 14) == Point2D(20, 30)
-claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:15: in test_claim_c1
-    assert result1 == result2, "Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number"
-E   AssertionError: Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number
+claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
+    assert result1 == result2
 E   assert Point2D(8, 14) == Point2D(20, 30)
 E     
+claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
+    assert result1 == result2
+E   assert Point2D(8, 14) == Point2D(20, 30)
+E     
+E     Full diff:
 
 💡 Your test may be overconstrained - it fails even on the fixed code.
    Consider relaxing assertions to accept multiple valid forms.
@@ -217,15 +217,15 @@ claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py::test_claim_
 
 =================================== FAILURES ===================================
 ________________________________ test_claim_c1 _________________________________
-claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
-    assert result1 == result2
+claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:15: in test_claim_c1
+    assert result1 == result2, "Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number"
+E   AssertionError: Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number
+E   assert Point2D(8, 14) == Point2D(20, 30)
+claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:15: in test_claim_c1
+    assert result1 == result2, "Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number"
+E   AssertionError: Multiplying a Point by a number and then adding it to another Point does not return the same result as adding the two Points and then multiplying the result by the number
 E   assert Point2D(8, 14) == Point2D(20, 30)
 E     
-claim_tests/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py:17: in test_claim_c1
-    assert result1 == result2
-E   assert Point2D(8, 14) == Point2D(20, 30)
-E     
-E     Full diff:
 
 💡 Your test may be overconstrained - it fails even on the fixed code.
    Consider relaxing assertions to accept multiple valid forms.
@@ -233,6 +233,6 @@ E     Full diff:
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/sympy__sympy-17655/sympy__sympy_17655__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/sympy__sympy-17655_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283215.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283215.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346039.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346039.err
 ================================================================================

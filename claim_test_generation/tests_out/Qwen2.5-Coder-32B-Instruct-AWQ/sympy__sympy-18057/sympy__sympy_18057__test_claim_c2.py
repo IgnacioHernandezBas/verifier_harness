@@ -1,36 +1,29 @@
 import pytest
 from sympy import Symbol
 
-# Given: A sympy Symbol 'x' and an object C with __repr__ returning 'x.y'
-# When: sympy.Symbol('x').__eq__(C()) is called
-# Then: False is returned
-
-class C:
-    def __repr__(self):
-        return 'x.y'
+# Test imports sympy directly and uses Symbol from it.
+# Compares Symbol('x') with C() and asserts False.
+# Handles invalid expressions gracefully without raising AttributeError.
 
 def test_claim_c2():
-    # Create a sympy Symbol 'x'
+    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
     x = Symbol('x')
     
-    # Create an object C with __repr__ returning 'x.y'
-    c = C()
+    class C:
+        def __repr__(self):
+            return 'x.y'
     
-    # Test returns False for sympy.Symbol('x') == C()
-    assert x == c is False
+    # When: sympy.Symbol('x') == C()
+    # Then: The comparison returns False.
+    assert (x == C()) is False
     
-    # Ensure no AttributeError is raised
-    with pytest.raises(AttributeError):
-        x.y  # This should raise an AttributeError as 'x' is a Symbol and does not have an attribute 'y'
+    # Edge case: Test with a different invalid expression in C's __repr__ method.
+    class D:
+        def __repr__(self):
+            return 'invalid_expression'
     
-    # Verify other edge cases behave as expected
+    assert (x == D()) is False
     
-    # Comparison with None
-    assert x == None is False
-    
-    # Comparison with a string 'x'
-    assert x == 'x' is False
-    
-    # Comparison with a sympy Symbol 'y'
+    # Edge case: Test with a Symbol that has a name different from 'x'.
     y = Symbol('y')
-    assert x == y is False
+    assert (y == C()) is False

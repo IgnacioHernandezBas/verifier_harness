@@ -1,25 +1,21 @@
-# Checklist TODO: Test raises a test failure or error, not an INTERNALERROR.
-# Checklist TODO: Exception in __repr__ is caught and handled.
-# Checklist TODO: Test provides a meaningful error message.
+# Checklist TODO: Test raises the same exception as the object's __repr__.
+# Checklist TODO: Verify no other exceptions are raised.
+# Checklist TODO: Ensure test passes in both buggy and fixed versions.
 import pytest
-from pytest import raises
+from _pytest._io.saferepr import SafeRepr
 
-def test_claim_c1(monkeypatch):
-    # GIVEN: An instance of SomeClass is created and an attribute is accessed, which raises an exception in __getattribute__ and __repr__.
+def test_claim_c1():
+    # Given: An object with a __repr__ method that raises an exception.
     class SomeClass:
-        def __getattribute__(self, attr):
-            raise RuntimeError("Attribute access error")
-
         def __repr__(self):
-            raise RuntimeError("Repr error")
+            raise ValueError("Custom error message")
 
     obj = SomeClass()
 
-    # WHEN: pytest runs the test function `test`
-    # THEN: pytest should raise a test failure or error, not an INTERNALERROR.
-    with raises(RuntimeError) as excinfo:
-        repr(obj)
+    # When: SafeRepr.repr is called with the object.
+    # Then: The same exception raised in the __repr__ method is raised.
+    with pytest.raises(ValueError) as excinfo:
+        SafeRepr().repr(obj)
 
-    # The exception raised in __repr__ should be caught and handled by _format_repr_exception.
-    # The test should not crash and should provide a meaningful error message.
-    assert "Repr error" in str(excinfo.value)
+    # Verify the raised exception is the same as the one in __repr__
+    assert str(excinfo.value) == "Custom error message"

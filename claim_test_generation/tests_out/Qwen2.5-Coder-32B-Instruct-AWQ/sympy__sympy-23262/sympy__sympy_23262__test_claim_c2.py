@@ -1,25 +1,40 @@
-# Checklist TODO: Test passes with a multi-element tuple input.
-# Checklist TODO: Lambda function returns the correct tuple output.
-# Checklist TODO: Edge cases are handled appropriately.
+# Checklist TODO: Test passes with a tuple of two or more elements.
+# Checklist TODO: Lambda function returns a tuple.
+# Checklist TODO: Tuple elements match the input.
 import pytest
-from sympy.utilities.lambdify import lambdify
+from sympy import lambdify, symbols
 
 def test_claim_c2():
-    # Given: A multi-element tuple (1, 2) is provided as the argument to `lambdify`.
-    # When: The `lambdify` function is called with an empty list and the multi-element tuple.
-    f = lambdify([], (1, 2))
+    # Given: A tuple with two or more elements is passed to lambdify.
+    x, y = symbols('x y')
+    input_tuple = (x, y)
     
-    # Then: The generated lambda function returns a tuple with multiple elements, represented as (1, 2).
-    assert f() == (1, 2)
+    # When: Calling lambdify with a tuple of two or more elements.
+    f = lambdify((x, y), input_tuple, 'sympy')
     
-    # Edge case: Test with a single-element tuple to ensure it returns a single-element tuple.
-    f_single = lambdify([], (1,))
-    assert f_single() == (1,)
+    # Then: The generated code should return a tuple with commas between elements.
+    result = f(1, 2)
     
-    # Edge case: Test with an empty tuple to see if it returns an empty tuple.
-    f_empty = lambdify([], ())
-    assert f_empty() == ()
+    # The result of the lambda function should be a tuple.
+    assert isinstance(result, tuple)
     
-    # Edge case: Test with non-numeric elements in the tuple.
-    f_non_numeric = lambdify([], ('a', 'b'))
-    assert f_non_numeric() == ('a', 'b')
+    # The elements in the returned tuple should match the input elements.
+    assert result == (1, 2)
+
+    # Edge case: Test with an empty tuple.
+    f_empty = lambdify([], (), 'sympy')
+    result_empty = f_empty()
+    assert isinstance(result_empty, tuple)
+    assert result_empty == ()
+
+    # Edge case: Test with a tuple containing non-numeric elements.
+    f_non_numeric = lambdify([], ('a', 'b'), 'sympy')
+    result_non_numeric = f_non_numeric()
+    assert isinstance(result_non_numeric, tuple)
+    assert result_non_numeric == ('a', 'b')
+
+    # Edge case: Test with nested tuples.
+    f_nested = lambdify([], ((1, 2), (3, 4)), 'sympy')
+    result_nested = f_nested()
+    assert isinstance(result_nested, tuple)
+    assert result_nested == ((1, 2), (3, 4))

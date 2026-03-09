@@ -1,61 +1,46 @@
 import pytest
-from src._pytest._io.saferepr import SafeRepr
+from pytest import fixture, mark
+from src._pytest._io.saferepr import SafeRepr, _ellipsize
+
+# Given: An object with a large string representation
+# When: Calling SafeRepr.repr() on that object
+# Then: SafeRepr.repr() should return a string that is no longer than maxsize
 
 def test_claim_c2(tmpdir, monkeypatch, capsys):
-    # Given: An object with a large string representation
+    # Create an object with a string representation longer than maxsize
     large_string = "a" * 1000
-    class LargeStringObject:
-        def __repr__(self):
-            return large_string
+    large_object = type('LargeObject', (object,), {'__repr__': lambda self: large_string})()
 
-    obj = LargeStringObject()
+    # Define a maxsize parameter for SafeRepr initialization
     maxsize = 100
 
-    # When: Calling SafeRepr.repr() on that object
-    safe_repr = SafeRepr(maxsize=maxsize)
-    result = safe_repr.repr(obj)
+    # Initialize SafeRepr with maxsize
+    safe_repr = SafeRepr(maxsize)
 
-    # Then: SafeRepr.repr() should return a string that is no longer than maxsize
+    # SafeRepr output length is within maxsize
+    result = safe_repr.repr(large_object)
     assert len(result) <= maxsize
 
-    # Edge case: Object with string representation exactly equal to maxsize
-    exact_string = "a" * maxsize
-    class ExactStringObject:
+    # _ellipsize correctly truncates long strings
+    truncated_string = _ellipsize(large_string, maxsize)
+    assert len(truncated_string) <= maxsize
+    assert truncated_string.endswith("...")
+
+    # SafeRepr handles exceptions gracefully
+    class ExceptionalObject:
         def __repr__(self):
-            return exact_string
+            raise RuntimeError("Exception in repr")
 
-    obj_exact = ExactStringObject()
-    result_exact = safe_repr.repr(obj_exact)
-    assert len(result_exact) <= maxsize
+    exceptional_object = ExceptionalObject()
+    result_with_exception = safe_repr.repr(exceptional_object)
+    assert "[RuntimeError() raised in repr()]" in result_with_exception
 
-    # Edge case: Object with string representation much larger than maxsize
-    large_string_much_larger = "a" * 10000
-    class LargeStringObjectMuchLarger:
-        def __repr__(self):
-            return large_string_much_larger
+    # Test with maxsize set to 0
+    safe_repr_zero = SafeRepr(0)
+    result_zero = safe_repr_zero.repr(large_object)
+    assert len(result_zero) <= 0
 
-    obj_much_larger = LargeStringObjectMuchLarger()
-    result_much_larger = safe_repr.repr(obj_much_larger)
-    assert len(result_much_larger) <= maxsize
-
-    # Edge case: Object with string representation smaller than maxsize
-    small_string = "a" * 10
-    class SmallStringObject:
-        def __repr__(self):
-            return small_string
-
-    obj_small = SmallStringObject()
-    result_small = safe_repr.repr(obj_small)
-    assert len(result_small) <= maxsize
-
-    # Check: SafeRepr.repr() returns a string within maxsize
-    assert len(result) <= maxsize
-    assert len(result_exact) <= maxsize
-    assert len(result_much_larger) <= maxsize
-    assert len(result_small) <= maxsize
-
-    # Check: String is correctly ellipsized when exceeding maxsize
-    assert result_much_larger.endswith("...")
-
-    # Check: No errors occur with various string sizes
-    assert not capsys.readouterr().err
+    # Test with maxsize set to a very large number
+    safe_repr_large = SafeRepr(10000)
+    result_large = safe_repr_large.repr(large_object)
+    assert len(result_large) == len(large_string)

@@ -5,19 +5,17 @@ Instance:       psf__requests-2148
 Claim:          C1
 Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-25T00:01:02.911339
-SLURM Job:      6301225
+Timestamp:      2026-03-06T05:20:45.403092
+SLURM Job:      6345978
 
-STATUS:         ✗ FAILED
-Attempts:       10 / 10
+STATUS:         ✓ SUCCESS
+Attempts:       4 / 10
 
 FINAL RESULTS:
-  Classification: OVERCONSTRAINED
+  Classification: VALID
   Bug:            FAIL
-  Gold:           FAIL
-  Discriminative: NO
-
-FAILURE REASON: Classification: OVERCONSTRAINED
+  Gold:           PASS
+  Discriminative: YES
 
 ITERATION HISTORY:
   [1] GUARDRAIL_FAILED
@@ -40,24 +38,27 @@ The following symbols were not found in module 'requests.models':
 
 
   [2] UNKNOWN
-      other: Both variants returned FAIL.
+      signature_mismatch: Call signature mismatch.
 
-Error details from BUG run:
+💡 Hint: The function is missing the required argument(s): chunk_size
+Check the function signature and ensure all required parameters are provided.
+
+Error details:
 collecting ... collected 1 item
 
 claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
 =================================== FAILURES ===================================
-________________________________ test_claim_c1 _________________________________
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:29: in test_claim_c1
-    list(response_with_socket_error.iter_content())
-requests/models.py:637: in generate
     for chunk in self.raw.stream(chunk_size, decode_content=True):
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:14: in stream
-    raise socket.error("Socket error occurred")
-E   OSError: Socket error occurred
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:17: in stream
+    raise socket.error()
+E   OSError
 =============================== warnings summary ===============================
+claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:17: in stream
+    raise socket.error()
+E   OSError
+=============================== warnings summary ===============================
+requests/packages/urllib3/connectionpool.py:80
 
   [3] GUARDRAIL_FAILED
       signature_check: 🔍 SIGNATURE CHECK FAILED
@@ -79,148 +80,11 @@ The following symbols were not found in module 'requests.models':
 
 
   [4] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-________________________________ test_claim_c1 _________________________________
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:30: in test_claim_c1
-    list(response_with_socket_error.iter_content())
-requests/models.py:637: in generate
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:14: in stream
-    raise socket.error()
-E   OSError
-=============================== warnings summary ===============================
-
-  [5] GUARDRAIL_FAILED
-      signature_check: 🔍 SIGNATURE CHECK FAILED
-
-The following symbols were not found in module 'requests.models':
-  'Response.iter_content'
-
-💡 POSSIBLE FIXES:
-1. Check if these symbols exist in a different module
-   - Try importing directly: 'import Response' instead
-   - Or look in related modules (check the issue context for correct imports)
-
-2. The symbol might be in the same package but different submodule
-   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
-   - Try: from sympy import Symbol  (imports work across submodules)
-
-3. Look at the test_patch files in the issue - they show working imports
-
-
-
-  [6] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-________________________________ test_claim_c1 _________________________________
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:29: in test_claim_c1
-    list(response_with_socket_error.iter_content())
-requests/models.py:637: in generate
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:14: in stream
-    raise socket.error()
-E   OSError
-=============================== warnings summary ===============================
-
-  [7] GUARDRAIL_FAILED
-      signature_check: 🔍 SIGNATURE CHECK FAILED
-
-The following symbols were not found in module 'requests.models':
-  'Response.iter_content'
-
-💡 POSSIBLE FIXES:
-1. Check if these symbols exist in a different module
-   - Try importing directly: 'import Response' instead
-   - Or look in related modules (check the issue context for correct imports)
-
-2. The symbol might be in the same package but different submodule
-   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
-   - Try: from sympy import Symbol  (imports work across submodules)
-
-3. Look at the test_patch files in the issue - they show working imports
-
-
-
-  [8] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    for chunk in self.raw.stream(chunk_size, decode_content=True):
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:13: in stream
-    raise socket.error()
-E   NameError: name 'socket' is not defined
-=============================== warnings summary ===============================
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py:13: in stream
-    raise socket.error()
-E   NameError: name 'socket' is not defined
-=============================== warnings summary ===============================
-requests/packages/urllib3/connectionpool.py:80
-
-  [9] GUARDRAIL_FAILED
-      signature_check: 🔍 SIGNATURE CHECK FAILED
-
-The following symbols were not found in module 'requests.models':
-  'Response.iter_content'
-
-💡 POSSIBLE FIXES:
-1. Check if these symbols exist in a different module
-   - Try importing directly: 'import Response' instead
-   - Or look in related modules (check the issue context for correct imports)
-
-2. The symbol might be in the same package but different submodule
-   - Example: 'sympy.Symbol' is in 'sympy.core.symbol', not 'sympy.core.expr'
-   - Try: from sympy import Symbol  (imports work across submodules)
-
-3. Look at the test_patch files in the issue - they show working imports
-
-
-
-  [10] UNKNOWN
-      mocking_error: Test failed while trying to mock methods.
-
-💡 Hint: Don't mock internal/private methods. Test through public APIs only.
-Simplify your test - create objects directly and call methods normally.
-
-Error details:
-collecting ... collected 3 items
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 ERROR [ 33%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_no_error FAILED [ 66%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_other_error FAILED [100%]
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 ERROR [ 33%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_no_error FAILED [ 66%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_other_error FAILED [100%]
-
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_claim_c1 ERROR [ 33%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_no_error FAILED [ 66%]
-claim_tests/psf__requests-2148/psf__requests_2148__test_claim_c1.py::test_iter_content_other_error FAILED [100%]
-
-==================================== ERRORS ====================================
+      success: Observed discriminative claim-test.
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/psf__requests-2148/psf__requests_2148__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301225.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301225.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345978.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345978.err
 ================================================================================

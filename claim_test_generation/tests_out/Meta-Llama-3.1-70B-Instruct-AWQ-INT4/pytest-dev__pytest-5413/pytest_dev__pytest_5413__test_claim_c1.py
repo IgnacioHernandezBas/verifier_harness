@@ -1,51 +1,36 @@
 import pytest
-from pytest import raises
 
 def test_claim_c1(capsys):
-    # Given: A LookupError is raised within a pytest.raises context
-    # When: str(e) is called on the pytest.raises context variable e
-    with raises(LookupError) as e:
+    # GIVEN: A LookupError is raised with a multi-line message inside a pytest.raises context.
+    # WHEN: str(e) is called where e is the pytest.raises context variable.
+    # THEN: The full error message 'A\nB\nC' is returned.
+
+    # Test passes with a multi-line error message
+    with pytest.raises(LookupError) as e:
         raise LookupError("A\nB\nC")
-
-    # Then: returns 'A\nB\nC'
     assert str(e.value) == "A\nB\nC"
 
-    # Checklist:
-    # Test passes with LookupError raised within pytest.raises context
-    # str(e) returns the full error message with multiple lines
-    # Error message matches the expected format
+    # Test fails with an incorrect error message
+    with pytest.raises(LookupError) as e:
+        raise LookupError("A\nB\nC")
+    assert str(e.value) != "A\nB\nD"
 
-    # Assertions:
-    # str(e) returns the full error message
+    # Test handles non-LookupError exceptions correctly
+    with pytest.raises(ValueError) as e:
+        raise ValueError("A\nB\nC")
     assert str(e.value) == "A\nB\nC"
-    # error message contains 'A\nB\nC'
-    assert "A\nB\nC" in str(e.value)
 
-    # Edge cases:
-    # Empty error message
-    with raises(LookupError) as e:
-        raise LookupError("")
-    assert str(e.value) == ""
-
-    # Single-line error message
-    with raises(LookupError) as e:
+    # Edge case: Test with a single-line error message
+    with pytest.raises(LookupError) as e:
         raise LookupError("A")
     assert str(e.value) == "A"
 
-    # Error message with non-string lines
-    with raises(LookupError) as e:
-        raise LookupError("A\n1\nC")
-    assert str(e.value) == "A\n1\nC"
+    # Edge case: Test with a non-string error message
+    with pytest.raises(LookupError) as e:
+        raise LookupError(123)
+    assert str(e.value) == "123"
 
-    # Data setup:
-    # Raise LookupError within pytest.raises context
-    # Create error message with multiple lines
-    with raises(LookupError) as e:
-        raise LookupError("A\nB\nC")
+    # Edge case: Test with a non-LookupError exception
+    with pytest.raises(ValueError) as e:
+        raise ValueError("A\nB\nC")
     assert str(e.value) == "A\nB\nC"
-
-    # Fixtures:
-    # capsys
-    captured = capsys.readouterr()
-    assert captured.out == ""
-    assert captured.err == ""

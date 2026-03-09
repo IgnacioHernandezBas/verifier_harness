@@ -1,34 +1,31 @@
-# Checklist TODO: Test must create a module with a file of the same name.
-# Checklist TODO: Test must run pylint on the created module.
-# Checklist TODO: Test must verify no errors are raised during pylint execution.
+# Checklist TODO: Test must create the required directory structure.
+# Checklist TODO: Test must call expand_modules with ['a'] as input.
+# Checklist TODO: Test must verify the function's output and exception handling.
 import pytest
-from pylint.lint import PyLinter
 from pylint.lint.expand_modules import expand_modules
 
-@pytest.fixture
-def tmp_module(tmpdir):
-    module_dir = tmpdir.mkdir("identical")
-    module_file = module_dir.join("identical.py")
-    module_file.write("import imp")
-    return str(module_dir)
+def test_claim_c1(tmpdir, monkeypatch):
+    # GIVEN: Create a directory structure with a subdirectory 'a' containing 'a.py' and 'b.py'.
+    # Ensure all files are empty to simulate the given context.
+    a_dir = tmpdir.mkdir('a')
+    a_dir.join('a.py').write('')
+    a_dir.join('b.py').write('')
 
-def test_claim_c1(tmp_module, monkeypatch, capsys):
-    # GIVEN: A module with a file of the same name exists.
-    # WHEN: Running pylint on the module.
-    with monkeypatch.context() as m:
-        m.chdir(tmp_module)
-        linter = PyLinter()
-        linter.load_default_plugins()
-        linter.check(["identical"])
-    
-    # THEN: No error is raised.
-    captured = capsys.readouterr()
-    assert "error while code parsing" not in captured.out
-    assert "error while code parsing" not in captured.err
+    # Set the current working directory to the temporary directory containing the structure.
+    monkeypatch.chdir(tmpdir)
 
-    # THEN: The module is correctly identified and processed.
-    assert "deprecated-module" in linter.stats.by_msg
+    # WHEN: expand_modules is called with ['a'] as files_or_modules
+    try:
+        result = expand_modules(['a'], [], None, None)
+    except Exception as e:
+        pytest.fail(f"expand_modules raised an exception: {e}")
 
-    # THEN: No file not found error is raised.
-    assert "No such file or directory" not in captured.out
-    assert "No such file or directory" not in captured.err
+    # THEN: No exception is raised during the execution of expand_modules.
+    # The function returns a list of ModuleDescriptionDict.
+    assert isinstance(result, list), "The function should return a list."
+    assert all(isinstance(item, dict) for item in result), "The list should contain dictionaries."
+
+    # The returned list contains descriptions for all expected modules.
+    expected_modules = ['a.a', 'a.b']
+    actual_modules = [item['name'] for item in result]
+    assert set(actual_modules) == set(expected_modules), "The returned list should contain descriptions for all expected modules."

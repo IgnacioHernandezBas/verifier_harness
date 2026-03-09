@@ -1,50 +1,64 @@
 import pytest
 from pylint.lint import expand_modules
-import os
+from pylint import lint
+
+# Given: A module with a file of the same name exists.
+# When: Running pylint on the module.
+# Then: No fatal error is raised.
 
 def test_claim_c3(tmpdir, capsys):
-    # Checklist: Test passes without raising any exceptions
-    # Checklist: Module resolution is not affected by expand_modules
-    # Checklist: Function completes successfully with expected output
+    # Checklist: Test passes without raising a fatal error
+    # Checklist: Test handles ModuleNotFoundError correctly
+    # Checklist: Test handles FileNotFoundError correctly
 
-    # Data setup: Create directory 'a' with module 'a.py' and 'b.py'
-    a_dir = tmpdir.mkdir("a")
-    a_py = a_dir.join("a.py")
-    b_py = a_dir.join("b.py")
-    a_py.write("pass")
-    b_py.write("pass")
+    # Data setup: Create a module with a file of the same name
+    module_name = "test_module"
+    module_file = tmpdir.mkdir(module_name).join(module_name + ".py")
+    module_file.write("pass")
 
-    # Data setup: Create file 'r.py' that imports 'b' from 'a'
-    r_py = tmpdir.join("r.py")
-    r_py.write("from a import b")
+    # Data setup: Create a test file with a valid Python module
+    test_file = tmpdir.join("test_file.py")
+    test_file.write("import " + module_name)
 
-    # Data setup: Set up directory 'a' and file 'r.py' as input for expand_modules
-    expand_modules([str(a_dir), str(r_py)])
+    # Data setup: Set up a valid pylint configuration
+    pylint_config = tmpdir.join("pylint.cfg")
+    pylint_config.write("[MASTER]\n")
 
-    # Assertions: No exception is raised
-    # Assertions: Function completes successfully
-    # Assertions: Module resolution is not affected
+    # Exercise expand_modules with module context
+    try:
+        expand_modules([module_file.basename], [], [], [])
+    except Exception as e:
+        pytest.fail(f"Fatal error raised: {e}")
+
+    # Edge case: Module file does not exist
+    try:
+        expand_modules([tmpdir.join("non_existent_module").basename], [], [], [])
+    except FileNotFoundError:
+        pass
+    else:
+        pytest.fail("Expected FileNotFoundError for non-existent module file")
+
+    # Edge case: Module file is not a valid Python file
+    invalid_module_file = tmpdir.join("invalid_module.py")
+    invalid_module_file.write("Invalid Python code")
+    try:
+        expand_modules([invalid_module_file.basename], [], [], [])
+    except Exception as e:
+        pass
+    else:
+        pytest.fail("Expected exception for invalid Python module file")
+
+    # Edge case: Pylint configuration is invalid
+    invalid_pylint_config = tmpdir.join("invalid_pylint.cfg")
+    invalid_pylint_config.write("Invalid configuration")
+    try:
+        lint.Run(["--rcfile=" + str(invalid_pylint_config)], exit=False)
+    except Exception as e:
+        pass
+    else:
+        pytest.fail("Expected exception for invalid pylint configuration")
+
+    # Verify no error messages were printed
     captured = capsys.readouterr()
     assert not captured.out
     assert not captured.err
-
-    # Edge cases: Empty directory
-    empty_dir = tmpdir.mkdir("empty")
-    with pytest.raises(SystemExit):
-        expand_modules([str(empty_dir)])
-
-    # Edge cases: Missing module 'a.py' or 'b.py'
-    missing_module_dir = tmpdir.mkdir("missing_module")
-    missing_module_dir.join("a.py").write("pass")
-    with pytest.raises(SystemExit):
-        expand_modules([str(missing_module_dir)])
-
-    # Edge cases: Invalid import in 'r.py'
-    invalid_import_py = tmpdir.join("invalid_import.py")
-    invalid_import_py.write("from invalid_module import invalid_function")
-    with pytest.raises(SystemExit):
-        expand_modules([str(a_dir), str(invalid_import_py)])
-
-    # Edge cases: Non-existent directory or file
-    with pytest.raises(SystemExit):
-        expand_modules(["non_existent_dir"])

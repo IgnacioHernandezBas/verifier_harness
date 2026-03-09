@@ -1,31 +1,30 @@
 import pytest
-from sympy import Point
+from sympy import geometry as ge
+import sympy
 
 def test_claim_c1(capsys):
-    # Given: A Point object and a number are provided.
-    p = Point(1, 2)
-    num = 5
+    # Given
+    point1 = ge.Point(0,0)
+    point2 = ge.Point(1,1)
 
-    # When: sympy.geometry.point.Point.__mul__ is called with a number as the factor.
-    # Then: No exception is raised.
-    # Test passes without raising a GeometryError
-    assert p * num == Point(5, 10)
+    # When
+    result1 = point1 + sympy.sympify(2.0) * point2
+    result2 = point1 + point2 * sympy.sympify(2.0)
 
-    # Test handles edge cases correctly
-    # Multiplying by zero
-    assert p * 0 == Point(0, 0)
+    # Then
+    # returns Point2D(2.0, 2.0)
+    assert result1 == ge.Point2D(2.0, 2.0)
+    # behaves the same as point1 + point2 * sympy.sympify(2.0)
+    assert result1 == result2
 
-    # Multiplying by a negative number
-    assert p * -1 == Point(-1, -2)
+    # Test passes with point1 + sympy.sympify(2.0) * point2
+    assert result1 == ge.Point2D(2.0, 2.0)
 
-    # Multiplying by a non-numeric value
-    with pytest.raises(TypeError):
-        p * 'a'
+    # Test passes with point1 + point2 * sympy.sympify(2.0)
+    assert result2 == ge.Point2D(2.0, 2.0)
 
-    # Test uses correct imports and module
-    assert isinstance(p, Point)
-
-    # Capture stdout and stderr
-    captured = capsys.readouterr()
-    assert captured.out == ''
-    assert captured.err == ''
+    # Test fails with incorrect scalar value or point coordinates
+    with pytest.raises(AssertionError):
+        assert point1 + sympy.sympify(3.0) * point2 == ge.Point2D(2.0, 2.0)
+    with pytest.raises(AssertionError):
+        assert point1 + sympy.sympify(2.0) * ge.Point(2,2) == ge.Point2D(2.0, 2.0)

@@ -1,60 +1,88 @@
-# Checklist TODO: Test file contains only punctuation in a note tag.
-# Checklist TODO: Pylint is run with the --notes option.
-# Checklist TODO: Pylint outputs a fixme warning for the note tag.
 import pytest
-from pylint.checkers.misc import MiscChecker
+from pylint.checkers.misc import NotesChecker
 from pylint.lint import PyLinter
-from pylint.config import ConfigurationMixIn
-from pylint.reporters import BaseReporter
+from pylint.config import PylintrcConfig
 
-# Test _check_encoding and process_tokens with note tags as punctuation.
-def test_claim_c1(tmpdir, monkeypatch, capsys):
-    # GIVEN: A note tag specified with the --notes option is entirely punctuation.
-    # Create a test file with a note tag entirely composed of punctuation.
-    test_file = tmpdir.join("test.py")
-    test_file.write("a = 1\n#???\n")
+# Test must import pylint.checkers.misc successfully.
+# Test must set up the --notes option and source file content.
+# Test must verify fixme warnings for specified notes.
 
-    # Ensure the test file is in the directory where pylint will be run.
-    monkeypatch.chdir(tmpdir)
-
-    # Configure pylint to use the --notes option with the punctuation note tag.
+@pytest.fixture
+def linter():
     linter = PyLinter()
-    linter.set_option("notes", ["???"])
-    linter.set_reporter(BaseReporter())
-    checker = MiscChecker(linter)
+    linter.load_default_config()
+    linter.load_plugin_configuration()
+    return linter
+
+@pytest.fixture
+def checker(linter):
+    checker = NotesChecker(linter)
     linter.register_checker(checker)
+    return checker
 
-    # WHEN: Running pylint with the --notes option.
-    linter.check(["test.py"])
+def test_claim_c1(tmpdir, monkeypatch, capsys, linter, checker):
+    # Create a temporary source file with '# YES: yes' and '# ???: no'.
+    source_file = tmpdir.join("test.py")
+    source_file.write("# YES: yes\n# ???: no\n")
 
-    # THEN: Pylint returns a fixme warning (W0511) for the note tag.
+    # Set the --notes option to include 'YES,???'.
+    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
+
+    # Configure the environment to mimic the repository setup.
+    linter.set_option('notes', ['YES', '???'])
+
+    # Process the tokens from the source file.
+    with source_file.open() as f:
+        linter.process_module(f, source_file.basename)
+
+    # Capture the output to check for warnings.
     captured = capsys.readouterr()
-    assert "W0511: Fixme" in captured.out
-    assert "line 2" in captured.out
-    assert "col 17" in captured.out
-    assert "????" in captured.out
 
-    # The warning message includes the note tag entirely composed of punctuation.
-    assert "????" in captured.out
+    # Test must verify fixme warnings for specified notes.
+    assert "W0511: YES: yes (fixme)" in captured.out
+    assert "W0511: ???: no (fixme)" in captured.out
 
-    # No other warnings are raised for the test file.
-    assert "W0511" in captured.out
-    assert captured.out.count("W0511") == 1
+    # No other warnings are generated.
+    assert len(captured.out.splitlines()) == 2
 
-    # Test with a note tag that is an empty string.
-    test_file.write("a = 1\n#")
-    linter.check(["test.py"])
+# Test with an empty source file.
+def test_empty_source_file(tmpdir, monkeypatch, capsys, linter, checker):
+    source_file = tmpdir.join("test.py")
+    source_file.write("")
+
+    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
+    linter.set_option('notes', ['YES', '???'])
+
+    with source_file.open() as f:
+        linter.process_module(f, source_file.basename)
+
     captured = capsys.readouterr()
-    assert "W0511" not in captured.out
+    assert captured.out == ""
 
-    # Test with a note tag that contains spaces and punctuation.
-    test_file.write("a = 1\n# ? ?")
-    linter.check(["test.py"])
-    captured = capsys.readouterr()
-    assert "W0511" not in captured.out
+# Test with a source file that does not contain any notes.
+def test_no_notes(tmpdir, monkeypatch, capsys, linter, checker):
+    source_file = tmpdir.join("test.py")
+    source_file.write("a = 1\nb = 2")
 
-    # Test with a note tag that contains alphanumeric characters and punctuation.
-    test_file.write("a = 1\n# ???123")
-    linter.check(["test.py"])
+    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
+    linter.set_option('notes', ['YES', '???'])
+
+    with source_file.open() as f:
+        linter.process_module(f, source_file.basename)
+
     captured = capsys.readouterr()
-    assert "W0511" not in captured.out
+    assert captured.out == ""
+
+# Test with a note that is not specified in the --notes option.
+def test_unspecified_note(tmpdir, monkeypatch, capsys, linter, checker):
+    source_file = tmpdir.join("test.py")
+    source_file.write("# TODO: do something")
+
+    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
+    linter.set_option('notes', ['YES', '???'])
+
+    with source_file.open() as f:
+        linter.process_module(f, source_file.basename)
+
+    captured = capsys.readouterr()
+    assert captured.out == ""

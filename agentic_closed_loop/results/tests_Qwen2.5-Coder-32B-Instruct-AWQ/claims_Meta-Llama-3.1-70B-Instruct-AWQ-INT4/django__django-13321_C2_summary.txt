@@ -5,8 +5,8 @@ Instance:       django__django-13321
 Claim:          C2
 Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-24T23:56:59.819002
-SLURM Job:      6301220
+Timestamp:      2026-03-06T05:44:29.297023
+SLURM Job:      6345973
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
@@ -21,9 +21,29 @@ FAILURE REASON: Classification: OVERCONSTRAINED
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -40,10 +60,32 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 ============================== 1 failed in 0.39s ===============================
 
 
-  [2] UNKNOWN
-      other: Both variants returned FAIL.
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
 
-Error details from BUG run:
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [2] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -57,33 +99,52 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 E   NameError: name 'base64' is not defined
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.37s ===============================
+============================== 1 failed in 0.44s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.41s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [3] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
-    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
-E   NameError: name 'base64' is not defined
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-E   NameError: name 'base64' is not defined
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.35s ===============================
-
-
-  [4] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -100,10 +161,243 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 ============================== 1 failed in 0.37s ===============================
 
 
-  [5] UNKNOWN
-      other: Both variants returned FAIL.
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
 
-Error details from BUG run:
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [4] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.42s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [5] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.47s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.41s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [6] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.39s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.45s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [7] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.51s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -120,10 +414,32 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 ============================== 1 failed in 0.40s ===============================
 
 
-  [6] UNKNOWN
-      other: Both variants returned FAIL.
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
 
-Error details from BUG run:
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [8] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -137,13 +453,10 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 E   NameError: name 'base64' is not defined
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.38s ===============================
+============================== 1 failed in 0.43s ===============================
 
 
-  [7] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🟢 ERROR from FIXED (gold) version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -160,30 +473,32 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 ============================== 1 failed in 0.37s ===============================
 
 
-  [8] UNKNOWN
-      other: Both variants returned FAIL.
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
 
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
-    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
-E   NameError: name 'base64' is not defined
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-E   NameError: name 'base64' is not defined
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.39s ===============================
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [9] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -197,13 +512,52 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 E   NameError: name 'base64' is not defined
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.38s ===============================
+============================== 1 failed in 0.65s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.45s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [10] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -218,11 +572,47 @@ E   NameError: name 'base64' is not defined
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
 ============================== 1 failed in 0.39s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:10: in test_claim_c1
+    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   NameError: name 'base64' is not defined
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/django__django-13321/django__django_13321__test_claim_c2.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/django__django-13321_C2.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301220.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301220.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345973.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345973.err
 ================================================================================

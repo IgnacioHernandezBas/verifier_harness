@@ -1,46 +1,40 @@
+# Checklist TODO: Test must verify no exceptions are raised.
+# Checklist TODO: Test must confirm the return type is a list of ModuleDescriptionDict.
+# Checklist TODO: Test must validate the list contains all specified modules.
 import pytest
-from pylint import epylint as lint
+from pylint.lint.expand_modules import expand_modules
 
 def test_claim_c2(tmpdir, monkeypatch, capsys):
-    # GIVEN: A module with a file of the same name exists.
-    # Create a directory named 'a' in tmpdir.
+    # Given: Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`, and all files are empty.
     a_dir = tmpdir.mkdir('a')
-    
-    # Create an __init__.py file inside the 'a' directory.
-    init_file = a_dir.join('__init__.py')
-    init_file.write('import imp')  # Non-empty __init__.py file for testing
+    a_dir.join('a.py').write('')
+    a_dir.join('b.py').write('')
+    r_file = tmpdir.join('r.py')
+    r_file.write('from a import b')
 
-    # Ensure the 'a' module is importable in the test environment.
-    monkeypatch.syspath_prepend(tmpdir)
+    # When: expand_modules is called with ['r', 'a'] as files_or_modules
+    with monkeypatch.context() as m:
+        m.chdir(tmpdir)
+        result = expand_modules(['r', 'a'])
 
-    # WHEN: Running pylint on the module.
-    lint.py_run('a', return_std=True)
-
-    # THEN: Pylint runs successfully without errors.
-    # Capture the output and errors
-    out, err = capsys.readouterr()
-
-    # Test must create a module with a file of the same name.
-    assert init_file.exists(), "The __init__.py file should exist."
-
-    # Test must run pylint on the created module.
-    assert '************* Module a' in out, "Pylint should have processed the 'a' module."
-
-    # Test must verify pylint runs successfully without errors.
-    assert 'error while code parsing' not in out, "Pylint should not raise a file not found error."
-    assert 'F0010' not in out, "Pylint should not raise a critical error."
-    assert 'E0611' not in out, "Pylint should not raise a no-name-in-module error."
+    # Then: No exception should be raised and the function should return a list of ModuleDescriptionDict without errors.
+    assert isinstance(result, list), "The function should return a list."
+    assert all(isinstance(item, dict) for item in result), "The list should contain ModuleDescriptionDict."
+    assert len(result) == 2, "The list should contain descriptions for all specified modules."
 
     # Edge cases
-    # Test with an empty __init__.py file.
-    init_file.write('')
-    lint.py_run('a', return_std=True)
-    out, err = capsys.readouterr()
-    assert 'error while code parsing' not in out, "Pylint should not raise a file not found error with an empty __init__.py file."
+    # Test with a non-existent module
+    with pytest.raises(Exception) as exc_info:
+        expand_modules(['nonexistent'])
+    assert "No module named 'nonexistent'" in str(exc_info.value)
 
-    # Test with a non-existent 'a' directory.
-    a_dir.remove()
-    with pytest.raises(SystemExit):
-        lint.py_run('a', return_std=True)
-    out, err = capsys.readouterr()
-    assert 'error while code parsing' in out, "Pylint should raise a file not found error with a non-existent directory."
+    # Test with an empty list of files_or_modules
+    result = expand_modules([])
+    assert isinstance(result, list), "The function should return a list."
+    assert len(result) == 0, "The list should be empty for an empty input."
+
+    # Test with a directory that does not contain any Python files
+    empty_dir = tmpdir.mkdir('empty')
+    result = expand_modules([str(empty_dir)])
+    assert isinstance(result, list), "The function should return a list."
+    assert len(result) == 0, "The list should be empty for a directory without Python files."

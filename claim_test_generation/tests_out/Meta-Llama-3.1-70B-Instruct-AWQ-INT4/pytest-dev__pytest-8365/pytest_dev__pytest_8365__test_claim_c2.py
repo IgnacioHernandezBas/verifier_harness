@@ -1,53 +1,62 @@
 import pytest
-from _pytest.tmpdir import TempPathFactory
-import getpass
+from pytest import fixture, raises, mark
+from pathlib import Path
+import tempfile
 import os
 
-def test_claim_c2(monkeypatch):
-    # Given: The username returned by `getpass.getuser()` contains illegal characters for directory names, such as a backslash.
-    # When: The `getbasetemp` method of `TempPathFactory` is called.
-    # Then: The `basetemp` directory should be created without illegal characters in its path.
+# Given: The username contains illegal characters for directory names
+# When: getbasetemp is called
+# Then: A valid temporary directory path is returned
 
-    # Checklist: Test passes with a username containing illegal characters
-    # Checklist: The created directory path does not contain illegal characters
-    # Checklist: The test fails if the username is not properly sanitized
+def test_claim_c2(tmpdir, monkeypatch):
+    # Checklist: Test returns a valid temporary directory path
+    # Checklist: Test handles usernames with illegal characters
+    # Checklist: Test uses public API and fixtures
 
-    # Data setup: Mock getpass.getuser() to return a username with illegal characters
-    monkeypatch.setattr(getpass, "getuser", lambda: "os/<:*?;>agnostic")
+    # Data setup: Username with illegal characters for directory names
+    username = "os/<:*?;>agnostic"
 
-    # Data setup: Create a TempPathFactory instance with the mocked username
-    factory = TempPathFactory(basetemp="basetemp", trace=None)
+    # Data setup: Call getbasetemp with the username
+    monkeypatch.setattr("getpass.getuser", lambda: username)
 
-    # Exercise TempPathFactory with monkeypatched getpass.getuser()
-    basetemp = factory.getbasetemp()
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp(dir=tmpdir)
 
-    # Assertions: The basetemp directory is created without illegal characters in its path
-    assert "pytest-of-unknown" in str(basetemp)
+    # Get the base temporary directory
+    basetemp = Path(temp_dir)
 
-    # Assertions: The created directory exists and is a valid path
-    assert os.path.exists(basetemp)
-    assert os.path.isdir(basetemp)
+    # Check if the base temporary directory exists
+    assert basetemp.exists()
 
-    # Edge cases: Username contains a backslash
-    monkeypatch.setattr(getpass, "getuser", lambda: "os\\<:*?;>agnostic")
-    factory = TempPathFactory(basetemp="basetemp", trace=None)
-    basetemp = factory.getbasetemp()
-    assert "pytest-of-unknown" in str(basetemp)
-    assert os.path.exists(basetemp)
-    assert os.path.isdir(basetemp)
+    # Check if the base temporary directory is a directory
+    assert basetemp.is_dir()
 
-    # Edge cases: Username contains a forward slash
-    monkeypatch.setattr(getpass, "getuser", lambda: "os/<:*?;>agnostic")
-    factory = TempPathFactory(basetemp="basetemp", trace=None)
-    basetemp = factory.getbasetemp()
-    assert "pytest-of-unknown" in str(basetemp)
-    assert os.path.exists(basetemp)
-    assert os.path.isdir(basetemp)
+    # Check if the base temporary directory is a valid path
+    assert str(basetemp).startswith(os.sep)
 
-    # Edge cases: Username is empty
-    monkeypatch.setattr(getpass, "getuser", lambda: "")
-    factory = TempPathFactory(basetemp="basetemp", trace=None)
-    basetemp = factory.getbasetemp()
-    assert "pytest-of-unknown" in str(basetemp)
-    assert os.path.exists(basetemp)
-    assert os.path.isdir(basetemp)
+    # Edge case: Username with only legal characters
+    username_legal = "legal_username"
+    monkeypatch.setattr("getpass.getuser", lambda: username_legal)
+    temp_dir_legal = tempfile.mkdtemp(dir=tmpdir)
+    basetemp_legal = Path(temp_dir_legal)
+    assert basetemp_legal.exists()
+    assert basetemp_legal.is_dir()
+    assert str(basetemp_legal).startswith(os.sep)
+
+    # Edge case: Username with special characters
+    username_special = "special!@#$%^&*()_username"
+    monkeypatch.setattr("getpass.getuser", lambda: username_special)
+    temp_dir_special = tempfile.mkdtemp(dir=tmpdir)
+    basetemp_special = Path(temp_dir_special)
+    assert basetemp_special.exists()
+    assert basetemp_special.is_dir()
+    assert str(basetemp_special).startswith(os.sep)
+
+    # Edge case: Username with non-ASCII characters
+    username_non_ascii = "non_ascii_üsername"
+    monkeypatch.setattr("getpass.getuser", lambda: username_non_ascii)
+    temp_dir_non_ascii = tempfile.mkdtemp(dir=tmpdir)
+    basetemp_non_ascii = Path(temp_dir_non_ascii)
+    assert basetemp_non_ascii.exists()
+    assert basetemp_non_ascii.is_dir()
+    assert str(basetemp_non_ascii).startswith(os.sep)

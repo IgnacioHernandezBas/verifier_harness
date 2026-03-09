@@ -1,36 +1,40 @@
-# Checklist TODO: Test decode with invalid data does not crash.
-# Checklist TODO: Capture and verify log output for invalid data.
-# Checklist TODO: Ensure no exceptions are raised during the test.
+# Checklist TODO: Test must configure Django settings.
+# Checklist TODO: Test must provide invalid session data to decode.
+# Checklist TODO: Test must verify an empty dictionary is returned.
 import pytest
+from django.conf import settings
 from django.contrib.sessions.backends.base import SessionBase
 
-@pytest.mark.parametrize("invalid_data", [
-    base64.b64encode(b'flaskdj:alkdjf').decode('ascii'),
-    'bad:encoded:value',
-    '',
-    None,
-    'A' * 1000000  # Very large string
-])
-def test_claim_c1(monkeypatch, capsys, invalid_data):
-    # GIVEN: invalid session data
-    # WHEN: calling decode
-    # THEN: should not raise an exception
+def test_claim_c1(monkeypatch):
+    # GIVEN: Invalid session data is provided to the decode method.
+    invalid_session_data = "invalid:session:data"
+    empty_string_data = ""
+    non_string_data = 12345
+    non_base64_data = "not_base64_encoded"
 
-    # Create a session backend instance
+    # Configure Django settings to avoid ImproperlyConfigured exceptions.
+    settings.configure(SESSION_SERIALIZER='django.contrib.sessions.serializers.JSONSerializer')
+
+    # Create a session base object to test the decode method.
     session = SessionBase()
 
-    # Monkeypatch logging to capture log messages
-    with monkeypatch.context() as m:
-        m.setattr('django.security.SuspiciousSession', lambda *args, **kwargs: None)
-        with capsys.disabled():
-            with pytest.raises(Exception) as exc_info:
-                result = session.decode(invalid_data)
-                assert result == {}, "decode should return an empty dictionary for invalid data"
-            assert exc_info is None, "decode should not raise an exception with invalid data"
+    # WHEN: decode(session_data)
+    # THEN: The method should return an empty dictionary.
+    result = session.decode(invalid_session_data)
+    assert result == {}
 
-    # Capture and verify log output for invalid data
-    captured = capsys.readouterr()
-    assert 'Session data corrupted' in captured.out or 'Session data corrupted' in captured.err, "decode should log a warning for invalid data"
+    # Test with an empty string as session data.
+    result = session.decode(empty_string_data)
+    assert result == {}
 
-    # Ensure no exceptions are raised during the test
-    assert not exc_info, "decode should not raise an exception with invalid data"
+    # Test with a non-string type as session data.
+    result = session.decode(non_string_data)
+    assert result == {}
+
+    # Test with a string that is not base64 encoded.
+    result = session.decode(non_base64_data)
+    assert result == {}
+
+    # Test _legacy_decode method with invalid session data.
+    result = session._legacy_decode(invalid_session_data)
+    assert result == {}

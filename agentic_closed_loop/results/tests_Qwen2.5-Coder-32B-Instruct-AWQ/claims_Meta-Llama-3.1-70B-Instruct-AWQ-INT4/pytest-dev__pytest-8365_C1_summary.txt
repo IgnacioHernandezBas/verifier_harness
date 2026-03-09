@@ -5,19 +5,17 @@ Instance:       pytest-dev__pytest-8365
 Claim:          C1
 Tests Model:    Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-25T00:33:30.884125
-SLURM Job:      6301237
+Timestamp:      2026-03-06T05:36:34.480837
+SLURM Job:      6345990
 
-STATUS:         ✗ FAILED
-Attempts:       3 / 10
+STATUS:         ✓ SUCCESS
+Attempts:       2 / 10
 
 FINAL RESULTS:
-  Classification: UNRESOLVED
-  Bug:            ERROR
-  Gold:           ERROR
-  Discriminative: NO
-
-FAILURE REASON: Classification: UNRESOLVED
+  Classification: VALID
+  Bug:            FAIL
+  Gold:           PASS
+  Discriminative: YES
 
 ITERATION HISTORY:
   [1] UNKNOWN
@@ -69,95 +67,11 @@ Hint: make sure your test modules/packages have valid Python names.
 
 
   [2] UNKNOWN
-      internal_import_error: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py:18: in test_claim_c1
-    factory = TempPathFactory(config=None, _basetemp=None, _given_basetemp=None)
-E   TypeError: __init__() got an unexpected keyword argument 'config'
-=========================== short test summary info ============================
-FAILED claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1
-E   TypeError: __init__() got an unexpected keyword argument 'config'
-=========================== short test summary info ============================
-FAILED claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.05s ===============================
-
-
-🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
-   You tried: pytest.tmpdir
-   In line: # Since we cannot directly import _pytest.tmpdir, we simulate the call
-   But 'tmpdir' is a FIXTURE, not a module attribute!
-   Fix: Add 'tmpdir' as a function parameter instead.
-
-
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _pytest.tmpdir import TempPathFactory
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
-
-
-🎯 **DETECTED ANTI-PATTERN**: Manual fixture creation
-   You tried to create: TempPathFactory(...)
-   But fixtures should NOT be instantiated manually!
-   Fix: Use the fixture as a function parameter.
-
-
-  [3] UNKNOWN
-      internal_import_error: Pytest installation is broken in the test environment.
-This is NOT a test code issue - pytest itself cannot initialize.
-
-🔧 The test code appears correct, but the pytest environment is broken.
-This typically means the container or environment setup failed.
-
-Error details:
-cachedir: .pytest_cache
-rootdir: /workspace, configfile: pyproject.toml
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
-
-🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
-   You tried: pytest.tmpdir
-   In line: from _pytest.tmpdir import TempPathFactory
-   But 'tmpdir' is a FIXTURE, not a module attribute!
-   Fix: Add 'tmpdir' as a function parameter instead.
-
-
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _pytest.tmpdir import TempPathFactory
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
-
-
-🎯 **DETECTED ANTI-PATTERN**: Non-existent pytest API
-   You tried: pytest.Config
-   This API does not exist in pytest!
-
-
-🎯 **DETECTED ANTI-PATTERN**: Manual fixture creation
-   You tried to create: TempPathFactory(...)
-   But fixtures should NOT be instantiated manually!
-   Fix: Use the fixture as a function parameter.
-
+      success: Observed discriminative claim-test.
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen2.5-Coder-32B-Instruct-AWQ/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-8365_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301237.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6301237.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345990.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6345990.err
 ================================================================================

@@ -5,8 +5,8 @@ Instance:       pylint-dev__pylint-5859
 Claim:          C2
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-18T21:07:26.103329
-SLURM Job:      6283200
+Timestamp:      2026-03-06T06:22:59.939181
+SLURM Job:      6346024
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
@@ -21,224 +21,604 @@ FAILURE REASON: Classification: OVERCONSTRAINED
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py:13: in test_claim_c1
-    checker = misc.MiscChecker()
-E   AttributeError: module 'pylint.checkers.misc' has no attribute 'MiscChecker'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.80s =========================
-
-
-  [2] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    optdict = self.get_option_def(optname)
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
-
-  [3] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    optdict = self.get_option_def(optname)
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
-
-  [4] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    optdict = self.get_option_def(optname)
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
-
-  [5] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    optdict = self.get_option_def(optname)
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
-
-  [6] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-    optdict = self.get_option_def(optname)
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-pylint/config/options_provider_mixin.py:88: in get_option_def
-    raise optparse.OptionError(
-E   optparse.OptionError: option notes: no such option notes in section 'master'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
-
-  [7] UNKNOWN
-      import_error: Cannot import 'miscchecker' from 'pylint.checkers.misc'.
-
-🔧 POSSIBLE FIXES:
-1. The symbol 'miscchecker' may not exist in module 'pylint.checkers.misc'
-   - Check the grounding evidence for the correct module/function name
-   - Look at imports in the test_patch files - they show working imports
-2. The symbol may be in a different submodule
-   - Try importing from the parent package: from pylint import miscchecker
-3. The symbol name may be slightly different (check capitalization, underscores)
-
-Error details:
-configfile: setup.cfg
-plugins: benchmark-3.4.1, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py'.
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
-
-  [8] UNKNOWN
-      import_error: Cannot import 'miscchecker' from 'pylint.checkers.misc'.
-
-🔧 POSSIBLE FIXES:
-1. The symbol 'miscchecker' may not exist in module 'pylint.checkers.misc'
-   - Check the grounding evidence for the correct module/function name
-   - Look at imports in the test_patch files - they show working imports
-2. The symbol may be in a different submodule
-   - Try importing from the parent package: from pylint import miscchecker
-3. The symbol name may be slightly different (check capitalization, underscores)
-
-Error details:
-configfile: setup.cfg
-plugins: benchmark-3.4.1, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py'.
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
-
-  [9] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 4 items
 
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation_characters FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
 
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation_characters FAILED [ 75%]
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags_with_different_contents FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
 claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation_characters FAILED [ 75%]
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags_with_different_contents FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [2] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [3] UNKNOWN
+      internal_import_error: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+🎯 **DETECTED ANTI-PATTERN**: Internal module import
+   You tried: from _check_encoding import _check_encoding
+   But internal modules (starting with _) are NOT available!
+   Fix: Use public APIs and fixtures instead.
+
+
+  [4] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [5] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [6] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [7] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [8] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [9] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [10] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [100%]
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
 
-=================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py:32: in test_claim_c1
-    checker = misc.MiscChecker()
-E   AttributeError: module 'pylint.checkers.misc' has no attribute 'MiscChecker'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:7
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.77s =========================
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_empty_note_tag FAILED [ 50%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_note_tag_with_non_punctuation FAILED [ 75%]
+claim_tests/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c1.py::test_multiple_note_tags FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pylint-dev__pylint-5859/pylint_dev__pylint_5859__test_claim_c2.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-5859_C2.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283200.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283200.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346024.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346024.err
 ================================================================================

@@ -5,25 +5,28 @@ Instance:       pylint-dev__pylint-7114
 Claim:          C1
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-Timestamp:      2026-02-18T19:27:43.088955
-SLURM Job:      6283070
+Timestamp:      2026-03-07T12:58:56.603268
+SLURM Job:      6347473
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
 
 FINAL RESULTS:
-  Classification: UNRESOLVED
-  Bug:            ERROR
-  Gold:           ERROR
+  Classification: OVERCONSTRAINED
+  Bug:            FAIL
+  Gold:           FAIL
   Discriminative: NO
 
-FAILURE REASON: Classification: UNRESOLVED
+FAILURE REASON: Classification: OVERCONSTRAINED
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -40,89 +43,7 @@ During handling of the above exception, another exception occurred:
 claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:26: in test_claim_c1
     pytest.fail(f"Test raised an exception: {e}")
 
-  [2] UNKNOWN
-      internal_import_error: Test imports from internal/private modules (e.g., _pytest.*).
-These modules are NOT available in the test environment.
-
-🔧 FIX: Use ONLY public API imports:
-  ✅ import pytest
-  ✅ Use pytest fixtures: tmpdir, tmp_path, monkeypatch, etc.
-  ❌ from _pytest.* import anything
-
-💡 EXAMPLES:
-  Instead of: from _pytest.tmpdir import TempdirFactory
-  Use:        def test(tmpdir):  # Use pytest's built-in tmpdir fixture
-
-  Instead of: from _pytest.monkeypatch import MonkeyPatch
-  Use:        def test(monkeypatch):  # Use pytest's built-in fixture
-
-Error details:
-configfile: setup.cfg
-plugins: benchmark-4.0.0, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
-
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
-
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _expand_modules import _expand_modules
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
-
-
-  [3] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:17: in test_claim_c1
-    result = expand_modules(['a'], tmpdir)
-E   TypeError: 'module' object is not callable
-
-During handling of the above exception, another exception occurred:
-E   TypeError: 'module' object is not callable
-
-During handling of the above exception, another exception occurred:
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
-    pytest.fail(f"Test raised an exception: {e}")
-
-  [4] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
-    result = expand_modules(files_or_modules)
-E   TypeError: 'module' object is not callable
-
-During handling of the above exception, another exception occurred:
-E   TypeError: 'module' object is not callable
-
-During handling of the above exception, another exception occurred:
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
-    pytest.fail(f"Test raised an exception: {e}")
-
-  [5] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🟢 ERROR from FIXED (gold) version:
 collecting ... collected 1 item
 
 claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -136,169 +57,528 @@ During handling of the above exception, another exception occurred:
 E   TypeError: 'module' object is not callable
 
 During handling of the above exception, another exception occurred:
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:24: in test_claim_c1
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:26: in test_claim_c1
     pytest.fail(f"Test raised an exception: {e}")
 
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [2] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:22: in test_claim_c1
+    pytest.fail(f"Test raised an exception: {e}")
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:22: in test_claim_c1
+    pytest.fail(f"Test raised an exception: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [3] UNKNOWN
+      assertion_failure: Both variants fail with assertion errors, but with DIFFERENT failures:
+
+🔴 BUG run (shows the bug behavior):
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'parse-error': 1} == {}
+E     Left contains 1 more item:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'parse-error': 1} == {}
+E     Left contains 1 more item:
+E     {'parse-error': 1}
+
+🟢 GOLD run (shows what the FIXED code returns):
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'fatal': 1} == {}
+E     Left contains 1 more item:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'fatal': 1} == {}
+E     Left contains 1 more item:
+E     {'fatal': 1}
+
+💡 Your test assertion is likely incorrect!
+   The GOLD error shows what the patched code actually returns.
+   Update your assertions to match the GOLD behavior (correct return type/structure).
+   For example, if GOLD shows it returns a list but you check for tuple, fix the assertion.
+
+  [4] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:17: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:17: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [5] UNKNOWN
+      assertion_failure: Both variants fail with assertion errors, but with DIFFERENT failures:
+
+🔴 BUG run (shows the bug behavior):
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'parse-error': 1} == {}
+E     Left contains 1 more item:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'parse-error': 1} == {}
+E     Left contains 1 more item:
+E     {'parse-error': 1}
+
+🟢 GOLD run (shows what the FIXED code returns):
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+________________________________ test_claim_c1 _________________________________
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'fatal': 1} == {}
+E     Left contains 1 more item:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    assert linter.stats.by_msg == {}  # No errors
+E   AssertionError: assert {'fatal': 1} == {}
+E     Left contains 1 more item:
+E     {'fatal': 1}
+
+💡 Your test assertion is likely incorrect!
+   The GOLD error shows what the patched code actually returns.
+   Update your assertions to match the GOLD behavior (correct return type/structure).
+   For example, if GOLD shows it returns a list but you check for tuple, fix the assertion.
+
   [6] UNKNOWN
-      internal_import_error: Test imports from internal/private modules (e.g., _pytest.*).
-These modules are NOT available in the test environment.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-🔧 FIX: Use ONLY public API imports:
-  ✅ import pytest
-  ✅ Use pytest fixtures: tmpdir, tmp_path, monkeypatch, etc.
-  ❌ from _pytest.* import anything
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-💡 EXAMPLES:
-  Instead of: from _pytest.tmpdir import TempdirFactory
-  Use:        def test(tmpdir):  # Use pytest's built-in tmpdir fixture
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
 
-  Instead of: from _pytest.monkeypatch import MonkeyPatch
-  Use:        def test(monkeypatch):  # Use pytest's built-in fixture
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
-Error details:
-configfile: setup.cfg
-plugins: benchmark-4.0.0, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:18: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
 
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
 
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _expand_modules import _expand_modules
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:18: in test_claim_c1
+    result = expand_modules(files_or_modules)
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:20: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [7] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
 =================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:16: in test_claim_c1
-    module_descriptions = expand_modules([str(a_dir)])
-E   TypeError: 'module' object is not callable
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    result = linter.expand_modules(files_or_modules)
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
 
 During handling of the above exception, another exception occurred:
-E   TypeError: 'module' object is not callable
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
 
 During handling of the above exception, another exception occurred:
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:18: in test_claim_c1
-    pytest.fail(f"expand_modules raised an exception: {e}")
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:25: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    result = linter.expand_modules(files_or_modules)
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
+
+During handling of the above exception, another exception occurred:
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:25: in test_claim_c1
+    pytest.fail(f"Exception raised: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
 
   [8] UNKNOWN
-      internal_import_error: Test imports from internal/private modules (e.g., _pytest.*).
-These modules are NOT available in the test environment.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-🔧 FIX: Use ONLY public API imports:
-  ✅ import pytest
-  ✅ Use pytest fixtures: tmpdir, tmp_path, monkeypatch, etc.
-  ❌ from _pytest.* import anything
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-💡 EXAMPLES:
-  Instead of: from _pytest.tmpdir import TempdirFactory
-  Use:        def test(tmpdir):  # Use pytest's built-in tmpdir fixture
+🔴 ERROR from BUGGY version:
+collecting ... collected 4 items
 
-  Instead of: from _pytest.monkeypatch import MonkeyPatch
-  Use:        def test(monkeypatch):  # Use pytest's built-in fixture
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
 
-Error details:
-configfile: setup.cfg
-plugins: benchmark-4.0.0, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_string_input FAILED [100%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_string_input FAILED [100%]
 
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 4 items
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
 
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _expand_modules import _expand_modules
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_string_input FAILED [100%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [ 25%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_existent_directory FAILED [ 50%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_empty_file FAILED [ 75%]
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1_edge_case_non_string_input FAILED [100%]
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [9] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
 =================================== FAILURES ===================================
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:14: in test_claim_c1
-    result = expand_modules(['a'])
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:17: in test_claim_c1
+    result = expand_modules([str(a_dir)])
 E   TypeError: 'module' object is not callable
 
 During handling of the above exception, another exception occurred:
 E   TypeError: 'module' object is not callable
 
 During handling of the above exception, another exception occurred:
-claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:16: in test_claim_c1
-    pytest.fail(f"An exception was raised: {e}")
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    pytest.fail(f"Test failed with exception: {e}")
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:17: in test_claim_c1
+    result = expand_modules([str(a_dir)])
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+E   TypeError: 'module' object is not callable
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:19: in test_claim_c1
+    pytest.fail(f"Test failed with exception: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
 
   [10] UNKNOWN
-      internal_import_error: Test imports from internal/private modules (e.g., _pytest.*).
-These modules are NOT available in the test environment.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-🔧 FIX: Use ONLY public API imports:
-  ✅ import pytest
-  ✅ Use pytest fixtures: tmpdir, tmp_path, monkeypatch, etc.
-  ❌ from _pytest.* import anything
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-💡 EXAMPLES:
-  Instead of: from _pytest.tmpdir import TempdirFactory
-  Use:        def test(tmpdir):  # Use pytest's built-in tmpdir fixture
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
 
-  Instead of: from _pytest.monkeypatch import MonkeyPatch
-  Use:        def test(monkeypatch):  # Use pytest's built-in fixture
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
-Error details:
-configfile: setup.cfg
-plugins: benchmark-4.0.0, cov-3.0.0, forked-1.6.0, profiling-1.7.0, timeout-2.3.1, xdist-2.5.0
-collecting ... collected 0 items / 1 error
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    result = linter.expand_modules([str(a_dir)])
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
 
-==================================== ERRORS ====================================
-collecting ... collected 0 items / 1 error
+During handling of the above exception, another exception occurred:
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    pytest.fail(f"Test failed with exception: {e}")
 
-==================================== ERRORS ====================================
-_ ERROR collecting claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py _
-ImportError while importing test module '/workspace/claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py'.
-Hint: make sure your test modules/packages have valid Python names.
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
 
-🎯 **DETECTED ANTI-PATTERN**: Internal module import
-   You tried: from _expand_modules import _expand_modules
-   But internal modules (starting with _) are NOT available!
-   Fix: Use public APIs and fixtures instead.
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:21: in test_claim_c1
+    result = linter.expand_modules([str(a_dir)])
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
+
+During handling of the above exception, another exception occurred:
+E   AttributeError: 'PyLinter' object has no attribute 'expand_modules'
+
+During handling of the above exception, another exception occurred:
+claim_tests/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py:23: in test_claim_c1
+    pytest.fail(f"Test failed with exception: {e}")
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pylint-dev__pylint-7114/pylint_dev__pylint_7114__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-7114_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283070.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283070.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347473.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347473.err
 ================================================================================

@@ -1,48 +1,53 @@
 import pytest
 from django.db import models
 from django.db.models import FilteredRelation
-from django.db.models.sql.compiler import SQLCompiler
 
-# Checklist: Test passes without errors
+# Create PoolStyle, Tournament, and Pool models
+class Tournament(models.Model):
+    pass
+
+class Pool(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+
+class PoolStyle(models.Model):
+    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
+
 def test_claim_c1(capsys):
-    # Given: A PoolStyle object with a related tournament object
-    class PoolStyle(models.Model):
-        tournament = models.ForeignKey('Tournament', on_delete=models.CASCADE)
+    # Given: A PoolStyle object with a related tournament_pool object is annotated and queried with select_related.
+    # When: list(PoolStyle.objects.annotate(tournament_pool=FilteredRelation('pool__tournament__pool')).select_related('tournament_pool')) is called
+    # Then: The tournament of p[0].pool should be equal to the tournament of p[0].tournament_pool
 
-    class Tournament(models.Model):
-        pass
+    # Create a PoolStyle object with a related tournament_pool object
+    tournament = Tournament.objects.create()
+    pool = Pool.objects.create(tournament=tournament)
+    pool_style = PoolStyle.objects.create(pool=pool)
 
-    # When: Calling select_related() with a multi-level FilteredRelation
-    pool_style = PoolStyle.objects.annotate(
-        tournament_pool=FilteredRelation("tournament__pool"),
-    ).select_related("tournament_pool", "tournament_pool__tournament")
+    # Annotate and query the PoolStyle object with select_related
+    p = list(PoolStyle.objects.annotate(tournament_pool=FilteredRelation('pool__tournament__pool')).select_related('tournament_pool'))
 
-    # Then: The related object should be correctly set
-    assert hasattr(pool_style, 'tournament_pool')
-    assert hasattr(pool_style.tournament_pool, 'tournament')
+    # Test passes with correct related object
+    assert p[0].pool.tournament == p[0].tournament_pool.tournament
 
-    # Checklist: Related object is correctly set
-    assert pool_style.tournament_pool.tournament is not None
+    # Test fails with incorrect related object
+    with pytest.raises(AssertionError):
+        assert p[0].pool.tournament != p[0].tournament_pool.tournament
 
-    # Checklist: No unexpected output is captured
-    captured = capsys.readouterr()
-    assert not captured.out
-    assert not captured.err
+    # Test handles edge cases correctly
+    # Test with multiple related objects
+    pool2 = Pool.objects.create(tournament=tournament)
+    pool_style2 = PoolStyle.objects.create(pool=pool2)
+    p2 = list(PoolStyle.objects.annotate(tournament_pool=FilteredRelation('pool__tournament__pool')).select_related('tournament_pool'))
+    assert p2[0].pool.tournament == p2[0].tournament_pool.tournament
+    assert p2[1].pool.tournament == p2[1].tournament_pool.tournament
 
-    # Edge case: Empty FilteredRelation
-    pool_style_empty = PoolStyle.objects.annotate(
-        tournament_pool=FilteredRelation("tournament__pool", lookup="isnull", value=True),
-    ).select_related("tournament_pool", "tournament_pool__tournament")
-    assert not hasattr(pool_style_empty, 'tournament_pool')
+    # Test with no related objects
+    pool3 = Pool.objects.create()
+    pool_style3 = PoolStyle.objects.create(pool=pool3)
+    p3 = list(PoolStyle.objects.annotate(tournament_pool=FilteredRelation('pool__tournament__pool')).select_related('tournament_pool'))
+    assert p3[0].tournament_pool is None
 
-    # Edge case: Invalid FilteredRelation
-    with pytest.raises(ValueError):
-        PoolStyle.objects.annotate(
-            tournament_pool=FilteredRelation("tournament__pool", lookup="invalid"),
-        ).select_related("tournament_pool", "tournament_pool__tournament")
-
-    # Edge case: Missing related object
-    pool_style_missing = PoolStyle.objects.annotate(
-        tournament_pool=FilteredRelation("tournament__pool"),
-    ).select_related("tournament_pool", "tournament_pool__tournament")
-    assert not hasattr(pool_style_missing, 'tournament_pool')
+    # Test with a non-existent related object
+    pool4 = Pool.objects.create(tournament=Tournament.objects.create())
+    pool_style4 = PoolStyle.objects.create(pool=pool4)
+    p4 = list(PoolStyle.objects.annotate(tournament_pool=FilteredRelation('pool__tournament__pool')).select_related('tournament_pool'))
+    assert p4[0].tournament_pool.tournament != p[0].tournament_pool.tournament

@@ -1,32 +1,25 @@
 import pytest
-from sympy import Point
+from sympy.geometry import Point
 
 def test_claim_c2():
-    # Given: A Point object with specific coordinates.
-    p = Point(1, 2)
-    # Given: Choose a number to multiply the Point by.
-    factor = 3
+    # Given: Two Points and a number
+    p1 = Point(1, 2)
+    p2 = Point(3, 4)
+    number = 2
 
-    # When: sympy.geometry.point.Point.__mul__ is called with a number as the factor.
-    result = p * factor
+    # When: Multiplying a Point by a number and adding it to another Point
+    # Then: Does not raise a TypeError
+    result = p1 * number + p2
 
-    # Then: A new Point object is returned with coordinates scaled by the number.
+    # Test passes without raising TypeError
     assert isinstance(result, Point)
-    assert result.x == 3
-    assert result.y == 6
 
-    # Test multiplies Point by a positive integer correctly.
-    assert (p * 4).x == 4
-    assert (p * 4).y == 8
+    # Works with negative coordinates
+    p3 = Point(-1, -2)
+    p4 = Point(-3, -4)
+    result_negative = p3 * number + p4
+    assert isinstance(result_negative, Point)
 
-    # Test multiplies Point by zero results in origin.
-    assert (p * 0).x == 0
-    assert (p * 0).y == 0
-
-    # Test multiplies Point by a negative number inverts coordinates.
-    assert (p * -1).x == -1
-    assert (p * -1).y == -2
-
-    # Test multiplies Point by a float should scale the coordinates proportionally.
-    assert (p * 0.5).x == 0.5
-    assert (p * 0.5).y == 1.0
+    # Handles multiplication by zero
+    result_zero = p1 * 0 + p2
+    assert isinstance(result_zero, Point)

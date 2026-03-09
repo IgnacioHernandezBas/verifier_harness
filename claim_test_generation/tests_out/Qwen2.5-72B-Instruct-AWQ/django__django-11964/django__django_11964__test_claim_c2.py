@@ -1,74 +1,60 @@
+# Checklist TODO: Test models with TextChoices and IntegerChoices fields.
+# Checklist TODO: Verify the field getter returns the correct enum value.
+# Checklist TODO: Include edge cases for robustness.
 import pytest
 from django.db import models
 from django.db.models.enums import TextChoices, IntegerChoices
 
-# Define a model with CharField and IntegerField using TextChoices and IntegerChoices
-class MyTextChoicesModel(models.Model):
-    class MyTextChoices(TextChoices):
-        OPTION_A = 'A', 'Option A'
-        OPTION_B = 'B', 'Option B'
+# Define a model with a CharField using TextChoices
+class TestModelTextChoices(models.Model):
+    class Choices(TextChoices):
+        OPTION1 = '1', 'Option 1'
+        OPTION2 = '2', 'Option 2'
+    
+    field = models.CharField(max_length=10, choices=Choices.choices)
 
-    class MyIntegerChoices(IntegerChoices):
-        OPTION_1 = 1, 'Option 1'
-        OPTION_2 = 2, 'Option 2'
+# Define a model with an IntegerField using IntegerChoices
+class TestModelIntegerChoices(models.Model):
+    class Choices(IntegerChoices):
+        OPTION1 = 1, 'Option 1'
+        OPTION2 = 2, 'Option 2'
+    
+    field = models.IntegerField(choices=Choices.choices)
 
-    text_field = models.CharField(max_length=1, choices=MyTextChoices.choices)
-    integer_field = models.IntegerField(choices=MyIntegerChoices.choices)
-
-# Create an instance of the model with specific enum values
-@pytest.fixture
-def model_instance():
-    return MyTextChoicesModel(text_field=MyTextChoices.OPTION_A, integer_field=MyIntegerChoices.OPTION_1)
-
-# Set up the environment to import Django and the model
-@pytest.fixture(autouse=True)
-def setup_django_environment(monkeypatch):
-    monkeypatch.setenv('DJANGO_SETTINGS_MODULE', 'test_settings')
-
-# Test with an empty enum value
-@pytest.mark.parametrize('field_name, value', [
-    ('text_field', ''),
-    ('integer_field', None)
-])
-def test_empty_enum_value(model_instance, field_name, value):
-    setattr(model_instance, field_name, value)
-    assert getattr(model_instance, field_name) == value
-
-# Test with a non-existent enum value
-@pytest.mark.parametrize('field_name, value', [
-    ('text_field', 'C'),
-    ('integer_field', 3)
-])
-def test_non_existent_enum_value(model_instance, field_name, value):
-    with pytest.raises(ValueError):
-        setattr(model_instance, field_name, value)
-
-# Test with a model field that does not use choices
-def test_non_choices_field():
-    class NonChoicesModel(models.Model):
-        text_field = models.CharField(max_length=1)
-        integer_field = models.IntegerField()
-
-    model_instance = NonChoicesModel(text_field='A', integer_field=1)
-    assert model_instance.text_field == 'A'
-    assert model_instance.integer_field == 1
-
-# Test the main claim
-def test_claim_c2(model_instance):
-    # Model fields use TextChoices and IntegerChoices.
-    assert model_instance.text_field == MyTextChoices.OPTION_A
-    assert model_instance.integer_field == MyIntegerChoices.OPTION_1
-
-    # Field values match enum values when accessed.
-    assert model_instance.text_field == MyTextChoices.OPTION_A.value
-    assert model_instance.integer_field == MyIntegerChoices.OPTION_1.value
-
-    # String representation of field value matches enum value.
-    assert str(model_instance.text_field) == str(MyTextChoices.OPTION_A.value)
-    assert str(model_instance.integer_field) == str(MyIntegerChoices.OPTION_1.value)
-
-    # Enum value is correctly retrieved from the model instance.
-    assert model_instance.text_field == MyTextChoices.OPTION_A
-    assert model_instance.integer_field == MyIntegerChoices.OPTION_1
-
-# Tests cover edge cases and negative scenarios.
+# Test models with TextChoices and IntegerChoices fields
+def test_claim_c2():
+    # GIVEN: A model instance with a CharField using TextChoices
+    instance_text = TestModelTextChoices(field=TestModelTextChoices.Choices.OPTION1)
+    
+    # WHEN: Invoking __str__(...) on the field value
+    # THEN: The value returned by the getter of the field is equal to the value property of the enum value
+    assert str(instance_text.field) == str(TestModelTextChoices.Choices.OPTION1.value)
+    
+    # GIVEN: A model instance with an IntegerField using IntegerChoices
+    instance_integer = TestModelIntegerChoices(field=TestModelIntegerChoices.Choices.OPTION1)
+    
+    # WHEN: Invoking __str__(...) on the field value
+    # THEN: The value returned by the getter of the field is equal to the value property of the enum value
+    assert str(instance_integer.field) == str(TestModelIntegerChoices.Choices.OPTION1.value)
+    
+    # Include edge cases for robustness
+    # Test with a model instance where the field value is not set
+    instance_text_unset = TestModelTextChoices()
+    assert str(instance_text_unset.field) == ''
+    
+    instance_integer_unset = TestModelIntegerChoices()
+    assert str(instance_integer_unset.field) == ''
+    
+    # Test with a model instance where the field value is set to an invalid choice
+    instance_text_invalid = TestModelTextChoices(field='3')
+    assert str(instance_text_invalid.field) == '3'
+    
+    instance_integer_invalid = TestModelIntegerChoices(field=3)
+    assert str(instance_integer_invalid.field) == '3'
+    
+    # Test with a model instance where the field value is set to a valid choice but the choice is not defined in the enum
+    instance_text_undefined = TestModelTextChoices(field='2')
+    assert str(instance_text_undefined.field) == '2'
+    
+    instance_integer_undefined = TestModelIntegerChoices(field=2)
+    assert str(instance_integer_undefined.field) == '2'

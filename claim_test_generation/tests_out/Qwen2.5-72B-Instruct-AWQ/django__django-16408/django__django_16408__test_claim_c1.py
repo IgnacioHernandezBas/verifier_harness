@@ -2,67 +2,38 @@ import pytest
 from django.db import models
 from django.db.models import FilteredRelation
 
-# Test must create and use a PoolStyle and Tournament model.
+# Create a Tournament model with a related Pool model.
 class Tournament(models.Model):
     name = models.CharField(max_length=100)
 
+# Create a Pool model with a related Tournament.
 class Pool(models.Model):
+    name = models.CharField(max_length=100)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
 
+# Create a PoolStyle model with a related Pool model.
 class PoolStyle(models.Model):
+    name = models.CharField(max_length=100)
     pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
-    another_pool = models.ForeignKey(Pool, on_delete=models.CASCADE, related_name='another_style')
 
-# Test must apply a multi-level FilteredRelation.
-@pytest.mark.django_db
-def test_claim_c1():
-    # Create instances of PoolStyle and Tournament with a relationship.
-    tournament = Tournament.objects.create(name="Tournament 1")
-    pool1 = Pool.objects.create(tournament=tournament)
-    pool2 = Pool.objects.create(tournament=tournament)
-    pool_style = PoolStyle.objects.create(pool=pool1, another_pool=pool2)
+# Test must create necessary models and relationships.
+@pytest.fixture
+def setup_data():
+    tournament = Tournament.objects.create(name="Tournament1")
+    pool = Pool.objects.create(name="Pool1", tournament=tournament)
+    pool_style = PoolStyle.objects.create(name="Style1", pool=pool)
+    return tournament, pool, pool_style
 
-    # Apply a multi-level FilteredRelation to the PoolStyle queryset.
-    with pytest.assert_num_queries(2):
-        p = list(
-            Tournament.objects.filter(id=tournament.id)
-            .annotate(
-                style=FilteredRelation("pool__another_style"),
-            )
-            .select_related("style")
-        )
+# Test must use select_related and FilteredRelation as described.
+def test_claim_c1(setup_data):
+    tournament, pool, pool_style = setup_data
 
-    # Test must verify the related object is correctly set.
-    assert p[0].style.another_pool == pool2
+    # Annotate PoolStyle with a FilteredRelation to tournament_pool.
+    p = list(
+        PoolStyle.objects.annotate(
+            tournament_pool=FilteredRelation("pool__tournament__pool"),
+        ).select_related("tournament_pool")
+    )
 
-    # Edge cases
-    # Test with no related objects.
-    with pytest.assert_num_queries(1):
-        p = list(
-            Tournament.objects.filter(id=tournament.id)
-            .annotate(
-                style=FilteredRelation("pool__another_style"),
-            )
-            .select_related("style")
-        )
-        assert not p[0].style
-
-    # Test with an invalid FilteredRelation.
-    with pytest.raises(models.FieldError):
-        list(
-            Tournament.objects.filter(id=tournament.id)
-            .annotate(
-                style=FilteredRelation("invalid_field"),
-            )
-            .select_related("style")
-        )
-
-    # Test with a non-existent related field.
-    with pytest.raises(models.FieldError):
-        list(
-            Tournament.objects.filter(id=tournament.id)
-            .annotate(
-                style=FilteredRelation("pool__non_existent_field"),
-            )
-            .select_related("style")
-        )
+    # Test must verify the equality of related objects' tournaments.
+    assert p[0].tournament_pool.tournament == p[0].pool.tournament

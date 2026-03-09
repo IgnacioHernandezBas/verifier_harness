@@ -1,30 +1,15 @@
 import pytest
 from django.contrib.sessions.backends.base import SessionBase
-from django.core.signing import BadSignature
-
-# Checklist
-# Test raises a BadSignature exception with invalid session data.
-# Test does not crash the application with invalid session data.
-# Test uses public APIs only and does not mock internal methods.
 
 def test_claim_c1(capsys):
-    # Given: An invalid session data is provided
-    # When: decode is called with the invalid session data
-    # Then: decode should raise a BadSignature exception
+    # Given: Invalid session data is provided to the decode method.
+    invalid_session_data = "Invalid session data"
 
-    # Data setup
-    # Create a SessionBase object
+    # When: decode(session_data)
     session = SessionBase()
+    result = session.decode(invalid_session_data)
 
-    # Create invalid session data
-    invalid_session_data = "invalid_session_data"
-
-    # Test decode raises a BadSignature exception with invalid session data
-    with pytest.raises(BadSignature):
-        session.decode(invalid_session_data)
-
-    # Test does not crash the application with invalid session data
-    # The test will fail if the application crashes
-
-    # Test uses public APIs only and does not mock internal methods
-    # This test only uses public APIs and does not mock any internal methods
+    # Then: The method should return an empty dictionary.
+    assert result == {}  # Test passes with invalid session data
+    assert not result  # Test returns an empty dictionary for invalid session data
+    assert not capsys.readouterr().err  # Test does not raise any exceptions for invalid session data

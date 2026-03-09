@@ -1,44 +1,48 @@
+# Checklist TODO: Test must use a valid FITS file to initialize WCS.
+# Checklist TODO: Test must call wcs_pix2world with empty inputs.
+# Checklist TODO: Test must verify the output is empty and no exceptions are raised.
 import pytest
 from astropy.wcs import WCS
 from astropy.io import fits
 import numpy as np
 
-def test_claim_c1(tmpdir, monkeypatch, capsys):
-    # Test must use a valid FITS file for WCS instance.
-    fits_file = tmpdir.join('test.fits')
+def test_claim_c1(tmpdir, monkeypatch):
+    # Given: A WCS object is created with a valid FITS file.
+    # Create a temporary FITS file with valid content.
+    temp_fits_file = tmpdir.join('temp.fits')
     with fits.open('astropy/wcs/tests/data/sip.fits') as f:
-        f.writeto(fits_file)
-
-    w = WCS(str(fits_file))
-
-    # Test must pass empty lists to wcs_pix2world.
+        f.writeto(temp_fits_file)
+    
+    # Use monkeypatch to make the temporary FITS file accessible.
+    monkeypatch.setattr(fits, 'open', lambda x: fits.open(temp_fits_file))
+    
+    with fits.open(temp_fits_file) as f:
+        w = WCS(f[0].header)
+    
+    # When: wcs.wcs_pix2world([], [], 0) is called
     result = w.wcs_pix2world([], [], 0)
-
-    # Test must verify empty outputs are returned.
-    assert isinstance(result, tuple), "Result should be a tuple"
-    assert len(result) == 2, "Result should have two elements"
-    assert len(result[0]) == 0, "First element should be an empty list or array"
-    assert len(result[1]) == 0, "Second element should be an empty list or array"
-
-    # Output types match input types (lists or arrays)
-    assert isinstance(result[0], list), "First element should be a list"
-    assert isinstance(result[1], list), "Second element should be a list"
-
-    # Output size is 0
-    assert len(result[0]) == 0, "First element should be empty"
-    assert len(result[1]) == 0, "Second element should be empty"
+    
+    # Then: returns empty outputs (empty sequences OR arrays with size==0)
+    assert isinstance(result, (list, tuple))
+    assert len(result) == 2
+    assert len(result[0]) == 0
+    assert len(result[1]) == 0
 
     # Edge cases
-    # Pass non-empty lists with invalid data types
+    # Test with None instead of empty lists.
     with pytest.raises(TypeError):
-        w.wcs_pix2world(['a'], ['b'], 0)
-
-    # Pass a non-zero third argument with empty lists
+        w.wcs_pix2world(None, None, 0)
+    
+    # Test with different types of empty inputs (e.g., numpy arrays).
+    result = w.wcs_pix2world(np.array([]), np.array([]), 0)
+    assert isinstance(result, (list, tuple))
+    assert len(result) == 2
+    assert len(result[0]) == 0
+    assert len(result[1]) == 0
+    
+    # Test with a non-zero third parameter.
     result = w.wcs_pix2world([], [], 1)
-    assert len(result[0]) == 0, "First element should be empty"
-    assert len(result[1]) == 0, "Second element should be empty"
-
-    # Pass a negative third argument with empty lists
-    result = w.wcs_pix2world([], [], -1)
-    assert len(result[0]) == 0, "First element should be empty"
-    assert len(result[1]) == 0, "Second element should be empty"
+    assert isinstance(result, (list, tuple))
+    assert len(result) == 2
+    assert len(result[0]) == 0
+    assert len(result[1]) == 0

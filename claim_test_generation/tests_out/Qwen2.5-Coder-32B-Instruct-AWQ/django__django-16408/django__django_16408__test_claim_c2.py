@@ -1,64 +1,61 @@
-# Checklist TODO: Test setup creates models without errors.
-# Checklist TODO: select_related with FilteredRelation sets tournament_pool correctly.
-# Checklist TODO: Edge cases handle invalid or missing data gracefully.
+# Checklist TODO: Test passes on the fixed version.
+# Checklist TODO: Test fails on the buggy version.
+# Checklist TODO: Test only verifies the behavioral property described in the claim.
 import pytest
 from django.db import models
-from django.db.models import FilteredRelation
 
-# Test setup creates models without errors.
+# Define the models as per the claim context
 class Tournament(models.Model):
     name = models.CharField(max_length=100)
 
-class PoolStyle(models.Model):
+class Pool(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
-    style_name = models.CharField(max_length=100)
 
-@pytest.fixture
-def setup_data():
-    tournament1 = Tournament.objects.create(name="Tournament 1")
-    tournament2 = Tournament.objects.create(name="Tournament 2")
-    PoolStyle.objects.create(tournament=tournament1, style_name="Style 1")
-    PoolStyle.objects.create(tournament=tournament2, style_name="Style 2")
-    PoolStyle.objects.create(tournament=tournament1, style_name="Style 3")
-    return tournament1, tournament2
+class PoolStyle(models.Model):
+    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
 
-def test_claim_c2(setup_data):
-    tournament1, tournament2 = setup_data
-
+# Test function to verify the claim
+def test_claim_c2():
     # Given: A PoolStyle object with a related tournament object
+    tournament = Tournament.objects.create(name="Test Tournament")
+    pool = Pool.objects.create(tournament=tournament)
+    pool_style = PoolStyle.objects.create(pool=pool)
+
     # When: Calling select_related() with a multi-level FilteredRelation
+    from django.db.models import FilteredRelation
     p = list(
         PoolStyle.objects.annotate(
-            tournament_pool=FilteredRelation("tournament__poolstyle"),
+            tournament_pool=FilteredRelation("pool__tournament__pool"),
         ).select_related("tournament_pool", "tournament_pool__tournament")
     )
 
     # Then: The tournament_pool attribute should be correctly set
-    assert p[0].tournament_pool.tournament == p[0].tournament
-    assert p[1].tournament_pool.tournament == p[1].tournament
-    assert p[2].tournament_pool.tournament == p[2].tournament
+    assert p[0].tournament_pool.tournament == p[0].pool.tournament
 
-    # Edge case: Test with no related objects
-    tournament3 = Tournament.objects.create(name="Tournament 3")
-    p_no_related = list(
-        PoolStyle.objects.filter(tournament=tournament3).annotate(
-            tournament_pool=FilteredRelation("tournament__poolstyle"),
+    # Edge case: Test with no related tournament object
+    pool_style_no_tournament = PoolStyle.objects.create(pool=Pool.objects.create())
+    p_no_tournament = list(
+        PoolStyle.objects.filter(id=pool_style_no_tournament.id).annotate(
+            tournament_pool=FilteredRelation("pool__tournament__pool"),
         ).select_related("tournament_pool", "tournament_pool__tournament")
     )
-    assert len(p_no_related) == 0
+    assert p_no_tournament[0].tournament_pool is None
 
-    # Edge case: Test with multiple related objects
+    # Edge case: Test with multiple PoolStyle objects related to the same tournament
+    pool_style2 = PoolStyle.objects.create(pool=pool)
     p_multiple = list(
-        PoolStyle.objects.filter(tournament=tournament1).annotate(
-            tournament_pool=FilteredRelation("tournament__poolstyle"),
+        PoolStyle.objects.filter(pool__tournament=tournament).annotate(
+            tournament_pool=FilteredRelation("pool__tournament__pool"),
         ).select_related("tournament_pool", "tournament_pool__tournament")
     )
     assert len(p_multiple) == 2
+    assert p_multiple[0].tournament_pool.tournament == tournament
+    assert p_multiple[1].tournament_pool.tournament == tournament
 
-    # Edge case: Test with invalid FilteredRelation parameters
-    with pytest.raises(FieldError):
-        list(
-            PoolStyle.objects.annotate(
-                invalid_relation=FilteredRelation("nonexistent_field"),
-            ).select_related("invalid_relation")
-        )
+    # Edge case: Test with a FilteredRelation that does not match any objects
+    p_no_match = list(
+        PoolStyle.objects.annotate(
+            tournament_pool=FilteredRelation("pool__tournament__pool", condition=models.Q(pool__tournament__name="Nonexistent")),
+        ).select_related("tournament_pool", "tournament_pool__tournament")
+    )
+    assert p_no_match[0].tournament_pool is None

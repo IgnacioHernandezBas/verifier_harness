@@ -1,24 +1,19 @@
 # Checklist TODO: Test passes with illegal characters in username.
-# Checklist TODO: Directory path is sanitized correctly.
-# Checklist TODO: No errors during directory creation.
+# Checklist TODO: Temporary directory path is valid and accessible.
+# Checklist TODO: No errors are raised during getbasetemp execution.
 import pytest
 
 def test_claim_c2(monkeypatch, tmp_path_factory):
-    # Given: The username returned by `getpass.getuser()` contains illegal characters for directory names, such as a backslash.
+    # Given: The username contains illegal characters for directory names
     monkeypatch.setattr("getpass.getuser", lambda: "os/<:*?;>agnostic")
     # _basetemp / _given_basetemp are cached / set in parallel runs, patch them
     monkeypatch.setattr(tmp_path_factory, "_basetemp", None)
     monkeypatch.setattr(tmp_path_factory, "_given_basetemp", None)
 
-    # When: The `getbasetemp` method of `TempPathFactory` is called.
+    # When: getbasetemp is called
     p = tmp_path_factory.getbasetemp()
 
-    # Then: The `basetemp` directory should be created without illegal characters in its path.
-    # The basetemp directory path does not contain illegal characters.
-    assert not any(char in str(p) for char in "/<>:*?;|")
-
-    # The basetemp directory is created successfully.
-    assert p.exists()
-
-    # The basetemp directory path is as expected after sanitization.
+    # Then: A valid temporary directory path is returned
     assert "pytest-of-unknown" in str(p)
+    assert p.exists()
+    assert p.is_dir()

@@ -5,19 +5,17 @@ Instance:       psf__requests-2148
 Claim:          C1
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-18T20:47:59.099891
-SLURM Job:      6283198
+Timestamp:      2026-03-06T06:05:48.168575
+SLURM Job:      6346022
 
-STATUS:         ✗ NON-DISCRIMINATIVE
+STATUS:         ✓ SUCCESS
 Attempts:       2 / 10
 
 FINAL RESULTS:
-  Classification: NON_DISCRIMINATIVE
-  Bug:            PASS
+  Classification: VALID
+  Bug:            FAIL
   Gold:           PASS
-  Discriminative: NO
-
-FAILURE REASON: Test does not discriminate between bug and gold
+  Discriminative: YES
 
 ITERATION HISTORY:
   [1] GUARDRAIL_FAILED
@@ -40,11 +38,11 @@ The following symbols were not found in module 'requests.models':
 
 
   [2] UNKNOWN
-      non_discriminative: Both variants pass. Claim may not capture bug.
+      success: Observed discriminative claim-test.
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/psf__requests-2148/psf__requests_2148__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/psf__requests-2148_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283198.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346022.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346022.err
 ================================================================================

@@ -1,66 +1,33 @@
-# Checklist TODO: Test setup creates expected model instances.
-# Checklist TODO: Query execution and iteration produce correct results.
-# Checklist TODO: Annotated field matches direct relation access.
+# Checklist TODO: Test passes on the fixed version.
+# Checklist TODO: Test fails on the buggy version.
+# Checklist TODO: Test only verifies the behavioral claim.
 import pytest
 from django.db import models
-from django.db.models import FilteredRelation
 
-# Test setup creates expected model instances.
-class Child(models.Model):
+# Define the models as per the claim context
+class Tournament(models.Model):
     name = models.CharField(max_length=100)
 
-class Parent(models.Model):
-    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name='parents')
+class Pool(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
 
-@pytest.fixture
-def setup_data():
-    child1 = Child.objects.create(name='Child1')
-    child2 = Child.objects.create(name='Child2')
-    Parent.objects.create(child=child1)
-    Parent.objects.create(child=child1)
-    Parent.objects.create(child=child2)
-    return child1, child2
+class PoolStyle(models.Model):
+    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
 
-def test_claim_c1(setup_data):
-    # Given: A query that uses FilteredRelation with select_related to annotate a queryset with a related object.
-    child1, child2 = setup_data
-    queryset = Parent.objects.annotate(
-        annotated_child=FilteredRelation('child')
-    ).select_related('annotated_child')
+# Test function to verify the claim
+def test_claim_c1():
+    # Given: Create instances of Tournament, Pool, and PoolStyle
+    tournament = Tournament.objects.create(name="Test Tournament")
+    pool = Pool.objects.create(tournament=tournament)
+    pool_style = PoolStyle.objects.create(pool=pool)
 
-    # When: The query is executed and the results are iterated over.
-    results = list(queryset)
+    # When: Annotate and query PoolStyle with select_related to include tournament_pool
+    from django.db.models import FilteredRelation
+    p = list(
+        PoolStyle.objects.annotate(
+            tournament_pool=FilteredRelation('pool__tournament__pool'),
+        ).select_related('tournament_pool', 'tournament_pool__tournament')
+    )
 
-    # Then: The related object accessed through the annotated field should match the related object accessed through the direct relation.
-    for parent in results:
-        assert parent.annotated_child == parent.child, "Annotated field does not match direct relation access."
-
-    # Edge case: Test with no related Child objects.
-    Parent.objects.filter(child=child1).delete()
-    queryset = Parent.objects.annotate(
-        annotated_child=FilteredRelation('child')
-    ).select_related('annotated_child')
-    results = list(queryset)
-    for parent in results:
-        assert parent.annotated_child == parent.child, "Annotated field does not match direct relation access when no related Child objects."
-
-    # Edge case: Test with multiple Child objects related to a single Parent.
-    Parent.objects.create(child=child2)
-    Parent.objects.create(child=child2)
-    queryset = Parent.objects.annotate(
-        annotated_child=FilteredRelation('child')
-    ).select_related('annotated_child')
-    results = list(queryset)
-    for parent in results:
-        assert parent.annotated_child == parent.child, "Annotated field does not match direct relation access with multiple Child objects."
-
-    # Edge case: Test with complex filtering conditions in FilteredRelation.
-    queryset = Parent.objects.annotate(
-        annotated_child=FilteredRelation('child', condition=models.Q(child__name='Child2'))
-    ).select_related('annotated_child')
-    results = list(queryset)
-    for parent in results:
-        if parent.child.name == 'Child2':
-            assert parent.annotated_child == parent.child, "Annotated field does not match direct relation access with complex filtering conditions."
-        else:
-            assert parent.annotated_child is None, "Annotated field should be None when complex filtering conditions do not match."
+    # Then: The tournament of p[0].pool should be equal to the tournament of p[0].tournament_pool
+    assert p[0].tournament_pool.tournament == p[0].pool.tournament

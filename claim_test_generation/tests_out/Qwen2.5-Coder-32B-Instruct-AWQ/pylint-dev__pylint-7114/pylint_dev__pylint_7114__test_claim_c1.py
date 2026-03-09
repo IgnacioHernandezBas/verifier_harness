@@ -1,44 +1,46 @@
-# Checklist TODO: Test passes without raising exceptions.
-# Checklist TODO: Function completes successfully.
-# Checklist TODO: Edge cases are handled gracefully.
+# Checklist TODO: Test passes without exceptions.
+# Checklist TODO: Returns a list of ModuleDescriptionDict.
+# Checklist TODO: Handles edge cases gracefully.
 import pytest
 from pylint.lint.expand_modules import expand_modules
 
 def test_claim_c1(tmpdir):
-    # Given: A directory 'a' containing a module 'a.py' and another module 'b.py', all files are empty
-    directory = tmpdir.mkdir("a")
-    directory.join("a.py").write("")
-    directory.join("b.py").write("")
+    # Given: Create directory 'a' with files 'a.py' and 'b.py', all files are empty.
+    a_dir = tmpdir.mkdir('a')
+    a_dir.join('a.py').write('')
+    a_dir.join('b.py').write('')
 
-    # When: expand_modules is called with the directory 'a' as input
+    # When: expand_modules is called with ['a'] as files_or_modules.
     try:
-        expand_modules(str(directory), ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
+        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
     except Exception as e:
-        # Then: No exception is raised and the function completes successfully
+        # Then: No exception should be raised when expand_modules is called with ['a'] as files_or_modules.
         pytest.fail(f"expand_modules raised an exception: {e}")
 
-    # Edge case: Directory 'a' contains no files
-    directory.join("a.py").remove()
-    directory.join("b.py").remove()
-    try:
-        expand_modules(str(directory), ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
-    except Exception as e:
-        pytest.fail(f"expand_modules raised an exception: {e}")
+    # Then: The function should return a list of ModuleDescriptionDict without errors.
+    assert isinstance(module_descriptions, list)
 
-    # Edge case: Directory 'a' contains a file with a different name
-    directory.join("c.py").write("")
+    # Edge case: Test with an empty directory 'a'.
+    a_dir.remove()
+    a_dir.mkdir('a')
     try:
-        expand_modules(str(directory), ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
+        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
     except Exception as e:
         pytest.fail(f"expand_modules raised an exception: {e}")
+    assert isinstance(module_descriptions, list)
 
-    # Edge case: Directory 'a' is a symbolic link to another directory
-    link_directory = tmpdir.mkdir("link_a")
-    link_directory.join("d.py").write("")
-    directory.remove(rec=1)
-    directory = tmpdir.join("a")
-    directory.mksymlinkto(link_directory)
+    # Edge case: Test with a non-existent directory 'a'.
+    a_dir.remove()
     try:
-        expand_modules(str(directory), ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
+        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
     except Exception as e:
         pytest.fail(f"expand_modules raised an exception: {e}")
+    assert isinstance(module_descriptions, list)
+
+    # Edge case: Test with a directory 'a' containing no .py files.
+    a_dir.join('c.txt').write('')
+    try:
+        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
+    except Exception as e:
+        pytest.fail(f"expand_modules raised an exception: {e}")
+    assert isinstance(module_descriptions, list)

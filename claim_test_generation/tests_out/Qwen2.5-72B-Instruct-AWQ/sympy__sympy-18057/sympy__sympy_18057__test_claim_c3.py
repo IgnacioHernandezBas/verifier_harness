@@ -1,36 +1,39 @@
-# Checklist TODO: Import sympy and define class C with __repr__ returning 'x'.
-# Checklist TODO: Compare sympy.Symbol('x') to C() and assert True.
-# Checklist TODO: Test edge cases with different __repr__ outputs.
+# Checklist TODO: Import sympy and define class C with __repr__ method.
+# Checklist TODO: Create sympy Symbol 'x' and an instance of C.
+# Checklist TODO: Assert that sympy.Symbol('x') == C() is True.
 import pytest
 from sympy import Symbol
 
+# Import sympy and define class C with __repr__ method.
 class C:
     def __repr__(self):
         return 'x'
 
-def test_claim_c3(monkeypatch):
-    # Define a class C with a __repr__ method that returns 'x'
-    # Create an instance of C
-    c = C()
-    # Create a sympy Symbol 'x'
+# Create sympy Symbol 'x' and an instance of C.
+def test_claim_c3():
+    # Given: A SymPy Symbol and an object with a repr that evaluates to the same symbol.
     x = Symbol('x')
+    c = C()
 
-    # Compare sympy.Symbol('x') to C() and assert True
-    assert x == c
+    # When: sympy.Symbol('x') == C()
+    # Then: The comparison returns True.
+    assert (x == c) is True
 
-    # Test edge cases with different __repr__ outputs
+    # Edge cases
+    # Test with a different string in the __repr__ method that does not match 'x'
     class D:
         def __repr__(self):
             return 'y'
     d = D()
-    assert x != d
+    assert (x == d) is False
 
+    # Test with a non-string object in the __repr__ method
     class E:
         def __repr__(self):
-            return 123
+            return str(123)
     e = E()
-    assert x != e
+    assert (x == e) is False
 
-    # Test with a Symbol that has a different name
+    # Test with a sympy Symbol that has a different name
     y = Symbol('y')
-    assert y != c
+    assert (y == c) is False

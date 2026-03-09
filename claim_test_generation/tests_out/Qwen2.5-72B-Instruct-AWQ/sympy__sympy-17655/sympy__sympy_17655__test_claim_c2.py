@@ -1,40 +1,37 @@
-# Checklist TODO: Test must use 'from sympy import Point' for imports.
-# Checklist TODO: Test must create a Point object and a scaling factor.
-# Checklist TODO: Test must verify the scaled Point's coordinates.
 import pytest
-from sympy import Point
+from sympy.geometry import Point
 
 def test_claim_c2(tmpdir, monkeypatch, capsys):
-    # Given: A Point object and a number are provided.
-    p = Point(1, 2)
-    factor = 3
+    # Given: Two Points and a number
+    p1 = Point(1, 2)
+    p2 = Point(3, 4)
+    number = 2
 
-    # When: sympy.geometry.point.Point.__mul__ is called with a number as the factor.
-    scaled_point = p * factor
-
-    # Then: A new Point object is returned.
-    assert isinstance(scaled_point, Point)
-
-    # Then: The coordinates of the new Point are scaled by the number.
-    assert scaled_point.x == p.x * factor
-    assert scaled_point.y == p.y * factor
-
-    # Then: The original Point object remains unchanged.
-    assert p.x == 1
-    assert p.y == 2
+    # When: Multiplying a Point by a number and then adding it to another Point
+    # Then: Does not raise a TypeError
+    try:
+        result = (p1 * number) + p2
+        assert isinstance(result, Point), "The result of multiplication and addition is a Point"
+    except TypeError:
+        pytest.fail("Multiplying a Point by a number and then adding it to another Point raised a TypeError")
 
     # Edge cases
-    # Test with a scaling factor of 0.
-    scaled_point_zero = p * 0
-    assert scaled_point_zero.x == 0
-    assert scaled_point_zero.y == 0
+    # Test with a Point and a non-numeric value (e.g., a string)
+    with pytest.raises(TypeError):
+        p1 * "string"
 
-    # Test with a negative scaling factor.
-    scaled_point_negative = p * -2
-    assert scaled_point_negative.x == -2
-    assert scaled_point_negative.y == -4
+    # Test with a Point and a complex number
+    with pytest.raises(TypeError):
+        p1 * (1 + 2j)
 
-    # Test with a non-integer scaling factor.
-    scaled_point_non_integer = p * 2.5
-    assert scaled_point_non_integer.x == 2.5
-    assert scaled_point_non_integer.y == 5.0
+    # Test with a Point and a zero value
+    try:
+        result = (p1 * 0) + p2
+        assert isinstance(result, Point), "The result of multiplication by zero and addition is a Point"
+    except TypeError:
+        pytest.fail("Multiplying a Point by zero and then adding it to another Point raised a TypeError")
+
+    # Checklist
+    # Test must import Point from sympy.geometry
+    # Test must verify no TypeError is raised during operations
+    # Test must cover multiplication and addition of Points

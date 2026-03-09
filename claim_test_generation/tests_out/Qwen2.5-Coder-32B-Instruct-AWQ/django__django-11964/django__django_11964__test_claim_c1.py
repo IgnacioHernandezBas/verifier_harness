@@ -1,16 +1,14 @@
-# Checklist TODO: CharField getter returns str type
-# Checklist TODO: IntegerField getter returns str type
-# Checklist TODO: Handles invalid choices gracefully
+# Checklist TODO: Test passes with CharField and TextChoices
+# Checklist TODO: Test passes with IntegerField and IntegerChoices
+# Checklist TODO: Test fails with invalid choice value
 import pytest
 from django.db import models
 from django.db.models.enums import TextChoices, IntegerChoices
 
-# Given: A model instance with a CharField using TextChoices
 class Gender(TextChoices):
     MALE = 'M', 'Male'
     FEMALE = 'F', 'Female'
 
-# Given: A model instance with an IntegerField using IntegerChoices
 class YearInSchool(IntegerChoices):
     FRESHMAN = 1, 'Freshman'
     SOPHOMORE = 2, 'Sophomore'
@@ -22,28 +20,38 @@ class Person(models.Model):
     year_in_school = models.IntegerField(choices=YearInSchool.choices)
 
 def test_claim_c1():
-    # When: Creating an instance of the model with valid choices
-    person = Person(gender=Gender.MALE, year_in_school=YearInSchool.FRESHMAN)
-
+    # Given: A model instance with a CharField using TextChoices
+    # When: Creating an instance of the model with a valid choice value
+    person_char = Person(gender=Gender.MALE)
     # Then: The value returned by the getter of the CharField is of type str
-    assert isinstance(person.gender, str)
+    assert isinstance(person_char.gender, str)
 
+    # Given: A model instance with an IntegerField using IntegerChoices
+    # When: Creating an instance of the model with a valid choice value
+    person_int = Person(year_in_school=YearInSchool.FRESHMAN)
     # Then: The value returned by the getter of the IntegerField is of type str
-    assert isinstance(person.get_year_in_school_display(), str)
+    assert isinstance(person_int.year_in_school, str)
 
-    # Given: Instantiate the model with an invalid choice
-    # When: Creating an instance of the model with an invalid choice
-    # Then: Handles invalid choices gracefully
+    # Given: A model instance with a CharField using TextChoices
+    # When: Creating an instance of the model with the minimum value in choices
+    person_char_min = Person(gender=Gender.FEMALE)
+    # Then: The value returned by the getter of the CharField is of type str
+    assert isinstance(person_char_min.gender, str)
+
+    # Given: A model instance with an IntegerField using IntegerChoices
+    # When: Creating an instance of the model with the maximum value in choices
+    person_int_max = Person(year_in_school=YearInSchool.SENIOR)
+    # Then: The value returned by the getter of the IntegerField is of type str
+    assert isinstance(person_int_max.year_in_school, str)
+
+    # Given: A model instance with a CharField using TextChoices
+    # When: Creating an instance of the model with a non-existent choice value
+    # Then: Test fails with invalid choice value
     with pytest.raises(ValueError):
-        Person(gender='X', year_in_school=99)
+        Person(gender='X')
 
-    # Given: Check behavior with empty choices
-    # When: Creating a model with empty choices
-    # Then: Test with multiple fields of different types
-    class EmptyChoices(models.Model):
-        empty_char = models.CharField(max_length=1, choices=[])
-        empty_integer = models.IntegerField(choices=[])
-
-    empty_instance = EmptyChoices(empty_char='', empty_integer=0)
-    assert isinstance(empty_instance.empty_char, str)
-    assert isinstance(empty_instance.empty_integer, int)
+    # Given: A model instance with an IntegerField using IntegerChoices
+    # When: Creating an instance of the model with a non-existent choice value
+    # Then: Test fails with invalid choice value
+    with pytest.raises(ValueError):
+        Person(year_in_school=99)

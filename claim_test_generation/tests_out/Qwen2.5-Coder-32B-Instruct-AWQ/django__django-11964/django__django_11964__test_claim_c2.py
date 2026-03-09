@@ -1,45 +1,42 @@
-# Checklist TODO: Model instances correctly use TextChoices and IntegerChoices.
-# Checklist TODO: Getter returns correct value for TextChoices.
-# Checklist TODO: Getter returns correct value for IntegerChoices.
 import pytest
 from django.db import models
-from django.db.models.enums import TextChoices, IntegerChoices
 
-# Model instances correctly use TextChoices and IntegerChoices.
-class Gender(TextChoices):
+# Given: A model instance with a CharField pointing to TextChoices.
+class Gender(models.TextChoices):
     MALE = 'M', 'Male'
     FEMALE = 'F', 'Female'
 
-class YearInSchool(IntegerChoices):
+# Given: A model instance with an IntegerField pointing to IntegerChoices.
+class YearInSchool(models.IntegerChoices):
     FRESHMAN = 1, 'Freshman'
     SOPHOMORE = 2, 'Sophomore'
+    JUNIOR = 3, 'Junior'
+    SENIOR = 4, 'Senior'
 
 class Person(models.Model):
-    gender = models.CharField(max_length=1, choices=Gender.choices, default=Gender.MALE)
-    year_in_school = models.IntegerField(choices=YearInSchool.choices, default=YearInSchool.FRESHMAN)
+    gender = models.CharField(max_length=1, choices=Gender.choices)
+    year_in_school = models.IntegerField(choices=YearInSchool.choices)
 
 def test_claim_c2():
-    # Given: A model instance with a CharField pointing to TextChoices.
-    person_text = Person(gender=Gender.MALE)
-    # When: Invoking __str__(...) on the field value
-    # Then: The value returned by the getter of the field is equal to the value property of the enum value for TextChoices.
-    assert str(person_text.gender) == str(Gender.MALE.value)
+    # Test passes with valid TextChoices.
+    # Given
+    person = Person(gender=Gender.MALE)
+    # When
+    gender_str = str(person.gender)
+    # Then
+    assert gender_str == str(Gender.MALE.value)
 
-    # Given: A model instance with an IntegerField pointing to IntegerChoices.
-    person_integer = Person(year_in_school=YearInSchool.FRESHMAN)
-    # When: Invoking __str__(...) on the field value
-    # Then: The value returned by the getter of the field is equal to the value property of the enum value for IntegerChoices.
-    assert str(person_integer.year_in_school) == str(YearInSchool.FRESHMAN.value)
+    # Test passes with valid IntegerChoices.
+    # Given
+    person = Person(year_in_school=YearInSchool.FRESHMAN)
+    # When
+    year_str = str(person.year_in_school)
+    # Then
+    assert year_str == str(YearInSchool.FRESHMAN.value)
 
-    # Edge case: Test with an invalid choice value for CharField.
+    # Test fails with invalid choice value.
+    # Given
+    person = Person(gender='X')  # Invalid choice
+    # When
     with pytest.raises(ValueError):
-        Person(gender='X')
-
-    # Edge case: Test with an invalid choice value for IntegerField.
-    with pytest.raises(ValueError):
-        Person(year_in_school=99)
-
-    # Edge case: Test with the default value for both fields.
-    person_default = Person()
-    assert person_default.gender == Gender.MALE
-    assert person_default.year_in_school == YearInSchool.FRESHMAN
+        str(person.gender)  # This should raise an error because 'X' is not a valid choice

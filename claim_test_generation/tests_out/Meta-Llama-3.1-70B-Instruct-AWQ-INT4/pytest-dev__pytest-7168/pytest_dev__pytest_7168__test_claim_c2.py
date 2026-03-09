@@ -1,41 +1,40 @@
 import pytest
-from src._pytest._io.saferepr import SafeRepr
+from _pytest._io.saferepr import SafeRepr  # ⚠️ NOTE: Signature Hints Unavailable
 
-def test_claim_c2(monkeypatch):
+def test_claim_c2(capsys):
     # Given: An object with a large string representation
+    large_string = "a" * 1000
+    
+    # When: Calling SafeRepr.repr() on that object
+    # Create an instance of SafeRepr with a reasonable maxsize
+    safe_repr = SafeRepr(maxsize=100)
+    
+    # Test passes with a large string representation
+    # Test does not raise an exception with large input
+    try:
+        result = safe_repr.repr(large_string)
+    except Exception as e:
+        pytest.fail(f"Test raised an exception: {e}")
+    
+    # Test output is within maxsize limit
+    assert len(result) <= safe_repr.maxsize
+    
+    # Edge case: Test with maxsize set to a very small value
+    safe_repr = SafeRepr(maxsize=10)
+    result = safe_repr.repr(large_string)
+    assert len(result) <= safe_repr.maxsize
+    
+    # Edge case: Test with maxsize set to a very large value
+    safe_repr = SafeRepr(maxsize=10000)
+    result = safe_repr.repr(large_string)
+    assert len(result) <= safe_repr.maxsize
+    
+    # Edge case: Test with an object that has a very long string representation
     class LargeObject:
         def __repr__(self):
             return "a" * 10000
-
+    
     large_object = LargeObject()
-
-    # When: Calling SafeRepr.repr() on that object
-    maxsize = 1000
-    safe_repr = SafeRepr(maxsize)
-
-    # Then: SafeRepr.repr() should return a string that is no longer than maxsize
-    # Test passes with valid input and maxsize
-    assert len(safe_repr.repr(large_object)) <= maxsize
-
-    # Test raises no exceptions with valid input
-    with pytest.raises(Exception, match=""):
-        safe_repr.repr(large_object)
-
-    # Test correctly limits string length to maxsize
-    assert len(safe_repr.repr(large_object)) <= maxsize
-
-    # Edge case: Test with maxsize set to 0
-    safe_repr = SafeRepr(0)
-    assert len(safe_repr.repr(large_object)) == 0
-
-    # Edge case: Test with maxsize set to a negative value
-    with pytest.raises(ValueError):
-        SafeRepr(-1)
-
-    # Edge case: Test with an object that has no string representation
-    class NoReprObject:
-        pass
-
-    no_repr_object = NoReprObject()
-    with pytest.raises(Exception):
-        safe_repr.repr(no_repr_object)
+    safe_repr = SafeRepr(maxsize=100)
+    result = safe_repr.repr(large_object)
+    assert len(result) <= safe_repr.maxsize

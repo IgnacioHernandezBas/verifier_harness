@@ -5,8 +5,8 @@ Instance:       django__django-13321
 Claim:          C1
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
-Timestamp:      2026-02-18T20:34:23.597550
-SLURM Job:      6283192
+Timestamp:      2026-03-06T06:27:06.922323
+SLURM Job:      6346016
 
 STATUS:         ✗ FAILED
 Attempts:       10 / 10
@@ -21,49 +21,35 @@ FAILURE REASON: Classification: OVERCONSTRAINED
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
+      assertion_failure: Both variants fail the same assertion.
 
-Error details from BUG run:
+Error details:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
 =================================== FAILURES ===================================
-django/conf/__init__.py:68: in _setup
-    % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
-=========================== short test summary info ============================
-FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.47s ===============================
+________________________________ test_claim_c1 _________________________________
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:20: in test_claim_c1
+    assert str(exc_info.value) == "Session data corrupted"
+E   AssertionError: assert ('Requested setting SESSION_SERIALIZER, but settings are not configured. You '\n 'must either define the environment variable DJANGO_SETTINGS_MODULE or call '\n 'settings.configure() before accessing settings.') == 'Session data corrupted'
+E     - Session data corrupted
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:20: in test_claim_c1
+    assert str(exc_info.value) == "Session data corrupted"
+E   AssertionError: assert ('Requested setting SESSION_SERIALIZER, but settings are not configured. You '\n 'must either define the environment variable DJANGO_SETTINGS_MODULE or call '\n 'settings.configure() before accessing settings.') == 'Session data corrupted'
+E     - Session data corrupted
+E     + Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 
+💡 Your test may be overconstrained - it fails even on the fixed code.
+   Consider relaxing assertions to accept multiple valid forms.
 
   [2] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-django/conf/__init__.py:91: in __getattr__
-    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
-
-During handling of the above exception, another exception occurred:
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
-
-During handling of the above exception, another exception occurred:
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:21: in test_claim_c1
-    session.decode(invalid_session_data)
-
-  [3] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -71,39 +57,117 @@ claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_cl
 =================================== FAILURES ===================================
 django/conf/__init__.py:68: in _setup
     % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+E   django.core.exceptions.ImproperlyConfigured: Requested settings, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+E   django.core.exceptions.ImproperlyConfigured: Requested settings, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.47s ===============================
+============================== 1 failed in 0.39s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested settings, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested settings, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.39s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [3] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [4] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-django/core/signing.py:174: in unsign
-    if self.sep not in signed_value:
-E   TypeError: a bytes-like object is required, not 'str'
-
-During handling of the above exception, another exception occurred:
-E   TypeError: a bytes-like object is required, not 'str'
-
-During handling of the above exception, another exception occurred:
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
-    session.decode(invalid_session_data)
-
-  [5] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -117,33 +181,111 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.55s ===============================
+============================== 1 failed in 0.37s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [5] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.35s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [6] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-django/conf/__init__.py:91: in __getattr__
-    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
-
-During handling of the above exception, another exception occurred:
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
-
-During handling of the above exception, another exception occurred:
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:34: in test_claim_c1
-    session.decode(invalid_session_data)
-
-  [7] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -151,39 +293,117 @@ claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_cl
 =================================== FAILURES ===================================
 django/conf/__init__.py:68: in _setup
     % (desc, ENVIRONMENT_VARIABLE))
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-E   django.core.exceptions.ImproperlyConfigured: Requested setting SECRET_KEY, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.49s ===============================
+============================== 1 failed in 0.35s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [7] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
 
 
   [8] UNKNOWN
-      other: Both variants returned FAIL.
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
 
-Error details from BUG run:
-collecting ... collected 1 item
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
 
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-django/core/signing.py:174: in unsign
-    if self.sep not in signed_value:
-E   TypeError: a bytes-like object is required, not 'str'
-
-During handling of the above exception, another exception occurred:
-E   TypeError: a bytes-like object is required, not 'str'
-
-During handling of the above exception, another exception occurred:
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
-    session.decode(invalid_session_data)
-
-  [9] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🔴 ERROR from BUGGY version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
@@ -197,32 +417,166 @@ FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::
 E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
 =========================== short test summary info ============================
 FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
-============================== 1 failed in 0.48s ===============================
+============================== 1 failed in 0.36s ===============================
 
 
-  [10] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
+🟢 ERROR from FIXED (gold) version:
 collecting ... collected 1 item
 
 claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
 
 =================================== FAILURES ===================================
-django/conf/__init__.py:91: in __getattr__
-    raise ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.36s ===============================
 
-During handling of the above exception, another exception occurred:
-E   django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
 
-During handling of the above exception, another exception occurred:
-claim_tests/django__django-13321/django__django_13321__test_claim_c1.py:25: in test_claim_c1
-    session.decode("Session data with invalid encoding")
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [9] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
+
+  [10] UNKNOWN
+      overconstrained: 🚨 OVERCONSTRAINED TEST: Your test fails on BOTH the buggy and the fixed version.
+
+This means you are testing an implementation detail that does not exist in either version,
+rather than testing the behavioral claim described in your task.
+
+🔴 ERROR from BUGGY version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.37s ===============================
+
+
+🟢 ERROR from FIXED (gold) version:
+collecting ... collected 1 item
+
+claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+django/conf/__init__.py:68: in _setup
+    % (desc, ENVIRONMENT_VARIABLE))
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+E   django.core.exceptions.ImproperlyConfigured: Requested setting SESSION_SERIALIZER, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+=========================== short test summary info ============================
+FAILED claim_tests/django__django-13321/django__django_13321__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.38s ===============================
+
+
+💡 ACTION REQUIRED:
+1. Re-read the claim_text from your plan context - what BEHAVIOR should change?
+2. Simplify your test to ONLY verify the behavioral property described in the claim
+3. Do NOT test:
+   - Internal implementation details (private methods, internal state)
+   - Specific exception types from library internals
+   - Line numbers, file paths, or error message text
+   - Implementation artifacts not mentioned in the claim
+4. DO test:
+   - The public API behavior described in the claim
+   - The expected output/result for given inputs
+   - Whether the function succeeds or fails as claimed
+
+**EXAMPLE PATTERN**:
+❌ WRONG: assert obj._internal_state == X
+❌ WRONG: with pytest.raises(SpecificInternalError)
+✅ RIGHT: result = call_the_function(input); assert result == expected_output
+
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/django__django-13321/django__django_13321__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/django__django-13321_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283192.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283192.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346016.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6346016.err
 ================================================================================

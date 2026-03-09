@@ -1,29 +1,18 @@
-# Checklist TODO: Mock os.environ['USERNAME'] with illegal characters.
-# Checklist TODO: Call getbasetemp() and ensure no FileNotFoundError is raised.
-# Checklist TODO: Verify the temporary directory is created.
+# Checklist TODO: Mock getpass.getuser() with illegal characters in username
+# Checklist TODO: Call tmpdir_factory.mktemp() and ensure no FileNotFoundError
+# Checklist TODO: Verify the temporary directory is created and accessible
 import pytest
-from pathlib import Path
 
-def test_claim_c1(monkeypatch):
-    # GIVEN: The username contains illegal characters for directory names
-    # Set os.environ['USERNAME'] to a string containing illegal characters for directory names
-    monkeypatch.setenv('USERNAME', 'os/<:*?;>agnostic')
-    
-    # WHEN: getbasetemp is called
-    # Mock the getbasetemp method to ensure it is called on the correct object
-    class MockTmpPathFactory:
-        def getbasetemp(self):
-            return Path('/tmp/pytest-of-unknown')
-    
-    tmp_path_factory = MockTmpPathFactory()
-    
-    # THEN: FileNotFoundError is not raised
-    # Call getbasetemp and ensure no FileNotFoundError is raised
+def test_claim_c1(tmpdir_factory, monkeypatch):
+    # GIVEN: The username returned by getpass.getuser() contains illegal characters for directory names, e.g., 'contoso\john_doe'.
+    monkeypatch.setattr("getpass.getuser", lambda: "contoso\\john_doe")
+
+    # WHEN: tmpdir_factory.mktemp('foobar') is called
     try:
-        p = tmp_path_factory.getbasetemp()
-    except FileNotFoundError:
-        pytest.fail("getbasetemp raised FileNotFoundError unexpectedly")
-    
-    # Verify the temporary directory is created
-    assert p.exists(), "Temporary directory was not created successfully"
-    assert "pytest-of-unknown" in str(p), "Temporary directory name does not contain 'pytest-of-unknown'"
+        temp_dir = tmpdir_factory.mktemp('foobar')
+    except FileNotFoundError as e:
+        pytest.fail(f"FileNotFoundError was raised: {e}")
+
+    # THEN: No FileNotFoundError is raised.
+    # Verify the temporary directory is created and accessible
+    assert temp_dir.isdir(), "The temporary directory was not created successfully"

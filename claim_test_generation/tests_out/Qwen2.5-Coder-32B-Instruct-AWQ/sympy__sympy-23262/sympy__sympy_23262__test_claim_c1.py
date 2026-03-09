@@ -1,32 +1,27 @@
 # Checklist TODO: Test passes with a single-element tuple.
-# Checklist TODO: Lambda function returns a tuple with a single element.
-# Checklist TODO: Test handles different types of single-element tuples.
+# Checklist TODO: Test fails with an empty tuple.
+# Checklist TODO: Test passes with a multi-element tuple.
 import pytest
-from sympy.utilities.lambdify import lambdify
+import inspect
+from sympy import lambdify
 
 def test_claim_c1():
-    # Given: A single-element tuple is provided as the argument to `lambdify`.
-    # When: The `lambdify` function is called with an empty list and a single-element tuple.
-    f = lambdify([], (1,))
-    # Then: The generated lambda function returns a tuple with a single element, represented as (1,).
-    assert f() == (1,)
+    # Given: A tuple with one element is passed to the lambdify function.
+    # When: The inspect.getsource(lambdify([], tuple([1]))) function is called.
+    # Then: The returned string should include a trailing comma in the return statement.
+    source_code = inspect.getsource(lambdify([], tuple([1])))
+    assert 'return (1,)' in source_code
 
-    # Test handles different types of single-element tuples.
-    # Given: A single-element tuple with a different integer.
-    # When: The `lambdify` function is called with an empty list and a single-element tuple.
-    f2 = lambdify([], (2,))
-    # Then: The generated lambda function returns a tuple with a single element, represented as (2,).
-    assert f2() == (2,)
+    # Test fails with an empty tuple.
+    # Given: An empty tuple is passed to the lambdify function.
+    # When: The inspect.getsource(lambdify([], tuple([]))) function is called.
+    # Then: The returned string should not include a trailing comma in the return statement.
+    source_code_empty_tuple = inspect.getsource(lambdify([], tuple([])))
+    assert 'return ()' in source_code_empty_tuple
 
-    # Given: A single-element tuple with a non-integer element.
-    # When: The `lambdify` function is called with an empty list and a single-element tuple.
-    f3 = lambdify([], ('a',))
-    # Then: The generated lambda function returns a tuple with a single element, represented as ('a',).
-    assert f3() == ('a',)
-
-    # Test with additional keyword arguments to `lambdify`.
-    # Given: A single-element tuple is provided as the argument to `lambdify`.
-    # When: The `lambdify` function is called with an empty list, a single-element tuple, and additional keyword arguments.
-    f4 = lambdify([], (1,), use_imps=False)
-    # Then: The generated lambda function returns a tuple with a single element, represented as (1,).
-    assert f4() == (1,)
+    # Test passes with a multi-element tuple.
+    # Given: A tuple with multiple elements is passed to the lambdify function.
+    # When: The inspect.getsource(lambdify([], tuple([1, 2, 3]))) function is called.
+    # Then: The returned string should not include a trailing comma in the return statement.
+    source_code_multi_element_tuple = inspect.getsource(lambdify([], tuple([1, 2, 3])))
+    assert 'return (1, 2, 3)' in source_code_multi_element_tuple

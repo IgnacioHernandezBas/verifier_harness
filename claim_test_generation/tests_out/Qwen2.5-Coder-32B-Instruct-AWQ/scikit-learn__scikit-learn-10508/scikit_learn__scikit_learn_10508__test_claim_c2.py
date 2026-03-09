@@ -1,45 +1,33 @@
-# Checklist TODO: Test passes without raising TypeError
-# Checklist TODO: Resulting array is empty
-# Checklist TODO: Resulting array dtype is int64
+# Checklist TODO: LabelEncoder returns an empty array when transforming an empty list.
+# Checklist TODO: The returned array has dtype int64.
+# Checklist TODO: Test passes with various fitting inputs.
 import pytest
 from sklearn.preprocessing import LabelEncoder
-import numpy as np
 
 def test_claim_c2():
-    # Given: LabelEncoder is fitted with certain inputs
+    # Given: LabelEncoder is fitted with a list of strings.
     le = LabelEncoder()
-    le.fit([1, 2])
-
-    # When: transform is called with an empty list
+    le.fit(["apple", "banana", "apple", "banana", "banana"])
+    
+    # When: transform is called with an empty list.
     transformed = le.transform([])
-
-    # Then: does not raise a TypeError
-    # Check that no exception is raised
-    assert isinstance(transformed, np.ndarray)
-
-    # Then: returns an empty array
-    assert transformed.size == 0
-
-    # Then: returned array has dtype int64
-    assert transformed.dtype == np.int64
-
-    # Edge case: transform with an empty list after fitting with a single unique value
-    le.fit([1])
-    transformed = le.transform([])
-    assert isinstance(transformed, np.ndarray)
-    assert transformed.size == 0
-    assert transformed.dtype == np.int64
-
-    # Edge case: transform with an empty list after fitting with multiple unique values
-    le.fit([1, 2, 3])
-    transformed = le.transform([])
-    assert isinstance(transformed, np.ndarray)
-    assert transformed.size == 0
-    assert transformed.dtype == np.int64
-
-    # Edge case: transform with an empty list after fitting with non-integer values
-    le.fit(["a", "b"])
-    transformed = le.transform([])
-    assert isinstance(transformed, np.ndarray)
-    assert transformed.size == 0
-    assert transformed.dtype == np.int64
+    
+    # Then: The result of transform is an empty array.
+    assert len(transformed) == 0, "The result of transform is not an empty array."
+    
+    # Then: The dtype of the result is int64.
+    assert transformed.dtype == 'int64', "The dtype of the result is not int64."
+    
+    # Edge case: Transform with an empty list after fitting with a single string.
+    le_single = LabelEncoder()
+    le_single.fit(["apple"])
+    transformed_single = le_single.transform([])
+    assert len(transformed_single) == 0, "The result of transform with a single string is not an empty array."
+    assert transformed_single.dtype == 'int64', "The dtype of the result with a single string is not int64."
+    
+    # Edge case: Transform with an empty list after fitting with duplicate strings.
+    le_duplicate = LabelEncoder()
+    le_duplicate.fit(["apple", "apple", "banana", "banana"])
+    transformed_duplicate = le_duplicate.transform([])
+    assert len(transformed_duplicate) == 0, "The result of transform with duplicate strings is not an empty array."
+    assert transformed_duplicate.dtype == 'int64', "The dtype of the result with duplicate strings is not int64."

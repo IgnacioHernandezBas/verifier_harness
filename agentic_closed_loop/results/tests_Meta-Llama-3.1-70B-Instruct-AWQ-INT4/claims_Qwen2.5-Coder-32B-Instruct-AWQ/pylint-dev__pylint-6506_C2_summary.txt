@@ -5,224 +5,25 @@ Instance:       pylint-dev__pylint-6506
 Claim:          C2
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-Timestamp:      2026-02-18T19:24:50.925937
-SLURM Job:      6283069
+Timestamp:      2026-03-07T12:40:59.803639
+SLURM Job:      6347472
 
-STATUS:         ✗ FAILED
-Attempts:       10 / 10
+STATUS:         ✓ SUCCESS
+Attempts:       1 / 10
 
 FINAL RESULTS:
-  Classification: OVERCONSTRAINED
+  Classification: VALID
   Bug:            FAIL
-  Gold:           FAIL
-  Discriminative: NO
-
-FAILURE REASON: Classification: OVERCONSTRAINED
+  Gold:           PASS
+  Discriminative: YES
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 1.01s =========================
-
-
-  [2] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.90s =========================
-
-
-  [3] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.88s =========================
-
-
-  [4] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.88s =========================
-
-
-  [5] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.93s =========================
-
-
-  [6] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.93s =========================
-
-
-  [7] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.89s =========================
-
-
-  [8] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.94s =========================
-
-
-  [9] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.87s =========================
-
-
-  [10] UNKNOWN
-      other: Both variants returned FAIL.
-
-Error details from BUG run:
-collecting ... collected 1 item
-
-claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1 FAILED [100%]
-
-=================================== FAILURES ===================================
-pylint/config/config_initialization.py:34: in _config_initialization
-    linter.set_current_module(str(config_file) if config_file else None)
-E   AttributeError: 'object' object has no attribute 'set_current_module'
-=============================== warnings summary ===============================
-../opt/miniconda3/envs/testbed/lib/python3.9/site-packages/astroid/interpreter/_import/util.py:6
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED claim_tests/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c1.py::test_claim_c1
-========================= 1 failed, 1 warning in 0.90s =========================
-
+      success: Observed discriminative claim-test.
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pylint-dev__pylint-6506/pylint_dev__pylint_6506__test_claim_c2.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pylint-dev__pylint-6506_C2.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283069.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283069.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347472.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347472.err
 ================================================================================

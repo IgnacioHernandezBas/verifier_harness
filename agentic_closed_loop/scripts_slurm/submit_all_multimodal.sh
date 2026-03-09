@@ -37,7 +37,7 @@ INSTANCES=(
   "sympy__sympy-23262"
 )
 
-CLAIMS_MODEL="Qwen/Qwen2.5-72B-Instruct-AWQ" #Qwen/Qwen2.5-Coder-32B-Instruct-AWQ Qwen/Qwen2.5-72B-Instruct-AWQ
+CLAIMS_MODEL="Qwen/Qwen2.5-Coder-32B-Instruct-AWQ" #Qwen/Qwen2.5-Coder-32B-Instruct-AWQ Qwen/Qwen2.5-72B-Instruct-AWQ
 TESTS_MODEL="hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4" # hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 Qwen/Qwen2.5-72B-Instruct-AWQ
 GPUS="${GPUS:-2}"
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-10}"

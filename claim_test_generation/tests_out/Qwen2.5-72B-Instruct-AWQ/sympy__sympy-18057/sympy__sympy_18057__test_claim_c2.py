@@ -1,32 +1,51 @@
 import pytest
 from sympy import Symbol
 
-def test_claim_c2(monkeypatch):
-    # Test must import sympy and define class C.
-    class C:
-        def __repr__(self):
-            return 'x.y'
+class C:
+    def __repr__(self):
+        return 'x.y'
 
-    # Test must create a sympy.Symbol and an instance of C.
+def test_claim_c2(monkeypatch):
+    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
     x = Symbol('x')
     c = C()
 
-    # Test must assert that sympy.Symbol('x') == C() is False.
+    # When: sympy.Symbol('x') == C()
+    # Then: The comparison returns False.
     assert (x == c) is False
 
-    # Test with different repr values in class C
-    class C2:
+    # Given: A SymPy Symbol and an object with a repr that evaluates to a valid expression.
+    class ValidC:
         def __repr__(self):
-            return 'y'
+            return 'x + 1'
 
-    c2 = C2()
-    assert (x == c2) is False
+    valid_c = ValidC()
+    assert (x == valid_c) is False
 
-    # Test with sympy.Symbol having a different symbol
-    y = Symbol('y')
-    assert (y == c) is False
+    # Given: A SymPy Symbol and an object with a repr that evaluates to an empty string.
+    class EmptyC:
+        def __repr__(self):
+            return ''
 
-    # Test with None and other non-sympy objects
-    assert (x == None) is False
-    assert (x == 1) is False
-    assert (x == 'x') is False
+    empty_c = EmptyC()
+    assert (x == empty_c) is False
+
+    # Given: A SymPy Symbol and an object with a repr that evaluates to a non-string value.
+    class NonStringC:
+        def __repr__(self):
+            return 123
+
+    non_string_c = NonStringC()
+    assert (x == non_string_c) is False
+
+    # Given: A SymPy Symbol and an object with a repr that raises an exception.
+    class BadRepr:
+        def __repr__(self):
+            raise RuntimeError
+
+    bad_repr = BadRepr()
+    assert (x == bad_repr) is False
+
+    # Test must import sympy and use sympy.Symbol.
+    # Test must create a class with a specific __repr__ method.
+    # Test must verify the comparison returns False.

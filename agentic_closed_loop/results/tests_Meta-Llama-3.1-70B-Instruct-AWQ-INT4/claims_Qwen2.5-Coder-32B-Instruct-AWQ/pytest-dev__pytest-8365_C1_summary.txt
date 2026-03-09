@@ -5,11 +5,11 @@ Instance:       pytest-dev__pytest-8365
 Claim:          C1
 Tests Model:    hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4
 Claims Model:   Qwen/Qwen2.5-Coder-32B-Instruct-AWQ
-Timestamp:      2026-02-18T19:20:29.803687
-SLURM Job:      6283074
+Timestamp:      2026-03-07T13:04:23.799770
+SLURM Job:      6347477
 
 STATUS:         ✗ NON-DISCRIMINATIVE
-Attempts:       2 / 10
+Attempts:       3 / 10
 
 FINAL RESULTS:
   Classification: NON_DISCRIMINATIVE
@@ -21,7 +21,7 @@ FAILURE REASON: Test does not discriminate between bug and gold
 
 ITERATION HISTORY:
   [1] UNKNOWN
-      internal_import_error: Pytest installation is broken in the test environment.
+      environment_error: Pytest installation is broken in the test environment.
 This is NOT a test code issue - pytest itself cannot initialize.
 
 🔧 The test code appears correct, but the pytest environment is broken.
@@ -44,8 +44,44 @@ _ ERROR collecting claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__
 ImportError while importing test module '/workspace/claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py'.
 Hint: make sure your test modules/packages have valid Python names.
 
+  [2] UNKNOWN
+      internal_import_error: Call signature mismatch.
+
+💡 Hint: The function is missing the required argument(s): tmppath_factory
+Check the function signature and ensure all required parameters are provided.
+
+Error details:
+collecting ... collected 1 item
+
+claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1 FAILED [100%]
+
+=================================== FAILURES ===================================
+claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py:14: in test_claim_c1
+    tmpdir_factory = TempdirFactory()
+E   TypeError: __init__() missing 1 required positional argument: 'tmppath_factory'
+=========================== short test summary info ============================
+FAILED claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1
+E   TypeError: __init__() missing 1 required positional argument: 'tmppath_factory'
+=========================== short test summary info ============================
+FAILED claim_tests/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py::test_claim_c1
+============================== 1 failed in 0.06s ===============================
+
+
+🎯 **DETECTED ANTI-PATTERN**: Fixture attribute access
+   You tried: pytest.tmpdir
+   In line: from _pytest.tmpdir import TempdirFactory
+   But 'tmpdir' is a FIXTURE, not a module attribute!
+   Fix: Add 'tmpdir' as a function parameter instead.
+
+
+🎯 **DETECTED ANTI-PATTERN**: Internal module import
+   You tried: from _pytest.tmpdir import TempdirFactory
+   But internal modules (starting with _) are NOT available!
+   Fix: Use public APIs and fixtures instead.
+
+
 🎯 **DETECTED ANTI-PATTERN**: Non-existent pytest API
-   You tried: pytest.TempdirFactory
+   You tried: pytest.MonkeyPatch
    This API does not exist in pytest!
 
 
@@ -55,12 +91,12 @@ Hint: make sure your test modules/packages have valid Python names.
    Fix: Use the fixture as a function parameter.
 
 
-  [2] UNKNOWN
+  [3] UNKNOWN
       non_discriminative: Both variants pass. Claim may not capture bug.
 
 FILES:
   Test:         /fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Meta-Llama-3.1-70B-Instruct-AWQ-INT4/pytest-dev__pytest-8365/pytest_dev__pytest_8365__test_claim_c1.py
   State:        /fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/pytest-dev__pytest-8365_C1.json
-  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283074.out
-                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6283074.err
+  SLURM logs:   agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347477.out
+                agentic_closed_loop/scripts_slurm/logs/agentic_hybrid_6347477.err
 ================================================================================

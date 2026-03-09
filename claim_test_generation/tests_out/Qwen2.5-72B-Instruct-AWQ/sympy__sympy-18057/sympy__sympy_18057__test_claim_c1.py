@@ -1,48 +1,24 @@
+# Checklist TODO: Import sympy and define class C with a specific repr.
+# Checklist TODO: Create a Symbol and compare it with an instance of C.
+# Checklist TODO: Ensure no AttributeError is raised during comparison.
 import pytest
-from sympy.core.expr import Expr
 from sympy import Symbol
 
-def test_claim_c1():
-    # GIVEN: An unknown object whose repr is 'x.y'
-    class C:
-        def __repr__(self):
-            return 'x.y'
-    
-    # WHEN: Calling sympy.Symbol('x') == C()
+class C:
+    def __repr__(self):
+        return 'x.y'
+
+def test_claim_c1(monkeypatch):
+    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
     x = Symbol('x')
     c = C()
 
-    # THEN: Does not raise an AttributeError
-    with pytest.raises(AssertionError):
-        assert x == c
+    # When: sympy.Symbol('x') == C()
+    # Then: No AttributeError is raised.
+    try:
+        result = x == c
+    except AttributeError as e:
+        pytest.fail(f"AttributeError was raised: {e}")
 
-    # Test with a class C that has a __repr__ method returning a non-string
-    class C2:
-        def __repr__(self):
-            return 123  # Non-string repr
-
-    c2 = C2()
-    with pytest.raises(AssertionError):
-        assert x == c2
-
-    # Test with a class C that has a __repr__ method raising an exception
-    class C3:
-        def __repr__(self):
-            raise RuntimeError
-
-    c3 = C3()
-    with pytest.raises(AssertionError):
-        assert x == c3
-
-    # Test with a class C that has a __repr__ method returning a very long string
-    class C4:
-        def __repr__(self):
-            return 'x' * 10000  # Very long string
-
-    c4 = C4()
-    with pytest.raises(AssertionError):
-        assert x == c4
-
-    # Test must verify no AttributeError is raised
-    # Test must ensure __eq__ does not evaluate repr of C()
-    # Test must pass with the expected behavior of __eq__
+    # Ensure no AttributeError is raised during comparison.
+    assert result is False
