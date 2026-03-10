@@ -62,9 +62,9 @@ The 500 SWE-bench Lite instances span **13 major Python open-source projects**:
 
 All models are served via a **vLLM** inference server exposing an OpenAI-compatible REST API (`http://127.0.0.1:8000/v1`). Model configurations live in `claim_extraction/configs/`.
 
-### 3.1 Claim Extraction Models
+### 3.1 Semantic Layer Models
 
-These models analyse the patch + GitHub issue and extract structured, verifiable claims about what the fix is supposed to do.
+The same model pool powers both stages of the semantic layer: **claim extraction** (understanding what the patch is supposed to fix) and **agentic test generation** (writing and repairing executable tests that verify those claims).
 
 | Model | Size (active) | Quantization | VRAM | Config file | Use |
 |-------|--------------|--------------|------|-------------|-----|
@@ -88,11 +88,7 @@ extraction:
   require_grounding: true  # Claims must reference modified code lines
 ```
 
-### 3.2 Agentic Loop Models
-
-The closed-loop refinement pipeline (`agentic_closed_loop/`) uses the same vLLM backend to iteratively generate, execute, and repair property-based tests. Any model above can be swapped in via the factory (`claim_extraction/llm/factory.py`).
-
-### 3.3 Prompt Engineering
+### 3.2 Prompt Engineering
 
 Prompts are **Jinja2 templates** (`claim_extraction/prompts/`):
 
@@ -138,21 +134,41 @@ Output: a **Static Quality Index (SQI)** score in [0, 1] aggregated across tools
 
 **Change-aware coverage**: rather than computing full-repo coverage, the pipeline extracts only the lines touched by the patch from the unified diff, making coverage measurement ~100× faster.
 
-### 4.4 Semantic Layer (9 Rules)
+### 4.4 Semantic Layer — Claim Extraction + Agentic Test Generation
 
-| Rule | Focus area | Bug taxonomy |
-|------|-----------|-------------|
-| Rule 1 | Boundary & intersection probing | CWE 241x–244x |
-| Rule 2 | Predicate logic / MC/DC | CWE 312x, 244x |
-| Rule 3 | State-transition tours | CWE 3154, 316x |
-| Rule 4 | Definition–use execution | CWE 323x, 324x, 4232 |
-| Rule 5 | Resource lifecycle under load | CWE 416x, 426x |
-| Rule 6 | Robust exception handling | CWE 26xx, 25xx |
-| Rule 7 | Transaction order validation | CWE 611x, 612x, 622x |
-| Rule 8 | Structured input / conversion | CWE 4214, 422x, 4285 |
-| Rule 9 | Concurrency & lock correctness | CWE 721x, 742x |
+The semantic layer understands *what a patch is supposed to fix* by reading the GitHub issue and the diff, extracting structured behavioural claims, and then autonomously generating and refining executable tests that verify those claims.
 
-Each rule returns a `RuleResult` dataclass (`verifier/rules/base.py`) with `status`, `findings`, `metrics`, and a narrative `details` string.
+#### Step 1 — Claim Extraction (`claim_extraction/`)
+
+An LLM (served via vLLM) reads the problem statement and the patch and produces a set of **grounded, verifiable claims** — natural-language assertions about the expected behaviour of the fixed code.
+
+| Component | Technology | Notes |
+|-----------|-----------|-------|
+| **LLM backend** | vLLM (OpenAI-compatible API) | Swappable via `llm/factory.py` |
+| **Default model** | Qwen2.5-Coder-32B-Instruct-AWQ | Best code-reasoning / speed trade-off |
+| **Prompt templates** | Jinja2 (`.jinja`) | Zero-shot and issue-context variants |
+| **Grounding check** | Custom verifier | Claims must reference modified lines |
+| **Output format** | Structured JSON | `min_claim_score`, `max_claims_per_issue` configurable |
+
+Grounding ensures claims are tied to the actual changed code, not to unrelated parts of the repository.
+
+#### Step 2 — Agentic Test Generation (`agentic_closed_loop/`)
+
+A closed-loop agent takes each extracted claim and iteratively writes, executes, and repairs pytest code until the claim is covered by a passing test or a genuine failure is detected.
+
+| Component | Technology | Role |
+|-----------|-----------|------|
+| **Orchestrator** | `orchestrator.py` | Drives the loop; manages state across iterations |
+| **Planner** | `planner.py` + LLM | Decides next action (write / fix / give up) |
+| **Test writer** | `pytest_writer.py` + LLM | Generates pytest code targeting the claim |
+| **Executor** | Singularity / Podman container | Runs generated tests in an isolated environment |
+| **Diagnostics** | `diagnostics.py` | Parses tracebacks; feeds structured error context back to LLM |
+| **Guardrails** | `guardrails.py` | Prevents infinite loops, malformed code, and off-target tests |
+| **Context builder** | `context.py` | Supplies patch diff, repo slice, and prior attempt history to the LLM |
+
+The loop terminates when the test passes (claim verified), a real failure is found (patch may be incorrect), or the maximum iteration budget is exhausted.
+
+**Hybrid mode** (`run_agentic_loop_hybrid.py`): runs zero-shot claim extraction first; falls back to the full agentic loop only for claims the zero-shot pass fails to verify, saving compute on easy instances.
 
 ---
 
