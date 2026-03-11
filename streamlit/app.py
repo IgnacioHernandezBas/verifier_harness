@@ -1,17 +1,17 @@
 """
-SWE-bench Verification Demo App
+SWE-bench Unified Verification App
 
 A Streamlit application for:
 - Testing patches on SWE-bench instances OR custom codebases
-- Running static analysis and unit tests
-- Displaying comprehensive verification results
+- Running three verification layers: Static, Dynamic, Semantic
+- Displaying comprehensive aggregated verification results
 """
 
 import streamlit as st
-import subprocess
 import json
 import tempfile
 import shutil
+import requests
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional
@@ -27,6 +27,10 @@ from swebench_integration import DatasetLoader, PatchLoader
 from verifier.static_analyzers.code_quality import analyze as run_static_analysis
 from swebench_singularity import Config, SingularityBuilder, InstanceRunner
 from verifier.dynamic_analyzers import test_patch_singularity
+from unified_pipeline import (
+    Layer, LayerStatus, LayerResult, VLLMConfig, PipelineConfig,
+    AggregatedReport, ProgressCallback, run_pipeline,
+)
 
 # Set page config
 st.set_page_config(
@@ -39,326 +43,75 @@ st.set_page_config(
 # Initialize session state
 if 'analysis_results' not in st.session_state:
     st.session_state.analysis_results = []
+if 'vllm_connected' not in st.session_state:
+    st.session_state.vllm_connected = False
 
 
-def apply_patch_to_repo(repo_path: Path, patch_str: str) -> bool:
-    """Apply a patch to a repository."""
-    try:
-        # Write patch to temp file
-        patch_file = repo_path / ".temp_patch.diff"
-        patch_file.write_text(patch_str)
+# ---------------------------------------------------------------------------
+# Streamlit progress callback
+# ---------------------------------------------------------------------------
 
-        # Apply patch
-        result = subprocess.run(
-            ["git", "apply", "--ignore-whitespace", str(patch_file)],
-            cwd=str(repo_path),
-            capture_output=True,
-            text=True
+class StreamlitCallback:
+    """Real-time progress feedback via st.status()."""
+
+    def __init__(self):
+        self._container = st.status("Initializing pipeline...", expanded=True)
+
+    def on_phase(self, phase: str, detail: str = "") -> None:
+        msg = f"{phase}: {detail}" if detail else phase
+        self._container.update(label=msg)
+        self._container.write(msg)
+
+    def on_layer_start(self, layer: str) -> None:
+        label = {
+            Layer.STATIC: "Running Static Analysis...",
+            Layer.DYNAMIC: "Running Dynamic Analysis...",
+            Layer.SEMANTIC: "Running Semantic Analysis...",
+        }.get(layer, f"Running {layer}...")
+        self._container.update(label=label)
+        self._container.write(f"--- Starting {layer} layer ---")
+
+    def on_layer_end(self, layer: str, result: LayerResult) -> None:
+        icon = "+" if result.status == LayerStatus.SUCCESS else "x"
+        self._container.write(
+            f"[{icon}] {layer}: {result.status} ({result.duration_s:.1f}s)"
         )
 
-        patch_file.unlink()  # Clean up
-
-        if result.returncode == 0:
-            return True
+    def done(self, success: bool = True):
+        if success:
+            self._container.update(label="Pipeline complete", state="complete")
         else:
-            st.error(f"Patch application failed: {result.stderr}")
-            return False
-
-    except Exception as e:
-        st.error(f"Error applying patch: {e}")
-        return False
-
-def sync_claim_tests_into_repo(
-    instance_id: str,
-    repo_path: Path,
-    claim_tests_root: Path = Path("/fs/nexus-scratch/ihbas/verifier_harness/claim-tests"),
-) -> Optional[Path]:
-    """
-    Copy claim-tests for this instance into the repo checkout so they are visible
-    inside Singularity (repo is bound to /workspace).
-    Returns the destination directory path (inside repo) if copied, else None.
-    """
-    src_dir = claim_tests_root / instance_id
-    if not src_dir.exists():
-        return None
-
-    dest_dir = repo_path / "claim_tests" / instance_id
-    dest_dir.parent.mkdir(parents=True, exist_ok=True)
-
-    # Replace existing copy to avoid stale tests
-    if dest_dir.exists():
-        shutil.rmtree(dest_dir)
-
-    shutil.copytree(src_dir, dest_dir)
-    return dest_dir
+            self._container.update(label="Pipeline finished with errors", state="error")
 
 
-def run_tests_in_repo(repo_path: Path, test_command: Optional[str] = None,
-                       use_container: bool = False, container_path: Optional[Path] = None,
-                       sample: Optional[Dict] = None) -> Dict:
-    """Run tests in a repository, optionally using Singularity container."""
+# ---------------------------------------------------------------------------
+# vLLM connection helper
+# ---------------------------------------------------------------------------
 
-    # If using container, delegate to Singularity execution
-    if use_container and container_path:
-        return run_tests_in_singularity(repo_path, container_path, test_command, sample)
-
-    # Otherwise, run tests directly on host
+def test_vllm_connection(endpoint: str) -> tuple[bool, str]:
+    """Test connectivity to vLLM server. Returns (ok, message)."""
     try:
-        # Default test command if not provided
-        if not test_command:
-            # Try to detect test framework
-            if (repo_path / "pytest.ini").exists() or (repo_path / "setup.py").exists():
-                test_command = "python -m pytest -v --tb=short"
-            elif (repo_path / "manage.py").exists():
-                test_command = "python manage.py test"
-            else:
-                test_command = "python -m pytest -v --tb=short"
-
-        # Run tests
-        result = subprocess.run(
-            test_command,
-            shell=True,
-            cwd=str(repo_path),
-            capture_output=True,
-            text=True,
-            timeout=300  # 5 minute timeout
-        )
-
-        # Parse output
-        stdout = result.stdout
-        stderr = result.stderr
-        returncode = result.returncode
-
-        # Extract test counts
-        passed = 0
-        failed = 0
-        errors = 0
-
-        # Try to parse pytest output
-        import re
-        match = re.search(r'(\d+) passed', stdout)
-        if match:
-            passed = int(match.group(1))
-
-        match = re.search(r'(\d+) failed', stdout)
-        if match:
-            failed = int(match.group(1))
-
-        match = re.search(r'(\d+) error', stdout)
-        if match:
-            errors = int(match.group(1))
-
-        return {
-            'success': returncode == 0,
-            'passed': passed,
-            'failed': failed,
-            'errors': errors,
-            'total': passed + failed + errors,
-            'stdout': stdout,
-            'stderr': stderr,
-            'returncode': returncode,
-            'execution_mode': 'host'
-        }
-
-    except subprocess.TimeoutExpired:
-        return {
-            'success': False,
-            'passed': 0,
-            'failed': 0,
-            'errors': 0,
-            'total': 0,
-            'stdout': '',
-            'stderr': 'Test execution timeout (5 minutes)',
-            'returncode': -1,
-            'execution_mode': 'host'
-        }
-    except Exception as e:
-        return {
-            'success': False,
-            'passed': 0,
-            'failed': 0,
-            'errors': 0,
-            'total': 0,
-            'stdout': '',
-            'stderr': str(e),
-            'returncode': -1,
-            'execution_mode': 'host'
-        }
-
-
-def run_tests_in_singularity(repo_path: Path, container_path: Path,
-                             test_command: Optional[str] = None, sample: Optional[Dict] = None) -> Dict:
-    """Run tests inside a Singularity container - SAME AS SLURM WORKER."""
-    try:
-        st.write(f"🐳 Using Singularity container: {container_path.name}")
-
-        # Install package dependencies in container
-        st.write("📦 Installing dependencies...")
-        install_result = test_patch_singularity.install_package_in_singularity(
-            repo_path=repo_path,
-            image_path=str(container_path)
-        )
-
-        if install_result.get('returncode') != 0:
-            st.warning(f"⚠️ Dependency installation had warnings")
-
-        # Determine tests to run - SAME AS SLURM WORKER
-        if test_command:
-            # User provided custom command
-            tests = [test_command]
-            framework_hint = None
-        elif sample:
-            # SWE-bench mode: Load FAIL_TO_PASS and PASS_TO_PASS tests
-            st.write("📋 Loading test list from instance metadata...")
-            import ast
-
-            fail_to_pass = sample.get('metadata', {}).get('FAIL_TO_PASS', '[]')
-            pass_to_pass = sample.get('metadata', {}).get('PASS_TO_PASS', '[]')
-
-            try:
-                f2p = ast.literal_eval(fail_to_pass) if isinstance(fail_to_pass, str) else fail_to_pass
-                p2p = ast.literal_eval(pass_to_pass) if isinstance(pass_to_pass, str) else pass_to_pass
-            except Exception as e:
-                st.warning(f"⚠️ Failed to parse test metadata: {e}")
-                st.text(f"FAIL_TO_PASS: {fail_to_pass[:200]}")
-                st.text(f"PASS_TO_PASS: {pass_to_pass[:200]}")
-                f2p, p2p = [], []
-
-            all_tests = [t for t in (f2p + p2p) if isinstance(t, str)]
-
-            if not all_tests:
-                st.warning("⚠️ No tests found in instance metadata (FAIL_TO_PASS + PASS_TO_PASS)")
-            else:
-                st.info(f"ℹ️ Found {len(f2p)} FAIL_TO_PASS and {len(p2p)} PASS_TO_PASS tests")
-
-            # Detect framework type - SAME AS SLURM WORKER
-            django_like = sum(1 for t in all_tests if '(' in t and ')' in t and '::' not in t)
-            pytest_like = sum(1 for t in all_tests if '::' in t or t.endswith('.py'))
-            prefer_django = django_like > 0 and django_like >= pytest_like
-
-            # Filter malformed tests - SAME AS SLURM WORKER
-            filtered_tests = []
-            malformed_tests = []
-
-            if prefer_django:
-                filtered_tests = [t.strip() for t in all_tests if t.strip()]
-            else:
-                for test_name in all_tests:
-                    if not isinstance(test_name, str):
-                        continue
-                    test_name = test_name.strip()
-                    if not test_name:
-                        continue
-
-                    # Keep Django/unittest style
-                    if '(' in test_name and ')' in test_name:
-                        filtered_tests.append(test_name)
-                        continue
-
-                    # Filter unbalanced brackets
-                    if '[' in test_name:
-                        open_count = test_name.count('[')
-                        close_count = test_name.count(']')
-                        if open_count > close_count:
-                            malformed_tests.append(test_name)
-                            continue
-
-                    filtered_tests.append(test_name)
-
-            if not filtered_tests and all_tests:
-                st.warning("⚠️ No tests left after filtering, using unfiltered list")
-                filtered_tests = [t.strip() for t in all_tests if isinstance(t, str)]
-
-            if malformed_tests:
-                st.warning(f"⚠️ Filtered out {len(malformed_tests)} malformed test names")
-                with st.expander("View malformed tests"):
-                    st.code("\n".join(malformed_tests[:20]), language="text")
-
-            tests = filtered_tests
-            framework_hint = 'django' if prefer_django else None
-
-            if framework_hint == 'django':
-                st.info(f"ℹ️ Detected Django-style tests ({django_like} entries)")
-
-            st.write(f"📝 Running {len(tests)} tests from instance metadata")
-
-            # Show test list for debugging
-            if tests:
-                with st.expander(f"📋 View test list ({len(tests)} tests)"):
-                    if len(tests) <= 20:
-                        st.code("\n".join(tests), language="text")
-                    else:
-                        st.code("\n".join(tests[:20]) + f"\n\n... and {len(tests)-20} more tests", language="text")
+        # Strip /v1 suffix for models endpoint
+        base = endpoint.rstrip("/")
+        if not base.endswith("/v1"):
+            base = base + "/v1"
+        url = f"{base}/models"
+        resp = requests.get(url, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            models = [m.get("id", "?") for m in data.get("data", [])]
+            return True, f"Connected. Models: {', '.join(models)}"
         else:
-            # Auto-detect: run all tests
-            tests = []
-            framework_hint = None
-
-        # Run tests in container - SAME AS SLURM WORKER
-        st.write("🧪 Running tests in container...")
-        test_result = test_patch_singularity.run_tests_in_singularity(
-            repo_path=repo_path,
-            tests=tests,
-            image_path=str(container_path),
-            collect_coverage=False,
-            test_framework_hint=framework_hint,
-            verbose=True
-        )
-
-        # Parse output
-        stdout = test_result.get('stdout', '')
-        stderr = test_result.get('stderr', '')
-        returncode = test_result.get('returncode', -1)
-
-        # Extract test counts
-        import re
-        passed = 0
-        failed = 0
-        errors = 0
-
-        match = re.search(r'(\d+) passed', stdout)
-        if match:
-            passed = int(match.group(1))
-
-        match = re.search(r'(\d+) failed', stdout)
-        if match:
-            failed = int(match.group(1))
-
-        match = re.search(r'(\d+) error', stdout)
-        if match:
-            errors = int(match.group(1))
-
-        return {
-            'success': returncode == 0,
-            'passed': passed,
-            'failed': failed,
-            'errors': errors,
-            'total': passed + failed + errors,
-            'stdout': stdout,
-            'stderr': stderr,
-            'returncode': returncode,
-            'execution_mode': 'singularity',
-            'container': str(container_path),
-            'tests_run': len(tests) if tests else 0
-        }
-
+            return False, f"HTTP {resp.status_code}: {resp.text[:200]}"
+    except requests.ConnectionError:
+        return False, f"Cannot connect to {endpoint}. Is vLLM running?"
     except Exception as e:
-        st.error(f"❌ Container execution failed: {e}")
-        import traceback
-        st.code(traceback.format_exc(), language='text')
-        return {
-            'success': False,
-            'passed': 0,
-            'failed': 0,
-            'errors': 0,
-            'total': 0,
-            'stdout': '',
-            'stderr': str(e),
-            'returncode': -1,
-            'execution_mode': 'singularity',
-            'container': str(container_path) if container_path else None
-        }
+        return False, str(e)
 
+
+# ---------------------------------------------------------------------------
+# Container helpers (kept from original)
+# ---------------------------------------------------------------------------
 
 def get_or_build_container(instance_id: Optional[str] = None,
                            docker_image: Optional[str] = None,
@@ -368,65 +121,56 @@ def get_or_build_container(instance_id: Optional[str] = None,
         config = Config()
         builder = SingularityBuilder(config)
 
-        # Case 1: SWE-bench instance - build from instance
         if instance_id:
-            st.write(f"🔨 Building container for {instance_id}...")
+            st.write(f"Building container for {instance_id}...")
             result = builder.build_instance(
                 instance_id=instance_id,
                 force_rebuild=False,
                 check_docker_exists=False
             )
-
             if result.success:
                 from_cache = " (cached)" if result.from_cache else " (newly built)"
-                st.success(f"✅ Container ready{from_cache}")
+                st.success(f"Container ready{from_cache}")
                 return result.sif_path
             else:
-                st.error(f"❌ Container build failed: {result.error_message}")
+                st.error(f"Container build failed: {result.error_message}")
                 return None
 
-        # Case 2: Docker image - convert to Singularity
         elif docker_image:
-            st.write(f"🔨 Converting Docker image: {docker_image}...")
-            # Use a hash of the image name as instance ID
+            st.write(f"Converting Docker image: {docker_image}...")
             import hashlib
             pseudo_id = hashlib.md5(docker_image.encode()).hexdigest()[:12]
-
             result = builder.build_from_docker(
                 docker_image=docker_image,
                 output_name=f"custom_{pseudo_id}.sif"
             )
-
             if result.success:
-                st.success("✅ Container built from Docker image")
+                st.success("Container built from Docker image")
                 return result.sif_path
             else:
-                st.error(f"❌ Build failed: {result.error_message}")
+                st.error(f"Build failed: {result.error_message}")
                 return None
 
-        # Case 3: Uploaded SIF file
         elif container_file:
-            st.success("✅ Using uploaded container")
+            st.success("Using uploaded container")
             return Path(container_file)
 
         return None
 
     except Exception as e:
-        st.error(f"❌ Container setup failed: {e}")
+        st.error(f"Container setup failed: {e}")
         return None
 
 
 def list_cached_containers() -> List[Dict]:
     """List all cached Singularity containers."""
     try:
-        # Check multiple possible cache locations
         possible_paths = [
-            Path("/fs/nexus-scratch/ihbas/.cache/swebench_singularity"),  # Primary cache
-            Path("/fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache"),  # Config default
-            Path.home() / ".cache" / "swebench_singularity",  # User home
+            Path("/fs/nexus-scratch/ihbas/.cache/swebench_singularity"),
+            Path("/fs/nexus-scratch/ihbas/.containers/singularity/swebench_cache"),
+            Path.home() / ".cache" / "swebench_singularity",
         ]
 
-        # Try to get from config first
         try:
             config = Config()
             config_path = Path(config.get("singularity.cache_dir"))
@@ -435,11 +179,9 @@ def list_cached_containers() -> List[Dict]:
         except Exception:
             pass
 
-        # Find the first path that exists and has .sif files
         cache_dir = None
         for path in possible_paths:
             if path.exists():
-                # Check if it has any .sif files
                 sif_files = list(path.rglob("*.sif"))
                 if sif_files:
                     cache_dir = path
@@ -448,7 +190,6 @@ def list_cached_containers() -> List[Dict]:
         if not cache_dir:
             return []
 
-        # Collect all containers
         containers = []
         for sif_file in cache_dir.rglob("*.sif"):
             try:
@@ -468,107 +209,70 @@ def list_cached_containers() -> List[Dict]:
         return []
 
 
-def analyze_patch(repo_path: Path, patch_str: str,
-                  use_container: bool = False, container_path: Optional[Path] = None,
-                  test_command: Optional[str] = None, sample: Optional[Dict] = None) -> Dict:
-    """Run comprehensive analysis on a patched repository."""
-    results = {
-        'timestamp': datetime.now().isoformat(),
-        'repo_path': str(repo_path),
-        'static_analysis': None,
-        'test_results': None,
-        'success': False,
-        'use_container': use_container
-    }
+# ---------------------------------------------------------------------------
+# Display helpers
+# ---------------------------------------------------------------------------
 
-    # Run static analysis
-    st.write("🔍 Running static analysis...")
-    try:
-        static_results = run_static_analysis(str(repo_path), patch_str)
-        results['static_analysis'] = static_results
-        st.success("✅ Static analysis complete")
-    except Exception as e:
-        st.error(f"❌ Static analysis failed: {e}")
-        results['static_analysis'] = {'error': str(e)}
+def display_aggregated_dashboard(report: AggregatedReport):
+    """3-column dashboard showing status of each layer."""
+    st.subheader("Aggregated Dashboard")
 
-    # Run tests
-    st.write("🧪 Running unit tests...")
-    try:
-        test_results = run_tests_in_repo(
-            repo_path,
-            test_command=test_command,
-            use_container=use_container,
-            container_path=container_path,
-            sample=sample  # Pass sample for test metadata
-        )
-        results['test_results'] = test_results
+    cols = st.columns(3)
+    layer_info = [
+        (Layer.STATIC, "Static Analysis", "SQI"),
+        (Layer.DYNAMIC, "Dynamic Analysis", "Tests"),
+        (Layer.SEMANTIC, "Semantic Analysis", "CVR"),
+    ]
 
-        exec_mode = test_results.get('execution_mode', 'host')
-        if test_results['success']:
-            st.success(f"✅ Tests passed: {test_results['passed']}/{test_results['total']} ({exec_mode})")
-        else:
-            st.warning(f"⚠️ Tests failed: {test_results['failed']} failures, {test_results['errors']} errors ({exec_mode})")
-    except Exception as e:
-        st.error(f"❌ Test execution failed: {e}")
-        results['test_results'] = {'error': str(e)}
+    for col, (layer_key, label, metric_label) in zip(cols, layer_info):
+        with col:
+            lr = report.layers.get(layer_key)
+            if lr is None:
+                st.metric(label, "Not requested")
+                continue
 
-    results['success'] = (
-        results['static_analysis'] is not None and
-        results['test_results'] is not None and
-        results['test_results'].get('success', False)
-    )
-    # NEW: Claim-tests phase (only meaningful if SWE-bench tests passed)
-    results["claim_test_results"] = None
-
-    if (
-        test_results.get("success")
-        and use_container
-        and container_path is not None
-        and sample is not None
-    ):
-        instance_id = sample.get("metadata", {}).get("instance_id")
-        if instance_id:
-            copied_dir = sync_claim_tests_into_repo(instance_id, repo_path)
-            if copied_dir:
-                st.write("🧾 Running claim-tests (Singularity)...")
-
-                claim_run = test_patch_singularity.run_tests_in_singularity(
-                    repo_path=repo_path,
-                    tests=[str(Path("claim_tests") / instance_id)],  # relative path inside /workspace
-                    image_path=str(container_path),
-                    collect_coverage=False,
-                    verbose=True,
-                    test_framework_hint="pytest",
-                )
-
-                # Parse counts similarly (optional)
-                stdout = claim_run.get("stdout", "")
-                import re
-                c_passed = int(re.search(r"(\d+) passed", stdout).group(1)) if re.search(r"(\d+) passed", stdout) else 0
-                c_failed = int(re.search(r"(\d+) failed", stdout).group(1)) if re.search(r"(\d+) failed", stdout) else 0
-                c_errors = int(re.search(r"(\d+) error", stdout).group(1)) if re.search(r"(\d+) error", stdout) else 0
-
-                results["claim_test_results"] = {
-                    "success": claim_run.get("returncode", 1) == 0,
-                    "passed": c_passed,
-                    "failed": c_failed,
-                    "errors": c_errors,
-                    "total": c_passed + c_failed + c_errors,
-                    "stdout": claim_run.get("stdout", ""),
-                    "stderr": claim_run.get("stderr", ""),
-                    "returncode": claim_run.get("returncode", -1),
-                    "execution_mode": "singularity",
-                    "tests_target": f"claim_tests/{instance_id}",
-                }
+            status = lr.status
+            if status == LayerStatus.SUCCESS:
+                status_icon = "[OK]"
+            elif status == LayerStatus.FAILED:
+                status_icon = "[FAIL]"
+            elif status == LayerStatus.SKIPPED:
+                status_icon = "[SKIP]"
             else:
-                st.info(f"ℹ️ No claim-tests found for {instance_id} at {Path('/fs/nexus-scratch/ihbas/verifier_harness/claim-tests')}")
+                status_icon = f"[{status}]"
 
-    return results
+            # Extract key metric
+            if layer_key == Layer.STATIC and lr.data:
+                cq = lr.data.get("code_quality", {})
+                sqi = cq.get("sqi", {}).get("SQI", 0)
+                st.metric(label, f"{sqi:.1f}", status_icon)
+            elif layer_key == Layer.DYNAMIC and lr.data:
+                passed = lr.data.get("passed", 0)
+                total = lr.data.get("total", 0)
+                st.metric(label, f"{passed}/{total} passed", status_icon)
+            elif layer_key == Layer.SEMANTIC and lr.data:
+                sm = lr.data.get("summary", {})
+                total_c = sm.get("total_claims", 0)
+                if total_c > 0:
+                    cvr = sm.get("cvr", 0)
+                    succ_c = sm.get("successful", 0)
+                    st.metric(label, f"CVR {cvr:.0%} ({succ_c}/{total_c})", status_icon)
+                else:
+                    ext = lr.data.get("extraction", {})
+                    raw = len(ext.get("claims", [])) + len(ext.get("ungrounded_claims", [])) + len(ext.get("low_score_claims", []))
+                    grounded = len(ext.get("claims", []))
+                    st.metric(label, f"0 testable ({grounded}/{raw} grounded)", status_icon)
+            else:
+                st.metric(label, status_icon)
+
+            if lr.error:
+                st.caption(f"Error: {lr.error[:100]}")
+            st.caption(f"Duration: {lr.duration_s:.1f}s")
 
 
 def display_static_analysis(static_results: Dict):
     """Display static analysis results."""
-    st.subheader("📊 Static Analysis Results")
+    st.subheader("Static Analysis Results")
 
     if 'error' in static_results:
         st.error(f"Static analysis error: {static_results['error']}")
@@ -589,7 +293,6 @@ def display_static_analysis(static_results: Dict):
         st.metric("Modified Files", len(modified_files))
 
     with col3:
-        # Count total issues
         total_issues = 0
         if 'flake8' in static_results:
             total_issues += len(static_results['flake8'])
@@ -602,26 +305,20 @@ def display_static_analysis(static_results: Dict):
     components = sqi.get('components', {})
 
     col1, col2, col3, col4, col5 = st.columns(5)
-
     with col1:
         st.metric("Pylint", f"{components.get('pylint', 0):.1f}")
-
     with col2:
         st.metric("Radon", f"{components.get('radon', 0):.1f}")
-
     with col3:
         st.metric("Flake8", f"{components.get('flake8', 0):.1f}")
-
     with col4:
         st.metric("Mypy", f"{components.get('mypy', 0):.1f}")
-
     with col5:
         st.metric("Bandit", f"{components.get('bandit', 0):.1f}")
 
-    # Detailed results in expanders
     st.divider()
 
-    # Pylint issues
+    # Pylint
     if 'pylint' in static_results:
         pylint_issues = static_results['pylint']
         total_pylint = sum(len(issues) for issues in pylint_issues.values())
@@ -629,17 +326,17 @@ def display_static_analysis(static_results: Dict):
             for file_path, issues in pylint_issues.items():
                 if issues:
                     st.markdown(f"**{file_path}**")
-                    for issue in issues[:5]:  # Show first 5
+                    for issue in issues[:5]:
                         st.write(f"- Line {issue.get('line')}: [{issue.get('type')}] {issue.get('message')}")
 
-    # Flake8 issues
+    # Flake8
     if 'flake8' in static_results:
         flake8_issues = static_results['flake8']
         with st.expander(f"Flake8 Issues ({len(flake8_issues)})"):
-            for issue in flake8_issues[:10]:  # Show first 10
+            for issue in flake8_issues[:10]:
                 st.write(f"- Line {issue.get('line')}: [{issue.get('code')}] {issue.get('message')}")
 
-    # Radon complexity
+    # Radon
     if 'radon' in static_results:
         radon = static_results['radon']
         with st.expander(f"Radon Complexity (MI: {radon.get('mi_avg', 0):.1f})"):
@@ -650,16 +347,16 @@ def display_static_analysis(static_results: Dict):
                     for func in functions:
                         st.write(f"- {func.get('name')}: Complexity {func.get('complexity')}")
 
-    # Mypy errors
+    # Mypy
     if 'mypy' in static_results:
         mypy = static_results['mypy']
         error_count = mypy.get('error_count', 0)
         with st.expander(f"Mypy Type Errors ({error_count})"):
             errors = mypy.get('errors', [])
-            for error in errors[:10]:  # Show first 10
+            for error in errors[:10]:
                 st.write(f"- Line {error.get('line')}: {error.get('message')}")
 
-    # Bandit security issues
+    # Bandit
     if 'bandit' in static_results:
         bandit = static_results['bandit']
         total_bandit = sum(bandit.values())
@@ -669,52 +366,95 @@ def display_static_analysis(static_results: Dict):
             st.write(f"- Low: {bandit.get('LOW', 0)}")
 
 
+def display_syntax_structure(syntax_data: list):
+    """Display syntax/structure analysis results."""
+    st.subheader("Syntax & Structure Analysis")
+
+    if not syntax_data:
+        st.info("No syntax/structure results available")
+        return
+
+    # Summary row
+    valid_count = sum(1 for e in syntax_data if e.get("is_code_valid", False))
+    st.write(f"**Files analyzed:** {len(syntax_data)} | **Valid AST:** {valid_count}/{len(syntax_data)}")
+
+    for entry in syntax_data:
+        file_path = entry.get("path", entry.get("file", "unknown"))
+        is_valid = entry.get("is_code_valid", False)
+        status = "[OK]" if is_valid else "[INVALID]"
+        with st.expander(f"{status} {file_path}"):
+            if "error" in entry:
+                st.error(entry["error"])
+                continue
+
+            c1, c2, c3, c4 = st.columns(4)
+            with c1:
+                st.metric("Functions", entry.get("n_functions", 0))
+            with c2:
+                st.metric("Classes", entry.get("n_classes", 0))
+            with c3:
+                st.metric("Lines", entry.get("n_lines", 0))
+            with c4:
+                ratio = entry.get("ast_diff_ratio", 0)
+                st.metric("AST Diff Ratio", f"{ratio:.2f}" if ratio else "N/A")
+
+            # Changed functions
+            changed = entry.get("changed_functions", [])
+            if changed:
+                st.write(f"**Changed functions ({len(changed)}):**")
+                for func in changed:
+                    if isinstance(func, dict):
+                        st.write(f"- `{func.get('name', '?')}` (line {func.get('lineno', '?')})")
+                    else:
+                        st.write(f"- `{func}`")
+
+            # Syntax errors
+            syntax_errors = entry.get("syntax_errors", [])
+            if syntax_errors:
+                st.warning("Syntax errors found:")
+                for err in syntax_errors:
+                    st.write(f"- {err}")
+
+
 def display_test_results(test_results: Dict):
     """Display test results."""
-    st.subheader("🧪 Test Results")
+    st.subheader("Test Results")
 
     if 'error' in test_results:
         st.error(f"Test execution error: {test_results['error']}")
         return
 
-    # Show execution mode
     exec_mode = test_results.get('execution_mode', 'host')
     if exec_mode == 'singularity':
         container_name = Path(test_results.get('container', '')).name
-        st.info(f"🐳 Tests executed in Singularity container: `{container_name}`")
+        st.info(f"Tests executed in Singularity container: `{container_name}`")
     else:
-        st.info(f"💻 Tests executed on host system")
+        st.info("Tests executed on host system")
 
-    # Summary metrics
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         total = test_results.get('total', 0)
         st.metric("Total Tests", total)
-
     with col2:
         passed = test_results.get('passed', 0)
-        st.metric("Passed", passed, delta="✅")
-
+        st.metric("Passed", passed)
     with col3:
         failed = test_results.get('failed', 0)
-        st.metric("Failed", failed, delta="❌" if failed > 0 else None)
-
+        st.metric("Failed", failed)
     with col4:
         errors = test_results.get('errors', 0)
-        st.metric("Errors", errors, delta="⚠️" if errors > 0 else None)
+        st.metric("Errors", errors)
 
-    # Pass rate
     if total > 0:
         pass_rate = (passed / total) * 100
         st.progress(pass_rate / 100)
         st.write(f"**Pass Rate:** {pass_rate:.1f}%")
     elif test_results.get('tests_run', 0) > 0:
-        st.warning(f"⚠️ {test_results['tests_run']} tests attempted but no results parsed from output")
+        st.warning(f"{test_results['tests_run']} tests attempted but no results parsed from output")
 
-    # Show output
     stdout = test_results.get('stdout', '')
-    with st.expander("📄 Test Output (stdout)" + (" - Click to view" if stdout else " - Empty")):
+    with st.expander("Test Output (stdout)" + (" - Click to view" if stdout else " - Empty")):
         if stdout:
             st.code(stdout[-10000:] if len(stdout) > 10000 else stdout, language='text')
         else:
@@ -726,11 +466,240 @@ def display_test_results(test_results: Dict):
             st.code(stderr[-5000:] if len(stderr) > 5000 else stderr, language='text')
 
 
-# Main app
-st.title("🔬 E6 Verifier Harness Demo")
-st.markdown("Test your code patches with comprehensive static analysis and unit testing")
+def display_semantic_results(semantic_data: Dict):
+    """Display semantic analysis results: claim extraction + agentic loop."""
+    st.subheader("Semantic Analysis Results")
 
-# Sidebar - Configuration
+    if not semantic_data:
+        st.info("No semantic results available")
+        return
+
+    # --- Sub-section 1: Claim Extraction ---
+    extraction = semantic_data.get("extraction", {})
+    if extraction:
+        st.markdown("#### Claim Extraction")
+
+        claims = extraction.get("claims", [])
+        ungrounded = extraction.get("ungrounded_claims", [])
+        low_score = extraction.get("low_score_claims", [])
+        stats = extraction.get("stats", {})
+
+        c1, c2, c3, c4, c5 = st.columns(5)
+        with c1:
+            total_raw = len(claims) + len(ungrounded) + len(low_score)
+            st.metric("Total Extracted", total_raw)
+        with c2:
+            st.metric("Grounded Claims", len(claims))
+        with c3:
+            st.metric("Ungrounded", len(ungrounded))
+        with c4:
+            st.metric("Low Score", len(low_score))
+        with c5:
+            avg_score = stats.get("avg_score", 0)
+            st.metric("Avg Score", f"{avg_score:.1f}" if avg_score else "N/A")
+
+        # Show each grounded claim
+        if claims:
+            with st.expander(f"Grounded Claims ({len(claims)}) - click to view"):
+                for i, claim in enumerate(claims, 1):
+                    claim_id = claim.get("claim_id", f"C{i}")
+                    score = claim.get("score", "?")
+                    text = claim.get("text", claim.get("claim", "No text"))
+                    targets = claim.get("target_symbols", [])
+
+                    st.markdown(f"**{claim_id}** | Score: {score}")
+                    st.write(text)
+                    if targets:
+                        st.caption(f"Target symbols: {', '.join(targets)}")
+
+                    # Show grounding details if available
+                    grounding = claim.get("grounding", {})
+                    if grounding:
+                        matched = grounding.get("matched_symbols", [])
+                        if matched:
+                            st.caption(f"Grounded on: {', '.join(matched[:5])}")
+                    st.markdown("---")
+
+        if ungrounded:
+            with st.expander(f"Ungrounded Claims ({len(ungrounded)})"):
+                for claim in ungrounded:
+                    st.write(f"- {claim.get('text', claim.get('claim', '?'))}")
+
+    # --- Sub-section 2: Agentic Loop Results ---
+    loop_results = semantic_data.get("claim_loop_results", [])
+    if loop_results:
+        st.markdown("#### Agentic Loop Results (per claim)")
+
+        # Summary table
+        table_data = []
+        for r in loop_results:
+            attempts = r.get("attempts", [])
+            # Get the final verification label from the last attempt
+            final_label = "-"
+            if attempts:
+                last = attempts[-1]
+                if isinstance(last, dict):
+                    vr = last.get("verification_result", {})
+                    if isinstance(vr, dict):
+                        tests = vr.get("tests", [])
+                        if tests:
+                            final_label = tests[0].get("classification", {}).get("label", "-")
+                    fc = last.get("failure_classification", {})
+                    if isinstance(fc, dict) and final_label == "-":
+                        final_label = fc.get("label", "-")
+
+            table_data.append({
+                "Claim": r.get("claim_id", "?"),
+                "Attempts": len(attempts),
+                "Status": "PASS" if r.get("success") else "FAIL",
+                "Verification Label": final_label,
+                "Failure Reason": r.get("failure_reason", "-") if not r.get("success") else "-",
+            })
+
+        st.table(table_data)
+
+        # Expandable per-claim details
+        for r in loop_results:
+            claim_id = r.get("claim_id", "?")
+            success = r.get("success", False)
+            status_text = "PASS" if success else "FAIL"
+            attempts = r.get("attempts", [])
+
+            with st.expander(f"Claim {claim_id} [{status_text}] - {len(attempts)} attempt(s)"):
+                for j, attempt in enumerate(attempts, 1):
+                    if not isinstance(attempt, dict):
+                        st.write(f"Attempt {j}: {attempt}")
+                        continue
+
+                    st.markdown(f"**Attempt {j}**")
+
+                    # Status
+                    att_status = attempt.get("status", "")
+                    if att_status == "guardrail_failed":
+                        fc = attempt.get("failure_classification", {})
+                        st.warning(f"Guardrail failed: {fc.get('label', '?')} - {fc.get('details', '')}")
+                        st.markdown("---")
+                        continue
+
+                    # Plan summary
+                    plan = attempt.get("plan", {})
+                    if plan:
+                        strategy = plan.get("strategy", plan.get("summary", ""))
+                        if strategy:
+                            st.write(f"**Plan:** {strategy}")
+
+                    # Guardrail result
+                    guard = attempt.get("guardrail", {})
+                    if guard:
+                        st.write(f"**Guardrails:** {'PASS' if guard.get('ok') else 'FAIL'}")
+
+                    # Test sketch
+                    sketch = attempt.get("test_sketch", {})
+                    if sketch:
+                        desc = sketch.get("description", sketch.get("summary", ""))
+                        if desc:
+                            st.write(f"**Test sketch:** {desc}")
+
+                    # Generated code
+                    code = attempt.get("generated_code", "")
+                    if code:
+                        with st.expander(f"Generated test code (attempt {j})", expanded=(j == len(attempts))):
+                            st.code(code, language="python")
+
+                    # Verification result (BUG vs GOLD)
+                    vr = attempt.get("verification_result", {})
+                    if isinstance(vr, dict) and vr.get("tests"):
+                        st.markdown("**BUG vs GOLD Verification:**")
+                        for test_entry in vr.get("tests", []):
+                            bug_run = test_entry.get("bug", {})
+                            gold_run = test_entry.get("gold", {})
+                            classification = test_entry.get("classification", {})
+                            label = classification.get("label", "?")
+                            reason = classification.get("reason", "")
+
+                            b1, b2, b3 = st.columns(3)
+                            with b1:
+                                bug_status = bug_run.get("status", "?")
+                                st.write(f"**BUG:** {bug_status}")
+                            with b2:
+                                gold_status = gold_run.get("status", "?")
+                                st.write(f"**GOLD:** {gold_status}")
+                            with b3:
+                                color = "green" if label == "VALID" else "red"
+                                st.markdown(f"**Label:** :{color}[{label}]")
+
+                            if reason:
+                                st.caption(reason)
+
+                    # Diagnosis / failure classification
+                    fc = attempt.get("failure_classification", {})
+                    if fc:
+                        fc_label = fc.get("label", "?")
+                        fc_details = fc.get("details", "")
+                        if fc_label != "success":
+                            st.write(f"**Diagnosis:** {fc_label} - {fc_details}")
+
+                    st.markdown("---")
+
+    # --- Sub-section 3: Aggregate Summary ---
+    summary = semantic_data.get("summary", {})
+    if summary:
+        st.markdown("#### Aggregate Summary")
+
+        # Note/warning if present
+        note = summary.get("note")
+        if note:
+            st.warning(note)
+
+        # Extraction overview
+        raw = summary.get("total_extracted_raw", 0)
+        grounded = summary.get("grounded", summary.get("total_claims", 0))
+        ungrounded_count = summary.get("ungrounded", 0)
+        low_score_count = summary.get("low_score", 0)
+
+        if raw > 0:
+            e1, e2, e3, e4 = st.columns(4)
+            with e1:
+                st.metric("Total Extracted (raw)", raw)
+            with e2:
+                st.metric("Grounded", grounded)
+            with e3:
+                st.metric("Ungrounded", ungrounded_count)
+            with e4:
+                st.metric("Low Score", low_score_count)
+
+        # Test results
+        s1, s2, s3, s4 = st.columns(4)
+        with s1:
+            st.metric("Claims Tested", summary.get("total_claims", 0))
+        with s2:
+            st.metric("Validated (PASS)", summary.get("successful", 0))
+        with s3:
+            st.metric("Failed", summary.get("failed", 0))
+        with s4:
+            cvr = summary.get("cvr", 0)
+            st.metric("CVR", f"{cvr:.0%}")
+
+        # Label distribution from verification results
+        label_dist = summary.get("label_distribution", {})
+        if label_dist:
+            st.markdown("**Label Distribution:**")
+            label_cols = st.columns(len(label_dist))
+            for col, (label, count) in zip(label_cols, label_dist.items()):
+                with col:
+                    st.metric(label, count)
+
+
+# =========================================================================
+# MAIN APP
+# =========================================================================
+
+st.title("E6 Verifier Harness")
+st.markdown("Unified patch verification: static analysis, dynamic testing, and semantic claim verification")
+
+# ---------------------------------------------------------------------------
+# Sidebar
+# ---------------------------------------------------------------------------
 st.sidebar.header("Configuration")
 
 mode = st.sidebar.radio(
@@ -741,8 +710,75 @@ mode = st.sidebar.radio(
 
 st.sidebar.divider()
 
-# Container configuration
-st.sidebar.subheader("🐳 Container Settings")
+# --- Verification Layers ---
+st.sidebar.subheader("Verification Layers")
+
+enable_static = st.sidebar.checkbox("Static Analysis", value=True,
+                                     help="Pylint, Flake8, Radon, Mypy, Bandit, AST validation")
+enable_dynamic = st.sidebar.checkbox("Dynamic Analysis (SWE-bench tests)", value=True,
+                                      help="Run FAIL_TO_PASS + PASS_TO_PASS tests in Singularity")
+
+if mode == "Custom Codebase":
+    enable_semantic = st.sidebar.checkbox(
+        "Semantic Analysis", value=False, disabled=True,
+        help="Requires SWE-bench instance (problem statement needed for claim extraction)"
+    )
+    st.sidebar.caption("Semantic analysis requires a SWE-bench instance.")
+else:
+    enable_semantic = st.sidebar.checkbox(
+        "Semantic Analysis (claims + agentic loop)", value=False,
+        help="LLM-based claim extraction, test generation via agentic loop, BUG vs GOLD verification"
+    )
+
+st.sidebar.divider()
+
+# --- vLLM Configuration (only when semantic is enabled) ---
+vllm_endpoint = os.environ.get("CLAIM_LLM_ENDPOINT", "http://127.0.0.1:8000/v1")
+vllm_model = os.environ.get("CLAIM_LLM_MODEL", "Qwen/Qwen2.5-Coder-32B-Instruct-AWQ")
+vllm_api_key = None
+max_claims = 6
+max_attempts = 4
+
+if enable_semantic:
+    st.sidebar.subheader("vLLM Server")
+    st.sidebar.info(
+        "Start vLLM on a GPU node first, then enter the endpoint below.\n\n"
+        "Example:\n```\n"
+        "srun --gres=gpu:1 --mem=64G --pty bash\n"
+        "python -m vllm.entrypoints.openai.api_server \\\n"
+        "  --model Qwen/Qwen2.5-Coder-32B-Instruct-AWQ \\\n"
+        "  --host 0.0.0.0 --port 8000\n```"
+    )
+
+    vllm_endpoint = st.sidebar.text_input("vLLM Endpoint", value=vllm_endpoint)
+    vllm_model = st.sidebar.text_input("Model Name", value=vllm_model)
+    vllm_api_key_input = st.sidebar.text_input("API Key (optional)", type="password")
+    if vllm_api_key_input:
+        vllm_api_key = vllm_api_key_input
+
+    # Test connection button
+    if st.sidebar.button("Test Connection"):
+        ok, msg = test_vllm_connection(vllm_endpoint)
+        if ok:
+            st.sidebar.success(msg)
+            st.session_state.vllm_connected = True
+        else:
+            st.sidebar.error(msg)
+            st.session_state.vllm_connected = False
+
+    if st.session_state.vllm_connected:
+        st.sidebar.success("vLLM: Connected")
+    else:
+        st.sidebar.warning("vLLM: Not connected. Click 'Test Connection' first.")
+
+    st.sidebar.divider()
+    max_claims = st.sidebar.slider("Max claims per instance", 1, 10, 6)
+    max_attempts = st.sidebar.slider("Max attempts per claim", 1, 10, 4)
+
+st.sidebar.divider()
+
+# --- Container configuration ---
+st.sidebar.subheader("Container Settings")
 use_container = st.sidebar.checkbox(
     "Use Singularity Container",
     value=True,
@@ -757,16 +793,14 @@ container_file_path = None
 if use_container:
     if mode == "SWE-bench Instance":
         st.sidebar.info("Container will be auto-built from SWE-bench instance")
-
-        # Show cache info
         cached = list_cached_containers()
         if cached:
-            st.sidebar.success(f"✅ {len(cached)} cached containers available")
-            with st.sidebar.expander("📦 View Cache"):
+            st.sidebar.success(f"{len(cached)} cached containers available")
+            with st.sidebar.expander("View Cache"):
                 st.write(f"**Total cache size**: {sum(c['size_mb'] for c in cached):.1f} MB")
                 for c in cached[:5]:
-                    st.text(f"• {c['name'][:40]}")
-    else:  # Custom mode
+                    st.text(f"  {c['name'][:40]}")
+    else:
         container_source = st.sidebar.radio(
             "Container Source",
             ["Browse Cache", "Docker Image", "Upload .sif", "None (Host)"],
@@ -777,8 +811,6 @@ if use_container:
             cached = list_cached_containers()
             if cached:
                 st.sidebar.success(f"Found {len(cached)} cached containers")
-
-                # Group by repository
                 repos = {}
                 for c in cached:
                     parts = Path(c['name']).stem.split('__')
@@ -787,25 +819,18 @@ if use_container:
                         repos[repo] = []
                     repos[repo].append(c)
 
-                # Select repository
-                selected_repo = st.sidebar.selectbox(
-                    "Repository",
-                    options=list(repos.keys())
-                )
-
-                # Select container
+                selected_repo = st.sidebar.selectbox("Repository", options=list(repos.keys()))
                 repo_containers = repos[selected_repo]
                 selected_container = st.sidebar.selectbox(
                     "Container",
                     options=range(len(repo_containers)),
                     format_func=lambda i: f"{repo_containers[i]['name']} ({repo_containers[i]['size_mb']:.0f}MB)"
                 )
-
                 container_file_path = repo_containers[selected_container]['path']
                 st.sidebar.info(f"Using: {Path(container_file_path).name}")
             else:
                 st.sidebar.warning("No cached containers found")
-                container_source = "Docker Image"  # Fall back
+                container_source = "Docker Image"
 
         elif container_source == "Docker Image":
             docker_image = st.sidebar.text_input(
@@ -820,37 +845,35 @@ if use_container:
                 help="Upload a pre-built .sif file"
             )
             if container_file:
-                # Save uploaded file temporarily
-                import tempfile
                 with tempfile.NamedTemporaryFile(delete=False, suffix='.sif') as f:
                     f.write(container_file.read())
                     container_file_path = f.name
         elif container_source == "None (Host)":
             use_container = False
 
+
+# =========================================================================
 # Main content
+# =========================================================================
+
 if mode == "SWE-bench Instance":
-    st.header("🔍 SWE-bench Instance Testing")
+    st.header("SWE-bench Instance Testing")
 
     col1, col2 = st.columns([3, 1])
-
     with col1:
         repo_filter = st.text_input(
             "Filter by repository",
             placeholder="e.g., scikit-learn/scikit-learn",
             help="Leave empty to show all repositories"
         )
-
     with col2:
         limit = st.number_input("Limit", 1, 100, 20, help="Maximum instances to load")
 
-    if st.button("🔄 Load Instances", type="primary"):
+    if st.button("Load Instances", type="primary"):
         with st.spinner("Loading SWE-bench instances..."):
             try:
-                #loader = DatasetLoader("princeton-nlp/SWE-bench_Verified", hf_mode=True, split="test")
                 loader = DatasetLoader("princeton-nlp/SWE-bench_Lite", hf_mode=True, split="test")
                 instances = []
-
                 for sample in loader.iter_samples(limit=limit, filter_repo=repo_filter or None):
                     instance_id = sample.get('metadata', {}).get('instance_id')
                     if instance_id:
@@ -861,12 +884,10 @@ if mode == "SWE-bench Instance":
                             'patch': sample.get('patch', ''),
                             'sample': sample
                         })
-
                 st.session_state.swebench_instances = instances
-                st.success(f"✅ Loaded {len(instances)} instances")
-
+                st.success(f"Loaded {len(instances)} instances")
             except Exception as e:
-                st.error(f"❌ Failed to load instances: {e}")
+                st.error(f"Failed to load instances: {e}")
 
     # Instance selection
     if 'swebench_instances' in st.session_state:
@@ -880,7 +901,6 @@ if mode == "SWE-bench Instance":
                 range(len(instances)),
                 format_func=lambda i: f"{instances[i]['instance_id']} - {instances[i]['repo']}"
             )
-
             selected_instance = instances[selected_idx]
 
             st.info(f"**Selected:** {selected_instance['instance_id']}")
@@ -892,87 +912,98 @@ if mode == "SWE-bench Instance":
             with st.expander("View Patch"):
                 st.code(selected_instance['patch'], language='diff')
 
+            # Check if semantic is enabled but vLLM not connected
+            run_disabled = enable_semantic and not st.session_state.vllm_connected
+            if run_disabled:
+                st.warning("Semantic analysis is enabled but vLLM is not connected. "
+                           "Use 'Test Connection' in the sidebar, or disable Semantic analysis.")
+
             # Run analysis button
-            if st.button("🚀 Run Analysis", type="primary"):
+            if st.button("Run Analysis", type="primary", disabled=run_disabled):
                 st.write("---")
                 st.header("Analysis Results")
 
-                with st.spinner("Setting up repository..."):
+                sample = selected_instance['sample']
+
+                # Build layer set
+                selected_layers = set()
+                if enable_static:
+                    selected_layers.add(Layer.STATIC)
+                if enable_dynamic:
+                    selected_layers.add(Layer.DYNAMIC)
+                if enable_semantic:
+                    selected_layers.add(Layer.SEMANTIC)
+
+                if not selected_layers:
+                    st.warning("No verification layers selected. Check at least one in the sidebar.")
+                else:
+                    # Build config
+                    vllm_config = VLLMConfig(
+                        endpoint=vllm_endpoint,
+                        model=vllm_model,
+                        api_key=vllm_api_key,
+                    )
+                    pipeline_config = PipelineConfig(
+                        layers=selected_layers,
+                        vllm=vllm_config,
+                        repos_root="repos_temp_pipeline",
+                        max_claims=max_claims,
+                        max_attempts_per_claim=max_attempts,
+                    )
+
+                    # Run pipeline
+                    callback = StreamlitCallback()
                     try:
-                        sample = selected_instance['sample']
-                        patcher = PatchLoader(sample=sample, repos_root="repos_temp_demo")
+                        report = run_pipeline(sample, pipeline_config, callback)
+                        callback.done(report.overall_success)
 
-                        # Clone
-                        repo_path = patcher.clone_repository()
-                        st.success(f"✅ Repository cloned to {repo_path}")
+                        # Store for history
+                        st.session_state.analysis_results.append(report.to_dict())
 
-                        # Apply patch
-                        st.write("📝 Applying patch...")
-                        patch_result = patcher.apply_patch()
+                        # --- Dashboard ---
+                        display_aggregated_dashboard(report)
 
-                        if not patch_result['applied']:
-                            st.error("❌ Failed to apply patch")
-                        else:
-                            st.success("✅ Patch applied successfully")
+                        st.divider()
 
-                            # Apply test patch if exists
-                            test_patch = sample.get('metadata', {}).get('test_patch', '')
-                            if test_patch and test_patch.strip():
-                                st.write("📝 Applying test patch...")
-                                try:
-                                    patcher.apply_additional_patch(test_patch)
-                                    st.success("✅ Test patch applied")
-                                except Exception as e:
-                                    st.warning(f"⚠️ Test patch failed: {e}")
+                        # --- Per-layer detailed results ---
+                        if Layer.STATIC in report.layers:
+                            lr = report.layers[Layer.STATIC]
+                            if lr.status == LayerStatus.SUCCESS and lr.data:
+                                cq = lr.data.get("code_quality")
+                                if cq:
+                                    display_static_analysis(cq)
+                                ss = lr.data.get("syntax_structure")
+                                if ss:
+                                    display_syntax_structure(ss)
+                            elif lr.error:
+                                st.error(f"Static layer error: {lr.error}")
 
-                            # Setup container if enabled
-                            container_path_to_use = None
-                            if use_container:
-                                instance_id = selected_instance['instance_id']
-                                container_path_to_use = get_or_build_container(instance_id=instance_id)
-
-                                if not container_path_to_use:
-                                    st.error("❌ Failed to build container, running on host instead")
-                                    use_container_for_run = False
-                                else:
-                                    use_container_for_run = True
-                            else:
-                                use_container_for_run = False
-
-                            # Run analysis with instance metadata
-                            results = analyze_patch(
-                                Path(repo_path),
-                                selected_instance['patch'],
-                                use_container=use_container_for_run,
-                                container_path=container_path_to_use,
-                                sample=sample  # Pass full sample for test metadata
-                            )
-
-                            # Store results
-                            st.session_state.analysis_results.append(results)
-
-                            # Display results
-                            if results.get('static_analysis'):
-                                display_static_analysis(results['static_analysis'])
-
+                        if Layer.DYNAMIC in report.layers:
                             st.divider()
+                            lr = report.layers[Layer.DYNAMIC]
+                            if lr.status == LayerStatus.SUCCESS and lr.data:
+                                display_test_results(lr.data)
+                            elif lr.error:
+                                st.error(f"Dynamic layer error: {lr.error}")
 
-                            if results.get('test_results'):
-                                display_test_results(results['test_results'])
-
+                        if Layer.SEMANTIC in report.layers:
                             st.divider()
-
-                            if results.get('claim_test_results'):
-                                st.subheader("🧾 Claim-Test Results")
-                                display_test_results(results['claim_test_results'])
+                            lr = report.layers[Layer.SEMANTIC]
+                            if lr.data:
+                                if lr.error:
+                                    st.warning(f"Semantic layer: {lr.error}")
+                                display_semantic_results(lr.data)
+                            elif lr.error:
+                                st.error(f"Semantic layer error: {lr.error}")
 
                     except Exception as e:
-                        st.error(f"❌ Analysis failed: {e}")
+                        callback.done(success=False)
+                        st.error(f"Pipeline failed: {e}")
                         import traceback
                         st.code(traceback.format_exc(), language='text')
 
 else:  # Custom Codebase
-    st.header("📦 Custom Codebase Testing")
+    st.header("Custom Codebase Testing")
 
     st.markdown("""
     Upload your codebase and patch to run static analysis and unit tests.
@@ -983,7 +1014,6 @@ else:  # Custom Codebase
     - Repository should have tests (pytest or unittest)
     """)
 
-    # File uploads
     col1, col2 = st.columns(2)
 
     with col1:
@@ -1014,7 +1044,6 @@ else:  # Custom Codebase
                 placeholder="diff --git a/file.py b/file.py\n..."
             )
 
-    # Test command
     st.subheader("3. Test Command (Optional)")
     test_command = st.text_input(
         "Custom test command",
@@ -1022,109 +1051,180 @@ else:  # Custom Codebase
         help="Leave empty to auto-detect"
     )
 
-    # Run analysis
-    if st.button("🚀 Run Analysis", type="primary", disabled=not (repo_zip and patch_str)):
+    if st.button("Run Analysis", type="primary", disabled=not (repo_zip and patch_str)):
         st.write("---")
         st.header("Analysis Results")
 
-        # Extract repository
         with st.spinner("Extracting repository..."):
             try:
-                # Create temp directory
                 temp_dir = tempfile.mkdtemp(prefix="verifier_custom_")
                 repo_path = Path(temp_dir) / "repo"
                 repo_path.mkdir()
 
-                # Extract ZIP
                 import zipfile
                 with zipfile.ZipFile(repo_zip) as zf:
                     zf.extractall(repo_path)
 
-                st.success(f"✅ Repository extracted to {repo_path}")
+                st.success(f"Repository extracted to {repo_path}")
 
-                # Find actual repo root (might be in a subdirectory)
+                # Find actual repo root
                 git_dirs = list(repo_path.rglob('.git'))
                 if git_dirs:
                     repo_path = git_dirs[0].parent
                     st.info(f"Found Git repository at: {repo_path}")
 
                 # Apply patch
-                st.write("📝 Applying patch...")
-                if apply_patch_to_repo(repo_path, patch_str):
-                    st.success("✅ Patch applied successfully")
+                st.write("Applying patch...")
+                import subprocess
+                patch_file_path = repo_path / ".temp_patch.diff"
+                patch_file_path.write_text(patch_str)
+                result = subprocess.run(
+                    ["git", "apply", "--ignore-whitespace", str(patch_file_path)],
+                    cwd=str(repo_path),
+                    capture_output=True, text=True
+                )
+                patch_file_path.unlink(missing_ok=True)
 
-                    # Setup container if enabled
-                    container_path_to_use = None
-                    if use_container:
-                        if docker_image:
-                            container_path_to_use = get_or_build_container(docker_image=docker_image)
-                        elif container_file_path:
-                            container_path_to_use = get_or_build_container(container_file=container_file_path)
+                if result.returncode == 0:
+                    st.success("Patch applied successfully")
 
-                        if not container_path_to_use:
-                            st.warning("⚠️ Container setup failed, running on host instead")
-                            use_container_for_run = False
-                        else:
-                            use_container_for_run = True
+                    # Build layer set (only static + dynamic for custom)
+                    selected_layers = set()
+                    if enable_static:
+                        selected_layers.add(Layer.STATIC)
+                    if enable_dynamic:
+                        selected_layers.add(Layer.DYNAMIC)
+
+                    if not selected_layers:
+                        st.warning("No verification layers selected.")
                     else:
-                        use_container_for_run = False
+                        # For custom codebase, run static directly + dynamic if container available
+                        # Static
+                        if enable_static:
+                            st.subheader("Static Analysis")
+                            try:
+                                static_results = run_static_analysis(str(repo_path), patch_str)
+                                display_static_analysis(static_results)
+                            except Exception as e:
+                                st.error(f"Static analysis failed: {e}")
 
-                    # Run analysis
-                    results = analyze_patch(
-                        repo_path,
-                        patch_str,
-                        use_container=use_container_for_run,
-                        container_path=container_path_to_use,
-                        test_command=test_command if test_command else None
-                    )
+                        # Dynamic
+                        if enable_dynamic:
+                            st.divider()
+                            st.subheader("Dynamic Analysis")
 
-                    # Store results
-                    st.session_state.analysis_results.append(results)
+                            container_path_to_use = None
+                            if use_container:
+                                if docker_image:
+                                    container_path_to_use = get_or_build_container(docker_image=docker_image)
+                                elif container_file_path:
+                                    container_path_to_use = get_or_build_container(container_file=container_file_path)
 
-                    # Display results
-                    if results.get('static_analysis'):
-                        display_static_analysis(results['static_analysis'])
-
-                    st.divider()
-
-                    if results.get('test_results'):
-                        display_test_results(results['test_results'])
-                    
-                    st.divider()
-
-                    if results.get("claim_test_results"):
-                        st.subheader("🧾 Claim-Test Results")
-                        display_test_results(results["claim_test_results"])
-
-                    # Clean up
-                    shutil.rmtree(temp_dir, ignore_errors=True)
+                            if container_path_to_use:
+                                try:
+                                    test_patch_singularity.install_package_in_singularity(
+                                        repo_path=repo_path,
+                                        image_path=str(container_path_to_use)
+                                    )
+                                    tests = []
+                                    if test_command:
+                                        tests = [test_command]
+                                    test_result = test_patch_singularity.run_tests_in_singularity(
+                                        repo_path=repo_path,
+                                        tests=tests,
+                                        image_path=str(container_path_to_use),
+                                        collect_coverage=False,
+                                        verbose=True
+                                    )
+                                    # Parse counts
+                                    import re
+                                    stdout = test_result.get('stdout', '')
+                                    passed = int(m.group(1)) if (m := re.search(r'(\d+) passed', stdout)) else 0
+                                    failed = int(m.group(1)) if (m := re.search(r'(\d+) failed', stdout)) else 0
+                                    errors = int(m.group(1)) if (m := re.search(r'(\d+) error', stdout)) else 0
+                                    display_test_results({
+                                        'passed': passed, 'failed': failed, 'errors': errors,
+                                        'total': passed + failed + errors,
+                                        'stdout': stdout,
+                                        'stderr': test_result.get('stderr', ''),
+                                        'execution_mode': 'singularity',
+                                        'container': str(container_path_to_use),
+                                    })
+                                except Exception as e:
+                                    st.error(f"Dynamic analysis failed: {e}")
+                            else:
+                                st.warning("No container available. Provide a container for dynamic analysis.")
 
                 else:
-                    st.error("❌ Failed to apply patch")
-                    shutil.rmtree(temp_dir, ignore_errors=True)
+                    st.error("Failed to apply patch")
+
+                shutil.rmtree(temp_dir, ignore_errors=True)
 
             except Exception as e:
-                st.error(f"❌ Analysis failed: {e}")
+                st.error(f"Analysis failed: {e}")
                 import traceback
                 st.code(traceback.format_exc(), language='text')
 
+# ---------------------------------------------------------------------------
 # Analysis History
+# ---------------------------------------------------------------------------
 if st.session_state.analysis_results:
     st.divider()
-    st.header("📊 Analysis History")
+    st.header("Analysis History")
 
     st.write(f"Total analyses: {len(st.session_state.analysis_results)}")
 
     for i, result in enumerate(reversed(st.session_state.analysis_results)):
-        with st.expander(f"Analysis {len(st.session_state.analysis_results) - i} - {result['timestamp']}"):
-            st.json({
-                'timestamp': result['timestamp'],
-                'repo_path': result['repo_path'],
-                'success': result['success'],
-                'sqi_score': result.get('static_analysis', {}).get('sqi', {}).get('SQI'),
-                'tests_passed': result.get('test_results', {}).get('passed'),
-                'tests_failed': result.get('test_results', {}).get('failed'),
-            })
+        with st.expander(f"Analysis {len(st.session_state.analysis_results) - i} - {result.get('timestamp', '?')}"):
+            # Show summary
+            summary_data = {
+                'instance_id': result.get('instance_id', '?'),
+                'repo': result.get('repo', '?'),
+                'overall_success': result.get('overall_success', False),
+                'layers_requested': result.get('layers_requested', []),
+                'layers_completed': result.get('layers_completed', []),
+            }
+            # Add per-layer status + key metrics
+            layers = result.get('layers', {})
+            for layer_name, lr in layers.items():
+                if isinstance(lr, dict):
+                    layer_summary = {'status': lr.get('status', '?')}
+                    data = lr.get('data', {})
+                    if layer_name == Layer.STATIC and data:
+                        cq = data.get('code_quality', {})
+                        layer_summary['sqi'] = cq.get('sqi', {}).get('SQI', 0)
+                    elif layer_name == Layer.DYNAMIC and data:
+                        layer_summary['passed'] = data.get('passed', 0)
+                        layer_summary['failed'] = data.get('failed', 0)
+                        layer_summary['total'] = data.get('total', 0)
+                    elif layer_name == Layer.SEMANTIC and data:
+                        ext = data.get('extraction', {})
+                        sm = data.get('summary', {})
+                        layer_summary['claims_extracted_grounded'] = len(ext.get('claims', []))
+                        layer_summary['claims_ungrounded'] = len(ext.get('ungrounded_claims', []))
+                        layer_summary['claims_low_score'] = len(ext.get('low_score_claims', []))
+                        note = sm.get('note')
+                        if note:
+                            layer_summary['note'] = note
+                        layer_summary['total_tested'] = sm.get('total_claims', 0)
+                        layer_summary['validated'] = sm.get('successful', 0)
+                        layer_summary['cvr'] = sm.get('cvr', 0)
+                        layer_summary['label_distribution'] = sm.get('label_distribution', {})
+
+                        # Per-claim summary
+                        claim_summaries = []
+                        for cr in data.get('claim_loop_results', []):
+                            cs = {
+                                'claim_id': cr.get('claim_id', '?'),
+                                'success': cr.get('success', False),
+                                'attempts': len(cr.get('attempts', [])),
+                                'failure_reason': cr.get('failure_reason'),
+                            }
+                            claim_summaries.append(cs)
+                        layer_summary['claims'] = claim_summaries
+
+                    summary_data[layer_name] = layer_summary
+            st.json(summary_data)
 
 # Footer
 st.sidebar.markdown("---")
@@ -1133,10 +1233,10 @@ st.sidebar.info(
     """
     **E6 Verifier Harness**
 
-    A comprehensive patch verification system featuring:
+    Unified patch verification system featuring:
     - **Static Analysis**: Pylint, Flake8, Radon, Mypy, Bandit
-    - **Dynamic Testing**: Unit test execution
-    - **SQI Scoring**: Aggregate quality metrics
+    - **Dynamic Testing**: SWE-bench test execution (Singularity)
+    - **Semantic Verification**: Claim extraction + agentic loop + BUG vs GOLD
 
     Supports both SWE-bench instances and custom codebases.
     """
