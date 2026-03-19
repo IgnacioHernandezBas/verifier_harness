@@ -227,14 +227,9 @@ class LoopOrchestrator:
         if label == "success":
             return {"should_exit": True, "reason": "success"}
 
-        # Exit condition 2: Non-discriminative (can't improve)
-        if label == "non_discriminative":
-            return {
-                "should_exit": True,
-                "reason": "non_discriminative - test passes in both bug and gold",
-            }
-
-        # Exit condition 3: Repeated identical errors (stuck in loop)
+        # Exit condition 2: Repeated identical errors (stuck in loop)
+        # non_discriminative is treated the same as other stuck labels — exit
+        # after 3 consecutive identical results instead of immediately.
         if attempt >= 3 and len(attempts) >= 3:
             # Check if last 3 attempts have identical error labels
             recent_labels = [
@@ -251,7 +246,8 @@ class LoopOrchestrator:
                     "signature_check", "import_check_failed", "probe_check_failed",
                     "internal_import_error",  # FIX: Was missing, caused UNRESOLVED instances to waste attempts
                     "mocking_error",  # Also exit on repeated mocking issues
-                    "environment_error"  # Environment issues won't be fixed by retrying
+                    "environment_error",  # Environment issues won't be fixed by retrying
+                    "non_discriminative",  # Test passes on both versions 3 times — claim/test can't distinguish
                 ] or error_label.startswith("stuck_in_guardrail_loop_"):
                     return {
                         "should_exit": True,

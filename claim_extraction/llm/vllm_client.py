@@ -1,8 +1,11 @@
 # claim_extraction/llm/vllm_client.py
 from __future__ import annotations
+import re
 import requests
 from typing import Optional, List
 from claim_extraction.llm.base import LLMClient, LLMResponse
+
+_THINK_RE = re.compile(r"<think>.*?</think>\s*", re.DOTALL)
 
 class VLLMClient(LLMClient):
     def __init__(self, endpoint: str, model: str, timeout_s: int = 120,
@@ -32,4 +35,5 @@ class VLLMClient(LLMClient):
         r.raise_for_status()
         data = r.json()
         text = data["choices"][0]["message"]["content"]
+        text = _THINK_RE.sub("", text)
         return LLMResponse(text=text, raw=data)

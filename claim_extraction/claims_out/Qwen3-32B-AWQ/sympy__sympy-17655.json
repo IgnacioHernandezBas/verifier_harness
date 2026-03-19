@@ -1,0 +1,213 @@
+{
+  "instance_id": "sympy__sympy-17655",
+  "repo": "sympy/sympy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 7,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "has_stacktrace",
+      "behavior_keyword:unexpected",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Multiplying a scalar and a Point in either order should not raise an exception.",
+      "given": "A Point instance and a scalar (sympy.Number)",
+      "when": "the scalar is multiplied by the Point (scalar * Point)",
+      "then": "No exception is raised, and the result is a Point with coordinates scaled by the scalar.",
+      "target_symbols": [
+        "Point.__mul__"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The expected behaviour is, that both lines give the same result"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          3
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "Point.__mul__"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "Point.__mul__",
+            "path": "sympy/geometry/point.py",
+            "line": null,
+            "snippet": "...Point.__mul__..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The expected behaviour is, that both lines give the same result"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 7,
+    "raw_claims": 1,
+    "validated_claims": 1,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "from sympy import geometry as ge\r\nimport sympy\r\n\r\npoint1 = ge.Point(0,0)\r\npoint2 = ge.Point(1,1)\r",
+        "source": "fenced",
+        "span": {
+          "start": 64,
+          "end": 176
+        }
+      },
+      {
+        "lang": "python",
+        "content": "point1 + point2 * sympy.sympify(2.0)\r",
+        "source": "fenced",
+        "span": {
+          "start": 202,
+          "end": 254
+        }
+      },
+      {
+        "lang": "python",
+        "content": "point1 + sympy.sympify(2.0) * point2\r",
+        "source": "fenced",
+        "span": {
+          "start": 317,
+          "end": 369
+        }
+      },
+      {
+        "lang": "text",
+        "content": "---------------------------------------------------------------------------\r\nTypeError                                 Traceback (most recent call last)\r\n~/.virtualenvs/test/lib/python3.6/site-packages/sympy/geometry/point.py in __add__(self, other)\r\n    219         try:\r\n--> 220             s, o = Point._normalize_dimension(self, Point(other, evaluate=False))\r\n    221         except TypeError:\r\n\r\n~/.virtualenvs/test/lib/python3.6/site-packages/sympy/geometry/point.py in __new__(cls, *args, **kwargs)\r\n    128                 Expecting sequence of coordinates, not `{}`'''\r\n--> 129                                        .format(func_name(coords))))\r\n    130         # A point where only `dim` is specified is initialized\r\n\r\nTypeError: \r\nExpecting sequence of coordinates, not `Mul`\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nGeometryError                             Traceback (most recent call last)\r\n<ipython-input-20-6dcbddac1ee2> in <module>\r\n----> 1 point1 + sympy.sympify(2.0)* point2\r\n\r\n~/.virtualenvs/test/lib/python3.6/site-packages/sympy/geometry/point.py in __add__(self, other)\r\n    220             s, o = Point._normalize_dimension(self, Point(other, evaluate=False))\r\n    221         except TypeError:\r\n--> 222             raise GeometryError(\"Don't know how to add {} and a Point object\".format(other))\r\n    223 \r\n    224         coords = [simplify(a + b) for a, b in zip(s, o)]\r\n\r\nGeometryError: Don't know how to add 2.0*Point2D(1, 1) and a Point object\r",
+        "source": "fenced",
+        "span": {
+          "start": 373,
+          "end": 1890
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\nfrom sympy import geometry as ge\r\nimport sympy\r\n\r\npoint1 = ge.Point(0,0)\r\npoint2 = ge.Point(1,1)",
+        "span": {
+          "start": 66,
+          "end": 174
+        }
+      },
+      {
+        "command": "python\r\npoint1 + point2 * sympy.sympify(2.0)",
+        "span": {
+          "start": 204,
+          "end": 252
+        }
+      },
+      {
+        "command": "python\r\npoint1 + sympy.sympify(2.0) * point2",
+        "span": {
+          "start": 319,
+          "end": 367
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "geometry.Point",
+        "ge.Point",
+        "sympy.sympify",
+        "point.py",
+        "Point._normalize_dimension"
+      ],
+      "paths": [
+        "virtualenvs/test/lib/python3.6/site-packages/sympy/geometry/point.py"
+      ],
+      "options": []
+    }
+  }
+}

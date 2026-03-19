@@ -7,8 +7,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=04:00:00
-#SBATCH --output=streamlit/scripts_slurm/logs/app_%j.out
-#SBATCH --error=streamlit/scripts_slurm/logs/app_%j.err
+#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/streamlit/scripts_slurm/logs/app_%j.out
+#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/streamlit/scripts_slurm/logs/app_%j.err
 
 ###############################################################################
 # Unified Verifier App Launcher

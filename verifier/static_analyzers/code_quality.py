@@ -43,6 +43,22 @@ from verifier.utils.diff_utils import parse_unified_diff, filter_paths_to_py
 
 
 # -----------------------
+# Helpers
+# -----------------------
+def _line_in_diff(line: int, diff_ranges: list) -> bool:
+    """Return True if *line* falls within any (start, end) range in *diff_ranges*."""
+    for start, end in diff_ranges:
+        if start <= line <= end:
+            return True
+    return False
+
+
+def _count_patch_loc(diff_ranges: list) -> int:
+    """Total number of lines covered by diff hunks."""
+    return sum(end - start + 1 for start, end in diff_ranges)
+
+
+# -----------------------
 # (1) Gather modified Python files
 # -----------------------
 def get_modified_files(repo_path: str, patch_str: str) -> List[str]:
@@ -160,19 +176,63 @@ def run_radon_mi(file_path: str) -> float:
     except Exception as e:
         print(f"Radon MI failed for {file_path}: {e}")
         return 0.0
+
+
+def run_radon_mi_patch_scoped(file_path: str, diff_ranges: list) -> float:
+    """Compute Radon MI scoped to changed functions only.
+
+    Extracts the source of functions whose line ranges overlap with the
+    diff hunks, dedents them, and computes MI on the combined snippet.
+    Falls back to whole-file MI for small files (≤400 LOC) or when no
+    changed functions can be isolated.
+    """
+    import ast
+    import textwrap
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            source = f.read()
+        lines = source.splitlines(True)
+
+        # Small files don't suffer from the ln(LOC) penalty — use whole-file MI
+        if len(lines) <= 400:
+            mi = mi_visit(source, True)
+            return round(mi, 2)
+
+        tree = ast.parse(source)
+
+        # Collect source of functions that overlap with diff ranges
+        changed_sources = []
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                start = getattr(node, "lineno", None)
+                end = getattr(node, "end_lineno", None)
+                if start is None or end is None:
+                    continue
+                for diff_start, diff_end in diff_ranges:
+                    if not (end < diff_start or start > diff_end):
+                        snippet = "".join(lines[start - 1:end])
+                        changed_sources.append(textwrap.dedent(snippet))
+                        break
+
+        if not changed_sources:
+            # No function-level overlap (e.g. module-level change) — whole file
+            mi = mi_visit(source, True)
+            return round(mi, 2)
+
+        combined = "\n\n".join(changed_sources)
+        mi = mi_visit(combined, True)
+        return round(mi, 2)
+
+    except Exception as e:
+        print(f"Radon MI (patch-scoped) failed for {file_path}: {e}")
+        return 0.0
 # -----------------------
 # (5) Mypy - type checking
 # -----------------------   
     
-def run_mypy(file_path: str,error_output:bool=False) -> Dict:
-    """
-    Run Mypy on a single file and return structured error information.
-    Returns:
-        {   
-            "error_count": int,
-            "errors": List[Dict[str, str]],
-        }
-    """
+def run_mypy(file_path: str) -> Dict:
+    """Run Mypy on a single file and return errors with line numbers."""
     try:
         result = subprocess.run(
             [
@@ -189,27 +249,20 @@ def run_mypy(file_path: str,error_output:bool=False) -> Dict:
         )
 
         errors = []
-        errors_without_output=0
         for line in result.stdout.splitlines():
             # Typical format: file.py:12: error: <message>  [code]
             if "error:" in line:
                 parts = line.split(":", 3)
-                if error_output:
-                    if len(parts) >= 4:
-                        line_num = parts[1]
-                        msg = parts[3].strip()
-                        errors.append({"file_path":file_path,"line": line_num, "message": msg})
-                else:
-                    errors_without_output+=1
-        if error_output:
-            return {
-                "error_count": len(errors),
-                "errors": errors
-            }
-        else:
-            return {
-                "error_count": errors_without_output 
-            }   
+                if len(parts) >= 4:
+                    try:
+                        line_num = int(parts[1])
+                    except ValueError:
+                        line_num = 0
+                    errors.append({"line": line_num, "message": parts[3].strip()})
+        return {
+            "error_count": len(errors),
+            "errors": errors,
+        }
 
     except Exception as e:
         print(f"Mypy failed for {file_path}: {e}")
@@ -219,8 +272,8 @@ def run_mypy(file_path: str,error_output:bool=False) -> Dict:
 # (6) Bandit - security issues 
 # -----------------------
 
-def run_bandit(file_path: str) -> Dict[str, int]:
-    """Run Bandit security scanner and return issue counts by severity."""
+def run_bandit(file_path: str) -> Dict:
+    """Run Bandit security scanner and return issues with line info."""
     try:
         result = subprocess.run(
             ["bandit", "-f", "json", "-q", "-r", file_path],
@@ -229,14 +282,17 @@ def run_bandit(file_path: str) -> Dict[str, int]:
             check=False,
         )
         data = json.loads(result.stdout or "{}")
-        counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+        issues = []
         for issue in data.get("results", []):
-            sev = issue.get("issue_severity", "LOW").upper()
-            counts[sev] = counts.get(sev, 0) + 1
-        return counts
+            issues.append({
+                "severity": issue.get("issue_severity", "LOW").upper(),
+                "line": issue.get("line_number", 0),
+                "line_range": issue.get("line_range", []),
+            })
+        return {"issues": issues}
     except Exception as e:
         print(f"Bandit failed for {file_path}: {e}")
-        return {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+        return {"issues": []}
 
 def compute_sqi(
     pylint_score: float,
@@ -318,75 +374,134 @@ def compute_sqi(
 # -----------------------
 # (6) Aggregation
 # -----------------------
+def _pylint_score_from_issues(issues: List[Dict], loc: int) -> float:
+    """Recompute a Pylint-like score from a filtered issue list.
+
+    Pylint formula: 10 - (5*E + W + R + C) / statements * 10
+    We approximate 'statements' as LOC and use type weights.
+    """
+    if loc == 0:
+        return 10.0
+    type_weights = {"error": 5, "warning": 1, "refactor": 1, "convention": 1, "fatal": 10}
+    weighted = sum(type_weights.get(i.get("type", "convention"), 1) for i in issues)
+    score = 10.0 - (weighted / max(loc, 1)) * 10.0
+    return max(0.0, min(10.0, round(score, 2)))
+
+
 def analyze(repo_path: str, patch_str: str) -> Dict:
-    """Analyze only the patch-modified files using all static analyzers."""
+    """Analyze patch-modified files using all static analyzers.
+
+    All tools are run on the full file (required for correct analysis),
+    then their outputs are **filtered to diff lines only** so that the
+    SQI reflects the quality of the *patch*, not the surrounding file.
+    """
     modified_files = get_modified_files(repo_path, patch_str)
     if not modified_files:
         return {"error": "No modified Python files detected."}
 
-    pylint_scores = []
-    pylint_issues = {}
-    flake8_all = []
+    parsed_diff = parse_unified_diff(patch_str)
+
+    # Patch-scoped accumulators
+    pylint_scores_patch = []
+    pylint_issues_patch = {}
+    flake8_patch = []
     radon_complexities = {}
     radon_mis = []
-    mypy_total = 0
-    bandit_total = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
-    total_loc = 0
+    mypy_patch_total = 0
+    bandit_patch_total = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+    patch_loc_total = 0
+
+    # File-scoped accumulators (kept for reference / reporting)
+    pylint_issues_file = {}
+    flake8_file = []
+    mypy_file_total = 0
+    bandit_file_total = {"LOW": 0, "MEDIUM": 0, "HIGH": 0}
+    total_file_loc = 0
 
     for file_path in modified_files:
-        # --- Pylint ---
-        pylint_result = run_pylint(file_path)
-        pylint_scores.append(pylint_result["score"])
-        pylint_issues[file_path] = pylint_result["issues"]
+        rel_path = os.path.relpath(file_path, repo_path)
+        diff_ranges = parsed_diff.get(rel_path, [])
+        patch_loc = _count_patch_loc(diff_ranges)
+        patch_loc_total += patch_loc
 
-        # --- Flake8 ---
-        issues = run_flake8(file_path)
-        flake8_all.extend(issues)
-
-        # --- Radon (complexity + MI) ---
-        radon_complexities[file_path] = run_radon_complexity(file_path)
-        radon_mis.append(run_radon_mi(file_path))
-
-        # --- Mypy ---
-        mypy_dict= run_mypy(file_path)
-        mypy_total += mypy_dict.get("error_count", 0)
-
-        # --- Bandit ---
-        bandit_res = run_bandit(file_path)
-        for k in bandit_total:
-            bandit_total[k] += bandit_res.get(k, 0)
-
-        # --- Count LOC ---
+        # --- File LOC ---
         try:
             with open(file_path, "r", encoding="utf-8") as f:
-                total_loc += len(f.readlines())
-        except:
-            pass
+                file_loc = len(f.readlines())
+        except Exception:
+            file_loc = 0
+        total_file_loc += file_loc
 
-    avg_pylint = sum(pylint_scores) / len(pylint_scores) if pylint_scores else 0.0
+        # --- Pylint ---
+        pylint_result = run_pylint(file_path)
+        pylint_issues_file[file_path] = pylint_result["issues"]
+        # Filter to patch lines and recompute score
+        patch_issues = [i for i in pylint_result["issues"]
+                        if i.get("line") and _line_in_diff(i["line"], diff_ranges)]
+        pylint_issues_patch[file_path] = patch_issues
+        pylint_scores_patch.append(_pylint_score_from_issues(patch_issues, patch_loc))
+
+        # --- Flake8 ---
+        flake8_issues = run_flake8(file_path)
+        flake8_file.extend(flake8_issues)
+        patch_flake8 = [i for i in flake8_issues
+                        if i.get("line") and _line_in_diff(i["line"], diff_ranges)]
+        flake8_patch.extend(patch_flake8)
+
+        # --- Radon (MI is already patch-scoped) ---
+        radon_complexities[file_path] = run_radon_complexity(file_path)
+        radon_mis.append(run_radon_mi_patch_scoped(file_path, diff_ranges))
+
+        # --- Mypy ---
+        mypy_result = run_mypy(file_path)
+        mypy_file_total += mypy_result["error_count"]
+        patch_mypy = [e for e in mypy_result.get("errors", [])
+                      if e.get("line") and _line_in_diff(e["line"], diff_ranges)]
+        mypy_patch_total += len(patch_mypy)
+
+        # --- Bandit ---
+        bandit_result = run_bandit(file_path)
+        for issue in bandit_result["issues"]:
+            sev = issue["severity"]
+            bandit_file_total[sev] = bandit_file_total.get(sev, 0) + 1
+            if issue.get("line") and _line_in_diff(issue["line"], diff_ranges):
+                bandit_patch_total[sev] = bandit_patch_total.get(sev, 0) + 1
+
+    avg_pylint_patch = (sum(pylint_scores_patch) / len(pylint_scores_patch)
+                        if pylint_scores_patch else 0.0)
     avg_mi = sum(radon_mis) / len(radon_mis) if radon_mis else 0.0
 
-    # --- Compute SQI ---
+    # --- Patch-scoped SQI ---
     sqi_result = compute_sqi(
-        pylint_score=avg_pylint,
+        pylint_score=avg_pylint_patch,
         radon_mi=avg_mi,
-        flake8_issues=flake8_all,
-        mypy_errors=mypy_total,
-        bandit_counts=bandit_total,
-        loc=total_loc,
+        flake8_issues=flake8_patch,
+        mypy_errors=mypy_patch_total,
+        bandit_counts=bandit_patch_total,
+        loc=max(patch_loc_total, 1),
     )
 
     return {
         "modified_files": modified_files,
         "sqi": sqi_result,
-        "pylint": pylint_issues,
-        "flake8": flake8_all,
+        "patch_loc": patch_loc_total,
+        "file_loc": total_file_loc,
+        "pylint": pylint_issues_patch,
+        "pylint_file_issue_count": sum(len(v) for v in pylint_issues_file.values()),
+        "pylint_patch_issue_count": sum(len(v) for v in pylint_issues_patch.values()),
+        "flake8": flake8_patch,
+        "flake8_file_issue_count": len(flake8_file),
+        "flake8_patch_issue_count": len(flake8_patch),
         "radon": {
             "complexity": radon_complexities,
             "mi_avg": avg_mi
         },
-        "mypy": mypy_dict,
-        "bandit": bandit_total,
+        "mypy": {
+            "error_count": mypy_patch_total,
+            "file_error_count": mypy_file_total,
+        },
+        "bandit": bandit_patch_total,
+        "bandit_file_counts": bandit_file_total,
     }
 
 

@@ -40,6 +40,7 @@ ${BLUE}Options:${NC}
 
 ${BLUE}Model Size Presets:${NC}
   70b     Uses meta-llama/Meta-Llama-3.1-70B-Instruct-AWQ (2 GPUs recommended)
+  qwen3   Uses Qwen/Qwen3-32B-AWQ (2 GPUs recommended, thinking model)
   32b     Uses Qwen/Qwen2.5-Coder-32B-Instruct-AWQ (1 GPU sufficient)
   7b      Uses deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct (1 GPU)
   custom  Specify full model name with --tests-model
@@ -129,6 +130,12 @@ case "${MODEL_SIZE}" in
     GPU_COUNT="${GPU_COUNT:-2}"
     CPUS=16
     MEM=120G
+    ;;
+  qwen3)
+    TESTS_MODEL="${TESTS_MODEL:-Qwen/Qwen3-32B-AWQ}"
+    GPU_COUNT="${GPU_COUNT:-2}"
+    CPUS=16
+    MEM=96G
     ;;
   32b)
     TESTS_MODEL="${TESTS_MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"

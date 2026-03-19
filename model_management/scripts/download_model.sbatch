@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=dl-qwen72b
+#SBATCH --job-name=Qwen/Qwen3-32B-AWQ
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-echo "Starting Qwen2.5-72B-Instruct-AWQ download"
+echo "Starting Qwen/Qwen3-32B-AWQ"
 echo "Job ID: ${SLURM_JOB_ID}"
 echo "Node: $(hostname -s)"
 echo "Time: $(date)"
@@ -35,7 +35,7 @@ mkdir -p /fs/nexus-scratch/ihbas/verifier_harness/logs
 
 # Run download
 echo "Starting download..."
-python /fs/nexus-scratch/ihbas/verifier_harness/download_qwen72b.py
+python /fs/nexus-scratch/ihbas/verifier_harness/model_management/scripts/download_model.py
 
 echo ""
 echo "Disk space after download:"

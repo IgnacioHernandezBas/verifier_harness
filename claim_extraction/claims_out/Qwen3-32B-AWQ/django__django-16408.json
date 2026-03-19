@@ -1,0 +1,241 @@
+{
+  "instance_id": "django__django-16408",
+  "repo": "django/django",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:AssertionError",
+      "has_stacktrace",
+      "behavior_keyword:wrong",
+      "has_func_refs"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "Multi-level FilteredRelation with select_related() should correctly set related objects",
+      "given": "A queryset annotated with FilteredRelation('pool__tournament__pool') and select_related('tournament_pool')",
+      "when": "Executing the queryset and accessing p[0].tournament_pool.tournament",
+      "then": "The value equals p[0].pool.tournament",
+      "target_symbols": [
+        "local_setter",
+        "remote_setter"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "self.assertEqual(p[0].pool.tournament, p[0].tournament_pool.tournament)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "local_setter",
+          "remote_setter"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "remote_setter",
+            "path": "django/db/models/sql/compiler.py",
+            "line": null,
+            "snippet": "...remote_setter..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "local_setter",
+            "path": "django/db/models/sql/compiler.py",
+            "line": null,
+            "snippet": "...local_setter..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 2,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "self.assertEqual(p[0].pool.tournament, p[0].tournament_pool.tournament)"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+2: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [
+    {
+      "claim_id": "C2",
+      "claim_type": "invariant",
+      "claim_text": "Filtered relations should not restrict multi-level select_related behavior",
+      "given": "A filtered relation specified in query._filtered_relations",
+      "when": "Processing related selections with cur_depth > 1",
+      "then": "The code should not break iteration over requested relations",
+      "target_symbols": [
+        "get_related_selections"
+      ],
+      "confidence": "medium",
+      "evidence": {
+        "spans": [
+          "Filtered relations work only on the topmost level.",
+          "if cur_depth > 1: break"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "get_related_selections"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "get_related_selections",
+            "path": "django/db/models/sql/compiler.py",
+            "line": null,
+            "snippet": "...get_related_selections..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "docstring_comment",
+            "type": "direct",
+            "span": "Filtered relations work only on the topmost level."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 1,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (docstring_comment)",
+        "-1: no_observable",
+        "+0: medium_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then",
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 1,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\n File \"D:\\Work\\django\\tests\\known_related_objects\\tests.py\", line 171, in test_wrong_select_related\n\tself.assertEqual(p[0].pool.tournament, p[0].tournament_pool.tournament)\nAssertionError: <Tournament: Tournament object (1)> != <PoolStyle: PoolStyle object (1)>\n----------------------------------------------------------------------",
+        "span": {
+          "start": 732,
+          "end": 1099
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "known_related_objects.tests",
+        "self.assertNumQueries",
+        "PoolStyle.objects",
+        "self.assertEqual",
+        "pool.tournament",
+        "tournament_pool.tournament",
+        "ExistingRelatedInstancesTests.test_wrong_select_related",
+        "tests.py"
+      ],
+      "paths": [
+        "tests.py"
+      ],
+      "options": []
+    }
+  }
+}

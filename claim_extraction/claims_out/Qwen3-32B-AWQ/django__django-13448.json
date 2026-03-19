@@ -1,0 +1,291 @@
+{
+  "instance_id": "django__django-13448",
+  "repo": "django/django",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 4,
+    "reasons": [
+      "has_stacktrace",
+      "behavior_keyword:does not",
+      "has_func_refs"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Setting TEST: {MIGRATE: False} should not raise ProgrammingError during test setup",
+      "given": "Django test configuration with TEST: {MIGRATE: False} in DATABASES settings",
+      "when": "Calling test runner setup_databases()",
+      "then": "No django.db.utils.ProgrammingError is raised related to missing tables",
+      "target_symbols": [
+        "create_test_db",
+        "serialize_db_to_string"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Traceback (most recent call last): ... django.db.utils.ProgrammingError: relation \"django_admin_log\" does not exist",
+          "I'm trying to upgrade a project from Django 3.0 to Django 3.1 and wanted to try out the new \"TEST\": {\"MIGRATE\": False} database setting"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "create_test_db",
+          "serialize_db_to_string"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "serialize_db_to_string",
+            "path": "django/db/backends/base/creation.py",
+            "line": null,
+            "snippet": "...serialize_db_to_string..."
+          },
+          {
+            "type": "file_reference",
+            "symbol": "create_test_db",
+            "path": "django/db/backends/base/creation.py",
+            "line": null,
+            "snippet": "...create_test_db..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "92%",
+            "span": "Traceback (most recent call last): ... django.db.utils.ProgrammingError: relatio"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "I'm trying to upgrade a project from Django 3.0 to Django 3.1 and wanted to try "
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "state_change",
+      "claim_text": "Test database should be created without running migrations when TEST.MIGRATE=False",
+      "given": "DATABASES.TEST.MIGRATE=False configuration",
+      "when": "Executing create_test_db() in base/creation.py",
+      "then": "Test database exists without having applied any migrations",
+      "target_symbols": [
+        "create_test_db"
+      ],
+      "confidence": "medium",
+      "evidence": {
+        "spans": [
+          "Removing the \"TEST\": {\"MIGRATE\": False} line allows the tests to run",
+          "psycopg2.errors.UndefinedTable: relation \"django_admin_log\" does not exist"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "create_test_db"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "create_test_db",
+            "path": "django/db/backends/base/creation.py",
+            "line": null,
+            "snippet": "...create_test_db..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "Removing the \"TEST\": {\"MIGRATE\": False} line allows the tests to run"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "psycopg2.errors.UndefinedTable: relation \"django_admin_log\" does not exist"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 5,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+0: medium_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "no_observable_in_then"
+        ],
+        "has_symbols": true,
+        "has_observable": false
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 4,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 1,
+      "medium": 1,
+      "low": 0
+    },
+    "specificity_rate": 0.5,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.5,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [],
+    "cli_commands": [],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\npsycopg2.errors.UndefinedTable: relation \"django_admin_log\" does not exist\nLINE 1: ...n_flag\", \"django_admin_log\".\"change_message\" FROM \"django_ad...\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t ^\nThe above exception was the direct cause of the following exception:\nTraceback (most recent call last):\n File \"/usr/local/lib/python3.6/site-packages/django/db/models/sql/compiler.py\", line 1156, in execute_sql\n\tcursor.execute(sql, params)\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/utils.py\", line 66, in execute\n\treturn self._execute_with_wrappers(sql, params, many=False, executor=self._execute)\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/utils.py\", line 75, in _execute_with_wrappers\n\treturn executor(sql, params, many, context)\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\n File \"/usr/local/lib/python3.6/site-packages/django/db/utils.py\", line 90, in __exit__\n\traise dj_exc_value.with_traceback(traceback) from exc_value\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/utils.py\", line 84, in _execute\n\treturn self.cursor.execute(sql, params)\ndjango.db.utils.ProgrammingError: relation \"django_admin_log\" does not exist\nLINE 1: ...n_flag\", \"django_admin_log\".\"change_message\" FROM \"django_ad...\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t ^\nDuring handling of the above exception, another exception occurred:\nTraceback (most recent call last):\n File \"./manage.py\", line 15, in <module>\n\tmain()\n File \"./manage.py\", line 11, in main\n\texecute_from_command_line(sys.argv)\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/__init__.py\", line 401, in execute_from_command_line\n\tutility.execute()\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/__init__.py\", line 395, in execute\n\tself.fetch_command(subcommand).run_from_argv(self.argv)\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/commands/test.py\", line 23, in run_from_argv\n\tsuper().run_from_argv(argv)\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/base.py\", line 330, in run_from_argv\n\tself.execute(*args, **cmd_options)\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/base.py\", line 371, in execute\n\toutput = self.handle(*args, **options)\n File \"/usr/local/lib/python3.6/site-packages/django/core/management/commands/test.py\", line 53, in handle\n\tfailures = test_runner.run_tests(test_labels)\n File \"/usr/local/lib/python3.6/site-packages/django/test/runner.py\", line 695, in run_tests\n\told_config = self.setup_databases(aliases=databases)\n File \"/usr/local/lib/python3.6/site-packages/django/test/runner.py\", line 616, in setup_databases\n\tself.parallel, **kwargs\n File \"/usr/local/lib/python3.6/site-packages/django/test/utils.py\", line 174, in setup_databases\n\tserialize=connection.settings_dict['TEST'].get('SERIALIZE', True),\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/base/creation.py\", line 78, in create_test_db\n\tself.connection._test_serialized_contents = self.serialize_db_to_string()\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/base/creation.py\", line 121, in serialize_db_to_string\n\tserializers.serialize(\"json\", get_objects(), indent=None, stream=out)\n File \"/usr/local/lib/python3.6/site-packages/django/core/serializers/__init__.py\", line 128, in serialize\n\ts.serialize(queryset, **options)\n File \"/usr/local/lib/python3.6/site-packages/django/core/serializers/base.py\", line 90, in serialize\n\tfor count, obj in enumerate(queryset, start=1):\n File \"/usr/local/lib/python3.6/site-packages/django/db/backends/base/creation.py\", line 118, in get_objects\n\tyield from queryset.iterator()\n File \"/usr/local/lib/python3.6/site-packages/django/db/models/query.py\", line 360, in _iterator\n\tyield from self._iterable_class(self, chunked_fetch=use_chunked_fetch, chunk_size=chunk_size)\n File \"/usr/local/lib/python3.6/site-packages/django/db/models/query.py\", line 53, in __iter__\n\tresults = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)\n File \"/usr/local/lib/python3.6/site-packages/django/db/models/sql/compiler.py\", line 1159, in execute_sql\n\tcursor.close()\npsycopg2.errors.InvalidCursorName: cursor \"_django_curs_139860821038912_sync_1\" does not exist",
+        "span": {
+          "start": 712,
+          "end": 5179
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "manage.py",
+        "utils.py",
+        "self.cursor",
+        "psycopg2.errors",
+        "compiler.py",
+        "cursor.execute",
+        "self._execute_with_wrappers",
+        "self._execute",
+        "dj_exc_value.with_traceback",
+        "django.db",
+        "utils.ProgrammingError",
+        "sys.argv",
+        "__init__.py",
+        "utility.execute",
+        "self.fetch_command",
+        "self.argv",
+        "test.py",
+        "base.py",
+        "self.execute",
+        "self.handle",
+        "test_runner.run_tests",
+        "runner.py",
+        "self.setup_databases",
+        "self.parallel",
+        "connection.settings_dict",
+        "creation.py",
+        "self.connection",
+        "self.serialize_db_to_string",
+        "serializers.serialize",
+        "s.serialize",
+        "queryset.iterator",
+        "query.py",
+        "self._iterable_class",
+        "compiler.execute_sql",
+        "self.chunked_fetch",
+        "self.chunk_size",
+        "cursor.close"
+      ],
+      "paths": [
+        "manage.py",
+        "usr/local/lib/python3.6/site-packages/django/db/backends/utils.py",
+        "usr/local/lib/python3.6/site-packages/django/db/models/sql/compiler.py",
+        "usr/local/lib/python3.6/site-packages/django/db/utils.py",
+        "usr/local/lib/python3.6/site-packages/django/core/management/__init__.py",
+        "usr/local/lib/python3.6/site-packages/django/core/management/commands/test.py",
+        "usr/local/lib/python3.6/site-packages/django/core/management/base.py",
+        "usr/local/lib/python3.6/site-packages/django/test/runner.py",
+        "usr/local/lib/python3.6/site-packages/django/test/utils.py",
+        "usr/local/lib/python3.6/site-packages/django/db/backends/base/creation.py",
+        "usr/local/lib/python3.6/site-packages/django/core/serializers/__init__.py",
+        "usr/local/lib/python3.6/site-packages/django/core/serializers/base.py",
+        "usr/local/lib/python3.6/site-packages/django/db/models/query.py"
+      ],
+      "options": []
+    }
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "instance_id": "sympy__sympy-17630",
+  "repo": "sympy/sympy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:Exception",
+      "has_stacktrace",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C3",
+      "claim_type": "invariant",
+      "claim_text": "Zero blocks should remain ZeroMatrix instances after block operations",
+      "given": "A BlockMatrix containing ZeroMatrix blocks (b = BlockMatrix([[a, z], [z, z]]) where z is ZeroMatrix(2, 2))",
+      "when": "Performing b._blockmul(b)",
+      "then": "The resulting BlockMatrix's blocks contain ZeroMatrix instances, not scalar Zero",
+      "target_symbols": [
+        "_blockmul",
+        "get_postprocessor"
+      ],
+      "confidence": "medium",
+      "evidence": {
+        "spans": [
+          "type(b._blockmul(b).blocks[0, 1]) is <class 'sympy.core.numbers.Zero'>"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          2,
+          3
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "get_postprocessor"
+        ],
+        "unmatched_symbols": [
+          "_blockmul"
+        ],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "get_postprocessor",
+            "path": "sympy/matrices/expressions/matexpr.py",
+            "line": null,
+            "snippet": "...get_postprocessor..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "type(b._blockmul(b).blocks[0, 1]) is <class 'sympy.core.numbers.Zero'>"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 3,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+0: medium_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Multiplying BlockMatrix with Zero blocks twice should not raise AttributeError",
+      "given": "A BlockMatrix containing ZeroMatrix blocks (b = BlockMatrix([[a, z], [z, z]]) where z is ZeroMatrix(2, 2))",
+      "when": "Calling b._blockmul(b)._blockmul(b)",
+      "then": "No AttributeError is raised",
+      "target_symbols": [
+        "_blockmul"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "Traceback (most recent call last): ... AttributeError: 'Zero' object has no attribute 'cols'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          2
+        ],
+        "traceback_ids": [
+          0
+        ]
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "_blockmul"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "return",
+      "claim_text": "Chained block multiplication should return Matrix with a**3 in top-left block",
+      "given": "A BlockMatrix containing ZeroMatrix blocks (b = BlockMatrix([[a, z], [z, z]]) where z is ZeroMatrix(2, 2))",
+      "when": "Calling block_collapse(b * b * b)",
+      "then": "Returns Matrix([[a**3, 0], [0, 0]])",
+      "target_symbols": [
+        "block_collapse",
+        "_blockmul"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "block_collapse(b * b) returns Matrix([[a**2, 0], [0, 0]])"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "none",
+        "level": 0,
+        "matched_symbols": [],
+        "unmatched_symbols": [
+          "_blockmul",
+          "block_collapse"
+        ],
+        "rule": "no_match",
+        "evidence": []
+      }
+    }
+  ],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 3,
+    "validated_claims": 3,
+    "validation_errors": [],
+    "grounded_claims": 1,
+    "ungrounded_claims": 2,
+    "final_claims": 1,
+    "grounding_rate": 0.3333333333333333,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 1,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 3.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": ">>> from sympy import *\r\n>>> a = MatrixSymbol(\"a\", 2, 2)\r\n>>> z = ZeroMatrix(2, 2)\r\n>>> b = BlockMatrix([[a, z], [z, z]])\r",
+        "source": "fenced",
+        "span": {
+          "start": 119,
+          "end": 250
+        }
+      },
+      {
+        "lang": "text",
+        "content": ">>> block_collapse(b * b)\r\nMatrix([\r\n[a**2, 0],\r\n[0, 0]])\r\n>>> b._blockmul(b)\r\nMatrix([\r\n[a**2, 0],\r\n[0, 0]])\r",
+        "source": "fenced",
+        "span": {
+          "start": 308,
+          "end": 427
+        }
+      },
+      {
+        "lang": "text",
+        "content": ">>> block_collapse(b * b * b)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 297, in block_collapse\r\n    result = rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 11, in exhaustive_rl\r\n    new, old = rule(expr), expr\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 44, in chain_rl\r\n    expr = rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 11, in exhaustive_rl\r\n    new, old = rule(expr), expr\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 33, in conditioned_rl\r\n    return rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 95, in switch_rl\r\n    return rl(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 361, in bc_matmul\r\n    matrices[i] = A._blockmul(B)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 91, in _blockmul\r\n    self.colblocksizes == other.rowblocksizes):\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in colblocksizes\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in <listcomp>\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\nAttributeError: 'Zero' object has no attribute 'cols'\r\n>>> b._blockmul(b)._blockmul(b)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 91, in _blockmul\r\n    self.colblocksizes == other.rowblocksizes):\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in colblocksizes\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in <listcomp>\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\nAttributeError: 'Zero' object has no attribute 'cols'\r",
+        "source": "fenced",
+        "span": {
+          "start": 483,
+          "end": 3092
+        }
+      },
+      {
+        "lang": "text",
+        "content": ">>> type(b._blockmul(b).blocks[0, 1])\r\n<class 'sympy.core.numbers.Zero'>\r",
+        "source": "fenced",
+        "span": {
+          "start": 3203,
+          "end": 3285
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": ">> from sympy import *",
+        "span": {
+          "start": 124,
+          "end": 148
+        }
+      },
+      {
+        "command": ">> a = MatrixSymbol(\"a\", 2, 2)",
+        "span": {
+          "start": 149,
+          "end": 181
+        }
+      },
+      {
+        "command": ">> z = ZeroMatrix(2, 2)",
+        "span": {
+          "start": 182,
+          "end": 207
+        }
+      },
+      {
+        "command": ">> b = BlockMatrix([[a, z], [z, z]])",
+        "span": {
+          "start": 208,
+          "end": 246
+        }
+      },
+      {
+        "command": ">> block_collapse(b * b)",
+        "span": {
+          "start": 313,
+          "end": 339
+        }
+      },
+      {
+        "command": ">> b._blockmul(b)",
+        "span": {
+          "start": 372,
+          "end": 391
+        }
+      },
+      {
+        "command": ">> block_collapse(b * b * b)",
+        "span": {
+          "start": 488,
+          "end": 518
+        }
+      },
+      {
+        "command": ">> b._blockmul(b)._blockmul(b)",
+        "span": {
+          "start": 2323,
+          "end": 2355
+        }
+      },
+      {
+        "command": ">> type(b._blockmul(b).blocks[0, 1])",
+        "span": {
+          "start": 3208,
+          "end": 3246
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [
+      {
+        "content": "Traceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 297, in block_collapse\r\n    result = rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 11, in exhaustive_rl\r\n    new, old = rule(expr), expr\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 44, in chain_rl\r\n    expr = rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 11, in exhaustive_rl\r\n    new, old = rule(expr), expr\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 33, in conditioned_rl\r\n    return rule(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py\", line 95, in switch_rl\r\n    return rl(expr)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 361, in bc_matmul\r\n    matrices[i] = A._blockmul(B)\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 91, in _blockmul\r\n    self.colblocksizes == other.rowblocksizes):\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in colblocksizes\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in <listcomp>\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\nAttributeError: 'Zero' object has no attribute 'cols'\r\n>>> b._blockmul(b)._blockmul(b)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 91, in _blockmul\r\n    self.colblocksizes == other.rowblocksizes):\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in colblocksizes\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\n  File \"/home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py\", line 80, in <listcomp>\r\n    return [self.blocks[0, i].cols for i in range(self.blockshape[1])]\r\nAttributeError: 'Zero' object has no attribute 'cols'\r\n```",
+        "span": {
+          "start": 519,
+          "end": 3093
+        }
+      }
+    ],
+    "inline_code_refs": {
+      "symbols": [
+        "b._blockmul",
+        "blockmatrix.py",
+        "core.py",
+        "A._blockmul",
+        "self.colblocksizes",
+        "other.rowblocksizes",
+        "self.blocks",
+        "self.blockshape",
+        "sympy.core",
+        "numbers.Zero"
+      ],
+      "paths": [
+        "home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/matrices/expressions/blockmatrix.py",
+        "home/jan/.pyenv/versions/3.7.4/lib/python3.7/site-packages/sympy/strategies/core.py"
+      ],
+      "options": []
+    }
+  }
+}

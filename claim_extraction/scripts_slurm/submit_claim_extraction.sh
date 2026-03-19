@@ -42,6 +42,7 @@ ${BLUE}Options:${NC}
 ${BLUE}Model Size Presets:${NC}
   70b         Uses hugging-quants/Meta-Llama-3.1-70B-Instruct-AWQ-INT4 (2 GPUs recommended)
   qwen72b     Uses Qwen/Qwen2.5-72B-Instruct-AWQ (2 GPUs recommended)
+  qwen3       Uses Qwen/Qwen3-32B-AWQ (2 GPUs recommended, thinking model)
   32b         Uses Qwen/Qwen2.5-Coder-32B-Instruct-AWQ (1 GPU sufficient)
   deepseek-v2 Uses casperhansen/deepseek-coder-v2-instruct-awq (2 GPUs recommended)
   custom      Specify full model name with --model
@@ -146,6 +147,13 @@ case "${MODEL_SIZE}" in
     GPU_COUNT="${GPU_COUNT:-2}"
     CPUS=16
     MEM=120G
+    ;;
+  qwen3)
+    MODEL="${MODEL:-Qwen/Qwen3-32B-AWQ}"
+    CONFIG_FILE="${CONFIG_FILE:-claim_extraction/configs/claim_extraction_qwen3.yaml}"
+    GPU_COUNT="${GPU_COUNT:-2}"
+    CPUS=16
+    MEM=96G
     ;;
   32b)
     MODEL="${MODEL:-Qwen/Qwen2.5-Coder-32B-Instruct-AWQ}"

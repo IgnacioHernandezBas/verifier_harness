@@ -9,7 +9,7 @@ cache_dir = "/fs/cml-scratch/ihbas/cache/huggingface"
 os.environ["HF_HOME"] = cache_dir
 os.environ["TRANSFORMERS_CACHE"] = cache_dir
 
-model_name = "Qwen/Qwen2.5-72B-Instruct-AWQ"
+model_name = "Qwen/Qwen3-32B-AWQ"
 
 print(f"Downloading {model_name}...")
 print(f"Cache directory: {cache_dir}")

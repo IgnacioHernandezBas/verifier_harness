@@ -203,8 +203,8 @@ class AgenticClosedLoop:
             previous_patterns = diagnosis.patterns
             failure_reason = diagnosis.label
 
-            if diagnosis.label == "non_discriminative":
-                break
+            # non_discriminative is now retried (up to 3 consecutive) instead of
+            # immediately stopping, so the LLM gets a chance to sharpen assertions.
 
         payload = {
             "instance_id": self.instance_id,

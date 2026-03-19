@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+
+_THINK_RE = re.compile(r"<think>.*?</think>\s*", re.DOTALL)
 from typing import Any, Dict, List, Optional
 from urllib import error as urllib_error
 from urllib import request as urllib_request
@@ -137,7 +139,8 @@ class VLLMClient:
             "max_tokens": self.max_tokens,
         }
         data = self._post_json(url, payload)
-        return data["choices"][0]["message"]["content"]
+        text = data["choices"][0]["message"]["content"]
+        return _THINK_RE.sub("", text)
 
     def _post_json(self, url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         headers = {"Content-Type": "application/json"}

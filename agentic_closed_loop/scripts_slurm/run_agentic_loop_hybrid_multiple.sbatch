@@ -146,6 +146,8 @@ fi
 MODEL_SIZE="unknown"
 if [[ "${TESTS_MODEL}" =~ 70[Bb] ]]; then
   MODEL_SIZE="70b"
+elif [[ "${TESTS_MODEL}" =~ Qwen3 ]]; then
+  MODEL_SIZE="32b"
 elif [[ "${TESTS_MODEL}" =~ (32[Bb]|33[Bb]) ]]; then
   MODEL_SIZE="32b"
 elif [[ "${TESTS_MODEL}" =~ (7[Bb]|8[Bb]) ]]; then
@@ -248,10 +250,7 @@ if [[ ${GPU_COUNT} -gt 1 ]]; then
   VLLM_SERVER_ARGS+=(--tensor-parallel-size ${TENSOR_PARALLEL_SIZE})
 fi
 
-# Add quantization for AWQ models
-if [[ "${TESTS_MODEL}" =~ AWQ ]]; then
-  VLLM_SERVER_ARGS+=(--quantization awq)
-fi
+# vLLM 0.8.5+ auto-detects quantization from model config (awq, awq_marlin, etc.)
 
 # Enable eager mode for memory-constrained single GPU 70B
 if [[ "${ENFORCE_EAGER:-false}" == "true" ]]; then
@@ -279,11 +278,11 @@ echo "vLLM PID: ${VLLM_PID}"
 
 # Wait for vLLM readiness (longer for 70B models)
 if [[ "${MODEL_SIZE}" == "70b" ]]; then
-  MAX_WAIT_ITERATIONS=120  # 4 minutes for 70B models
-  echo "Waiting for vLLM readiness (70B model, may take 2-4 minutes)..."
+  MAX_WAIT_ITERATIONS=210  # 7 minutes for 70B models (includes V1 graph compilation)
+  echo "Waiting for vLLM readiness (70B model, may take 4-7 minutes)..."
 else
-  MAX_WAIT_ITERATIONS=90   # 3 minutes for smaller models
-  echo "Waiting for vLLM readiness..."
+  MAX_WAIT_ITERATIONS=180  # 6 minutes for smaller models (V1 engine graph compilation)
+  echo "Waiting for vLLM readiness (may take 3-6 minutes with V1 engine)..."
 fi
 
 CURL_ARGS=(-s -f)

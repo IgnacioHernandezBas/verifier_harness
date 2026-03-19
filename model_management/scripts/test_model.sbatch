@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=test-qwen72b
+#SBATCH --job-name=test-model
 #SBATCH --partition=scavenger
 #SBATCH --qos=scavenger
 #SBATCH --account=scavenger
@@ -7,13 +7,13 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=96G
 #SBATCH --time=02:00:00
-#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/logs/test_qwen72b_%j.out
-#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/logs/test_qwen72b_%j.err
+#SBATCH --output=/fs/nexus-scratch/ihbas/verifier_harness/model_management/logs/test_model_%j.out
+#SBATCH --error=/fs/nexus-scratch/ihbas/verifier_harness/model_management/logs/test_model_%j.err
 
 set -euo pipefail
 
 echo "========================================="
-echo "Testing Qwen2.5-72B-Instruct-AWQ"
+echo "Testing Qwen/Qwen3-32B-AWQ"
 echo "========================================="
 echo "Node: $(hostname -s)"
 echo "Time: $(date)"
@@ -29,7 +29,7 @@ module load cuda/12.6.3 2>/dev/null || true
 source /fs/nexus-scratch/ihbas/miniconda3/etc/profile.d/conda.sh
 conda activate verifier_llm
 
-MODEL="Qwen/Qwen2.5-72B-Instruct-AWQ"
+MODEL="Qwen/Qwen3-32B-AWQ"
 PORT=8000
 
 echo "Starting vLLM server with ${MODEL}..."
@@ -46,14 +46,13 @@ PYTHONUNBUFFERED=1 python -m vllm.entrypoints.openai.api_server \
   --max-model-len 8192 \
   --dtype auto \
   --trust-remote-code \
-  --quantization awq_marlin \
   > /fs/nexus-scratch/ihbas/verifier_harness/logs/vllm_test_${SLURM_JOB_ID}.log 2>&1 &
 
 VLLM_PID=$!
 echo "vLLM PID: ${VLLM_PID}"
 
 # Wait for vLLM to be ready (up to 10 minutes)
-echo "Waiting for vLLM to start (72B model takes 3-5 minutes to load)..."
+echo "Waiting for vLLM to start (32B AWQ model takes 1-3 minutes to load)..."
 for i in {1..300}; do
   if curl -s -f "http://127.0.0.1:${PORT}/v1/models" >/dev/null 2>&1; then
     echo "✓ vLLM ready after ~$((i * 2)) seconds"
@@ -80,7 +79,7 @@ echo "========================================="
 curl -s http://127.0.0.1:${PORT}/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Qwen/Qwen2.5-72B-Instruct-AWQ",
+    "model": "Qwen/Qwen3-32B-AWQ",
     "messages": [
       {"role": "user", "content": "Write a Python function to check if a number is prime. Be concise."}
     ],

@@ -316,7 +316,7 @@ def run_plan_phase(args: argparse.Namespace) -> Dict[str, Any]:
         endpoint=args.endpoint,
         model=args.model,
         temperature=0.1,
-        max_tokens=2048,
+        max_tokens=4096,
         timeout_s=args.timeout_s,
         api_key=args.api_key,
     )

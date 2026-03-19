@@ -1,0 +1,372 @@
+{
+  "instance_id": "astropy__astropy-14995",
+  "repo": "astropy/astropy",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 5,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "behavior_keyword:does not",
+      "has_code_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "return",
+      "claim_text": "When one operand has a mask and the other does not, the resulting mask should be the existing mask.",
+      "given": "An NDDataRef instance with a mask and another without a mask",
+      "when": "Performing arithmetic operation with handle_mask=np.bitwise_or",
+      "then": "The output mask is the mask from the operand that had a mask",
+      "target_symbols": [
+        "NDDataRef._arithmetic_mask"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "When one of the operand does not have a mask, the mask propagation ... fails",
+          "the mask that exists should just be copied over to the output",
+          "TypeError: unsupported operand type(s) for |: 'int' and 'NoneType'"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "NDDataRef._arithmetic_mask"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "NDDataRef._arithmetic_mask",
+            "path": "astropy/nddata/mixins/ndarithmetic.py",
+            "line": null,
+            "snippet": "...NDDataRef._arithmetic_mask..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "When one of the operand does not have a mask, the mask propagation ... fails"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "the mask that exists should just be copied over to the output"
+          },
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "TypeError: unsupported operand type(s) for |: 'int' and 'NoneType'"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "No TypeError should be raised when combining masked and unmasked operands with handle_mask=np.bitwise_or",
+      "given": "An NDDataRef with mask and another without mask",
+      "when": "Calling multiply() with handle_mask=np.bitwise_or",
+      "then": "No TypeError is raised",
+      "target_symbols": [
+        "NDDataRef.multiply"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "TypeError: unsupported operand type(s) for |: 'int' and 'NoneType'",
+          "the operand without a mask is set as a mask of None's and then the bitwise_or ... fails"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          0
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "NDDataRef.multiply"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "NDDataRef.multiply",
+            "path": "astropy/nddata/mixins/ndarithmetic.py",
+            "line": null,
+            "snippet": "...NDDataRef.multiply..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "TypeError: unsupported operand type(s) for |: 'int' and 'NoneType'"
+          },
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "the operand without a mask is set as a mask of None's and then the bitwise_or .."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": true,
+        "issues": [],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 5,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 1.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 6.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "text",
+        "content": ">>> import numpy as np\r\n>>> from astropy.nddata import NDDataRef\r\n\r\n>>> array = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])\r\n>>> mask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])\r\n\r\n>>> nref_nomask = NDDataRef(array)\r\n>>> nref_mask = NDDataRef(array, mask=mask)\r\n\r\n# multiply no mask by constant (no mask * no mask)\r\n>>> nref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK\r\n\r\n# multiply no mask by itself (no mask * no mask)\r\n>>> nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK\r\n\r\n# multiply mask by constant (mask * no mask)\r\n>>> nref_mask.multiply(1., handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r\n\r\n# multiply mask by itself (mask * mask)\r\n>>> nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask\r\narray([[ 0,  1, 64],\r\n       [ 8,  0,  1],\r\n       [ 2,  1,  0]])\r\n\r\n# multiply mask by no mask (mask * no mask)\r\n>>> nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r",
+        "source": "fenced",
+        "span": {
+          "start": 817,
+          "end": 1940
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": ">> import numpy as np",
+        "span": {
+          "start": 822,
+          "end": 845
+        }
+      },
+      {
+        "command": ">> from astropy.nddata import NDDataRef",
+        "span": {
+          "start": 846,
+          "end": 887
+        }
+      },
+      {
+        "command": ">> array = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])",
+        "span": {
+          "start": 890,
+          "end": 946
+        }
+      },
+      {
+        "command": ">> mask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])",
+        "span": {
+          "start": 947,
+          "end": 1003
+        }
+      },
+      {
+        "command": ">> nref_nomask = NDDataRef(array)",
+        "span": {
+          "start": 1006,
+          "end": 1041
+        }
+      },
+      {
+        "command": ">> nref_mask = NDDataRef(array, mask=mask)",
+        "span": {
+          "start": 1042,
+          "end": 1086
+        }
+      },
+      {
+        "command": ">> nref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK",
+        "span": {
+          "start": 1141,
+          "end": 1236
+        }
+      },
+      {
+        "command": ">> nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK",
+        "span": {
+          "start": 1289,
+          "end": 1389
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(1., handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1438,
+          "end": 1497
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1614,
+          "end": 1680
+        }
+      },
+      {
+        "command": ">> nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask",
+        "span": {
+          "start": 1795,
+          "end": 1863
+        }
+      },
+      {
+        "command": ">> import sys; print(\"Python\", sys.version)",
+        "span": {
+          "start": 1958,
+          "end": 2003
+        }
+      },
+      {
+        "command": ">> import astropy; print(\"astropy\", astropy.__version__)",
+        "span": {
+          "start": 2094,
+          "end": 2152
+        }
+      },
+      {
+        "command": ">> import numpy; print(\"Numpy\", numpy.__version__)",
+        "span": {
+          "start": 2166,
+          "end": 2218
+        }
+      },
+      {
+        "command": ">> import erfa; print(\"pyerfa\", erfa.__version__)",
+        "span": {
+          "start": 2233,
+          "end": 2284
+        }
+      },
+      {
+        "command": ">> import scipy; print(\"Scipy\", scipy.__version__)",
+        "span": {
+          "start": 2301,
+          "end": 2353
+        }
+      },
+      {
+        "command": ">> import matplotlib; print(\"Matplotlib\", matplotlib.__version__)",
+        "span": {
+          "start": 2368,
+          "end": 2435
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "np.bitwise_or",
+        "astropy.nddata",
+        "np.array",
+        "nref_nomask.multiply",
+        "nref_mask.multiply",
+        "sys.version",
+        "astropy.__version__",
+        "numpy.__version__",
+        "erfa.__version__",
+        "scipy.__version__",
+        "matplotlib.__version__"
+      ],
+      "paths": [],
+      "options": []
+    }
+  }
+}

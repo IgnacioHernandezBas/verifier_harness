@@ -1,0 +1,306 @@
+{
+  "instance_id": "pytest-dev__pytest-8906",
+  "repo": "pytest-dev/pytest",
+  "eligible": true,
+  "eligibility": {
+    "eligible": true,
+    "score": 6,
+    "reasons": [
+      "mentions_exception:TypeError",
+      "behavior_keyword:does not",
+      "has_code_refs",
+      "has_func_refs",
+      "has_code_examples"
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "C1",
+      "claim_type": "exception",
+      "claim_text": "Module-level pytest.skip with allow_module_level=True should not raise CollectError",
+      "given": "A test module that calls pytest.skip() at module level with allow_module_level=True",
+      "when": "pytest attempts to collect the test module",
+      "then": "No CollectError is raised during test collection",
+      "target_symbols": [
+        "_pytest.python.Module.collect"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "The correct solution, to use skip as a function is actively discouraged by the error message.",
+          "if sys.version_info < (3, 8): skip(msg=\"Requires Python >= 3.8\", allow_module_level=True)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1,
+          2
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_pytest.python.Module.collect"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_pytest.python.Module.collect",
+            "path": "src/_pytest/python.py",
+            "line": null,
+            "snippet": "..._pytest.python.Module.collect..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 3,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "direct",
+            "span": "The correct solution, to use skip as a function is actively discouraged by the e"
+          },
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "100%",
+            "span": "if sys.version_info < (3, 8): skip(msg=\"Requires Python >= 3.8\", allow_module_le"
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 6,
+      "score_factors": [
+        "+1: weak_file",
+        "+3: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    },
+    {
+      "claim_id": "C2",
+      "claim_type": "exception",
+      "claim_text": "Module-level pytest.skip without allow_module_level=True should raise CollectError",
+      "given": "A test module that calls pytest.skip() at module level without allow_module_level=True",
+      "when": "pytest attempts to collect the test module",
+      "then": "CollectError is raised with message about using decorators or pytestmark",
+      "target_symbols": [
+        "_pytest.python.Module.collect"
+      ],
+      "confidence": "high",
+      "evidence": {
+        "spans": [
+          "This issues this error: Using pytest.skip outside of a test is not allowed...",
+          "raise self.CollectError(...)"
+        ]
+      },
+      "issue_context_refs": {
+        "cli_command_ids": [
+          3,
+          4
+        ],
+        "expected_output_block_ids": [],
+        "code_block_ids": [
+          1
+        ],
+        "traceback_ids": []
+      },
+      "grounding": {
+        "status": "weak_file",
+        "level": 2,
+        "matched_symbols": [
+          "_pytest.python.Module.collect"
+        ],
+        "unmatched_symbols": [],
+        "rule": "symbol_in_touched_file_not_in_diff_definition",
+        "evidence": [
+          {
+            "type": "file_reference",
+            "symbol": "_pytest.python.Module.collect",
+            "path": "src/_pytest/python.py",
+            "line": null,
+            "snippet": "..._pytest.python.Module.collect..."
+          }
+        ]
+      },
+      "evidence_verification": {
+        "score": 1,
+        "matches": [
+          {
+            "source": "issue",
+            "type": "partial",
+            "overlap": "92%",
+            "span": "This issues this error: Using pytest.skip outside of a test is not allowed..."
+          }
+        ],
+        "verified": true
+      },
+      "computed_score": 4,
+      "score_factors": [
+        "+1: weak_file",
+        "+1: evidence_verified (issue)",
+        "+1: has_observable",
+        "+1: high_confidence"
+      ],
+      "specificity": {
+        "is_specific": false,
+        "issues": [
+          "vague_given"
+        ],
+        "has_symbols": true,
+        "has_observable": true
+      }
+    }
+  ],
+  "ungrounded_claims": [],
+  "low_score_claims": [],
+  "extraction_details": {
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    },
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": []
+  },
+  "stats": {
+    "eligible": true,
+    "eligibility_score": 6,
+    "raw_claims": 2,
+    "validated_claims": 2,
+    "validation_errors": [],
+    "grounded_claims": 2,
+    "ungrounded_claims": 0,
+    "final_claims": 2,
+    "grounding_rate": 1.0,
+    "by_grounding": {
+      "strong": 0,
+      "weak_file": 2,
+      "weak_ref": 0
+    },
+    "by_confidence": {
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    },
+    "specificity_rate": 0.0,
+    "evidence_verified_rate": 1.0,
+    "avg_score": 5.0,
+    "parse_details": {
+      "attempts": [
+        {
+          "method": "direct",
+          "success": true
+        }
+      ]
+    }
+  },
+  "schema_version": "2.2",
+  "issue_context": {
+    "code_blocks": [
+      {
+        "lang": "python",
+        "content": "def foo(a, /, b):\r\n    return a + b\r",
+        "source": "fenced",
+        "span": {
+          "start": 215,
+          "end": 266
+        }
+      },
+      {
+        "lang": "python",
+        "content": "from pytest import raises, skip\r\nimport sys\r\nif sys.version_info < (3, 8):\r\n    skip(msg=\"Requires Python >= 3.8\", allow_module_level=True)\r\n\r\n# import must be after the module level skip:\r\nfrom pos_only import *\r\n\r\ndef test_foo():\r\n    assert foo(10, 20) == 30\r\n    assert foo(10, b=20) == 30\r\n    with raises(TypeError):\r\n        assert foo(a=10, b=20)\r",
+        "source": "fenced",
+        "span": {
+          "start": 386,
+          "end": 756
+        }
+      },
+      {
+        "lang": "python",
+        "content": "if sys.version_info < (3, 8):\r\n    skip(msg=\"Requires Python >= 3.8\")\r",
+        "source": "fenced",
+        "span": {
+          "start": 984,
+          "end": 1069
+        }
+      }
+    ],
+    "cli_commands": [
+      {
+        "command": "python\r\ndef foo(a, /, b):\r\n    return a + b",
+        "span": {
+          "start": 217,
+          "end": 264
+        }
+      },
+      {
+        "command": "python\r\nfrom pytest import raises, skip\r\nimport sys\r\nif sys.version_info < (3, 8):\r\n    skip(msg=\"Requires Python >= 3.8\", allow_module_level=True)\r\n\r\n# import must be after the module level skip:\r\nfrom pos_only import *\r\n\r\ndef test_foo():\r\n    assert foo(10, 20) == 30\r\n    assert foo(10, b=20) == 30\r\n    with raises(TypeError):\r\n        assert foo(a=10, b=20)",
+        "span": {
+          "start": 388,
+          "end": 754
+        }
+      },
+      {
+        "command": "python\r\nif sys.version_info < (3, 8):\r\n    skip(msg=\"Requires Python >= 3.8\")",
+        "span": {
+          "start": 986,
+          "end": 1067
+        }
+      },
+      {
+        "command": "This issues this error:\r\n\r\n>Using pytest.skip outside of a test is not allowed. To decorate a test function, use the @pytest.mark.skip or @pytest.mark.skipif decorators instead, and to skip a module use",
+        "span": {
+          "start": 1068,
+          "end": 1275
+        }
+      },
+      {
+        "command": "Using pytest.skip outside of a test is not allowed. To decorate a test function, use the @pytest.mark.skip or @pytest.mark.skipif decorators instead, and to skip a module use `pytestmark = pytest.mark.{skip,skipif}.",
+        "span": {
+          "start": 1098,
+          "end": 1315
+        }
+      },
+      {
+        "command": "pytestmark = pytest.mark.{skip,skipif}",
+        "span": {
+          "start": 1340,
+          "end": 1380
+        }
+      }
+    ],
+    "expected_output_blocks": [],
+    "tracebacks": [],
+    "inline_code_refs": {
+      "symbols": [
+        "pos_only.py",
+        "sys.version_info",
+        "pytest.skip",
+        "pytest.mark"
+      ],
+      "paths": [
+        "pos_only.py"
+      ],
+      "options": []
+    }
+  }
+}
