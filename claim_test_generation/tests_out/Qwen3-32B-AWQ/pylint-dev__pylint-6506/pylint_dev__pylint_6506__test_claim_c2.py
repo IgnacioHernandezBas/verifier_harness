@@ -1,17 +1,34 @@
-# Checklist TODO: Test verifies error message is generated for invalid options
-# Checklist TODO: Message includes exact unrecognized option name
-# Checklist TODO: Error code matches pylint's documented 'unrecognized-option' message
+# Checklist TODO: Simulate invalid CLI option invocation
+# Checklist TODO: Verify exact error message format in output
+# Checklist TODO: Confirm no crashes in argument parsing
 import pytest
-from pylint.testutils._run import _Run as Run
 
 def test_claim_c2(capsys):
-    # Given: An unrecognized option is passed to pylint
-    # When: _config_initialization is called with the unrecognized option
+    # GIVEN: An unrecognized option is passed to pylint
+    from pylint.lint import Run
+    
+    # WHEN: Calling pylint with an unrecognized option
     with pytest.raises(SystemExit):
-        Run(["--unrecognized-option=test"], exit=False)
-    # Then: The linter adds a message 'unrecognized-option' with the unrecognized option name
+        Run(["-Q"], exit=False)
+    
+    # THEN: Pylint should print a message similar to 'unrecognized arguments: -Q'
     captured = capsys.readouterr()
-    # Assertion: Captured output contains 'E0015: Unrecognized option found: unrecognized-option=test'
-    assert "E0015: Unrecognized option found: unrecognized-option=test" in captured.err
-    # Assertion: Error message code matches expected 'unrecognized-option' symbol
-    assert "(unrecognized-option)" in captured.err
+    assert "unrecognized arguments: -Q" in captured.err
+    assert "unrecognized-option" in captured.err
+    assert "Traceback" not in captured.err  # No traceback leakage in output
+
+    # Edge case: Mixed valid/invalid options
+    with pytest.raises(SystemExit):
+        Run(["--help", "-Q"], exit=False)
+    captured = capsys.readouterr()
+    assert "unrecognized arguments: -Q" in captured.err
+    assert "unrecognized-option" in captured.err
+    assert "Traceback" not in captured.err
+
+    # Edge case: Long-form unrecognized option
+    with pytest.raises(SystemExit):
+        Run(["--quilt"], exit=False)
+    captured = capsys.readouterr()
+    assert "unrecognized arguments: --quilt" in captured.err
+    assert "unrecognized-option" in captured.err
+    assert "Traceback" not in captured.err

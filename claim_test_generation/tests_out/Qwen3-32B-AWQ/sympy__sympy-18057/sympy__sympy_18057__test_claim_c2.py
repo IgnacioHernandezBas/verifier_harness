@@ -1,21 +1,23 @@
-# Checklist TODO: Symbol 'x' does not equal C instance with __repr__ 'x'
-# Checklist TODO: Equality check returns False for mismatched types
-# Checklist TODO: Custom __repr__ doesn't override SymPy equality logic
+# Checklist TODO: Symbol and custom object with same repr are not equal
+# Checklist TODO: Equality check correctly distinguishes objects by type
+# Checklist TODO: Repr implementation doesn't affect equality outcome
 import pytest
 import sympy
+from sympy.core.expr import Expr
 
 def test_claim_c2():
-    # Given: A custom class C with __repr__ returning 'x'
+    # Given: An unknown object whose repr is 'x'
     class C:
         def __repr__(self):
             return 'x'
-    
-    # When: Calling __eq__ between sympy.Symbol('x') and C()
-    x = sympy.Symbol('x')
     c = C()
+    x = sympy.Symbol('x')
+    # When: Calling sympy.Symbol('x') == C()
     result = x == c
-    
     # Then: Returns False
     assert result is False
-    assert isinstance(result, bool)
-    assert result is not True
+    # Check that the repr is correctly implemented
+    assert repr(c) == 'x'
+    # Edge case: Different symbol name vs identical repr
+    y = sympy.Symbol('y')
+    assert y == c is False

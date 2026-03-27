@@ -31,10 +31,15 @@ from unified_pipeline import (
     Layer, LayerStatus, LayerResult, VLLMConfig, PipelineConfig,
     AggregatedReport, ProgressCallback, run_pipeline,
 )
+from claim_test_verification.candidate_verifier import (
+    get_eligible_instances,
+    get_resolved_experiments,
+    get_failed_experiments,
+)
 
 # Set page config
 st.set_page_config(
-    page_title="E6 Verifier Harness",
+    page_title="Agent Verifier Harness",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -231,15 +236,31 @@ def display_aggregated_dashboard(report: AggregatedReport):
                 st.metric(label, "Not requested")
                 continue
 
-            status = lr.status
-            if status == LayerStatus.SUCCESS:
-                status_icon = "[OK]"
-            elif status == LayerStatus.FAILED:
-                status_icon = "[FAIL]"
-            elif status == LayerStatus.SKIPPED:
+            # Determine status icon based on actual results, not just execution status
+            if lr.status == LayerStatus.SKIPPED:
                 status_icon = "[SKIP]"
+            elif lr.status == LayerStatus.FAILED:
+                status_icon = "[FAIL]"
+            elif lr.status == LayerStatus.SUCCESS and lr.data:
+                # Check actual results within each layer
+                if layer_key == Layer.DYNAMIC:
+                    failed = lr.data.get("failed", 0)
+                    errors = lr.data.get("errors", 0)
+                    status_icon = "[FAIL]" if (failed + errors) > 0 else "[OK]"
+                elif layer_key == Layer.SEMANTIC:
+                    sm = lr.data.get("summary", {})
+                    cvr = sm.get("cvr", 0)
+                    total_c = sm.get("total_claims", 0)
+                    if total_c == 0:
+                        status_icon = "[WARN]"
+                    elif cvr > 0:
+                        status_icon = "[OK]"
+                    else:
+                        status_icon = "[FAIL]"
+                else:
+                    status_icon = "[OK]"
             else:
-                status_icon = f"[{status}]"
+                status_icon = f"[{lr.status}]"
 
             # Extract key metric
             if layer_key == Layer.STATIC and lr.data:
@@ -383,8 +404,12 @@ def display_syntax_structure(syntax_data: list):
         is_valid = entry.get("is_code_valid", False)
         status = "[OK]" if is_valid else "[INVALID]"
         with st.expander(f"{status} {file_path}"):
-            if "error" in entry:
+            if entry.get("error"):
                 st.error(entry["error"])
+                continue
+
+            if not is_valid:
+                st.warning("No details available")
                 continue
 
             c1, c2, c3, c4 = st.columns(4)
@@ -393,10 +418,15 @@ def display_syntax_structure(syntax_data: list):
             with c2:
                 st.metric("Classes", entry.get("n_classes", 0))
             with c3:
-                st.metric("Lines", entry.get("n_lines", 0))
+                st.metric("AST Depth", entry.get("ast_depth", 0))
             with c4:
-                ratio = entry.get("ast_diff_ratio", 0)
-                st.metric("AST Diff Ratio", f"{ratio:.2f}" if ratio else "N/A")
+                avg_fl = entry.get("avg_func_length", 0)
+                st.metric("Avg Func Length", f"{avg_fl:.1f}" if avg_fl else "N/A")
+
+            # AST diff ratio (only present when base comparison is available)
+            ratio = entry.get("ast_diff_ratio")
+            if ratio is not None:
+                st.metric("Structure Change Ratio", f"{ratio:.2%}")
 
             # Changed functions
             changed = entry.get("changed_functions", [])
@@ -474,6 +504,27 @@ def display_semantic_results(semantic_data: Dict):
         st.info("No semantic results available")
         return
 
+    # --- Check for warnings that require manual review ---
+    summary = semantic_data.get("summary", {})
+    has_warnings = False
+
+    # Check for non-discriminative, overconstrained, or inverted labels
+    label_dist = summary.get("label_distribution", {})
+    warning_labels = {"NON_DISCRIMINATIVE", "OVERCONSTRAINED", "INVERTED", "UNRESOLVED"}
+    problematic_labels = {k: v for k, v in label_dist.items() if k in warning_labels and v > 0}
+    if problematic_labels:
+        has_warnings = True
+        label_summary = ", ".join(f"{k}: {v}" for k, v in problematic_labels.items())
+        st.error(
+            f"MANUAL REVIEW REQUIRED: Some claims produced non-VALID results ({label_summary}). "
+            "Please inspect the claim details below to determine if this patch needs attention."
+        )
+
+    note = summary.get("note")
+    if note:
+        has_warnings = True
+        st.warning(f"Semantic layer note: {note}")
+
     # --- Sub-section 1: Claim Extraction ---
     extraction = semantic_data.get("extraction", {})
     if extraction:
@@ -484,9 +535,9 @@ def display_semantic_results(semantic_data: Dict):
         low_score = extraction.get("low_score_claims", [])
         stats = extraction.get("stats", {})
 
-        c1, c2, c3, c4, c5 = st.columns(5)
+        total_raw = len(claims) + len(ungrounded) + len(low_score)
+        c1, c2, c3, c4 = st.columns(4)
         with c1:
-            total_raw = len(claims) + len(ungrounded) + len(low_score)
             st.metric("Total Extracted", total_raw)
         with c2:
             st.metric("Grounded Claims", len(claims))
@@ -494,47 +545,73 @@ def display_semantic_results(semantic_data: Dict):
             st.metric("Ungrounded", len(ungrounded))
         with c4:
             st.metric("Low Score", len(low_score))
-        with c5:
-            avg_score = stats.get("avg_score", 0)
-            st.metric("Avg Score", f"{avg_score:.1f}" if avg_score else "N/A")
 
-        # Show each grounded claim
+        # Show each grounded claim with Given/When/Then
         if claims:
-            with st.expander(f"Grounded Claims ({len(claims)}) - click to view"):
-                for i, claim in enumerate(claims, 1):
-                    claim_id = claim.get("claim_id", f"C{i}")
-                    score = claim.get("score", "?")
-                    text = claim.get("text", claim.get("claim", "No text"))
-                    targets = claim.get("target_symbols", [])
+            st.markdown("**Grounded Claims Being Verified:**")
+            for i, claim in enumerate(claims, 1):
+                claim_id = claim.get("claim_id", f"C{i}")
+                claim_type = claim.get("claim_type", "")
+                text = claim.get("text", claim.get("claim_text", claim.get("claim", "")))
 
-                    st.markdown(f"**{claim_id}** | Score: {score}")
-                    st.write(text)
-                    if targets:
-                        st.caption(f"Target symbols: {', '.join(targets)}")
+                given = claim.get("given", "")
+                when = claim.get("when", "")
+                then = claim.get("then", "")
 
-                    # Show grounding details if available
-                    grounding = claim.get("grounding", {})
-                    if grounding:
-                        matched = grounding.get("matched_symbols", [])
-                        if matched:
-                            st.caption(f"Grounded on: {', '.join(matched[:5])}")
-                    st.markdown("---")
+                type_badge = f"  `{claim_type}`" if claim_type else ""
+                with st.expander(f"{claim_id}{type_badge} — {text}" if text else claim_id, expanded=True):
+                    gwt_cols = st.columns(3)
+                    with gwt_cols[0]:
+                        st.markdown(
+                            f'<div style="background:#1a1a2e;border-left:4px solid #e94560;'
+                            f'padding:12px;border-radius:6px;">'
+                            f'<span style="color:#e94560;font-weight:700;font-size:0.8em;">'
+                            f'GIVEN</span><br/>'
+                            f'<span style="color:#eee;font-size:0.95em;">{given or "—"}</span>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
+                    with gwt_cols[1]:
+                        st.markdown(
+                            f'<div style="background:#1a1a2e;border-left:4px solid #0f3460;'
+                            f'padding:12px;border-radius:6px;">'
+                            f'<span style="color:#0f9dee;font-weight:700;font-size:0.8em;">'
+                            f'WHEN</span><br/>'
+                            f'<span style="color:#eee;font-size:0.95em;">{when or "—"}</span>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
+                    with gwt_cols[2]:
+                        st.markdown(
+                            f'<div style="background:#1a1a2e;border-left:4px solid #16c79a;'
+                            f'padding:12px;border-radius:6px;">'
+                            f'<span style="color:#16c79a;font-weight:700;font-size:0.8em;">'
+                            f'THEN</span><br/>'
+                            f'<span style="color:#eee;font-size:0.95em;">{then or "—"}</span>'
+                            f'</div>',
+                            unsafe_allow_html=True,
+                        )
 
         if ungrounded:
             with st.expander(f"Ungrounded Claims ({len(ungrounded)})"):
                 for claim in ungrounded:
                     st.write(f"- {claim.get('text', claim.get('claim', '?'))}")
 
-    # --- Sub-section 2: Agentic Loop Results ---
+    # --- Sub-section 2: Per-Claim Results (visual pass/fail) ---
     loop_results = semantic_data.get("claim_loop_results", [])
     if loop_results:
-        st.markdown("#### Agentic Loop Results (per claim)")
+        st.markdown("#### Per-Claim Verification Results")
 
-        # Summary table
-        table_data = []
+        # Visual per-claim pass/fail cards
+        passed_claims = []
+        failed_claims = []
+
         for r in loop_results:
+            claim_id = r.get("claim_id", "?")
+            success = r.get("success", False)
             attempts = r.get("attempts", [])
-            # Get the final verification label from the last attempt
+
+            # Get final label
             final_label = "-"
             if attempts:
                 last = attempts[-1]
@@ -548,24 +625,59 @@ def display_semantic_results(semantic_data: Dict):
                     if isinstance(fc, dict) and final_label == "-":
                         final_label = fc.get("label", "-")
 
-            table_data.append({
-                "Claim": r.get("claim_id", "?"),
-                "Attempts": len(attempts),
-                "Status": "PASS" if r.get("success") else "FAIL",
-                "Verification Label": final_label,
-                "Failure Reason": r.get("failure_reason", "-") if not r.get("success") else "-",
-            })
+            entry = {
+                "claim_id": claim_id,
+                "success": success,
+                "attempts": len(attempts),
+                "label": final_label,
+                "failure_reason": r.get("failure_reason", ""),
+            }
+            if success:
+                passed_claims.append(entry)
+            else:
+                failed_claims.append(entry)
 
-        st.table(table_data)
+        # Show pass/fail summary columns
+        pass_col, fail_col = st.columns(2)
+        with pass_col:
+            st.markdown(f"**:green[PASSED ({len(passed_claims)})]**")
+            for pc in passed_claims:
+                st.success(
+                    f"{pc['claim_id']} | {pc['label']} | "
+                    f"{pc['attempts']} attempt(s)"
+                )
+        with fail_col:
+            st.markdown(f"**:red[FAILED ({len(failed_claims)})]**")
+            for fc in failed_claims:
+                st.error(
+                    f"{fc['claim_id']} | {fc['label']} | "
+                    f"{fc['attempts']} attempt(s) | "
+                    f"{fc['failure_reason'] or 'unknown'}"
+                )
+
+        # Alert for failed claims that may need manual review
+        needs_review = [
+            fc for fc in failed_claims
+            if fc["label"] in ("NON_DISCRIMINATIVE", "OVERCONSTRAINED", "INVERTED")
+        ]
+        if needs_review:
+            st.warning(
+                f"{len(needs_review)} claim(s) have labels that may indicate issues with "
+                "the patch. Please review the details below."
+            )
 
         # Expandable per-claim details
+        st.markdown("#### Detailed Per-Claim Attempts")
         for r in loop_results:
             claim_id = r.get("claim_id", "?")
             success = r.get("success", False)
-            status_text = "PASS" if success else "FAIL"
+            status_icon = ":green[PASS]" if success else ":red[FAIL]"
             attempts = r.get("attempts", [])
 
-            with st.expander(f"Claim {claim_id} [{status_text}] - {len(attempts)} attempt(s)"):
+            with st.expander(
+                f"Claim {claim_id} [{status_icon}] - {len(attempts)} attempt(s)",
+                expanded=not success,  # auto-expand failed claims
+            ):
                 for j, attempt in enumerate(attempts, 1):
                     if not isinstance(attempt, dict):
                         st.write(f"Attempt {j}: {attempt}")
@@ -573,7 +685,6 @@ def display_semantic_results(semantic_data: Dict):
 
                     st.markdown(f"**Attempt {j}**")
 
-                    # Status
                     att_status = attempt.get("status", "")
                     if att_status == "guardrail_failed":
                         fc = attempt.get("failure_classification", {})
@@ -581,32 +692,27 @@ def display_semantic_results(semantic_data: Dict):
                         st.markdown("---")
                         continue
 
-                    # Plan summary
                     plan = attempt.get("plan", {})
                     if plan:
                         strategy = plan.get("strategy", plan.get("summary", ""))
                         if strategy:
                             st.write(f"**Plan:** {strategy}")
 
-                    # Guardrail result
                     guard = attempt.get("guardrail", {})
                     if guard:
                         st.write(f"**Guardrails:** {'PASS' if guard.get('ok') else 'FAIL'}")
 
-                    # Test sketch
                     sketch = attempt.get("test_sketch", {})
                     if sketch:
                         desc = sketch.get("description", sketch.get("summary", ""))
                         if desc:
                             st.write(f"**Test sketch:** {desc}")
 
-                    # Generated code
                     code = attempt.get("generated_code", "")
                     if code:
                         with st.expander(f"Generated test code (attempt {j})", expanded=(j == len(attempts))):
                             st.code(code, language="python")
 
-                    # Verification result (BUG vs GOLD)
                     vr = attempt.get("verification_result", {})
                     if isinstance(vr, dict) and vr.get("tests"):
                         st.markdown("**BUG vs GOLD Verification:**")
@@ -619,11 +725,9 @@ def display_semantic_results(semantic_data: Dict):
 
                             b1, b2, b3 = st.columns(3)
                             with b1:
-                                bug_status = bug_run.get("status", "?")
-                                st.write(f"**BUG:** {bug_status}")
+                                st.write(f"**BUG:** {bug_run.get('status', '?')}")
                             with b2:
-                                gold_status = gold_run.get("status", "?")
-                                st.write(f"**GOLD:** {gold_status}")
+                                st.write(f"**GOLD:** {gold_run.get('status', '?')}")
                             with b3:
                                 color = "green" if label == "VALID" else "red"
                                 st.markdown(f"**Label:** :{color}[{label}]")
@@ -631,7 +735,6 @@ def display_semantic_results(semantic_data: Dict):
                             if reason:
                                 st.caption(reason)
 
-                    # Diagnosis / failure classification
                     fc = attempt.get("failure_classification", {})
                     if fc:
                         fc_label = fc.get("label", "?")
@@ -642,16 +745,9 @@ def display_semantic_results(semantic_data: Dict):
                     st.markdown("---")
 
     # --- Sub-section 3: Aggregate Summary ---
-    summary = semantic_data.get("summary", {})
     if summary:
         st.markdown("#### Aggregate Summary")
 
-        # Note/warning if present
-        note = summary.get("note")
-        if note:
-            st.warning(note)
-
-        # Extraction overview
         raw = summary.get("total_extracted_raw", 0)
         grounded = summary.get("grounded", summary.get("total_claims", 0))
         ungrounded_count = summary.get("ungrounded", 0)
@@ -668,7 +764,6 @@ def display_semantic_results(semantic_data: Dict):
             with e4:
                 st.metric("Low Score", low_score_count)
 
-        # Test results
         s1, s2, s3, s4 = st.columns(4)
         with s1:
             st.metric("Claims Tested", summary.get("total_claims", 0))
@@ -680,21 +775,111 @@ def display_semantic_results(semantic_data: Dict):
             cvr = summary.get("cvr", 0)
             st.metric("CVR", f"{cvr:.0%}")
 
-        # Label distribution from verification results
-        label_dist = summary.get("label_distribution", {})
         if label_dist:
             st.markdown("**Label Distribution:**")
-            label_cols = st.columns(len(label_dist))
+            label_cols = st.columns(max(len(label_dist), 1))
             for col, (label, count) in zip(label_cols, label_dist.items()):
                 with col:
                     st.metric(label, count)
+
+
+def display_candidate_results(result: Dict):
+    """Display candidate patch validation results."""
+    st.subheader("Candidate Patch Validation Results")
+
+    summary = result.get("summary", {})
+
+    # Header metrics
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        st.metric("Instance", result.get("instance_id", "?"))
+    with c2:
+        st.metric("Claim", result.get("claim_id", "?"))
+    with c3:
+        st.metric("Gold Classification", result.get("gold_classification", "N/A"))
+    with c4:
+        st.metric("Total Candidates", result.get("total_candidates", 0))
+
+    st.divider()
+
+    # Resolved patches summary
+    resolved_count = summary.get("resolved_count", 0)
+    if resolved_count > 0:
+        st.markdown("#### Resolved Patches (pass SWE-bench tests)")
+
+        r1, r2, r3 = st.columns(3)
+        with r1:
+            st.metric("Total Resolved", resolved_count)
+        with r2:
+            sem_valid = summary.get("resolved_semantically_valid", 0)
+            st.metric("Semantically Valid", f"{sem_valid}/{resolved_count}")
+        with r3:
+            fp_count = summary.get("false_positives", 0)
+            if fp_count > 0:
+                st.metric("Potential False Positives", fp_count, delta=f"-{fp_count}", delta_color="inverse")
+            else:
+                st.metric("Potential False Positives", 0)
+
+        resolved_cls = summary.get("resolved_classifications", {})
+        if resolved_cls:
+            st.markdown("**Classification Distribution (resolved):**")
+            cols = st.columns(len(resolved_cls))
+            for col, (label, count) in zip(cols, resolved_cls.items()):
+                with col:
+                    st.metric(label, count)
+
+        # Flag false positives
+        fp_experiments = summary.get("false_positive_experiments", [])
+        if fp_experiments:
+            st.warning(f"Potential false positives detected in: {', '.join(fp_experiments)}")
+
+    # Failed patches summary
+    failed_count = summary.get("failed_count", 0)
+    if failed_count > 0:
+        st.markdown("#### Failed Patches (fail SWE-bench tests)")
+
+        failed_cls = summary.get("failed_classifications", {})
+        if failed_cls:
+            cols = st.columns(len(failed_cls))
+            for col, (label, count) in zip(cols, failed_cls.items()):
+                with col:
+                    st.metric(label, count)
+
+    st.divider()
+
+    # Detailed results table
+    all_results = result.get("results", [])
+    if all_results:
+        st.markdown("#### Detailed Results")
+
+        table_data = []
+        for r in all_results:
+            table_data.append({
+                "Experiment": r.get("experiment", "?"),
+                "SWE-bench Status": r.get("swebench_status", "?"),
+                "Semantic Result": r.get("semantic_result", "?"),
+                "Patch Size": r.get("patch_size", 0),
+            })
+        st.dataframe(table_data, use_container_width=True)
+
+    # Raw JSON
+    with st.expander("Raw JSON Results"):
+        st.json(result)
+
+    # Download button
+    st.download_button(
+        "Download Results (JSON)",
+        data=json.dumps(result, indent=2),
+        file_name=f"candidate_validation_{result.get('instance_id', 'unknown')}_{result.get('claim_id', 'C1')}.json",
+        mime="application/json",
+    )
 
 
 # =========================================================================
 # MAIN APP
 # =========================================================================
 
-st.title("E6 Verifier Harness")
+st.title("Multi-Layer Verifier Harness")
 st.markdown("Unified patch verification: static analysis, dynamic testing, and semantic claim verification")
 
 # ---------------------------------------------------------------------------
@@ -859,6 +1044,16 @@ if use_container:
 if mode == "SWE-bench Instance":
     st.header("SWE-bench Instance Testing")
 
+    # --- Patch Source Toggle ---
+    patch_source = st.radio(
+        "Patch Source",
+        ["Gold Patch", "Candidate Patches"],
+        horizontal=True,
+        help="Gold Patch: verify the reference fix. "
+             "Candidate Patches: test LLM-generated patches against discriminative claim tests."
+    )
+
+    # --- Instance Loading (only cached + gold-VALID) ---
     col1, col2 = st.columns([3, 1])
     with col1:
         repo_filter = st.text_input(
@@ -870,26 +1065,35 @@ if mode == "SWE-bench Instance":
         limit = st.number_input("Limit", 1, 100, 20, help="Maximum instances to load")
 
     if st.button("Load Instances", type="primary"):
-        with st.spinner("Loading SWE-bench instances..."):
+        with st.spinner("Loading SWE-bench instances (filtered to cached + gold-VALID)..."):
             try:
+                # Get eligible instance IDs (cached container + at least one VALID gold result)
+                eligible = get_eligible_instances()
+                eligible_ids = {e["instance_id"] for e in eligible}
+                eligible_map = {e["instance_id"]: e for e in eligible}
+
                 loader = DatasetLoader("princeton-nlp/SWE-bench_Lite", hf_mode=True, split="test")
                 instances = []
-                for sample in loader.iter_samples(limit=limit, filter_repo=repo_filter or None):
+                for sample in loader.iter_samples(limit=500, filter_repo=repo_filter or None):
                     instance_id = sample.get('metadata', {}).get('instance_id')
-                    if instance_id:
+                    if instance_id and instance_id in eligible_ids:
                         instances.append({
                             'instance_id': instance_id,
                             'repo': sample.get('repo', 'unknown'),
-                            'problem_statement': sample.get('problem_statement', '')[:200] + '...',
+                            'problem_statement': sample.get('problem_statement', ''),
                             'patch': sample.get('patch', ''),
-                            'sample': sample
+                            'sample': sample,
+                            'valid_claims': eligible_map[instance_id].get("valid_claims", []),
                         })
+                    if len(instances) >= limit:
+                        break
+
                 st.session_state.swebench_instances = instances
-                st.success(f"Loaded {len(instances)} instances")
+                st.success(f"Loaded {len(instances)} eligible instances (cached + gold-VALID)")
             except Exception as e:
                 st.error(f"Failed to load instances: {e}")
 
-    # Instance selection
+    # --- Instance Selection ---
     if 'swebench_instances' in st.session_state:
         instances = st.session_state.swebench_instances
 
@@ -906,24 +1110,87 @@ if mode == "SWE-bench Instance":
             st.info(f"**Selected:** {selected_instance['instance_id']}")
             st.markdown(f"**Repository:** {selected_instance['repo']}")
 
-            with st.expander("View Problem Statement"):
-                st.write(selected_instance['problem_statement'])
+            # --- Problem Statement (full, toggleable) ---
+            with st.expander("Problem Statement", expanded=True):
+                st.markdown(selected_instance['problem_statement'])
 
-            with st.expander("View Patch"):
-                st.code(selected_instance['patch'], language='diff')
+            # --- Candidate Patch Selection (when candidate mode) ---
+            active_patch = selected_instance['patch']  # default: gold patch
+            selected_candidate_name = None
 
-            # Check if semantic is enabled but vLLM not connected
-            run_disabled = enable_semantic and not st.session_state.vllm_connected
+            if patch_source == "Candidate Patches":
+                st.markdown("---")
+                st.subheader("Select Candidate Patch")
+
+                iid = selected_instance['instance_id']
+                resolved = get_resolved_experiments(iid)
+                failed = get_failed_experiments(iid)
+
+                all_candidates = []
+                for name, diff_path in resolved:
+                    all_candidates.append({
+                        "label": f"{name} (SWE-bench: resolved)",
+                        "experiment": name,
+                        "diff_path": diff_path,
+                        "swebench_status": "resolved",
+                    })
+                for name, diff_path in failed:
+                    all_candidates.append({
+                        "label": f"{name} (SWE-bench: failed)",
+                        "experiment": name,
+                        "diff_path": diff_path,
+                        "swebench_status": "failed",
+                    })
+
+                if all_candidates:
+                    selected_cand_idx = st.selectbox(
+                        "Choose a candidate patch",
+                        range(len(all_candidates)),
+                        format_func=lambda i: all_candidates[i]["label"],
+                    )
+                    selected_cand = all_candidates[selected_cand_idx]
+                    selected_candidate_name = selected_cand["experiment"]
+
+                    # Read candidate diff and use it as the active patch
+                    try:
+                        active_patch = Path(selected_cand["diff_path"]).read_text()
+                    except Exception as e:
+                        st.error(f"Could not read candidate patch: {e}")
+                        active_patch = ""
+
+                    st.caption(
+                        f"Using patch from **{selected_cand['experiment']}** | "
+                        f"SWE-bench status: {selected_cand['swebench_status']}"
+                    )
+                else:
+                    st.warning(f"No candidate patches found for {iid}")
+
+            # --- Patch Diff (full, toggleable) ---
+            patch_label = (
+                f"Patch Diff ({selected_candidate_name})"
+                if selected_candidate_name
+                else "Patch Diff (Gold)"
+            )
+            with st.expander(patch_label, expanded=True):
+                st.code(active_patch, language='diff')
+
+            # --- Run Button ---
+            run_disabled = (
+                enable_semantic and not st.session_state.vllm_connected
+            )
             if run_disabled:
-                st.warning("Semantic analysis is enabled but vLLM is not connected. "
-                           "Use 'Test Connection' in the sidebar, or disable Semantic analysis.")
+                st.warning(
+                    "Semantic analysis is enabled but vLLM is not connected. "
+                    "Use 'Test Connection' in the sidebar, or disable Semantic analysis."
+                )
 
-            # Run analysis button
             if st.button("Run Analysis", type="primary", disabled=run_disabled):
                 st.write("---")
                 st.header("Analysis Results")
 
-                sample = selected_instance['sample']
+                # Prepare sample with the active patch (gold or candidate)
+                sample = dict(selected_instance['sample'])
+                sample['patch'] = active_patch
 
                 # Build layer set
                 selected_layers = set()
@@ -991,7 +1258,10 @@ if mode == "SWE-bench Instance":
                             lr = report.layers[Layer.SEMANTIC]
                             if lr.data:
                                 if lr.error:
-                                    st.warning(f"Semantic layer: {lr.error}")
+                                    st.error(
+                                        f"Semantic layer warning: {lr.error}. "
+                                        "Please manually review this patch."
+                                    )
                                 display_semantic_results(lr.data)
                             elif lr.error:
                                 st.error(f"Semantic layer error: {lr.error}")
@@ -1002,7 +1272,7 @@ if mode == "SWE-bench Instance":
                         import traceback
                         st.code(traceback.format_exc(), language='text')
 
-else:  # Custom Codebase
+elif mode == "Custom Codebase":
     st.header("Custom Codebase Testing")
 
     st.markdown("""
@@ -1231,13 +1501,14 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### About")
 st.sidebar.info(
     """
-    **E6 Verifier Harness**
+    **Agent Verifier Harness**
 
     Unified patch verification system featuring:
     - **Static Analysis**: Pylint, Flake8, Radon, Mypy, Bandit
     - **Dynamic Testing**: SWE-bench test execution (Singularity)
     - **Semantic Verification**: Claim extraction + agentic loop + BUG vs GOLD
+    - **Candidate Patch Validation**: Test LLM patches against discriminative claims
 
-    Supports both SWE-bench instances and custom codebases.
+    Supports SWE-bench instances (gold + candidate patches) and custom codebases.
     """
 )

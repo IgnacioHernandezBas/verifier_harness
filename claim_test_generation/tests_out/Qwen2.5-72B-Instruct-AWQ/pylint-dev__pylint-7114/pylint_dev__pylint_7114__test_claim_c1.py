@@ -1,31 +1,45 @@
 # Checklist TODO: Test must create the required directory structure.
-# Checklist TODO: Test must call expand_modules with ['a'] as input.
-# Checklist TODO: Test must verify the function's output and exception handling.
+# Checklist TODO: Test must call expand_modules with the correct input.
+# Checklist TODO: Test must verify the output matches the expected behavior.
 import pytest
 from pylint.lint.expand_modules import expand_modules
 
-def test_claim_c1(tmpdir, monkeypatch):
-    # GIVEN: Create a directory structure with a subdirectory 'a' containing 'a.py' and 'b.py'.
-    # Ensure all files are empty to simulate the given context.
+@pytest.fixture
+def setup_directory(tmpdir, monkeypatch):
+    # Create a directory 'a' in tmpdir
     a_dir = tmpdir.mkdir('a')
-    a_dir.join('a.py').write('')
-    a_dir.join('b.py').write('')
-
-    # Set the current working directory to the temporary directory containing the structure.
+    # Place a file 'a.py' inside the 'a' directory
+    a_py = a_dir.join('a.py')
+    a_py.write('print("Hello, world!")')
+    # Ensure no __init__.py file exists in the 'a' directory
     monkeypatch.chdir(tmpdir)
+    return str(a_dir)
 
-    # WHEN: expand_modules is called with ['a'] as files_or_modules
-    try:
-        result = expand_modules(['a'], [], None, None)
-    except Exception as e:
-        pytest.fail(f"expand_modules raised an exception: {e}")
+def test_claim_c1(setup_directory):
+    # GIVEN: A directory structure where 'a' contains 'a.py' and no __init__.py
+    # WHEN: Calling expand_modules with ['a'] as input
+    result = expand_modules(['a'])
+    # THEN: Returns a list containing module descriptions for 'a' without errors
+    assert isinstance(result, list)
+    assert len(result) > 0
+    # THEN: The returned list is not empty
+    assert any('a' in module for module in result)
 
-    # THEN: No exception is raised during the execution of expand_modules.
-    # The function returns a list of ModuleDescriptionDict.
-    assert isinstance(result, list), "The function should return a list."
-    assert all(isinstance(item, dict) for item in result), "The list should contain dictionaries."
+# Edge cases
+def test_empty_directory(tmpdir):
+    empty_dir = tmpdir.mkdir('empty')
+    result = expand_modules([str(empty_dir)])
+    assert isinstance(result, list)
+    assert len(result) == 0
 
-    # The returned list contains descriptions for all expected modules.
-    expected_modules = ['a.a', 'a.b']
-    actual_modules = [item['name'] for item in result]
-    assert set(actual_modules) == set(expected_modules), "The returned list should contain descriptions for all expected modules."
+def test_non_existent_directory():
+    with pytest.raises(FileNotFoundError):
+        expand_modules(['non_existent'])
+
+def test_directory_with_only_init(tmpdir):
+    init_dir = tmpdir.mkdir('init_only')
+    init_py = init_dir.join('__init__.py')
+    init_py.write('')
+    result = expand_modules([str(init_dir)])
+    assert isinstance(result, list)
+    assert len(result) == 0

@@ -400,24 +400,17 @@ class LoopOrchestrator:
 
     def _handle_plan_failure(self) -> Dict[str, Any]:
         """Handle planning phase failure."""
-        return {
-            "instance_id": self.instance_id,
-            "claim_id": self.claim_id,
-            "success": False,
-            "failure_reason": "plan_phase_error",
-            "attempts": [],
-        }
+        state = self._load_state()
+        return self._finalize_results(
+            state, {"reason": "plan_phase_error", "should_exit": True}
+        )
 
     def _handle_verify_failure(self) -> Dict[str, Any]:
         """Handle verification phase failure."""
         state = self._load_state()
-        return {
-            "instance_id": self.instance_id,
-            "claim_id": self.claim_id,
-            "success": False,
-            "failure_reason": "verify_phase_error",
-            "attempts": state.get("attempts", []),
-        }
+        return self._finalize_results(
+            state, {"reason": "verify_phase_error", "should_exit": True}
+        )
 
 
 def main():

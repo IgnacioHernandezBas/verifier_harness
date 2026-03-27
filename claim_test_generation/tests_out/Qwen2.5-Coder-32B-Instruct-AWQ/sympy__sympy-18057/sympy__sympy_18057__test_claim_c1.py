@@ -1,33 +1,34 @@
+# Checklist TODO: Test passes without raising AttributeError
+# Checklist TODO: Comparison result is False as expected
+# Checklist TODO: Test handles cases where __repr__ does not match
 import pytest
 from sympy import Symbol
 
+# Define custom class C with __repr__ returning 'x.y'
+class C:
+    def __repr__(self):
+        return 'x.y'
+
+# Define custom class D without __repr__ method
+class D:
+    pass
+
 def test_claim_c1():
-    # Define class C with __repr__ returning 'x.y'
-    class C:
-        def __repr__(self):
-            return 'x.y'
-
-    # Create sympy.Symbol('x')
-    x = Symbol('x')
-
-    # Create an instance of C
+    # Given: A custom class C with __repr__ returning 'x.y'
     c_instance = C()
-
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
-    # When: sympy.Symbol('x') == C()
-    # Then: No AttributeError is raised.
-    assert (x == c_instance) is False  # Test passes without raising AttributeError
-
-    # Edge case: Compare sympy.Symbol with an object having a different invalid repr
-    class D:
-        def __repr__(self):
-            return 'x.z'
-
+    
+    # Given: Create sympy.Symbol('x') instance
+    x_symbol = Symbol('x')
+    
+    # When: Compare sympy.Symbol('x') with C() instance
+    # Then: No AttributeError is raised during comparison
+    # Then: Comparison result is False as expected
+    assert (x_symbol == c_instance) is False
+    
+    # Given: Custom class with __repr__ not matching symbol name
     d_instance = D()
-    assert (x == d_instance) is False  # Test handles different invalid reprs gracefully
-
-    # Edge case: Compare sympy.Symbol with None
-    assert (x == None) is False  # Test confirms behavior with non-object types
-
-    # Edge case: Compare sympy.Symbol with a string
-    assert (x == 'x') is False  # Test confirms behavior with non-object types
+    
+    # When: Compare sympy.Symbol('x') with D() instance
+    # Then: No AttributeError is raised during comparison
+    # Then: Comparison result is False as expected
+    assert (x_symbol == d_instance) is False

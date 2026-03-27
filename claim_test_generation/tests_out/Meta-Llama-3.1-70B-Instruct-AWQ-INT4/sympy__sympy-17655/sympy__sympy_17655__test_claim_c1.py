@@ -1,30 +1,30 @@
 import pytest
-from sympy import geometry as ge
-import sympy
+from sympy import Point, Number
 
 def test_claim_c1(capsys):
-    # Given
-    point1 = ge.Point(0,0)
-    point2 = ge.Point(1,1)
+    # Given: A Point instance and a scalar (sympy.Number)
+    p = Point(1, 2)
+    scalar = Number(5)
 
-    # When
-    result1 = point1 + sympy.sympify(2.0) * point2
-    result2 = point1 + point2 * sympy.sympify(2.0)
+    # When: the scalar is multiplied by the Point (scalar * Point)
+    result = scalar * p
 
-    # Then
-    # returns Point2D(2.0, 2.0)
-    assert result1 == ge.Point2D(2.0, 2.0)
-    # behaves the same as point1 + point2 * sympy.sympify(2.0)
-    assert result1 == result2
+    # Then: No exception is raised, and the result is a Point with coordinates scaled by the scalar
+    assert isinstance(result, Point)  # Test passes without raising an exception
+    assert result == Point(5, 10)  # Resulting Point has correct scaled coordinates
 
-    # Test passes with point1 + sympy.sympify(2.0) * point2
-    assert result1 == ge.Point2D(2.0, 2.0)
+    # Edge cases
+    # Multiplying by zero
+    result = 0 * p
+    assert result == Point(0, 0)
 
-    # Test passes with point1 + point2 * sympy.sympify(2.0)
-    assert result2 == ge.Point2D(2.0, 2.0)
+    # Multiplying by a negative scalar
+    result = -1 * p
+    assert result == Point(-1, -2)
 
-    # Test fails with incorrect scalar value or point coordinates
-    with pytest.raises(AssertionError):
-        assert point1 + sympy.sympify(3.0) * point2 == ge.Point2D(2.0, 2.0)
-    with pytest.raises(AssertionError):
-        assert point1 + sympy.sympify(2.0) * ge.Point(2,2) == ge.Point2D(2.0, 2.0)
+    # Multiplying by a non-numeric scalar
+    with pytest.raises(TypeError):
+        'a' * p
+
+    # Test handles edge cases correctly
+    assert True  # This is a placeholder, you can add more assertions here

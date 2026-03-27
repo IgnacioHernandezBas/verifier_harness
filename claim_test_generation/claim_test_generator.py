@@ -4,7 +4,16 @@ import json
 import re
 from pathlib import Path
 
-_THINK_RE = re.compile(r"<think>.*?</think>\s*", re.DOTALL)
+_THINK_RE = re.compile(r"<think>[\s\S]*?</think>\s*", re.DOTALL)
+
+
+def _strip_think_tags(text: str) -> str:
+    """Strip <think>...</think> blocks, handling unclosed tags from truncated responses."""
+    text = _THINK_RE.sub("", text)
+    if "<think>" in text:
+        idx = text.index("<think>")
+        text = text[:idx]
+    return text.strip()
 from typing import Any, Dict, List, Optional
 from urllib import error as urllib_error
 from urllib import request as urllib_request
@@ -140,7 +149,7 @@ class VLLMClient:
         }
         data = self._post_json(url, payload)
         text = data["choices"][0]["message"]["content"]
-        return _THINK_RE.sub("", text)
+        return _strip_think_tags(text)
 
     def _post_json(self, url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         headers = {"Content-Type": "application/json"}

@@ -1,31 +1,39 @@
-# Checklist TODO: Use from sympy import Point, Number
-# Checklist TODO: Verify scalar*Point returns scaled Point
-# Checklist TODO: Confirm no TypeError raised during operation
 import pytest
 from sympy.geometry import Point
-from sympy import Number
 
 def test_claim_c1():
-    # Given: Create Point(1, 2) instance and scalar Number(3)
-    p = Point(1, 2)
-    scalar = Number(3)
-    # When: Multiply scalar by Point
-    result = scalar * p
-    # Then: Check result is Point with scaled coordinates
-    assert isinstance(result, Point)
-    assert result.x == scalar * p.x
-    assert result.y == scalar * p.y
+    # Given: Create Point instances with coordinates
+    p1 = Point(1, 2)
+    p2 = Point(3, 4)
+    scalar = 2
 
-    # Edge case: Zero scalar
-    zero_scalar = Number(0)
-    zero_result = zero_scalar * p
-    assert isinstance(zero_result, Point)
-    assert zero_result.x == 0
-    assert zero_result.y == 0
+    # When: Execute multiplication and addition in both orders
+    result1 = (p1 * scalar) + p2
+    result2 = p1 + (p2 * scalar)
+    result3 = (p1 + p2) * scalar
+    result4 = p1 * scalar + p2 * scalar
 
-    # Negative case: Point(-1, 0)
-    p_neg = Point(-1, 0)
-    result_neg = scalar * p_neg
-    assert isinstance(result_neg, Point)
-    assert result_neg.x == -3
-    assert result_neg.y == 0
+    # Then: Validate coordinate equality of results
+    assert result1 == result2
+    assert result3 == result4
+    assert result1.x == 5 and result1.y == 8
+    assert result3.x == 8 and result3.y == 12
+
+    # Edge case: Test with scalar=0
+    assert (p1 * 0) + p2 == p1 + (p2 * 0)
+    assert ((p1 + p2) * 0) == p1 * 0 + p2 * 0
+
+    # Edge case: Test with negative scalar (-2)
+    assert (p1 * -2) + p2 == p1 + (p2 * -2)
+    assert ((p1 + p2) * -2) == p1 * -2 + p2 * -2
+
+    # Edge case: Test non-integer scalar (0.5)
+    assert (p1 * 0.5) + p2 == p1 + (p2 * 0.5)
+    assert ((p1 + p2) * 0.5) == p1 * 0.5 + p2 * 0.5
+
+    # Edge case: Test Points with different dimensions (Point2D vs Point3D)
+    p3 = Point(5, 6, 7)
+    p4 = Point(8, 9, 10)
+    scalar = 3
+    assert (p3 * scalar) + p4 == p3 + (p4 * scalar)
+    assert ((p3 + p4) * scalar) == p3 * scalar + p4 * scalar

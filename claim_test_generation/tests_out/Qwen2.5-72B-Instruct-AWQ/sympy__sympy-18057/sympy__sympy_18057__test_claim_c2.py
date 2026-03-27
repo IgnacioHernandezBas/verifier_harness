@@ -1,51 +1,39 @@
 import pytest
 from sympy import Symbol
 
+# Define a custom class C with __repr__ returning 'x'
 class C:
     def __repr__(self):
-        return 'x.y'
+        return 'x'
 
-def test_claim_c2(monkeypatch):
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
-    x = Symbol('x')
-    c = C()
+# Create an instance of sympy.Symbol with the name 'x'
+sym_x = Symbol('x')
 
-    # When: sympy.Symbol('x') == C()
-    # Then: The comparison returns False.
-    assert (x == c) is False
+# Create an instance of the custom class C
+c_instance = C()
 
-    # Given: A SymPy Symbol and an object with a repr that evaluates to a valid expression.
-    class ValidC:
+def test_claim_c2():
+    # Test must verify that sympy.Symbol('x') does not equal C().
+    assert (sym_x == c_instance) is False, "sympy.Symbol('x') should not equal C()"
+    assert (sym_x != c_instance) is True, "sympy.Symbol('x') should not equal C()"
+
+    # Test with a custom class that has a different __repr__ method
+    class D:
         def __repr__(self):
-            return 'x + 1'
+            return 'y'
+    d_instance = D()
+    assert (sym_x == d_instance) is False, "sympy.Symbol('x') should not equal D()"
 
-    valid_c = ValidC()
-    assert (x == valid_c) is False
+    # Test with a non-string value for the symbol
+    sym_y = Symbol(1)
+    assert (sym_y == c_instance) is False, "sympy.Symbol(1) should not equal C()"
 
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an empty string.
-    class EmptyC:
-        def __repr__(self):
-            return ''
-
-    empty_c = EmptyC()
-    assert (x == empty_c) is False
-
-    # Given: A SymPy Symbol and an object with a repr that evaluates to a non-string value.
-    class NonStringC:
-        def __repr__(self):
-            return 123
-
-    non_string_c = NonStringC()
-    assert (x == non_string_c) is False
-
-    # Given: A SymPy Symbol and an object with a repr that raises an exception.
-    class BadRepr:
+    # Test with a custom class that raises an exception in its __repr__ method
+    class E:
         def __repr__(self):
             raise RuntimeError
+    e_instance = E()
+    assert (sym_x == e_instance) is False, "sympy.Symbol('x') should not equal E()"
 
-    bad_repr = BadRepr()
-    assert (x == bad_repr) is False
-
-    # Test must import sympy and use sympy.Symbol.
-    # Test must create a class with a specific __repr__ method.
-    # Test must verify the comparison returns False.
+    # Test must not rely on internal implementation details.
+    # Test must only check the public API behavior.

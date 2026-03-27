@@ -1,46 +1,23 @@
-# Checklist TODO: Test passes without exceptions.
-# Checklist TODO: Returns a list of ModuleDescriptionDict.
-# Checklist TODO: Handles edge cases gracefully.
+# Checklist TODO: Test passes with single .py file in directory
+# Checklist TODO: Function returns correct module description
+# Checklist TODO: No errors raised during execution
 import pytest
 from pylint.lint.expand_modules import expand_modules
 
 def test_claim_c1(tmpdir):
-    # Given: Create directory 'a' with files 'a.py' and 'b.py', all files are empty.
+    # Given: A directory 'a' containing a file 'a.py' and no __init__.py
     a_dir = tmpdir.mkdir('a')
-    a_dir.join('a.py').write('')
-    a_dir.join('b.py').write('')
+    a_py = a_dir.join('a.py')
+    a_py.write('')
 
-    # When: expand_modules is called with ['a'] as files_or_modules.
-    try:
-        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
-    except Exception as e:
-        # Then: No exception should be raised when expand_modules is called with ['a'] as files_or_modules.
-        pytest.fail(f"expand_modules raised an exception: {e}")
+    # When: Calling expand_modules with ['a'] as input
+    ignore_list = []
+    ignore_list_re = []
+    ignore_list_paths_re = []
+    result = expand_modules(['a'], ignore_list, ignore_list_re, ignore_list_paths_re)
 
-    # Then: The function should return a list of ModuleDescriptionDict without errors.
-    assert isinstance(module_descriptions, list)
-
-    # Edge case: Test with an empty directory 'a'.
-    a_dir.remove()
-    a_dir.mkdir('a')
-    try:
-        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
-    except Exception as e:
-        pytest.fail(f"expand_modules raised an exception: {e}")
-    assert isinstance(module_descriptions, list)
-
-    # Edge case: Test with a non-existent directory 'a'.
-    a_dir.remove()
-    try:
-        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
-    except Exception as e:
-        pytest.fail(f"expand_modules raised an exception: {e}")
-    assert isinstance(module_descriptions, list)
-
-    # Edge case: Test with a directory 'a' containing no .py files.
-    a_dir.join('c.txt').write('')
-    try:
-        module_descriptions = expand_modules(['a'], ignore_list=[], ignore_list_re=[], ignore_list_paths_re=[])
-    except Exception as e:
-        pytest.fail(f"expand_modules raised an exception: {e}")
-    assert isinstance(module_descriptions, list)
+    # Then: Returns a list containing module descriptions for 'a' without errors
+    assert isinstance(result, list)
+    assert len(result) > 0
+    # Assuming the module description is a dictionary with a 'name' key
+    assert any(module.get('name') == 'a' for module in result)

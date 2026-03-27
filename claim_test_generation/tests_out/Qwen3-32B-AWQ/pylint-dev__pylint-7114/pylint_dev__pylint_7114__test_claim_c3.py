@@ -1,28 +1,23 @@
-# Checklist TODO: Function completes without exceptions
-# Checklist TODO: Handles directory/file name collision correctly
-# Checklist TODO: Preserves module resolution for imported files
+# Checklist TODO: Test verifies no fatal error occurs for same-name module/file
+# Checklist TODO: Test uses only standard pytest fixtures
+# Checklist TODO: Test avoids implementation-specific error checks
 import pytest
-import os
 import sys
-from pathlib import Path
-from pylint.lint import expand_modules
+from pylint import epylint as lint
 
-def test_claim_c3(tmp_path):
-    # Given: Create directory structure
-    a_dir = tmp_path / "a"
-    a_dir.mkdir()
-    (a_dir / "a.py").write_text("pass")
-    (a_dir / "b.py").write_text("pass")
-    (tmp_path / "r.py").write_text("from a import b")
+def test_claim_c3(tmpdir, monkeypatch):
+    # GIVEN: Create directory structure with module and file of same name
+    module_dir = tmpdir.mkdir("a")
+    module_dir.join("__init__.py").write("")
+    tmpdir.join("a.py").write("import imp")  # Minimal valid content
 
-    # When/Then: Call expand_modules with directory 'a' and file 'r.py'
-    # Ensure no exception is raised
-    try:
-        # Change to tmp directory to ensure correct module resolution
-        os.chdir(tmp_path)
-        # Call expand_modules with the directory and file
-        result = expand_modules(["a", "r.py"])
-        # Verify function returns without exception
-        assert True
-    except Exception as e:
-        pytest.fail(f"expand_modules raised unexpected exception: {e!r}")
+    # Add tmpdir to Python path to make module discoverable
+    monkeypatch.setitem(sys.path, 0, str(tmpdir))
+
+    # WHEN: Run pylint on the module
+    output, errors = lint.py_run("a", return_std=True)
+
+    # THEN: No fatal errors (exit code 0 implied by successful run)
+    assert errors == ""
+    assert "F0010" not in output
+    assert "E0611" not in output  # Check for other irrelevant errors not in claim

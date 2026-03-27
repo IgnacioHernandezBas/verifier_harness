@@ -1,58 +1,26 @@
-# Checklist TODO: Test must verify the type of the field value is str.
-# Checklist TODO: Test must handle creation of model instances.
-# Checklist TODO: Test must cover both TextChoices and IntegerChoices.
+# Checklist TODO: Test must create a model instance with a specific choice.
+# Checklist TODO: Test must access the field value and check its type.
+# Checklist TODO: Test must verify the value matches the expected string.
 import pytest
 from django.db import models
-from django.db.models.enums import TextChoices, IntegerChoices
+from django.db.models.enums import TextChoices
 
 # Define a Django model with a CharField using TextChoices
-class TestModelTextChoices(models.Model):
-    class Choices(TextChoices):
-        OPTION1 = '1', 'Option 1'
-        OPTION2 = '2', 'Option 2'
-    
-    field = models.CharField(max_length=10, choices=Choices.choices)
+class MyChoice(TextChoices):
+    FIRST_CHOICE = 'first', 'First Choice'
+    SECOND_CHOICE = 'second', 'Second Choice'
 
-# Define a Django model with an IntegerField using IntegerChoices
-class TestModelIntegerChoices(models.Model):
-    class Choices(IntegerChoices):
-        OPTION1 = 1, 'Option 1'
-        OPTION2 = 2, 'Option 2'
-    
-    field = models.IntegerField(choices=Choices.choices)
+class MyModel(models.Model):
+    choice_field = models.CharField(max_length=10, choices=MyChoice.choices)
 
-# Test the public API behavior of TextChoices and IntegerChoices in Django models.
+# Test function
 def test_claim_c1():
-    # GIVEN: A model instance with a CharField using TextChoices
-    # WHEN: Creating an instance of the model
-    instance_text_choices = TestModelTextChoices(field=TestModelTextChoices.Choices.OPTION1)
-    # THEN: The value returned by the getter of the field is of type str
-    assert isinstance(instance_text_choices.field, str)
+    # GIVEN: A model with a CharField using TextChoices and an instance created with MyChoice.FIRST_CHOICE
+    instance = MyModel(choice_field=MyChoice.FIRST_CHOICE)
 
-    # GIVEN: A model instance with an IntegerField using IntegerChoices
-    # WHEN: Creating an instance of the model
-    instance_integer_choices = TestModelIntegerChoices(field=TestModelIntegerChoices.Choices.OPTION1)
-    # THEN: The value returned by the getter of the field is of type str
-    assert isinstance(instance_integer_choices.field, str)
+    # WHEN: Accessing the field value via model instance attribute
+    field_value = instance.choice_field
 
-    # GIVEN: A model instance with both CharField and IntegerField using choices
-    # WHEN: Creating an instance of the model
-    instance_both_choices = TestModelTextChoices(field=TestModelTextChoices.Choices.OPTION1)
-    instance_both_choices.field = TestModelIntegerChoices.Choices.OPTION1
-    # THEN: The value returned by the getter of the field is of type str
-    assert isinstance(instance_both_choices.field, str)
-    assert isinstance(instance_both_choices.field, str)
-
-    # Test with a CharField using an invalid choice
-    with pytest.raises(ValueError):
-        TestModelTextChoices(field='invalid')
-
-    # Test with an IntegerField using an invalid choice
-    with pytest.raises(ValueError):
-        TestModelIntegerChoices(field=999)
-
-    # Test with a model that has both CharField and IntegerField with choices
-    instance_both = TestModelTextChoices(field=TestModelTextChoices.Choices.OPTION1)
-    instance_both.field = TestModelIntegerChoices.Choices.OPTION1
-    assert isinstance(instance_both.field, str)
-    assert isinstance(instance_both.field, str)
+    # THEN: The value is a string equal to 'first' and isinstance returns True for str
+    assert field_value == 'first'
+    assert isinstance(field_value, str)

@@ -1,19 +1,15 @@
-# Checklist TODO: Test confirms no exception during Symbol vs custom object comparison
-# Checklist TODO: Assert comparison returns False as per correct behavior
-# Checklist TODO: Verify __repr__ handling doesn't trigger attribute access
+# Checklist TODO: Test confirms __eq__ handles custom repr objects safely
+# Checklist TODO: No AttributeError occurs during cross-type comparison
+# Checklist TODO: Verification aligns with issue reproduction scenario
 import pytest
-from sympy import Symbol
+import sympy
 
 def test_claim_c1():
-    # Given: Custom class with __repr__ 'x.y'
+    # Given: An unknown object whose repr is 'x.y'
     class C:
         def __repr__(self):
             return 'x.y'
-    c = C()
-    x = Symbol('x')
-
-    # When: Comparing x == c
-    result = x == c
-
-    # Then: No exception raised and result is False
-    assert result is False
+    # When: Calling sympy.Symbol('x') == C()
+    x = sympy.Symbol('x')
+    # Then: Does not raise an AttributeError
+    assert (x == C()) is False

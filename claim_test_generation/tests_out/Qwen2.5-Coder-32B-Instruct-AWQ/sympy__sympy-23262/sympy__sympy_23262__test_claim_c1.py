@@ -1,27 +1,28 @@
-# Checklist TODO: Test passes with a single-element tuple.
-# Checklist TODO: Test fails with an empty tuple.
-# Checklist TODO: Test passes with a multi-element tuple.
 import pytest
-import inspect
-from sympy import lambdify
+from sympy.utilities.lambdify import _recursive_to_string
 
 def test_claim_c1():
-    # Given: A tuple with one element is passed to the lambdify function.
-    # When: The inspect.getsource(lambdify([], tuple([1]))) function is called.
-    # Then: The returned string should include a trailing comma in the return statement.
-    source_code = inspect.getsource(lambdify([], tuple([1])))
-    assert 'return (1,)' in source_code
+    # Given: A tuple containing exactly one element is passed to the code printer
+    # When: Calling _recursive_to_string with a single-element tuple argument
+    # Then: The generated code string ends with ',)' syntax (e.g., '(1,)')
 
-    # Test fails with an empty tuple.
-    # Given: An empty tuple is passed to the lambdify function.
-    # When: The inspect.getsource(lambdify([], tuple([]))) function is called.
-    # Then: The returned string should not include a trailing comma in the return statement.
-    source_code_empty_tuple = inspect.getsource(lambdify([], tuple([])))
-    assert 'return ()' in source_code_empty_tuple
+    # Create a single-element tuple as input
+    int_tuple = (1,)
+    str_tuple = ("hello",)
+    none_tuple = (None,)
 
-    # Test passes with a multi-element tuple.
-    # Given: A tuple with multiple elements is passed to the lambdify function.
-    # When: The inspect.getsource(lambdify([], tuple([1, 2, 3]))) function is called.
-    # Then: The returned string should not include a trailing comma in the return statement.
-    source_code_multi_element_tuple = inspect.getsource(lambdify([], tuple([1, 2, 3])))
-    assert 'return (1, 2, 3)' in source_code_multi_element_tuple
+    # Prepare a mock doprint function that returns its argument as a string
+    def mock_doprint(arg):
+        return str(arg)
+
+    # Test passes with a single-element integer tuple
+    result_int = _recursive_to_string(mock_doprint, int_tuple)
+    assert result_int.endswith(',)')
+
+    # Test passes with a single-element string tuple
+    result_str = _recursive_to_string(mock_doprint, str_tuple)
+    assert result_str.endswith(',)')
+
+    # Test handles None in the tuple correctly
+    result_none = _recursive_to_string(mock_doprint, none_tuple)
+    assert result_none.endswith(',)')

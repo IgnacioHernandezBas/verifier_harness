@@ -1,41 +1,40 @@
-# Checklist TODO: Test verifies the correct result of point1 + sympy.sympify(2.0) * point2
-# Checklist TODO: Test verifies the correct result of point1 + point2 * sympy.sympify(2.0)
-# Checklist TODO: Test handles various coordinate types for point1 and point2
 import pytest
-from sympy import sympify
-from sympy.geometry.point import Point
+from sympy import Point, Number
 
 def test_claim_c1():
-    # Given: point1 is a Point object with coordinates (0,0) and point2 is a Point object with coordinates (1,1)
-    point1 = Point(0, 0)
-    point2 = Point(1, 1)
-
-    # When: point1 + sympy.sympify(2.0) * point2
-    result1 = point1 + sympify(2.0) * point2
-
-    # Then: returns Point2D(2.0, 2.0)
-    assert result1 == Point(2.0, 2.0)
-
-    # When: point1 + point2 * sympy.sympify(2.0)
-    result2 = point1 + point2 * sympify(2.0)
-
-    # Then: returns Point2D(2.0, 2.0)
-    assert result2 == Point(2.0, 2.0)
-
-    # Test with point1 and point2 having integer coordinates
-    point1_int = Point(0, 0)
-    point2_int = Point(1, 1)
-    assert point1_int + sympify(2) * point2_int == Point(2, 2)
-    assert point1_int + point2_int * sympify(2) == Point(2, 2)
-
-    # Test with point1 and point2 having negative coordinates
-    point1_neg = Point(-1, -1)
-    point2_neg = Point(-1, -1)
-    assert point1_neg + sympify(2.0) * point2_neg == Point(-3.0, -3.0)
-    assert point1_neg + point2_neg * sympify(2.0) == Point(-3.0, -3.0)
-
-    # Test with point1 and point2 having zero coordinates
-    point1_zero = Point(0, 0)
-    point2_zero = Point(0, 0)
-    assert point1_zero + sympify(2.0) * point2_zero == Point(0.0, 0.0)
-    assert point1_zero + point2_zero * sympify(2.0) == Point(0.0, 0.0)
+    # Create a Point instance with specific coordinates.
+    p = Point(1, 2)
+    
+    # Define a scalar using sympy.Number.
+    scalar = Number(3)
+    
+    # Verify no exceptions occur during scalar multiplication.
+    # Check resulting Point coordinates are correctly scaled.
+    result = scalar * p
+    assert isinstance(result, Point)
+    assert result.x == 3
+    assert result.y == 6
+    
+    # Test multiplication with a scalar of value zero.
+    zero_scalar = Number(0)
+    zero_result = zero_scalar * p
+    assert isinstance(zero_result, Point)
+    assert zero_result.x == 0
+    assert zero_result.y == 0
+    
+    # Test multiplication with a negative scalar.
+    negative_scalar = Number(-2)
+    negative_result = negative_scalar * p
+    assert isinstance(negative_result, Point)
+    assert negative_result.x == -2
+    assert negative_result.y == -4
+    
+    # Test multiplication with a non-integer scalar.
+    non_integer_scalar = Number(1.5)
+    non_integer_result = non_integer_scalar * p
+    assert isinstance(non_integer_result, Point)
+    assert non_integer_result.x == 1.5
+    assert non_integer_result.y == 3.0
+    
+    # Ensure test covers various scalar types and values.
+    # (Already covered by the previous tests)

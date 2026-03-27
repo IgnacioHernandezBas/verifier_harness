@@ -144,7 +144,7 @@ fi
 
 # Detect model size to optimize parameters
 MODEL_SIZE="unknown"
-if [[ "${TESTS_MODEL}" =~ 70[Bb] ]]; then
+if [[ "${TESTS_MODEL}" =~ 7[02][Bb] ]]; then
   MODEL_SIZE="70b"
 elif [[ "${TESTS_MODEL}" =~ Qwen3 ]]; then
   MODEL_SIZE="32b"
@@ -173,8 +173,9 @@ elif [[ ${GPU_COUNT} -ge 2 ]]; then
   # 2-3 GPUs: Balanced configuration (RECOMMENDED for 70B)
   GPU_MEM_UTIL=0.90
   if [[ "${MODEL_SIZE}" == "70b" ]]; then
-    MAX_MODEL_LEN=8192
+    MAX_MODEL_LEN=12288
     MAX_NUM_SEQS=64
+    ENFORCE_EAGER="true"  # Avoid torch._dynamo compilation bugs with TP + AWQ
   else
     MAX_MODEL_LEN=12288
     MAX_NUM_SEQS=128
@@ -269,7 +270,7 @@ if [[ ${#VLLM_EXTRA_ARGS[@]} -gt 0 ]]; then
   VLLM_SERVER_ARGS+=("${VLLM_EXTRA_ARGS[@]}")
 fi
 
-PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
+PYTHONUNBUFFERED=1 conda run --no-capture-output -n verifier_llm python -m vllm.entrypoints.openai.api_server \
   "${VLLM_SERVER_ARGS[@]}" \
   > "${LOG_DIR}/vllm_multi_${SLURM_JOB_ID}.log" 2>&1 &
 

@@ -1,23 +1,35 @@
-# Checklist TODO: Test passes without raising exceptions.
-# Checklist TODO: Returns a list of ModuleDescriptionDict.
-# Checklist TODO: List does not contain any error entries.
+# Checklist TODO: Test passes without raising F0010 exceptions
+# Checklist TODO: Expand_modules correctly identifies and processes the .py file
+# Checklist TODO: No unexpected exceptions are raised during the test
 import pytest
-from pylint.lint.expand_modules import expand_modules
+from pylint.lint import expand_modules
+from pylint.lint.pylinter import PyLinter
+from pylint.utils import register_plugins
 
 def test_claim_c2(tmpdir):
-    # Given: Create directory structure: a/, a/a.py, a/b.py, r.py
-    a_dir = tmpdir.mkdir("a")
-    a_dir.join("a.py").write("")
-    a_dir.join("b.py").write("")
-    r_file = tmpdir.join("r.py")
-    r_file.write("from a import b")
+    # Given: A directory 'a' containing 'a.py' but no __init__.py
+    dir_a = tmpdir.mkdir("a")
+    dir_a.join("a.py").write("import imp")
 
-    # When: expand_modules is called with ['r', 'a'] as files_or_modules
-    with tmpdir.as_cwd():
-        module_descriptions = expand_modules(['r', 'a'])
+    # Edge case: Directory name matches the .py file name
+    # Edge case: Directory contains other .py files besides the one matching the directory name
+    dir_a.join("b.py").write("pass")
 
-    # Then: No exception should be raised during the execution of expand_modules.
-    # Then: The function should return a list of ModuleDescriptionDict.
-    assert isinstance(module_descriptions, list)
-    # Then: The returned list should not contain any error entries.
-    assert all('ex' not in desc for desc in module_descriptions)
+    # Edge case: Directory is nested within another directory
+    nested_dir = dir_a.mkdir("nested")
+    nested_dir.join("nested.py").write("pass")
+
+    # When: Processing the directory through expand_modules' file resolution logic
+    linter = PyLinter()
+    register_plugins(linter)
+    linter.load_default_plugins()
+
+    # Then: No F0010 exceptions are raised about missing __init__.py
+    with pytest.raises(SystemExit) as excinfo:
+        linter.check([str(dir_a)])
+    
+    # Check that no F0010 errors are in the stats
+    assert "F0010" not in linter.stats.by_msg
+
+    # No unexpected exceptions are raised during the test
+    assert excinfo.value.code == 0

@@ -1,18 +1,20 @@
-# Checklist TODO: Test passes without raising FileNotFoundError.
-# Checklist TODO: Temporary directory is created successfully.
-# Checklist TODO: Mocked username is correctly handled.
 import pytest
+from pytest import monkeypatch
 
-def test_claim_c1(monkeypatch, tmpdir_factory):
-    # Given: The username returned by getpass.getuser() contains illegal characters for directory names, e.g., 'contoso\john_doe'.
+def test_claim_c1(monkeypatch):
+    # Given: A username containing backslash (e.g. 'contoso\john_doe') from getpass.getuser()
     monkeypatch.setattr("getpass.getuser", lambda: "contoso\\john_doe")
-    
-    # When: tmpdir_factory.mktemp('foobar') is called
-    temp_dir = tmpdir_factory.mktemp('foobar')
-    
-    # Then: No FileNotFoundError is raised.
-    # Temporary directory is created successfully.
-    assert temp_dir.exists()
-    
-    # Mocked username is correctly handled.
-    assert "pytest-of-contoso" in str(temp_dir)
+
+    # When: getbasetemp() is called during tmpdir_factory initialization
+    from _pytest.tmpdir import TempPathFactory
+    tmp_path_factory = TempPathFactory(config=None, _basetemp=None, _given_basetemp=None)
+    p = tmp_path_factory.getbasetemp()
+
+    # Then: The directory 'pytest-of-<sanitized_user>' is successfully created without invalid characters in the path
+    # Directory name is sanitized correctly.
+    assert "pytest-of-contoso_john_doe" in str(p)
+
+    # No errors occur during directory creation.
+    # Directory is located in the system's temp directory.
+    import tempfile
+    assert str(p).startswith(tempfile.gettempdir())

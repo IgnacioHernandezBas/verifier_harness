@@ -1,15 +1,37 @@
-# Checklist TODO: Test fails with current pytest.raises behavior.
-# Checklist TODO: Test passes with expected full error message.
-# Checklist TODO: Verify no unintended side effects on other exception handling.
+# Checklist TODO: Test passes with multi-line exception message.
+# Checklist TODO: Asserts correct string representation of exception.
+# Checklist TODO: Handles edge cases gracefully.
 import pytest
 
 def test_claim_c1():
-    # Given: A LookupError is raised with a multi-line message inside a pytest.raises context.
+    # Given: An exception with a multi-line message is raised and caught by pytest.raises
     with pytest.raises(LookupError) as e:
         raise LookupError("A\nB\nC")
-    
-    # When: str(e) is called where e is the pytest.raises context variable.
-    error_message = str(e)
-    
-    # Then: The full error message 'A\nB\nC' is returned.
-    assert error_message == "A\nB\nC"
+
+    # When: Calling str() on the pytest.raises context manager's exception object (e)
+    exception_str = str(e)
+
+    # Then: The returned string contains the full exception message (e.value) instead of the location and exception type
+    assert exception_str == "A\nB\nC"
+
+    # Edge case: Exception message with special characters
+    with pytest.raises(LookupError) as e:
+        raise LookupError("Special chars: !@#$%^&*()")
+
+    exception_str = str(e)
+    assert exception_str == "Special chars: !@#$%^&*()"
+
+    # Edge case: Empty exception message
+    with pytest.raises(LookupError) as e:
+        raise LookupError("")
+
+    exception_str = str(e)
+    assert exception_str == ""
+
+    # Edge case: Very long exception message
+    long_message = "a" * 1000
+    with pytest.raises(LookupError) as e:
+        raise LookupError(long_message)
+
+    exception_str = str(e)
+    assert exception_str == long_message

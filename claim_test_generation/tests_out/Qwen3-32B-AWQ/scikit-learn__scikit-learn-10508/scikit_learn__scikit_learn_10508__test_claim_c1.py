@@ -1,17 +1,19 @@
-# Checklist TODO: Verify empty array is returned for empty input
-# Checklist TODO: Confirm dtype matches encoded output (float64 for string fit in GOLD case)
-# Checklist TODO: Ensure no exceptions raised during transform
+# Checklist TODO: Encoder is properly fitted before transform
+# Checklist TODO: Empty input returns zero-length array
+# Checklist TODO: Output dtype matches GOLD behavior (float64)
 import pytest
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 
 def test_claim_c1():
-    # Given: LabelEncoder fitted on string labels
+    # GIVEN: LabelEncoder is fitted with certain inputs
     le = LabelEncoder()
-    le.fit(['a', 'b'])
-    # When: transform empty list
-    result_str = le.transform([])
-    # Then: returns empty numpy array with dtype=float64
-    assert isinstance(result_str, np.ndarray)
-    assert result_str.shape == (0,)
-    assert result_str.dtype == np.float64
+    le.fit([1, 2])
+    
+    # WHEN: transform is called with an empty list
+    result = le.transform([])
+    
+    # THEN: returns empty outputs (empty sequences OR arrays with size==0)
+    assert isinstance(result, np.ndarray)
+    assert result.shape == (0,)
+    assert result.dtype == np.float64

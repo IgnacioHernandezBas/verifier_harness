@@ -1,43 +1,30 @@
 import pytest
 from django.db import models
-from django.db.models import TextChoices, IntegerChoices
 
-# Given: A model instance with a CharField or IntegerField with choices pointing to IntegerChoices or TextChoices
+# Create a model with a CharField using TextChoices
+class MyChoice(models.TextChoices):
+    FIRST_CHOICE = 'first', 'First Choice'
+    SECOND_CHOICE = 'second', 'Second Choice'
+
 class MyModel(models.Model):
-    class Color(TextChoices):
-        RED = 'red', 'Red'
-        GREEN = 'green', 'Green'
+    my_field = models.CharField(max_length=10, choices=MyChoice.choices)
 
-    class Size(IntegerChoices):
-        SMALL = 1, 'Small'
-        MEDIUM = 2, 'Medium'
-        LARGE = 3, 'Large'
+# Given: A model with a CharField using TextChoices and an instance created with MyChoice.FIRST_CHOICE
+def test_claim_c1(capsys):
+    # When: Accessing the field value via model instance attribute
+    obj = MyModel(my_field=MyChoice.FIRST_CHOICE)
+    
+    # Then: The value is a string equal to 'first' and isinstance returns True for str
+    assert isinstance(obj.my_field, str)  # isinstance returns True for str
+    assert obj.my_field == 'first'  # Accessed field value equals 'first'
+    assert isinstance(obj.my_field, str)  # Accessed field value is a string
 
-    color = models.CharField(max_length=10, choices=Color.choices)
-    size = models.IntegerField(choices=Size.choices)
-
-# When: Creating an instance of the model
-def test_claim_c1():
-    # Create a model instance with a CharField and choices pointing to TextChoices
-    my_model = MyModel(color='red', size=1)
-
-    # Then: The value returned by the getter of the field is of type str
-    # Test passes with valid choice values
-    assert isinstance(my_model.color, str)
-    assert isinstance(my_model.size, int)
-
-    # Test checks the type of the returned value
-    assert my_model.color == 'red'
-    assert my_model.size == 1
-
-    # Test fails with invalid choice values
-    with pytest.raises(ValueError):
-        MyModel(color='invalid', size=1)
-
-    # Test fails with missing choice value
-    with pytest.raises(ValueError):
-        MyModel(color=None, size=1)
-
-    # Test fails with choice value not set
-    with pytest.raises(ValueError):
-        MyModel(color='', size=1)
+    # Test passes with the correct field value
+    assert obj.my_field == 'first'
+    
+    # Test fails with an incorrect field value
+    with pytest.raises(AssertionError):
+        assert obj.my_field == 'second'
+    
+    # Test does not fail with internal implementation details
+    # No need to test internal implementation details, just the public API behavior

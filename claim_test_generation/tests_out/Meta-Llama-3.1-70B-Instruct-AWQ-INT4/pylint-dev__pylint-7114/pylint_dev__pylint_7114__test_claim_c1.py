@@ -1,29 +1,40 @@
+# Checklist TODO: Test passes with valid input
+# Checklist TODO: Test fails with invalid input
+# Checklist TODO: Test does not check internal implementation details
 import pytest
-from pylint.lint import PyLinter
-
-# Test passes without raising an exception
-# expand_modules returns a list of ModuleDescriptionDict
-# Test succeeds with the expected output
+from pylint.lint import expand_modules
 
 def test_claim_c1(tmp_path):
-    # Create a directory structure with multiple empty files
-    # Create a directory 'a' with an empty file 'a.py'
-    # Create an empty file 'b.py' in the root directory
-    a_dir = tmp_path / "a"
+    # Given: A directory structure where 'a' contains 'a.py' and no __init__.py
+    a_dir = tmp_path / 'a'
     a_dir.mkdir()
-    (a_dir / "a.py").touch()
-    (tmp_path / "b.py").touch()
+    (a_dir / 'a.py').touch()
 
-    # No exception is raised when calling expand_modules
-    # expand_modules returns a list of ModuleDescriptionDict without errors
-    linter = PyLinter()
+    # When: Calling expand_modules with ['a'] as input
+    input_paths = [str(a_dir)]
+
+    # Then: Returns a list containing module descriptions for 'a' without errors
+    # Test passes with valid input
+    result = expand_modules(input_paths)
+    assert len(result) > 0
+
+    # Test does not check internal implementation details
+    # Test does not raise any exceptions
     try:
-        result = linter.expand_modules([str(a_dir)])
+        expand_modules(input_paths)
     except Exception as e:
-        pytest.fail(f"Test failed with exception: {e}")
+        pytest.fail(f"Unexpected exception: {e}")
 
-    # Test with a non-existent directory
-    # Test with a directory containing non-empty files
-    # Test with a directory containing non-python files
-    assert isinstance(result, list)
-    assert all(isinstance(item, dict) for item in result)
+    # Edge cases
+    # Empty input list
+    assert len(expand_modules([])) == 0
+
+    # Input list with non-existent directory
+    non_existent_dir = str(tmp_path / 'non_existent')
+    assert len(expand_modules([non_existent_dir])) == 0
+
+    # Input list with directory containing __init__.py
+    init_dir = tmp_path / 'init_dir'
+    init_dir.mkdir()
+    (init_dir / '__init__.py').touch()
+    assert len(expand_modules([str(init_dir)])) > 0

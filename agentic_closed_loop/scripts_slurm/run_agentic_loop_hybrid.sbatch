@@ -184,14 +184,21 @@ if [[ -f "${STATE_FILE}" ]]; then
   rm -f "${STATE_FILE}"
 fi
 
-# Clean up generated test file
+# Clean up generated test file (check both old flat and new claims-model-aware paths)
 INSTANCE_SLUG=$(echo "${INSTANCE_ID}" | sed 's/[^a-zA-Z0-9_-]/_/g')
 CLAIM_SLUG=$(echo "${CLAIM_ID}" | sed 's/[^a-zA-Z0-9_-]/_/g')
-TEST_FILE="${ROOT_DIR}/claim_test_generation/tests_out/${INSTANCE_ID}/${INSTANCE_SLUG}__test_claim_${CLAIM_SLUG}.py"
-if [[ -f "${TEST_FILE}" ]]; then
-  echo "  - Removing old test file: ${TEST_FILE}"
-  rm -f "${TEST_FILE}"
-fi
+TESTS_SLUG=$(echo "${TESTS_MODEL}" | sed 's|.*/||')
+CLAIMS_SLUG=$(echo "${CLAIMS_MODEL}" | sed 's|.*/||')
+# New path: tests_out/<tests_model>/claims_<claims_model>/<instance_id>/
+TEST_FILE_NEW="${ROOT_DIR}/claim_test_generation/tests_out/${TESTS_SLUG}/claims_${CLAIMS_SLUG}/${INSTANCE_ID}/${INSTANCE_SLUG}__test_claim_${CLAIM_SLUG}.py"
+# Legacy flat path: tests_out/<instance_id>/
+TEST_FILE_LEGACY="${ROOT_DIR}/claim_test_generation/tests_out/${INSTANCE_ID}/${INSTANCE_SLUG}__test_claim_${CLAIM_SLUG}.py"
+for TEST_FILE in "${TEST_FILE_NEW}" "${TEST_FILE_LEGACY}"; do
+  if [[ -f "${TEST_FILE}" ]]; then
+    echo "  - Removing old test file: ${TEST_FILE}"
+    rm -f "${TEST_FILE}"
+  fi
+done
 
 # Clean up cached verification results
 VERIFY_CACHE="${ROOT_DIR}/claim_test_verification/verification_out/${INSTANCE_ID}"

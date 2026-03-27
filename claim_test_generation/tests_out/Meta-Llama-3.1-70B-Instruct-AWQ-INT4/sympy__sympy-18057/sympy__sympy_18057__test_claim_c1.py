@@ -1,48 +1,44 @@
 import pytest
 from sympy import Symbol
 
+# Checklist: Test passes without raising AttributeError
+# Checklist: Test correctly handles custom class with __repr__ method
+# Checklist: Test correctly handles comparison between sympy.Symbol and custom object
+
 def test_claim_c1(capsys):
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
-    x = Symbol('x')
+    # Given: A custom class C with __repr__ returning 'x.y'
     class C:
         def __repr__(self):
             return 'x.y'
 
-    # When: sympy.Symbol('x') == C()
+    # When: Calling __eq__ between sympy.Symbol('x') and C()
+    # Then: No AttributeError is raised during comparison
     try:
-        # Test passes without raising an AttributeError
-        x == C()
+        _ = Symbol('x') == C()
     except AttributeError as e:
         pytest.fail(f"AttributeError raised: {e}")
 
-    # Then: No AttributeError is raised.
-    # Test correctly handles invalid expressions
-    # Test uses correct imports as shown in issue context
-
-    # Edge cases
-    # Invalid expression with multiple levels of nesting
-    class NestedC:
+    # Edge case: Custom class C with __repr__ returning a different string
+    class D:
         def __repr__(self):
-            return 'x.y.z'
+            return 'a.b'
+
     try:
-        x == NestedC()
+        _ = Symbol('x') == D()
     except AttributeError as e:
         pytest.fail(f"AttributeError raised: {e}")
 
-    # Invalid expression with special characters
-    class SpecialC:
-        def __repr__(self):
-            return 'x!@#$%^&*()'
+    # Edge case: Custom class C without __repr__ method
+    class E:
+        pass
+
     try:
-        x == SpecialC()
+        _ = Symbol('x') == E()
     except AttributeError as e:
         pytest.fail(f"AttributeError raised: {e}")
 
-    # Valid expression for comparison
-    class ValidC:
-        def __repr__(self):
-            return 'x'
+    # Edge case: Comparing sympy.Symbol('x') with a different object
     try:
-        x == ValidC()
+        _ = Symbol('x') == 5
     except AttributeError as e:
         pytest.fail(f"AttributeError raised: {e}")

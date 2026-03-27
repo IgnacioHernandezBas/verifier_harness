@@ -1,58 +1,57 @@
 import pytest
-from pylint.checkers import misc
 from pylint import lint
+from pylint.checkers import misc
+from pylint.config import Configuration
 
-# Checklist
-# Test returns fixme warnings for both lines
-# Fixme warnings contain correct note tags
-# Test handles edge cases correctly
+# Given: A Python file containing a comment line with a note tag consisting entirely of punctuation (e.g., '???')
+# When: Running pylint with --notes="YES,???" on the file
+# Then: Pylint outputs a W0511 warning for both the 'YES' and '???' note tags
 
 def test_claim_c1(capsys):
-    # Given
-    # The --notes option is set to include 'YES,???' and the source file contains '# YES: yes' and '# ???: no'.
-    notes = ['YES', '???']
+    # Checklist: Test emits W0511 warning for 'YES' note tag
+    # Checklist: Test emits W0511 warning for '???' note tag
+    # Checklist: Test handles note tags with punctuation correctly
+
+    # Data setup: Create a Python file with a comment line containing a note tag consisting entirely of punctuation
     code = """# YES: yes
 # ???: no"""
 
-    # When
-    # pylint.process_tokens is called with tokens containing '# YES: yes' and '# ???: no'.
+    # Data setup: Run pylint with --notes="YES,???" on the file
+    config = Configuration()
+    config.notes = ["YES", "???"]
     linter = lint.PyLinter()
-    linter.set_option('notes', notes)
+    linter.set_option('notes', config.notes)
     linter.check([misc.MiscChecker(linter)])
-    linter.feed(code)
-    linter.feed('')
-    linter.close()
+    linter.check([code])
 
-    # Then
-    # pylint should return fixme warnings for both lines.
+    # Assertions: Pylint outputs a W0511 warning for both the 'YES' and '???' note tags
     captured = capsys.readouterr()
-    assert "fixme" in captured.out
-    assert "YES" in captured.out
-    assert "???" in captured.out
+    assert "W0511: YES: yes" in captured.out
+    assert "W0511: ???: no" in captured.out
 
-    # Edge cases
-    # Empty --notes option
-    linter.set_option('notes', [])
-    linter.feed(code)
-    linter.feed('')
-    linter.close()
+    # Edge cases: Empty note tags
+    config.notes = [""]
+    linter = lint.PyLinter()
+    linter.set_option('notes', config.notes)
+    linter.check([misc.MiscChecker(linter)])
+    linter.check([code])
     captured = capsys.readouterr()
-    assert "fixme" not in captured.out
+    assert "W0511" not in captured.out
 
-    # Tokens without note tags
-    code = """# foo: bar"""
-    linter.set_option('notes', notes)
-    linter.feed(code)
-    linter.feed('')
-    linter.close()
+    # Edge cases: Note tags with only whitespace
+    config.notes = ["   "]
+    linter = lint.PyLinter()
+    linter.set_option('notes', config.notes)
+    linter.check([misc.MiscChecker(linter)])
+    linter.check([code])
     captured = capsys.readouterr()
-    assert "fixme" not in captured.out
+    assert "W0511" not in captured.out
 
-    # Tokens with invalid note tags
-    code = """# invalid: note"""
-    linter.set_option('notes', notes)
-    linter.feed(code)
-    linter.feed('')
-    linter.close()
+    # Edge cases: Note tags with non-punctuation characters
+    config.notes = ["abc"]
+    linter = lint.PyLinter()
+    linter.set_option('notes', config.notes)
+    linter.check([misc.MiscChecker(linter)])
+    linter.check([code])
     captured = capsys.readouterr()
-    assert "fixme" not in captured.out
+    assert "W0511" not in captured.out

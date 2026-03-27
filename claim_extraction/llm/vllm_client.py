@@ -5,7 +5,17 @@ import requests
 from typing import Optional, List
 from claim_extraction.llm.base import LLMClient, LLMResponse
 
-_THINK_RE = re.compile(r"<think>.*?</think>\s*", re.DOTALL)
+_THINK_RE = re.compile(r"<think>[\s\S]*?</think>\s*", re.DOTALL)
+
+
+def strip_think_tags(text: str) -> str:
+    """Strip <think>...</think> blocks, handling unclosed tags from truncated responses."""
+    text = _THINK_RE.sub("", text)
+    # Handle unclosed <think> (truncated by max_tokens): discard everything from <think>
+    if "<think>" in text:
+        idx = text.index("<think>")
+        text = text[:idx]
+    return text.strip()
 
 class VLLMClient(LLMClient):
     def __init__(self, endpoint: str, model: str, timeout_s: int = 120,
@@ -35,5 +45,5 @@ class VLLMClient(LLMClient):
         r.raise_for_status()
         data = r.json()
         text = data["choices"][0]["message"]["content"]
-        text = _THINK_RE.sub("", text)
+        text = strip_think_tags(text)
         return LLMResponse(text=text, raw=data)

@@ -1,17 +1,18 @@
-# Checklist TODO: Test raises correct exception type for invalid options
-# Checklist TODO: Error message includes 'Unrecognized option found'
-# Checklist TODO: No traceback appears in user output
+# Checklist TODO: Test verifies correct exception type is raised
+# Checklist TODO: Confirms traceback absence in error output
+# Checklist TODO: Validates error message contains option identifier
 import pytest
-from pylint.testutils._run import _Run
+from pylint.testutils._run import _Run as Run
+from pylint.config.exceptions import _UnrecognizedOptionError
 
-def test_claim_c1(capsys):
-    # Given: An unrecognized option is passed to pylint
-    # WHEN: _config_initialization is called with the unrecognized option
+def test_claim_c1(tmp_path, capsys):
+    # Given: An unrecognized option '-Q' is passed
+    dummy_file = tmp_path / "dummy.py"
+    dummy_file.touch()
+    # When: Calling pylint with an unrecognized option
     with pytest.raises(SystemExit):
-        _Run(["--unknown-option"], exit=False)
-    # THEN: A user-friendly error message is printed without a traceback
+        Run([str(dummy_file), "-Q"], exit=False)
+    # Then: Pylint should raise an _UnrecognizedOptionError without a traceback
     captured = capsys.readouterr()
-    assert "usage: pylint" in captured.err
-    assert "Unrecognized option" in captured.err
-    # Verify no traceback appears in captured output
+    assert "Unrecognized option found: Q" in captured.err
     assert "Traceback" not in captured.err

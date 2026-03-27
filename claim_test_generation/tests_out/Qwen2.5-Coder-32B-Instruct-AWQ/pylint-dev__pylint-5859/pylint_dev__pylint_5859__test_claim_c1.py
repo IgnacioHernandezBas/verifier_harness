@@ -1,43 +1,54 @@
 import pytest
 from pylint.checkers.misc import MiscChecker
-from pylint.utils import tokenize_str
+from pylint.lint import PyLinter
+from pylint.reporters import CollectingReporter
 
-def test_claim_c1(monkeypatch):
-    # Function processes tokens correctly with specified notes.
-    # Output includes fixme warnings for both lines.
-    # Function handles edge cases gracefully.
+@pytest.fixture
+def linter():
+    linter = PyLinter()
+    linter.set_reporter(CollectingReporter())
+    linter.register_checker(MiscChecker(linter))
+    return linter
 
-    # Given: The --notes option is set to include 'YES,???' and the source file contains '# YES: yes' and '# ???: no'.
-    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': ['YES', '???']}))
-
-    # Create an instance of MiscChecker
-    checker = MiscChecker()
-
-    # Create tokens containing '# YES: yes' and '# ???: no'
-    code = """a = 1
-# YES: yes
+def test_claim_c1(tmpdir, linter, capsys):
+    # Given: A Python file containing a comment line with a note tag consisting entirely of punctuation (e.g., '???')
+    test_file = tmpdir.join("test.py")
+    test_file.write("""# YES: yes
 # ???: no
-"""
-    tokens = list(tokenize_str(code))
+""")
 
-    # When: pylint.process_tokens is called with tokens containing '# YES: yes' and '# ???: no'.
-    with pytest.raises(AssertionError) as excinfo:
-        # Check for W0511: YES: yes (fixme) in the output.
-        # Check for W0511: ???: no (fixme) in the output.
-        checker.process_tokens(tokens)
+    # When: Running pylint with --notes="YES,???" on the file
+    linter.load_default_plugins()
+    linter.configure_from_command_line(['--notes=YES,???'])
+    linter.check([str(test_file)])
 
-    # Then: pylint should return fixme warnings for both lines.
-    assert "W0511: YES: yes (fixme)" in str(excinfo.value)
-    assert "W0511: ???: no (fixme)" in str(excinfo.value)
+    # Then: Pylint outputs a W0511 warning for both the 'YES' and '???' note tags
+    captured = capsys.readouterr()
+    assert "W0511: YES: yes" in captured.out
+    assert "W0511: ???: no" in captured.out
 
-    # Edge case: Test with empty tokens list
-    empty_tokens = []
-    checker.process_tokens(empty_tokens)  # Should not raise any exceptions
+    # Test captures W0511 warnings for both 'YES' and '???' tags.
+    messages = linter.reporter.messages
+    assert any(msg.msg == "YES: yes" for msg in messages)
+    assert any(msg.msg == "???: no" for msg in messages)
 
-    # Edge case: Test with no --notes option set
-    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': []}))
-    checker.process_tokens(tokens)  # Should not raise any exceptions
+    # Test handles files without relevant comments gracefully.
+    test_file_no_comments = tmpdir.join("test_no_comments.py")
+    test_file_no_comments.write("""a = 1""")
+    linter.check([str(test_file_no_comments)])
+    messages = linter.reporter.messages
+    assert not any(msg.msg_id == "W0511" for msg in messages)
 
-    # Edge case: Test with --notes option not including 'YES,???'
-    monkeypatch.setattr(MiscChecker, 'config', type('Config', (object,), {'notes': ['TODO']}))
-    checker.process_tokens(tokens)  # Should not raise any exceptions
+    # Test confirms multiple occurrences of the same tag are reported.
+    test_file_multiple_tags = tmpdir.join("test_multiple_tags.py")
+    test_file_multiple_tags.write("""# YES: first
+# YES: second
+# ???: first
+# ???: second
+""")
+    linter.check([str(test_file_multiple_tags)])
+    messages = linter.reporter.messages
+    assert sum(1 for msg in messages if msg.msg == "YES: first") == 1
+    assert sum(1 for msg in messages if msg.msg == "YES: second") == 1
+    assert sum(1 for msg in messages if msg.msg == "???: first") == 1
+    assert sum(1 for msg in messages if msg.msg == "???: second") == 1

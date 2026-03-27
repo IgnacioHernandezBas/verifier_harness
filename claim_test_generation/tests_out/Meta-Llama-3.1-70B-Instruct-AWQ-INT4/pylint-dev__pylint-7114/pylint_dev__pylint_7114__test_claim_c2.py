@@ -1,37 +1,29 @@
 import pytest
 from pylint.lint import expand_modules
 
-def test_claim_c2(tmpdir, capsys):
-    # Given: Multiple files with the structure .`-- a/|-- a.py`|-- b.py` and `r.py` with content `from a import b`, and all files are empty.
-    a_dir = tmpdir.mkdir("a")
-    a_dir.join("a.py").write("")
-    a_dir.join("b.py").write("")
-    r_py = tmpdir.join("r.py")
-    r_py.write("from a import b")
+def test_claim_c2(tmp_path):
+    # Given: A directory 'a' containing 'a.py' but no __init__.py
+    # Create a directory 'a' containing 'a.py' but no __init__.py
+    dir_a = tmp_path / "a"
+    dir_a.mkdir()
+    file_a_py = dir_a / "a.py"
+    file_a_py.write_text("print('Hello World')")
 
-    # When: expand_modules is called with ['r', 'a'] as files_or_modules
-    # Checklist: Test passes without raising any exceptions
+    # When: Processing the directory through expand_modules' file resolution logic
+    # Create an instance of the parent class
+    # Since expand_modules is a function, we don't need to create an instance
+    # We can call it directly with the required parameters
+    input_paths = [str(dir_a)]
+
+    # Then: No F0010 exceptions are raised about missing __init__.py
+    # Test passes with a directory containing a .py file but no __init__.py
+    # No F0010 exceptions are raised during expand_modules execution
+    # Test succeeds without checking internal implementation details
     try:
-        result = expand_modules([str(r_py), str(a_dir)])
+        # Call the function with the required parameters
+        expand_modules(input_paths)
+        # If no exception is raised, the test passes
+        assert True
     except Exception as e:
-        pytest.fail(f"Test failed with exception: {e}")
-
-    # Checklist: Returned list contains expected ModuleDescriptionDict objects
-    assert len(result) > 0
-    for item in result:
-        assert isinstance(item, dict)
-
-    # Checklist: Test succeeds with given inputs and directory structure
-    assert result is not None
-
-    # Edge cases
-    # Checklist: Empty input list
-    assert expand_modules([]) == []
-
-    # Checklist: Input list with non-existent files
-    assert expand_modules(["non_existent_file.py"]) == []
-
-    # Checklist: Input list with non-python files
-    non_python_file = tmpdir.join("non_python_file.txt")
-    non_python_file.write("")
-    assert expand_modules([str(non_python_file)]) == []
+        # If an exception is raised, the test fails
+        assert False, f"An exception was raised: {e}"

@@ -1,19 +1,28 @@
-# Checklist TODO: Test passes with invalid session data.
-# Checklist TODO: Function returns an empty dictionary.
-# Checklist TODO: Test does not depend on internal implementation details.
+# Checklist TODO: Function handles invalid base64 data correctly.
+# Checklist TODO: Returns empty dictionary as expected.
+# Checklist TODO: No exceptions are raised during execution.
 import pytest
 from django.contrib.sessions.backends.base import SessionBase
 
 def test_claim_c2():
-    # Given: invalid session data
-    invalid_session_data = base64.b64encode(b'flaskdj:alkdjf').decode('ascii')
+    # Given: Session data that fails base64 decoding in _legacy_decode
+    invalid_base64_data = 'invalid:base64:string'
     empty_string_data = ''
-    non_base64_data = 'bad:encoded:value'
+    non_string_data = 12345
 
-    # When: calling decode
+    # When: _legacy_decode is called with invalid data
     session = SessionBase()
 
-    # Then: should return an empty dictionary
-    assert session.decode(invalid_session_data) == {}
-    assert session.decode(empty_string_data) == {}
-    assert session.decode(non_base64_data) == {}
+    # Then: Returns empty dictionary as expected.
+    # No exceptions are raised during execution.
+    result_invalid = session._legacy_decode(invalid_base64_data)
+    assert isinstance(result_invalid, dict)
+    assert len(result_invalid) == 0
+
+    result_empty = session._legacy_decode(empty_string_data)
+    assert isinstance(result_empty, dict)
+    assert len(result_empty) == 0
+
+    result_non_string = session._legacy_decode(non_string_data)
+    assert isinstance(result_non_string, dict)
+    assert len(result_non_string) == 0

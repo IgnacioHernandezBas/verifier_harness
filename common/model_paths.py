@@ -9,7 +9,7 @@ enabling users to:
 
 Directory structure:
     claim_extraction/claims_out/{model_slug}/{instance_id}.json
-    claim_test_generation/tests_out/{model_slug}/{instance_id}/test_*.py
+    claim_test_generation/tests_out/{test_model_slug}/claims_{claims_model_slug}/{instance_id}/test_*.py
     agentic_closed_loop/state/{model_slug}/{instance_id}_{claim_id}.json
     agentic_closed_loop/logs/{model_slug}/{instance_id}_{claim_id}.jsonl
 """
@@ -211,11 +211,20 @@ class MultiModelPaths:
     def claims_summary(self) -> Path:
         return self.claims_paths.claims_summary()
 
-    # Delegate tests-related methods to tests_paths
+    # Tests paths include claims model dimension for multi-model isolation
     def tests_dir(self, instance_id: str) -> Path:
-        return self.tests_paths.tests_dir(instance_id)
+        return self.tests_root() / instance_id
 
     def tests_root(self) -> Path:
+        if self.use_model_subdirs:
+            claims_slug = slugify_model_name(self.claims_model)
+            return (
+                self.tests_paths.base_dir
+                / "claim_test_generation"
+                / "tests_out"
+                / self.tests_paths.model_slug
+                / f"claims_{claims_slug}"
+            )
         return self.tests_paths.tests_root()
 
     def state_dir(self) -> Path:

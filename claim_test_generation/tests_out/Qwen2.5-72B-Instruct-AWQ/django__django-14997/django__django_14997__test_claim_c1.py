@@ -1,40 +1,59 @@
-# Checklist TODO: Define the 'Tag' model with a unique constraint.
-# Checklist TODO: Create and apply a migration that alters the 'value' field.
-# Checklist TODO: Ensure no OperationalError is raised during the migration.
+# Checklist TODO: Test must create and apply migrations.
+# Checklist TODO: Test must verify no OperationalError is raised.
+# Checklist TODO: Test must confirm the unique constraint is applied.
 import pytest
 from django.db import models, connection
-from django.db.migrations import Migration, operations
-from django.db.migrations.state import ProjectState
+from django.db.migrations.executor import MigrationExecutor
+from django.core.management import call_command
 
-# Define the 'Tag' model with a unique constraint.
-class Tag(models.Model):
+# GIVEN: A model with a UniqueConstraint on (name, value) using SQLite backend
+class TestModel(models.Model):
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = ('name', 'value')
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'value'], name='unique_name_value')
+        ]
 
-# Create and apply a migration that alters the 'value' field.
-class TestMigration(Migration):
-    dependencies = []
+# WHEN: Running 'python manage.py migrate' to apply the migrations
+def test_claim_c1(tmpdir, monkeypatch, capsys):
+    # Create a temporary database file
+    db_file = tmpdir.join('test.db')
+    monkeypatch.setattr('django.conf.settings.DATABASES', {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': str(db_file),
+        }
+    })
 
-    operations = [
-        operations.AlterField(
-            model_name='Tag',
-            name='value',
-            field=models.CharField(max_length=200, null=True),
-        ),
-    ]
+    # Create the initial migration
+    call_command('makemigrations', 'tests', verbosity=0)
 
-def test_claim_c1():
-    # GIVEN: A Django model 'Tag' with a unique constraint on 'name' and 'value' fields.
-    # WHEN: Applying the migration that alters the 'value' field of the 'Tag' model.
-    project_state = ProjectState()
-    project_state.add_model(Tag)
-    new_state = project_state.clone()
-    migration = TestMigration()
-    migration.apply(project_state, new_state)
+    # Apply the initial migration
+    executor = MigrationExecutor(connection)
+    executor.migrate(executor.loader.graph.leaf_nodes())
 
-    # THEN: No OperationalError is raised during the migration.
-    with connection.schema_editor() as schema_editor:
-        migration.apply(project_state, new_state, schema_editor=schema_editor)
+    # Alter the field's max_length
+    TestModel._meta.get_field('name').max_length = 200
+    call_command('makemigrations', 'tests', verbosity=0)
+
+    # Apply the second migration
+    executor = MigrationExecutor(connection)
+    executor.migrate(executor.loader.graph.leaf_nodes())
+
+    # THEN: No 'sqlite3.OperationalError: the "." operator prohibited in index expressions' exception is raised
+    captured = capsys.readouterr()
+    assert 'sqlite3.OperationalError: the "." operator prohibited in index expressions' not in captured.err
+
+    # Verify the unique constraint is applied
+    with connection.cursor() as cursor:
+        cursor.execute("PRAGMA index_list('testmodel')")
+        indexes = cursor.fetchall()
+        assert any(index[1] == 'unique_name_value' for index in indexes)
+
+    # Verify the table is successfully altered without errors
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='testmodel'")
+        table_sql = cursor.fetchone()[0]
+        assert 'name VARCHAR(200)' in table_sql

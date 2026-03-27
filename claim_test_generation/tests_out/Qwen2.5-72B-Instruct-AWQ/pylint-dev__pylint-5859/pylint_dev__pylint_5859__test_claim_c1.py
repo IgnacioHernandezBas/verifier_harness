@@ -1,88 +1,32 @@
+# Checklist TODO: Create a test file with specific note tags.
+# Checklist TODO: Run pylint with custom --notes option.
+# Checklist TODO: Capture and assert the expected warnings.
 import pytest
-from pylint.checkers.misc import NotesChecker
-from pylint.lint import PyLinter
-from pylint.config import PylintrcConfig
+from pylint.lint import Run
+from pylint.config import ConfigurationMixIn
 
-# Test must import pylint.checkers.misc successfully.
-# Test must set up the --notes option and source file content.
-# Test must verify fixme warnings for specified notes.
+def test_claim_c1(tmpdir, monkeypatch, capsys):
+    # Create a test file with specific note tags
+    test_file = tmpdir.join("test.py")
+    test_file.write("""
+    #YES
+    #???
+    """)
 
-@pytest.fixture
-def linter():
-    linter = PyLinter()
-    linter.load_default_config()
-    linter.load_plugin_configuration()
-    return linter
+    # Set up the environment to run pylint with --notes="YES,???"
+    monkeypatch.setattr(ConfigurationMixIn, "notes", ["YES", "???"])
 
-@pytest.fixture
-def checker(linter):
-    checker = NotesChecker(linter)
-    linter.register_checker(checker)
-    return checker
+    # Run pylint with custom --notes option
+    args = [str(test_file), "--notes=YES,???"]
+    Run(args)
 
-def test_claim_c1(tmpdir, monkeypatch, capsys, linter, checker):
-    # Create a temporary source file with '# YES: yes' and '# ???: no'.
-    source_file = tmpdir.join("test.py")
-    source_file.write("# YES: yes\n# ???: no\n")
-
-    # Set the --notes option to include 'YES,???'.
-    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
-
-    # Configure the environment to mimic the repository setup.
-    linter.set_option('notes', ['YES', '???'])
-
-    # Process the tokens from the source file.
-    with source_file.open() as f:
-        linter.process_module(f, source_file.basename)
-
-    # Capture the output to check for warnings.
+    # Capture and assert the expected warnings
     captured = capsys.readouterr()
+    output = captured.out + captured.err
 
-    # Test must verify fixme warnings for specified notes.
-    assert "W0511: YES: yes (fixme)" in captured.out
-    assert "W0511: ???: no (fixme)" in captured.out
-
-    # No other warnings are generated.
-    assert len(captured.out.splitlines()) == 2
-
-# Test with an empty source file.
-def test_empty_source_file(tmpdir, monkeypatch, capsys, linter, checker):
-    source_file = tmpdir.join("test.py")
-    source_file.write("")
-
-    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
-    linter.set_option('notes', ['YES', '???'])
-
-    with source_file.open() as f:
-        linter.process_module(f, source_file.basename)
-
-    captured = capsys.readouterr()
-    assert captured.out == ""
-
-# Test with a source file that does not contain any notes.
-def test_no_notes(tmpdir, monkeypatch, capsys, linter, checker):
-    source_file = tmpdir.join("test.py")
-    source_file.write("a = 1\nb = 2")
-
-    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
-    linter.set_option('notes', ['YES', '???'])
-
-    with source_file.open() as f:
-        linter.process_module(f, source_file.basename)
-
-    captured = capsys.readouterr()
-    assert captured.out == ""
-
-# Test with a note that is not specified in the --notes option.
-def test_unspecified_note(tmpdir, monkeypatch, capsys, linter, checker):
-    source_file = tmpdir.join("test.py")
-    source_file.write("# TODO: do something")
-
-    monkeypatch.setattr(PylintrcConfig, 'notes', ['YES', '???'])
-    linter.set_option('notes', ['YES', '???'])
-
-    with source_file.open() as f:
-        linter.process_module(f, source_file.basename)
-
-    captured = capsys.readouterr()
-    assert captured.out == ""
+    # Pylint outputs a W0511 warning for 'YES'.
+    assert "W0511: YES" in output
+    # Pylint outputs a W0511 warning for '???'.
+    assert "W0511: ???" in output
+    # No other warnings are emitted.
+    assert len(output.splitlines()) == 2

@@ -1,34 +1,41 @@
 import pytest
-from requests.models import Response
+from requests import Response
 import socket
 
+# Checklist: Test raises requests.exceptions.ConnectionError
+# Checklist: Test does not raise socket.error directly
+# Checklist: Test handles non-streaming requests correctly
+
 def test_claim_c1(capsys):
-    # Given: A socket error occurs during the read operation in the response content streaming.
-    # When: self.raw.stream(chunk_size, decode_content=True) is called in the iter_content method
-    # Then: A requests.exceptions.ConnectionError is raised.
+    # Given: A socket.error occurs during response content iteration (e.g., 'Connection reset by peer')
+    # When: Response.iter_content() is called during a streaming request
+    # Then: A requests.exceptions.ConnectionError is raised instead of the raw socket.error
 
-    # Checklist:
-    # Test raises a requests.exceptions.ConnectionError
-    # Error is raised when calling iter_content
-    # Test does not mock internal/private methods
+    # Data setup: Create a mock response object
+    r = Response()
 
-    # Create a Response object with a raw attribute
-    response = Response()
-    response.raw = object()
-
-    # Set up a socket error during the read operation
-    class RawMock:
+    # Data setup: Configure the mock response to raise a socket.error during iteration
+    class RawMock(object):
         def stream(self, chunk_size, decode_content=None):
             raise socket.error()
 
-    response.raw = RawMock()
+    r.raw = RawMock()
 
-    # Call iter_content with chunk_size and decode_content=True
-    with pytest.raises(socket.error):
-        list(response.iter_content(chunk_size=1, decode_unicode=False))
+    # Data setup: Set up a streaming request
+    r._content_consumed = False
 
-    # Edge cases:
-    # No socket error occurs
-    # decode_content=False
-    # chunk_size=0
-    # These edge cases are not explicitly tested here, but could be added as additional test cases.
+    # Test raises requests.exceptions.ConnectionError
+    with pytest.raises(ConnectionError):
+        list(r.iter_content())
+
+    # Test does not raise socket.error directly
+    with pytest.raises(ConnectionError) as exc_info:
+        list(r.iter_content())
+    assert type(exc_info.value.__cause__) == socket.error
+
+    # Test handles non-streaming requests correctly
+    r._content_consumed = True
+    try:
+        list(r.iter_content())
+    except ConnectionError:
+        pytest.fail("ConnectionError raised for non-streaming request")

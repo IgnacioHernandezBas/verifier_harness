@@ -1,29 +1,24 @@
-# Checklist TODO: Test verifies W0511 emission for valid punctuation tags
-# Checklist TODO: Test uses module API instead of CLI executable
-# Checklist TODO: Test checks warning count and tag presence without exact string matching
+# Checklist TODO: Verify W0511 warning for punctuation-only note tag
+# Checklist TODO: Confirm output capture with capsys
+# Checklist TODO: Test runs in isolated tmpdir environment
 import pytest
-import sys
-from pylint.lint import Run
+from pylint.checkers.misc import MiscChecker
+import tokenize
+from io import StringIO
 
-def test_claim_c1(tmp_path, monkeypatch, capsys):
-    # Given: Create a Python file with two comment lines
+def test_claim_c1():
+    # GIVEN: A note tag specified with the --notes option is entirely punctuation.
+    checker = MiscChecker()
+    checker.config.notes = ["???"]
     code = """a = 1
-            # YES
-            # ???
+            #???
             """
-    file = tmp_path / "test.py"
-    file.write_text(code)
-    
-    # When: Configure --notes="YES,???" via monkeypatch
-    sys.argv = ["pylint", "--notes=YES,???", str(file)]
-    
-    # Run pylint
-    with pytest.raises(SystemExit):
-        Run([], exit=False)
-    
-    # Capture output
-    out, _ = capsys.readouterr()
-    
-    # Then: Check that two W0511 warnings are present
-    assert "W0511: YES" in out
-    assert "W0511: ???" in out
+    # WHEN: Running pylint with the --notes option.
+    tokens = list(tokenize.generate_tokens(StringIO(code).readline))
+    checker.process_tokens(tokens)
+    # THEN: Pylint returns a fixme warning (W0511) for the note tag.
+    # Check for the presence of the expected message
+    assert any(
+        msg[1] == 2 and msg[2] == "fixme" and msg[3] == "???"
+        for msg in checker._msgs
+    )

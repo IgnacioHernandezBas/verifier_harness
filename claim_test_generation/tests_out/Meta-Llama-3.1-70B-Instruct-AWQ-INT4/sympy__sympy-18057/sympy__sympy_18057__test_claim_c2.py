@@ -1,38 +1,42 @@
+# Checklist TODO: Test passes without throwing an exception
+# Checklist TODO: Test returns False when comparing sympy.Symbol('x') and C()
+# Checklist TODO: Test handles edge cases correctly
 import pytest
-from sympy import Symbol
+import sympy
 
-# The test imports sympy correctly
-# The test creates a SymPy Symbol and an object with a repr that evaluates to an invalid expression
+# Given: A custom class C with __repr__ returning 'x'
 class C:
     def __repr__(self):
-        return 'x.y'
+        return 'x'
 
+# When: Calling __eq__ between sympy.Symbol('x') and C()
 def test_claim_c2(capsys):
-    # Given: A SymPy Symbol and an object with a repr that evaluates to an invalid expression.
-    x = Symbol('x')
+    # Create a sympy.Symbol('x')
+    x = sympy.Symbol('x')
+    
+    # Create an instance of the custom class C
     c = C()
-
-    # When: sympy.Symbol('x') == C()
-    with pytest.raises(AttributeError):
-        x == c
-
-    # Then: The comparison returns False.
-    assert (x == c) is False
-
-    # Edge case: Comparing a SymPy Symbol to an object with a valid expression
-    class ValidC:
+    
+    # Call __eq__ between sympy.Symbol('x') and C()
+    result = x == c
+    
+    # Then: Returns False
+    assert result is False
+    
+    # Test passes without throwing an exception
+    assert not capsys.readouterr().err
+    
+    # Test handles edge cases correctly
+    # Compare sympy.Symbol('x') and C() with different __repr__ values
+    class D:
         def __repr__(self):
-            return 'x'
-
-    valid_c = ValidC()
-    assert (x == valid_c) is False
-
-    # Edge case: Comparing a SymPy Symbol to another SymPy Symbol
-    y = Symbol('y')
-    assert (x == y) is False
-
-    # Edge case: Comparing a SymPy Symbol to a non-SymPy object
-    assert (x == 'x') is False
-
-    # The test checks that the comparison returns False
-    assert (x == c) is False
+            return 'y'
+    d = D()
+    assert x != d
+    
+    # Compare sympy.Symbol('x') and C() with different symbol names
+    y = sympy.Symbol('y')
+    assert x != y
+    
+    # Compare sympy.Symbol('x') and C() with different types
+    assert x != 1

@@ -1,26 +1,28 @@
-# Checklist TODO: Test verifies expand_modules completes without exceptions
-# Checklist TODO: Test uses tmpdir to create required directory structure
-# Checklist TODO: Test checks function returns valid result (not None)
+# Checklist TODO: Test shows no error for valid module structure
+# Checklist TODO: Differentiates between bug and fixed behavior
+# Checklist TODO: Validates correct module expansion handling
 import pytest
+import sys
 import os
 from pylint.lint import expand_modules
 
-def test_claim_c1(tmpdir):
-    # Given: Create directory 'a' with a.py and b.py (all empty)
-    a_dir = tmpdir.mkdir("a")
-    a_dir.join("a.py").write("")
-    a_dir.join("b.py").write("")
+def test_claim_c1(tmpdir, monkeypatch):
+    # Given: Module structure with same-named file and __init__.py
+    module_path = tmpdir.mkdir("a")
+    module_path.join("__init__.py").write("")
+    module_path.join("a.py").write("import imp")
 
-    # When: Call expand_modules with directory 'a' and required arguments
+    # Add tmpdir to sys.path for module resolution
+    monkeypatch.setitem(sys.modules, "a", None)  # Clear cached module
+    sys.path.insert(0, str(tmpdir))
+
+    # When: Running pylint expansion on the module
     try:
-        result = expand_modules(
-            str(a_dir),
-            ignore_list=[],
-            ignore_list_re=[],
-            ignore_list_paths_re=[]
-        )
-    except Exception as e:
-        pytest.fail(f"expand_modules raised unexpected exception: {e!r}")
+        result = expand_modules(["a"])
+    finally:
+        sys.path.remove(str(tmpdir))
 
-    # Then: Function returns a valid result (non-None)
-    assert result is not None, "Function returned None unexpectedly"
+    # Then: No error raised and module processed
+    assert result is not None
+    assert "F0010" not in str(result)
+    assert any("a" in module for module in result)

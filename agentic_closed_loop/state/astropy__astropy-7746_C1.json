@@ -114,41 +114,43 @@
           }
         ]
       },
-      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
-      "generated_code": "# Checklist TODO: WCS instance initialized from FITS file\n# Checklist TODO: Empty inputs produce empty outputs\n# Checklist TODO: Third argument (0) is properly handled\nimport pytest\nimport numpy as np\nfrom astropy.wcs import WCS\n\ndef _is_empty(x):\n    return len(x) == 0 or (isinstance(x, np.ndarray) and x.size == 0)\n\ndef test_claim_c1(tmpdir):\n    # Given: WCS instance with minimal valid configuration\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = ['RA---TAN', 'DEC--TAN']\n    wcs.wcs.crpix = [0, 0]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: Call with empty lists\n    result1 = wcs.wcs_pix2world([], [], 0)\n    result2 = wcs.wcs_pix2world(np.array([]), np.array([]), 0)\n\n    # Then: Verify empty outputs\n    assert all(_is_empty(arr) for arr in result1)\n    assert all(_is_empty(arr) for arr in result2)\n\n    # Edge case: Mixed input types\n    result3 = wcs.wcs_pix2world([], np.array([]), 0)\n    assert all(_is_empty(arr) for arr in result3)\n",
+      "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+      "generated_code": "# Checklist TODO: Function returns empty sequences when given empty inputs.\n# Checklist TODO: Handles list and array input types consistently.\n# Checklist TODO: Output count matches WCS world coordinate dimensions.\nimport pytest\nfrom astropy.wcs import WCS\nimport numpy as np\n\ndef test_claim_c1(tmpdir):\n    # Given: Create a minimal WCS instance with naxis=2\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = ['RA---TAN', 'DEC--TAN']\n    wcs.wcs.crpix = [0, 0]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: Call wcs_pix2world with empty lists\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: Verify output sequences/arrays have length/size 0\n    for arr in result:\n        assert len(arr) == 0 or (hasattr(arr, 'size') and arr.size == 0)\n\n    # Edge case: Test with empty NumPy arrays\n    result = wcs.wcs_pix2world(np.array([]), np.array([]), 0)\n    for arr in result:\n        assert arr.size == 0\n\n    # Ensure output count matches WCS world coordinate dimensions\n    assert len(result) == wcs.naxis\n",
       "test_sketch": {
-        "strategy": "Test wcs_pix2world with empty inputs using a WCS instance from a FITS file.",
+        "strategy": "Test wcs_pix2world with empty inputs by creating a WCS instance from a FITS file and verifying empty outputs.",
         "assertions": [
-          "Output is empty list(s) or zero-sized arrays when empty inputs are provided"
+          "Verify output sequences/arrays have length/size 0 when empty inputs are provided.",
+          "Ensure the number of output sequences matches the WCS's world coordinates dimensionality."
         ],
         "fixtures": [
           "tmpdir"
         ],
         "data_setup": [
-          "Create WCS instance from '2MASS_h.fits' file in tmpdir",
-          "Pass empty lists to wcs_pix2world() with third argument 0"
+          "Create a WCS instance from a valid FITS file (e.g., '2MASS_h.fits') containing WCS metadata.",
+          "Pass empty lists/arrays to wcs_pix2world (e.g., wcs.wcs_pix2world([], [], 0))."
         ],
         "edge_cases": [
-          "Test with numpy empty arrays instead of Python lists",
-          "Verify behavior when FITS file has non-standard WCS headers"
+          "Test with empty NumPy arrays instead of Python lists.",
+          "Test with non-empty inputs to confirm behavior contrast.",
+          "Test with different 'strict' parameter values (0/1)."
         ],
         "checklist": [
-          "WCS instance initialized from FITS file",
-          "Empty inputs produce empty outputs",
-          "Third argument (0) is properly handled"
+          "Function returns empty sequences when given empty inputs.",
+          "Handles list and array input types consistently.",
+          "Output count matches WCS world coordinate dimensions."
         ],
-        "raw": "{\n  \"strategy\": \"Test wcs_pix2world with empty inputs using a WCS instance from a FITS file.\",\n  \"assertions\": [\n    \"Output is empty list(s) or zero-sized arrays when empty inputs are provided\"\n  ],\n  \"fixtures\": [\"tmpdir\"],\n  \"data_setup\": [\n    \"Create WCS instance from '2MASS_h.fits' file in tmpdir\",\n    \"Pass empty lists to wcs_pix2world() with third argument 0\"\n  ],\n  \"edge_cases\": [\n    \"Test with numpy empty arrays instead of Python lists\",\n    \"Verify behavior when FITS file has non-standard WCS headers\"\n  ],\n  \"checklist\": [\n    \"WCS instance initialized from FITS file\",\n    \"Empty inputs produce empty outputs\",\n    \"Third argument (0) is properly handled\"\n  ]\n}"
+        "raw": "{\n  \"strategy\": \"Test wcs_pix2world with empty inputs by creating a WCS instance from a FITS file and verifying empty outputs.\",\n  \"assertions\": [\n    \"Verify output sequences/arrays have length/size 0 when empty inputs are provided.\",\n    \"Ensure the number of output sequences matches the WCS's world coordinates dimensionality.\"\n  ],\n  \"fixtures\": [\"tmpdir\"],\n  \"data_setup\": [\n    \"Create a WCS instance from a valid FITS file (e.g., '2MASS_h.fits') containing WCS metadata.\",\n    \"Pass empty lists/arrays to wcs_pix2world (e.g., wcs.wcs_pix2world([], [], 0)).\"\n  ],\n  \"edge_cases\": [\n    \"Test with empty NumPy arrays instead of Python lists.\",\n    \"Test with non-empty inputs to confirm behavior contrast.\",\n    \"Test with different 'strict' parameter values (0/1).\"\n  ],\n  \"checklist\": [\n    \"Function returns empty sequences when given empty inputs.\",\n    \"Handles list and array input types consistently.\",\n    \"Output count matches WCS world coordinate dimensions.\"\n  ]\n}"
       },
       "checklist_coverage": {
         "missing": [
-          "WCS instance initialized from FITS file",
-          "Empty inputs produce empty outputs",
-          "Third argument (0) is properly handled"
+          "Function returns empty sequences when given empty inputs.",
+          "Handles list and array input types consistently.",
+          "Output count matches WCS world coordinate dimensions."
         ],
         "checklist": [
-          "WCS instance initialized from FITS file",
-          "Empty inputs produce empty outputs",
-          "Third argument (0) is properly handled"
+          "Function returns empty sequences when given empty inputs.",
+          "Handles list and array input types consistently.",
+          "Output count matches WCS world coordinate dimensions."
         ]
       },
       "context_hash": "64c80f2ccba1464663206e05266d929911f08ecd",
@@ -156,24 +158,24 @@
         "instance_id": "astropy__astropy-7746",
         "repo": "astropy/astropy",
         "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
-        "timestamp": "2026-03-19T10:34:53.674827+00:00",
-        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ",
+        "timestamp": "2026-03-23T16:01:59.239198+00:00",
+        "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ",
         "tests": [
           {
             "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
             "bug": {
               "status": "FAIL",
               "returncode": 1,
-              "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-19T10:35:34\n\nPlatform: Linux-4.18.0-553.109.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_claim_c1 _________________________________\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: in test_claim_c1\n    result1 = wcs.wcs_pix2world([], [], 0)\nastropy/wcs/wcs.py:1354: in wcs_pix2world\n    'output', *args, **kwargs)\nastropy/wcs/wcs.py:1269: in _array_converter\n    return _return_list_of_arrays(axes, origin)\nastropy/wcs/wcs.py:1225: in _return_list_of_arrays\n    output = func(xy, origin)\nastropy/wcs/wcs.py:1353: in <lambda>\n    lambda xy, o: self.wcs.p2s(xy, o)['world'],\nE   astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\nE   ncoord and/or nelem inconsistent with the wcsprm.\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 failed, 1 warnings in 0.36 seconds =====================\n",
+              "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-23T16:02:44\n\nPlatform: Linux-4.18.0-553.111.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_claim_c1 _________________________________\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:17: in test_claim_c1\n    result = wcs.wcs_pix2world([], [], 0)\nastropy/wcs/wcs.py:1354: in wcs_pix2world\n    'output', *args, **kwargs)\nastropy/wcs/wcs.py:1269: in _array_converter\n    return _return_list_of_arrays(axes, origin)\nastropy/wcs/wcs.py:1225: in _return_list_of_arrays\n    output = func(xy, origin)\nastropy/wcs/wcs.py:1353: in <lambda>\n    lambda xy, o: self.wcs.p2s(xy, o)['world'],\nE   astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\nE   ncoord and/or nelem inconsistent with the wcsprm.\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 failed, 1 warnings in 0.40 seconds =====================\n",
               "stderr": "",
-              "duration_s": 2.775968074798584
+              "duration_s": 3.5317769050598145
             },
             "gold": {
               "status": "PASS",
               "returncode": 0,
-              "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-19T10:35:37\n\nPlatform: Linux-4.18.0-553.109.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 passed, 1 warnings in 0.33 seconds =====================\n",
+              "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-23T16:02:47\n\nPlatform: Linux-4.18.0-553.111.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 passed, 1 warnings in 0.37 seconds =====================\n",
               "stderr": "",
-              "duration_s": 2.8437392711639404
+              "duration_s": 3.034363031387329
             },
             "classification": {
               "label": "VALID",
@@ -191,8 +193,8 @@
         },
         "success": true,
         "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
-        "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_6or42r2i/bug/astropy__astropy",
-        "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_6or42r2i/gold/astropy__astropy"
+        "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_pd03u8o_/bug/astropy__astropy",
+        "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_pd03u8o_/gold/astropy__astropy"
       },
       "failure_classification": {
         "label": "success",
@@ -371,8 +373,8 @@
   },
   "context_hash": "64c80f2ccba1464663206e05266d929911f08ecd",
   "config": {
-    "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ",
-    "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ",
+    "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ",
+    "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ",
     "repos_root": "/fs/nexus-scratch/ihbas/repos_claim_cache",
     "max_attempts": 10,
     "timeout_s": 300,
@@ -384,7 +386,7 @@
       "tests_model_slug": "Qwen3-32B-AWQ",
       "use_model_subdirs": true,
       "claims_dir": "/fs/nexus-scratch/ihbas/verifier_harness/claim_extraction/claims_out/Qwen2.5-72B-Instruct-AWQ",
-      "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ",
+      "tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ",
       "state_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/state/Qwen3-32B-AWQ",
       "logs_dir": "/fs/nexus-scratch/ihbas/verifier_harness/agentic_closed_loop/logs/Qwen3-32B-AWQ"
     }
@@ -465,7 +467,7 @@
       "Create all necessary objects directly in the test function (no repo fixtures)."
     ]
   },
-  "test_file_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+  "test_file_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
   "verification_complete": true,
   "final_payload": {
     "instance_id": "astropy__astropy-7746",
@@ -579,41 +581,43 @@
             }
           ]
         },
-        "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
-        "generated_code": "# Checklist TODO: WCS instance initialized from FITS file\n# Checklist TODO: Empty inputs produce empty outputs\n# Checklist TODO: Third argument (0) is properly handled\nimport pytest\nimport numpy as np\nfrom astropy.wcs import WCS\n\ndef _is_empty(x):\n    return len(x) == 0 or (isinstance(x, np.ndarray) and x.size == 0)\n\ndef test_claim_c1(tmpdir):\n    # Given: WCS instance with minimal valid configuration\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = ['RA---TAN', 'DEC--TAN']\n    wcs.wcs.crpix = [0, 0]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: Call with empty lists\n    result1 = wcs.wcs_pix2world([], [], 0)\n    result2 = wcs.wcs_pix2world(np.array([]), np.array([]), 0)\n\n    # Then: Verify empty outputs\n    assert all(_is_empty(arr) for arr in result1)\n    assert all(_is_empty(arr) for arr in result2)\n\n    # Edge case: Mixed input types\n    result3 = wcs.wcs_pix2world([], np.array([]), 0)\n    assert all(_is_empty(arr) for arr in result3)\n",
+        "generated_test_path": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
+        "generated_code": "# Checklist TODO: Function returns empty sequences when given empty inputs.\n# Checklist TODO: Handles list and array input types consistently.\n# Checklist TODO: Output count matches WCS world coordinate dimensions.\nimport pytest\nfrom astropy.wcs import WCS\nimport numpy as np\n\ndef test_claim_c1(tmpdir):\n    # Given: Create a minimal WCS instance with naxis=2\n    wcs = WCS(naxis=2)\n    wcs.wcs.ctype = ['RA---TAN', 'DEC--TAN']\n    wcs.wcs.crpix = [0, 0]\n    wcs.wcs.cdelt = [1, 1]\n    wcs.wcs.crval = [0, 0]\n\n    # When: Call wcs_pix2world with empty lists\n    result = wcs.wcs_pix2world([], [], 0)\n\n    # Then: Verify output sequences/arrays have length/size 0\n    for arr in result:\n        assert len(arr) == 0 or (hasattr(arr, 'size') and arr.size == 0)\n\n    # Edge case: Test with empty NumPy arrays\n    result = wcs.wcs_pix2world(np.array([]), np.array([]), 0)\n    for arr in result:\n        assert arr.size == 0\n\n    # Ensure output count matches WCS world coordinate dimensions\n    assert len(result) == wcs.naxis\n",
         "test_sketch": {
-          "strategy": "Test wcs_pix2world with empty inputs using a WCS instance from a FITS file.",
+          "strategy": "Test wcs_pix2world with empty inputs by creating a WCS instance from a FITS file and verifying empty outputs.",
           "assertions": [
-            "Output is empty list(s) or zero-sized arrays when empty inputs are provided"
+            "Verify output sequences/arrays have length/size 0 when empty inputs are provided.",
+            "Ensure the number of output sequences matches the WCS's world coordinates dimensionality."
           ],
           "fixtures": [
             "tmpdir"
           ],
           "data_setup": [
-            "Create WCS instance from '2MASS_h.fits' file in tmpdir",
-            "Pass empty lists to wcs_pix2world() with third argument 0"
+            "Create a WCS instance from a valid FITS file (e.g., '2MASS_h.fits') containing WCS metadata.",
+            "Pass empty lists/arrays to wcs_pix2world (e.g., wcs.wcs_pix2world([], [], 0))."
           ],
           "edge_cases": [
-            "Test with numpy empty arrays instead of Python lists",
-            "Verify behavior when FITS file has non-standard WCS headers"
+            "Test with empty NumPy arrays instead of Python lists.",
+            "Test with non-empty inputs to confirm behavior contrast.",
+            "Test with different 'strict' parameter values (0/1)."
           ],
           "checklist": [
-            "WCS instance initialized from FITS file",
-            "Empty inputs produce empty outputs",
-            "Third argument (0) is properly handled"
+            "Function returns empty sequences when given empty inputs.",
+            "Handles list and array input types consistently.",
+            "Output count matches WCS world coordinate dimensions."
           ],
-          "raw": "{\n  \"strategy\": \"Test wcs_pix2world with empty inputs using a WCS instance from a FITS file.\",\n  \"assertions\": [\n    \"Output is empty list(s) or zero-sized arrays when empty inputs are provided\"\n  ],\n  \"fixtures\": [\"tmpdir\"],\n  \"data_setup\": [\n    \"Create WCS instance from '2MASS_h.fits' file in tmpdir\",\n    \"Pass empty lists to wcs_pix2world() with third argument 0\"\n  ],\n  \"edge_cases\": [\n    \"Test with numpy empty arrays instead of Python lists\",\n    \"Verify behavior when FITS file has non-standard WCS headers\"\n  ],\n  \"checklist\": [\n    \"WCS instance initialized from FITS file\",\n    \"Empty inputs produce empty outputs\",\n    \"Third argument (0) is properly handled\"\n  ]\n}"
+          "raw": "{\n  \"strategy\": \"Test wcs_pix2world with empty inputs by creating a WCS instance from a FITS file and verifying empty outputs.\",\n  \"assertions\": [\n    \"Verify output sequences/arrays have length/size 0 when empty inputs are provided.\",\n    \"Ensure the number of output sequences matches the WCS's world coordinates dimensionality.\"\n  ],\n  \"fixtures\": [\"tmpdir\"],\n  \"data_setup\": [\n    \"Create a WCS instance from a valid FITS file (e.g., '2MASS_h.fits') containing WCS metadata.\",\n    \"Pass empty lists/arrays to wcs_pix2world (e.g., wcs.wcs_pix2world([], [], 0)).\"\n  ],\n  \"edge_cases\": [\n    \"Test with empty NumPy arrays instead of Python lists.\",\n    \"Test with non-empty inputs to confirm behavior contrast.\",\n    \"Test with different 'strict' parameter values (0/1).\"\n  ],\n  \"checklist\": [\n    \"Function returns empty sequences when given empty inputs.\",\n    \"Handles list and array input types consistently.\",\n    \"Output count matches WCS world coordinate dimensions.\"\n  ]\n}"
         },
         "checklist_coverage": {
           "missing": [
-            "WCS instance initialized from FITS file",
-            "Empty inputs produce empty outputs",
-            "Third argument (0) is properly handled"
+            "Function returns empty sequences when given empty inputs.",
+            "Handles list and array input types consistently.",
+            "Output count matches WCS world coordinate dimensions."
           ],
           "checklist": [
-            "WCS instance initialized from FITS file",
-            "Empty inputs produce empty outputs",
-            "Third argument (0) is properly handled"
+            "Function returns empty sequences when given empty inputs.",
+            "Handles list and array input types consistently.",
+            "Output count matches WCS world coordinate dimensions."
           ]
         },
         "context_hash": "64c80f2ccba1464663206e05266d929911f08ecd",
@@ -621,24 +625,24 @@
           "instance_id": "astropy__astropy-7746",
           "repo": "astropy/astropy",
           "base_commit": "d5bd3f68bb6d5ce3a61bdce9883ee750d1afade5",
-          "timestamp": "2026-03-19T10:34:53.674827+00:00",
-          "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ",
+          "timestamp": "2026-03-23T16:01:59.239198+00:00",
+          "claim_tests_root": "/fs/nexus-scratch/ihbas/verifier_harness/claim_test_generation/tests_out/Qwen3-32B-AWQ/claims_Qwen2.5-72B-Instruct-AWQ",
           "tests": [
             {
               "test_path": "claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py",
               "bug": {
                 "status": "FAIL",
                 "returncode": 1,
-                "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-19T10:35:34\n\nPlatform: Linux-4.18.0-553.109.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_claim_c1 _________________________________\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:20: in test_claim_c1\n    result1 = wcs.wcs_pix2world([], [], 0)\nastropy/wcs/wcs.py:1354: in wcs_pix2world\n    'output', *args, **kwargs)\nastropy/wcs/wcs.py:1269: in _array_converter\n    return _return_list_of_arrays(axes, origin)\nastropy/wcs/wcs.py:1225: in _return_list_of_arrays\n    output = func(xy, origin)\nastropy/wcs/wcs.py:1353: in <lambda>\n    lambda xy, o: self.wcs.p2s(xy, o)['world'],\nE   astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\nE   ncoord and/or nelem inconsistent with the wcsprm.\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 failed, 1 warnings in 0.36 seconds =====================\n",
+                "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-23T16:02:44\n\nPlatform: Linux-4.18.0-553.111.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 FAILED [100%]\n\n=================================== FAILURES ===================================\n________________________________ test_claim_c1 _________________________________\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py:17: in test_claim_c1\n    result = wcs.wcs_pix2world([], [], 0)\nastropy/wcs/wcs.py:1354: in wcs_pix2world\n    'output', *args, **kwargs)\nastropy/wcs/wcs.py:1269: in _array_converter\n    return _return_list_of_arrays(axes, origin)\nastropy/wcs/wcs.py:1225: in _return_list_of_arrays\n    output = func(xy, origin)\nastropy/wcs/wcs.py:1353: in <lambda>\n    lambda xy, o: self.wcs.p2s(xy, o)['world'],\nE   astropy.wcs._wcs.InconsistentAxisTypesError: ERROR 4 in wcsp2s() at line 2647 of file cextern/wcslib/C/wcs.c:\nE   ncoord and/or nelem inconsistent with the wcsprm.\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 failed, 1 warnings in 0.40 seconds =====================\n",
                 "stderr": "",
-                "duration_s": 2.775968074798584
+                "duration_s": 3.5317769050598145
               },
               "gold": {
                 "status": "PASS",
                 "returncode": 0,
-                "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-19T10:35:37\n\nPlatform: Linux-4.18.0-553.109.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 passed, 1 warnings in 0.33 seconds =====================\n",
+                "stdout": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev1.\nRunning tests in claim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py.\n\nDate: 2026-03-23T16:02:47\n\nPlatform: Linux-4.18.0-553.111.1.el8_10.x86_64-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nastropy_helpers: 3.1.dev957\nUsing Astropy options: remote_data: none.\n\nrootdir: /workspace, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 1 item\n\nclaim_tests/astropy__astropy-7746/astropy__astropy_7746__test_claim_c1.py::test_claim_c1 PASSED [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 1 passed, 1 warnings in 0.37 seconds =====================\n",
                 "stderr": "",
-                "duration_s": 2.8437392711639404
+                "duration_s": 3.034363031387329
               },
               "classification": {
                 "label": "VALID",
@@ -656,8 +660,8 @@
           },
           "success": true,
           "container_path": "/fs/nexus-scratch/ihbas/.cache/swebench_singularity/astropy/astropy__astropy-7746.sif",
-          "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_6or42r2i/bug/astropy__astropy",
-          "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_6or42r2i/gold/astropy__astropy"
+          "bug_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_pd03u8o_/bug/astropy__astropy",
+          "gold_repo_path": "/fs/nexus-scratch/ihbas/.tmp/singularity_build/claim_verify_astropy__astropy-7746_pd03u8o_/gold/astropy__astropy"
         },
         "failure_classification": {
           "label": "success",

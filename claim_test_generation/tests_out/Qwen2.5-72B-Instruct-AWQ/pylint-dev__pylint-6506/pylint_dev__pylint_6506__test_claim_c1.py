@@ -1,28 +1,22 @@
-# Checklist TODO: Test raises _UnrecognizedOptionError for an unrecognized option.
-# Checklist TODO: Test does not print a traceback when error is raised.
-# Checklist TODO: Test uses capsys to verify no traceback is printed.
 import pytest
-from pylint.lint import PyLinter
 from pylint.config.config_initialization import _config_initialization
+from pylint.lint import PyLinter
 
 def test_claim_c1(capsys):
-    # GIVEN: An unrecognized option is passed to pylint
-    # WHEN: _config_initialization is called with an unrecognized option
-    # THEN: _UnrecognizedOptionError is raised without printing a traceback
-
-    # Data setup
+    # GIVEN: An unrecognized command line option (e.g., '-Q') is provided to pylint
     linter = PyLinter()
-    args_list = ["--unknown-option=yes"]
+    args_list = ["-Q"]
 
-    # Ensure the environment is set up to capture stdout and stderr
+    # WHEN: pylint.config.config_initialization._config_initialization is called with the unrecognized option
     with pytest.raises(SystemExit):
-        _config_initialization(linter, args_list, reporter=None, config_file=None, verbose_mode=False)
+        _config_initialization(linter, args_list)
 
-    # Check that no traceback is printed
-    output = capsys.readouterr()
-    assert "usage: pylint" in output.err
-    assert "Unrecognized option" in output.err
+    # THEN: The _UnrecognizedOptionError exception is raised but does not propagate to produce a traceback in the output
+    captured = capsys.readouterr()
+    assert "usage: pylint" in captured.err
+    assert "Unrecognized option" in captured.err
 
-    # Test raises _UnrecognizedOptionError for an unrecognized option
-    # Test does not print a traceback when error is raised
-    # Test uses capsys to verify no traceback is printed
+    # Checklist:
+    # - Test must raise UnrecognizedOptionError.
+    # - Test must capture and check stdout and stderr.
+    # - Test must not rely on internal implementation details.

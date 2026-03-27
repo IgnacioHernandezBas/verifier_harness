@@ -1,53 +1,35 @@
 import pytest
 from django.db import models
-from django.db.models import CharField, IntegerField
-from django.db.models.enums import TextChoices, IntegerChoices
+from django.db.models import IntegerChoices
 
-# Given: A model instance with a CharField or IntegerField with choices pointing to IntegerChoices or TextChoices
+# Given: A model with an IntegerField using IntegerChoices and an instance created with an enum value
+class Color(IntegerChoices):
+    RED = 1, 'Red'
+    GREEN = 2, 'Green'
+
 class MyModel(models.Model):
-    class Color(TextChoices):
-        RED = 'red', 'Red'
-        GREEN = 'green', 'Green'
+    color = models.IntegerField(choices=Color.choices)
 
-    class Size(IntegerChoices):
-        SMALL = 1, 'Small'
-        MEDIUM = 2, 'Medium'
-        LARGE = 3, 'Large'
-
-    color = CharField(max_length=10, choices=Color.choices)
-    size = IntegerField(choices=Size.choices)
-
-# When: Invoking __str__(...) on the field value
 def test_claim_c2(capsys):
-    # Test passes with CharField and TextChoices
-    obj = MyModel(color='red')
-    assert str(obj.color) == 'Red'
+    # When: Accessing the field value via model instance attribute
+    obj = MyModel(color=Color.RED)
+    
+    # Then: The value is an integer equal to the enum's value
+    assert obj.color == Color.RED.value
 
-    # Test passes with IntegerField and IntegerChoices
-    obj = MyModel(size=1)
-    assert str(obj.size) == 'Small'
+    # Test with different enum values
+    obj.color = Color.GREEN
+    assert obj.color == Color.GREEN.value
 
-    # Test fails with incorrect field value
-    obj = MyModel(color='blue')
+    # Test with invalid enum values
     with pytest.raises(ValueError):
-        str(obj.color)
+        obj.color = 3
 
-    # Test with an empty choices list
-    class EmptyChoices(TextChoices):
-        pass
-    obj = MyModel(color='red')
-    obj.color.choices = EmptyChoices.choices
-    with pytest.raises(ValueError):
-        str(obj.color)
+    # Test with non-enum values
+    obj.color = 1
+    assert obj.color == 1
 
-    # Test with a choices list containing only one value
-    class SingleChoice(TextChoices):
-        RED = 'red', 'Red'
-    obj = MyModel(color='red')
-    obj.color.choices = SingleChoice.choices
-    assert str(obj.color) == 'Red'
-
-    # Test with a field value that is not in the choices list
-    obj = MyModel(color='blue')
-    with pytest.raises(ValueError):
-        str(obj.color)
+# Checklist
+# The test creates a model with an IntegerField using IntegerChoices.
+# The test creates an instance of the model with an enum value.
+# The test verifies that accessing the field value returns the integer value.

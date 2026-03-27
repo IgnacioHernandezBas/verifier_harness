@@ -140,6 +140,7 @@ elif [[ ${GPU_COUNT} -ge 2 ]]; then
   if [[ "${MODEL_SIZE}" == "70b" || "${MODEL_SIZE}" == "72b" ]]; then
     MAX_MODEL_LEN=8192
     MAX_NUM_SEQS=64
+    ENFORCE_EAGER="true"  # Avoid torch._dynamo compilation bugs with TP + AWQ
   else
     MAX_MODEL_LEN=12288
     MAX_NUM_SEQS=128
@@ -227,7 +228,7 @@ if [[ "${ENABLE_CHUNKED_PREFILL:-false}" == "true" ]]; then
   echo "  Chunked prefill enabled for higher throughput"
 fi
 
-PYTHONUNBUFFERED=1 conda run -n verifier_llm python -m vllm.entrypoints.openai.api_server \
+PYTHONUNBUFFERED=1 conda run --no-capture-output -n verifier_llm python -m vllm.entrypoints.openai.api_server \
   "${VLLM_SERVER_ARGS[@]}" \
   > "${LOG_DIR}/vllm_claim_${SLURM_JOB_ID}.log" 2>&1 &
 

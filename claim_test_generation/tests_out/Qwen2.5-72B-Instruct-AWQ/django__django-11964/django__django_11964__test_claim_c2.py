@@ -1,60 +1,51 @@
-# Checklist TODO: Test models with TextChoices and IntegerChoices fields.
-# Checklist TODO: Verify the field getter returns the correct enum value.
-# Checklist TODO: Include edge cases for robustness.
+# Checklist TODO: Test must create a model instance with an IntegerChoices field.
+# Checklist TODO: Test must verify the field returns an integer, not an enum instance.
+# Checklist TODO: Test must ensure the integer value is correct.
 import pytest
 from django.db import models
-from django.db.models.enums import TextChoices, IntegerChoices
+from django.db.models.enums import IntegerChoices
 
-# Define a model with a CharField using TextChoices
-class TestModelTextChoices(models.Model):
-    class Choices(TextChoices):
-        OPTION1 = '1', 'Option 1'
-        OPTION2 = '2', 'Option 2'
-    
-    field = models.CharField(max_length=10, choices=Choices.choices)
+class MyEnum(IntegerChoices):
+    OPTION1 = 1, 'Option 1'
+    OPTION2 = 2, 'Option 2'
 
-# Define a model with an IntegerField using IntegerChoices
-class TestModelIntegerChoices(models.Model):
-    class Choices(IntegerChoices):
-        OPTION1 = 1, 'Option 1'
-        OPTION2 = 2, 'Option 2'
-    
-    field = models.IntegerField(choices=Choices.choices)
+class MyModel(models.Model):
+    my_field = models.IntegerField(choices=MyEnum.choices)
 
-# Test models with TextChoices and IntegerChoices fields
+@pytest.mark.django_db
 def test_claim_c2():
-    # GIVEN: A model instance with a CharField using TextChoices
-    instance_text = TestModelTextChoices(field=TestModelTextChoices.Choices.OPTION1)
-    
-    # WHEN: Invoking __str__(...) on the field value
-    # THEN: The value returned by the getter of the field is equal to the value property of the enum value
-    assert str(instance_text.field) == str(TestModelTextChoices.Choices.OPTION1.value)
-    
-    # GIVEN: A model instance with an IntegerField using IntegerChoices
-    instance_integer = TestModelIntegerChoices(field=TestModelIntegerChoices.Choices.OPTION1)
-    
-    # WHEN: Invoking __str__(...) on the field value
-    # THEN: The value returned by the getter of the field is equal to the value property of the enum value
-    assert str(instance_integer.field) == str(TestModelIntegerChoices.Choices.OPTION1.value)
-    
-    # Include edge cases for robustness
-    # Test with a model instance where the field value is not set
-    instance_text_unset = TestModelTextChoices()
-    assert str(instance_text_unset.field) == ''
-    
-    instance_integer_unset = TestModelIntegerChoices()
-    assert str(instance_integer_unset.field) == ''
-    
-    # Test with a model instance where the field value is set to an invalid choice
-    instance_text_invalid = TestModelTextChoices(field='3')
-    assert str(instance_text_invalid.field) == '3'
-    
-    instance_integer_invalid = TestModelIntegerChoices(field=3)
-    assert str(instance_integer_invalid.field) == '3'
-    
-    # Test with a model instance where the field value is set to a valid choice but the choice is not defined in the enum
-    instance_text_undefined = TestModelTextChoices(field='2')
-    assert str(instance_text_undefined.field) == '2'
-    
-    instance_integer_undefined = TestModelIntegerChoices(field=2)
-    assert str(instance_integer_undefined.field) == '2'
+    # Given: A model with an IntegerField using IntegerChoices and an instance created with an enum value
+    instance = MyModel(my_field=MyEnum.OPTION1)
+    instance.save()
+
+    # When: Accessing the field value via model instance attribute
+    retrieved_instance = MyModel.objects.get(id=instance.id)
+    field_value = retrieved_instance.my_field
+
+    # Then: The value is an integer equal to the enum's value
+    assert isinstance(field_value, int)
+    assert field_value == MyEnum.OPTION1.value
+
+    # Edge cases
+    # Test with the highest and lowest values of the enum
+    instance_low = MyModel(my_field=MyEnum.OPTION1)
+    instance_high = MyModel(my_field=MyEnum.OPTION2)
+    instance_low.save()
+    instance_high.save()
+
+    retrieved_instance_low = MyModel.objects.get(id=instance_low.id)
+    retrieved_instance_high = MyModel.objects.get(id=instance_high.id)
+
+    assert retrieved_instance_low.my_field == MyEnum.OPTION1.value
+    assert retrieved_instance_high.my_field == MyEnum.OPTION2.value
+
+    # Test with a non-existent enum value (should raise an error)
+    with pytest.raises(ValueError):
+        MyModel(my_field=3).save()
+
+    # Test with a null value if the field allows it
+    if MyModel._meta.get_field('my_field').null:
+        instance_null = MyModel(my_field=None)
+        instance_null.save()
+        retrieved_instance_null = MyModel.objects.get(id=instance_null.id)
+        assert retrieved_instance_null.my_field is None

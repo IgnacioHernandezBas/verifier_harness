@@ -1,39 +1,80 @@
+# Checklist TODO: Test setup creates required models and relationships.
+# Checklist TODO: Queryset uses FilteredRelation and select_related as specified.
+# Checklist TODO: Result of accessing related objects matches the claim.
 import pytest
 from django.db import models
-from django.db.models import FilteredRelation
+from django.test import TestCase
 
-# Create a Tournament model with a related Pool model.
+# Test setup creates required models and relationships.
 class Tournament(models.Model):
     name = models.CharField(max_length=100)
+    pool = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='tournaments')
 
-# Create a Pool model with a related Tournament.
 class Pool(models.Model):
     name = models.CharField(max_length=100)
-    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='pools')
 
-# Create a PoolStyle model with a related Pool model.
-class PoolStyle(models.Model):
-    name = models.CharField(max_length=100)
-    pool = models.ForeignKey(Pool, on_delete=models.CASCADE)
+# Queryset uses FilteredRelation and select_related as specified.
+@pytest.mark.django_db
+def test_claim_c1():
+    # Given: A queryset annotated with FilteredRelation('pool__tournament__pool') and select_related('tournament_pool')
+    tournament = Tournament.objects.create(name="T1")
+    pool = Pool.objects.create(name="P1", tournament=tournament)
+    tournament.pool = pool
+    tournament.save()
 
-# Test must create necessary models and relationships.
-@pytest.fixture
-def setup_data():
-    tournament = Tournament.objects.create(name="Tournament1")
-    pool = Pool.objects.create(name="Pool1", tournament=tournament)
-    pool_style = PoolStyle.objects.create(name="Style1", pool=pool)
-    return tournament, pool, pool_style
-
-# Test must use select_related and FilteredRelation as described.
-def test_claim_c1(setup_data):
-    tournament, pool, pool_style = setup_data
-
-    # Annotate PoolStyle with a FilteredRelation to tournament_pool.
+    # When: Executing the queryset and accessing p[0].tournament_pool.tournament
     p = list(
-        PoolStyle.objects.annotate(
-            tournament_pool=FilteredRelation("pool__tournament__pool"),
-        ).select_related("tournament_pool")
+        Pool.objects.annotate(
+            tournament_pool=models.FilteredRelation("pool__tournament__pool"),
+        ).select_related("tournament_pool", "tournament_pool__tournament")
     )
 
-    # Test must verify the equality of related objects' tournaments.
-    assert p[0].tournament_pool.tournament == p[0].pool.tournament
+    # Then: The value equals p[0].pool.tournament
+    assert p[0].tournament_pool.tournament == p[0].tournament
+
+# Edge cases
+@pytest.mark.django_db
+def test_claim_c1_empty_queryset():
+    # Given: An empty queryset
+    p = list(
+        Pool.objects.annotate(
+            tournament_pool=models.FilteredRelation("pool__tournament__pool"),
+        ).select_related("tournament_pool", "tournament_pool__tournament")
+    )
+
+    # Then: The queryset is empty
+    assert len(p) == 0
+
+@pytest.mark.django_db
+def test_claim_c1_no_related_objects():
+    # Given: No related objects available
+    tournament = Tournament.objects.create(name="T1")
+    pool = Pool.objects.create(name="P1", tournament=None)
+
+    p = list(
+        Pool.objects.annotate(
+            tournament_pool=models.FilteredRelation("pool__tournament__pool"),
+        ).select_related("tournament_pool", "tournament_pool__tournament")
+    )
+
+    # Then: The related object is None
+    assert p[0].tournament_pool is None
+
+@pytest.mark.django_db
+def test_claim_c1_multiple_levels():
+    # Given: Multiple levels of relationships beyond two
+    tournament1 = Tournament.objects.create(name="T1")
+    pool1 = Pool.objects.create(name="P1", tournament=tournament1)
+    tournament2 = Tournament.objects.create(name="T2", pool=pool1)
+    pool2 = Pool.objects.create(name="P2", tournament=tournament2)
+
+    p = list(
+        Pool.objects.annotate(
+            tournament_pool=models.FilteredRelation("pool__tournament__pool"),
+        ).select_related("tournament_pool", "tournament_pool__tournament")
+    )
+
+    # Then: The value equals p[0].pool.tournament
+    assert p[0].tournament_pool.tournament == p[0].tournament
+    assert p[1].tournament_pool.tournament == p[1].tournament

@@ -1,57 +1,39 @@
-# Checklist TODO: Test passes with CharField and TextChoices
-# Checklist TODO: Test passes with IntegerField and IntegerChoices
-# Checklist TODO: Test fails with invalid choice value
+# Checklist TODO: Test passes with the fixed version
+# Checklist TODO: Test fails with the buggy version
+# Checklist TODO: Test only verifies public API behavior
 import pytest
 from django.db import models
-from django.db.models.enums import TextChoices, IntegerChoices
 
-class Gender(TextChoices):
-    MALE = 'M', 'Male'
-    FEMALE = 'F', 'Female'
+# Given: A model with a CharField using TextChoices and an instance created with MyChoice.FIRST_CHOICE
+class MyChoice(models.TextChoices):
+    FIRST_CHOICE = 'first', 'First Choice'
+    SECOND_CHOICE = 'second', 'Second Choice'
 
-class YearInSchool(IntegerChoices):
-    FRESHMAN = 1, 'Freshman'
-    SOPHOMORE = 2, 'Sophomore'
-    JUNIOR = 3, 'Junior'
-    SENIOR = 4, 'Senior'
-
-class Person(models.Model):
-    gender = models.CharField(max_length=1, choices=Gender.choices)
-    year_in_school = models.IntegerField(choices=YearInSchool.choices)
+class MyModel(models.Model):
+    choice_field = models.CharField(max_length=10, choices=MyChoice.choices)
 
 def test_claim_c1():
-    # Given: A model instance with a CharField using TextChoices
-    # When: Creating an instance of the model with a valid choice value
-    person_char = Person(gender=Gender.MALE)
-    # Then: The value returned by the getter of the CharField is of type str
-    assert isinstance(person_char.gender, str)
+    # Given
+    instance = MyModel(choice_field=MyChoice.FIRST_CHOICE)
 
-    # Given: A model instance with an IntegerField using IntegerChoices
-    # When: Creating an instance of the model with a valid choice value
-    person_int = Person(year_in_school=YearInSchool.FRESHMAN)
-    # Then: The value returned by the getter of the IntegerField is of type str
-    assert isinstance(person_int.year_in_school, str)
+    # When: Accessing the field value via model instance attribute
+    value = instance.choice_field
 
-    # Given: A model instance with a CharField using TextChoices
-    # When: Creating an instance of the model with the minimum value in choices
-    person_char_min = Person(gender=Gender.FEMALE)
-    # Then: The value returned by the getter of the CharField is of type str
-    assert isinstance(person_char_min.gender, str)
+    # Then: The value is a string equal to 'first'
+    assert value == 'first'
 
-    # Given: A model instance with an IntegerField using IntegerChoices
-    # When: Creating an instance of the model with the maximum value in choices
-    person_int_max = Person(year_in_school=YearInSchool.SENIOR)
-    # Then: The value returned by the getter of the IntegerField is of type str
-    assert isinstance(person_int_max.year_in_school, str)
+    # And: isinstance returns True for str
+    assert isinstance(value, str)
 
-    # Given: A model instance with a CharField using TextChoices
-    # When: Creating an instance of the model with a non-existent choice value
-    # Then: Test fails with invalid choice value
-    with pytest.raises(ValueError):
-        Person(gender='X')
+    # Edge case: Accessing the field value before saving the model instance
+    # (Already covered in the above steps as we didn't save the instance)
 
-    # Given: A model instance with an IntegerField using IntegerChoices
-    # When: Creating an instance of the model with a non-existent choice value
-    # Then: Test fails with invalid choice value
-    with pytest.raises(ValueError):
-        Person(year_in_school=99)
+    # Edge case: Accessing the field value after changing it to another choice
+    instance.choice_field = MyChoice.SECOND_CHOICE
+    value_after_change = instance.choice_field
+
+    # Then: The value is a string equal to 'second'
+    assert value_after_change == 'second'
+
+    # And: isinstance returns True for str
+    assert isinstance(value_after_change, str)

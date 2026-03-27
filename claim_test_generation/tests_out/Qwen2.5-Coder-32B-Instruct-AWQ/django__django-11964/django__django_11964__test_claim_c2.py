@@ -1,42 +1,37 @@
+# Checklist TODO: Test passes with the fixed version.
+# Checklist TODO: Test fails with the buggy version.
+# Checklist TODO: Test only verifies the behavioral property described in the claim.
 import pytest
 from django.db import models
 
-# Given: A model instance with a CharField pointing to TextChoices.
-class Gender(models.TextChoices):
-    MALE = 'M', 'Male'
-    FEMALE = 'F', 'Female'
+# Define a model with an IntegerField using IntegerChoices.
+class Gender(models.IntegerChoices):
+    MALE = 1, 'Male'
+    FEMALE = 2, 'Female'
 
-# Given: A model instance with an IntegerField pointing to IntegerChoices.
-class YearInSchool(models.IntegerChoices):
-    FRESHMAN = 1, 'Freshman'
-    SOPHOMORE = 2, 'Sophomore'
-    JUNIOR = 3, 'Junior'
-    SENIOR = 4, 'Senior'
-
-class Person(models.Model):
-    gender = models.CharField(max_length=1, choices=Gender.choices)
-    year_in_school = models.IntegerField(choices=YearInSchool.choices)
+class MyModel(models.Model):
+    gender = models.IntegerField(choices=Gender.choices)
 
 def test_claim_c2():
-    # Test passes with valid TextChoices.
-    # Given
-    person = Person(gender=Gender.MALE)
-    # When
-    gender_str = str(person.gender)
-    # Then
-    assert gender_str == str(Gender.MALE.value)
+    # Given: A model with an IntegerField using IntegerChoices and an instance created with an enum value
+    male_instance = MyModel(gender=Gender.MALE)
+    female_instance = MyModel(gender=Gender.FEMALE)
 
-    # Test passes with valid IntegerChoices.
-    # Given
-    person = Person(year_in_school=YearInSchool.FRESHMAN)
-    # When
-    year_str = str(person.year_in_school)
-    # Then
-    assert year_str == str(YearInSchool.FRESHMAN.value)
+    # When: Accessing the field value via model instance attribute before saving
+    # Then: The value is an integer equal to the enum's value
+    assert isinstance(male_instance.gender, int)
+    assert male_instance.gender == Gender.MALE.value
+    assert isinstance(female_instance.gender, int)
+    assert female_instance.gender == Gender.FEMALE.value
 
-    # Test fails with invalid choice value.
-    # Given
-    person = Person(gender='X')  # Invalid choice
-    # When
-    with pytest.raises(ValueError):
-        str(person.gender)  # This should raise an error because 'X' is not a valid choice
+    # When: Accessing the field value via model instance attribute after saving
+    male_instance.save()
+    female_instance.save()
+
+    # Then: The value is an integer equal to the enum's value
+    male_instance.refresh_from_db()
+    female_instance.refresh_from_db()
+    assert isinstance(male_instance.gender, int)
+    assert male_instance.gender == Gender.MALE.value
+    assert isinstance(female_instance.gender, int)
+    assert female_instance.gender == Gender.FEMALE.value

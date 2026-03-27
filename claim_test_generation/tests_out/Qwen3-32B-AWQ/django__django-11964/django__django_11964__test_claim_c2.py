@@ -1,28 +1,25 @@
-# Checklist TODO: Test verifies integer value is returned from enum-backed field
-# Checklist TODO: No Django settings required beyond minimal model definition
-# Checklist TODO: Validation is implementation-agnostic (no private method checks)
+# Checklist TODO: Model fields use TextChoices/IntegerChoices for choices
+# Checklist TODO: __str__() returns enum value, not label
+# Checklist TODO: Test verifies value equality, not implementation details
 import pytest
-from django.db import models
-from django.db.models.enums import IntegerChoices
+from django.db.models import enums
 
-# GIVEN: A model with an IntegerField using IntegerChoices
-class Status(IntegerChoices):
-    DRAFT = 1, "Draft"
-    PUBLISHED = 2, "Published"
-
-class Article(models.Model):
-    status = models.IntegerField(choices=Status)
-
-    class Meta:
-        app_label = "test_app"  # Required to instantiate model without Django settings
-
-# WHEN: Accessing the field value via model instance attribute
-# THEN: The value is an integer equal to the enum's value
 def test_claim_c2():
-    # Create model instance with enum value
-    article = Article(status=Status.DRAFT)
-    
-    # Verify field returns integer value, not enum instance
-    assert article.status == Status.DRAFT.value  # Integer value match
-    assert isinstance(article.status, int)  # Return type is integer
-    assert Article._meta.get_field("status").choices == Status  # Field uses correct enum
+    # Define TextChoices and IntegerChoices enums
+    class Color(enums.TextChoices):
+        RED = 'R', 'Red'
+        BLUE = 'B', 'Blue'
+
+    class Number(enums.IntegerChoices):
+        ONE = 1, 'One'
+        TWO = 2, 'Two'
+
+    # GIVEN: Model fields use TextChoices/IntegerChoices for choices
+    # WHEN: Invoking __str__(...) on the field value
+    # THEN: The value returned by the getter is equal to the value property of the enum value
+    for member in Color:
+        # Check that str(enum_member) == enum_member.value
+        assert str(member) == member.value
+    for member in Number:
+        # Check that str(enum_member) == str(enum_member.value)
+        assert str(member) == str(member.value)

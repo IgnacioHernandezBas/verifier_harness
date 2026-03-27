@@ -682,3 +682,64 @@ def run_pipeline(
     # ---- Overall verdict ----
     report.overall_success = set(report.layers_completed) == set(report.layers_requested)
     return report
+
+
+# ---------------------------------------------------------------------------
+# Candidate Patch Validation (post-hoc verification)
+# ---------------------------------------------------------------------------
+
+def run_candidate_validation(
+    instance_id: str,
+    claim_id: str = "C1",
+    tests_model: str = "Meta-Llama-3.1-70B-Instruct-AWQ-INT4",
+    include_failed: bool = True,
+    max_candidates: Optional[int] = None,
+    timeout_s: int = 300,
+    callback: Optional[ProgressCallback] = None,
+) -> Dict[str, Any]:
+    """
+    Run candidate patch verification for a single instance/claim.
+
+    Uses pre-computed VALID discriminative tests from the agentic closed loop
+    and runs them against candidate patches from SWE-bench experiments.
+
+    Parameters
+    ----------
+    instance_id : str
+        SWE-bench instance ID.
+    claim_id : str
+        Claim identifier (e.g. "C1").
+    tests_model : str
+        Which model's generated tests to use.
+    include_failed : bool
+        Also test patches that failed SWE-bench evaluation.
+    max_candidates : int, optional
+        Limit number of candidate patches to test.
+    timeout_s : int
+        Per-test timeout in seconds.
+    callback : ProgressCallback, optional
+        Hook for real-time status updates.
+
+    Returns
+    -------
+    dict with verification results and summary.
+    """
+    if callback is None:
+        callback = NullCallback()
+
+    from claim_test_verification.candidate_verifier import (
+        run_candidate_verification,
+    )
+
+    def progress_fn(msg: str):
+        callback.on_phase("Candidate Validation", msg)
+
+    return run_candidate_verification(
+        instance_id=instance_id,
+        claim_id=claim_id,
+        tests_model=tests_model,
+        include_failed=include_failed,
+        max_candidates=max_candidates,
+        timeout_s=timeout_s,
+        progress_callback=progress_fn,
+    )

@@ -17,7 +17,6 @@ NC='\033[0m'
 # All instances to process
 INSTANCES=(
   "astropy__astropy-7746"
-  "django__django-11964"
   "django__django-13321"
   "django__django-14997"
   "django__django-16255"
@@ -49,8 +48,8 @@ model_to_slug() {
   echo "${model##*/}"  # Remove everything before last /
 }
 
-# Function to get number of claims for an instance
-get_claim_count() {
+# Function to resolve the claims file for an instance
+get_claims_file() {
   local instance="$1"
   local model_slug=$(model_to_slug "${CLAIMS_MODEL}")
 
@@ -62,10 +61,30 @@ get_claim_count() {
     claims_file="${CLAIMS_DIR}/${instance}.json"
   fi
 
+  echo "${claims_file}"
+}
+
+# Function to get actual claim IDs from the JSON (not sequential C1, C2, ...)
+get_claim_ids() {
+  local instance="$1"
+  local claims_file
+  claims_file=$(get_claims_file "${instance}")
+
   if [[ -f "${claims_file}" ]]; then
-    jq '.claims | length' "${claims_file}" 2>/dev/null || echo "1"
+    jq -r '.claims[].claim_id' "${claims_file}" 2>/dev/null
+  fi
+}
+
+# Function to get number of claims for an instance
+get_claim_count() {
+  local instance="$1"
+  local claims_file
+  claims_file=$(get_claims_file "${instance}")
+
+  if [[ -f "${claims_file}" ]]; then
+    jq '.claims | length' "${claims_file}" 2>/dev/null || echo "0"
   else
-    echo "1"
+    echo "0"
   fi
 }
 
@@ -101,14 +120,19 @@ JOB_IDS=()
 FAILED=()
 
 for instance in "${INSTANCES[@]}"; do
-  # Get number of claims for this instance
-  CLAIM_COUNT=$(get_claim_count "${instance}")
+  # Get actual claim IDs from the JSON
+  CLAIM_IDS=($(get_claim_ids "${instance}"))
+  CLAIM_COUNT=${#CLAIM_IDS[@]}
 
-  echo -e "${BLUE}Processing:${NC} ${instance} (${CLAIM_COUNT} claim(s))"
+  echo -e "${BLUE}Processing:${NC} ${instance} (${CLAIM_COUNT} claim(s): ${CLAIM_IDS[*]:-none})"
+
+  if [[ ${CLAIM_COUNT} -eq 0 ]]; then
+    echo -e "  ${YELLOW}⚠ No grounded claims, skipping${NC}"
+    continue
+  fi
 
   # Submit a job for each claim
-  for ((claim_num=1; claim_num<=CLAIM_COUNT; claim_num++)); do
-    CLAIM_ID="C${claim_num}"
+  for CLAIM_ID in "${CLAIM_IDS[@]}"; do
     echo -e "  ${BLUE}Submitting:${NC} ${instance}:${CLAIM_ID}"
 
     # Submit job and capture output

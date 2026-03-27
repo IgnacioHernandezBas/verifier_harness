@@ -1,18 +1,16 @@
-# Checklist TODO: Test uses public lambdify API
-# Checklist TODO: Verifies generated code syntax matches claim
-# Checklist TODO: Validates correct runtime behavior of generated function
+# Checklist TODO: Verify single-element tuple gets comma in generated code
+# Checklist TODO: Confirm function handles tuple argument correctly
+# Checklist TODO: Validate output format matches Python syntax requirements
 import pytest
-from sympy import lambdify
+from sympy.utilities.lambdify import _recursive_to_string
 
 def test_claim_c1():
-    # Given: A tuple containing exactly one element is passed to the code printer
-    expr = (1,)
-
-    # When: Generating a lambda function with lambdify
-    func = lambdify([], expr)
-
-    # Then: The generated code string ends with ',)' syntax (e.g., '(1,)')
-    #       and the resulting lambda function evaluates to a tuple with single element
-    result = func()
-    assert result == (1,)
-    assert isinstance(result, tuple)
+    # Given: A tuple with one element is passed to lambdify
+    doprint = lambda x: str(x)
+    arg = (1,)
+    
+    # When: Calling _recursive_to_string with the tuple
+    result = _recursive_to_string(doprint, arg)
+    
+    # Then: The generated code should return a tuple with a comma after the element
+    assert result == '(1,)'
